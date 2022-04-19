@@ -1,4 +1,3 @@
----
 version: 2
 publish: &publish
   working_directory: ~/my-app
