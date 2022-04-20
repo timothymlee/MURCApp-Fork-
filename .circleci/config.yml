@@ -22,7 +22,9 @@ publish: &publish
         name: Trigger build
         command: npx eas-cli build --platform all
         
-    - run: y
+    - run:
+        name: Keystore Yes
+        command: y
 
 jobs:
   publish_to_expo_dev:
