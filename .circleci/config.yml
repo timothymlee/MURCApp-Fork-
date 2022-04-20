@@ -13,7 +13,7 @@ publish: &publish
     - run:
         name: Login into Expo
         EXPO_TOKEN: "NFQOtLrRHC0YBpDQMjaUU_WYLKmfvw7-doGHPEcC"
-        command: - EXPO_TOKEN=$EXPO_TOKEN  expo publish --non-interactive
+        command: npx expo login -t $EXPO_TOKEN
 
     - run:
         name: Publish to Expo
