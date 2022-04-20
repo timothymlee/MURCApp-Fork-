@@ -22,12 +22,6 @@ publish: &publish
         name: Publish to Expo
         command: npx expo-cli publish --max-workers 1
 
-executors:
-  default:
-    docker:
-      - image: cimg/node:lts
-    working_directory: ~/my-app
-    
 jobs:
   publish_to_expo_dev:
     environment:
