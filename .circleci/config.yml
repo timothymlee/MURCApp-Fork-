@@ -19,8 +19,11 @@ publish: &publish
         command: npx expo-cli login -u $EXPO_USERNAME -p $EXPO_PASSWORD
     
     - run:
-        name: Trigger build
-        command: echo Y | npx eas-cli build --platform all
+        name: Build Android
+        command: npx expo build:android -t apk --non-interactive --release-channel $EXPO_RELEASE_CHANNEL --no-wait
+    - run:
+        name: Build iOS
+        command: npx expo build:ios -t archive --non-interactive --release-channel $EXPO_RELEASE_CHANNEL --no-wait
     
 jobs:
   publish_to_expo_dev:
