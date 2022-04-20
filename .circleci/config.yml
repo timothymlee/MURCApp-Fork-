@@ -21,6 +21,8 @@ publish: &publish
     - run:
         name: Trigger build
         command: npx eas-cli build --platform all
+        
+    - run: y
 
 jobs:
   publish_to_expo_dev:
