@@ -10,12 +10,11 @@ publish: &publish
         name: Installing dependencies
         command: npm ci
 
-    - run:
-        name: Setup Expo
-        uses: expo/expo-github-action@v7
-        with:
-          expo-version: latest
-          token: NFQOtLrRHC0YBpDQMjaUU_WYLKmfvw7-doGHPEcC
+    - name: 🏗 Setup Expo
+      uses: expo/expo-github-action@v7
+      with:
+        expo-version: latest
+        token: ${{ secrets.EXPO_TOKEN }}
 
     - run:
         name: Publish to Expo
