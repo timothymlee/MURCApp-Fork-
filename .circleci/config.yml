@@ -22,9 +22,9 @@ publish: &publish
         name: Publish to Expo
         command: npx expo-cli publish --max-workers 1
         
-     - run:
-          name: Trigger build
-          command: npx eas-cli build --platform all --non-interactive
+    - run:
+        name: Trigger build
+        command: npx eas-cli build --platform all --non-interactive
 
 jobs:
   publish_to_expo_dev:
