@@ -39,9 +39,15 @@ jobs:
       - image: circleci/node:13
     steps:
       - checkout
+      
       - run:
           name: Install dependencies
           command: npm ci
+          
+      - run:
+        name: Login into Expo
+        command: npx expo-cli login -u $EXPO_USERNAME -p $EXPO_PASSWORD
+        
       - run:
           name: Trigger build
           command: npx eas-cli build --platform all --non-interactive
