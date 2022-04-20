@@ -17,7 +17,7 @@ publish: &publish
     - run:
         name: Publish to Expo
         EXPO_TOKEN: "NFQOtLrRHC0YBpDQMjaUU_WYLKmfvw7-doGHPEcC"
-        command: - EXPO_TOKEN=$EXPO_TOKEN expo publish --non-interactive --max-workers 1 --release-channel $EXPO_RELEASE_CHANNEL
+        command: -EXPO_TOKEN=$EXPO_TOKEN expo publish --non-interactive --max-workers 1 --release-channel $EXPO_RELEASE_CHANNEL
 
 jobs:
   publish_to_expo_dev:
