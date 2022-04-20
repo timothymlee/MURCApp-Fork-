@@ -14,7 +14,7 @@ publish: &publish
       uses: expo/expo-github-action@v7
       with:
         expo-version: latest
-        token: ${{ secrets.EXPO_TOKEN }}
+        token: ${NFQOtLrRHC0YBpDQMjaUU_WYLKmfvw7-doGHPEcC}
 
     - run:
         name: Publish to Expo
