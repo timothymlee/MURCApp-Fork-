@@ -9,12 +9,11 @@ publish: &publish
     - run:
         name: Installing dependencies
         command: npm ci
-
-    - name: 🏗 Setup Expo
-      uses: expo/expo-github-action@v7
-      with:
-        expo-version: latest
+        
+    - run:
+        name: Login into Expo
         token: ${NFQOtLrRHC0YBpDQMjaUU_WYLKmfvw7-doGHPEcC}
+        command: npx expo login --non-interactive -u circleCIBot
 
     - run:
         name: Publish to Expo
