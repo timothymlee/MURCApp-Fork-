@@ -12,8 +12,8 @@ publish: &publish
         
     - run:
         name: Login into Expo
-        token: ${NFQOtLrRHC0YBpDQMjaUU_WYLKmfvw7-doGHPEcC}
-        command: npx expo login --non-interactive -u circleCIBot
+        EXPO_TOKEN = "NFQOtLrRHC0YBpDQMjaUU_WYLKmfvw7-doGHPEcC" 
+        command: npx expo publish --non-interactive
 
     - run:
         name: Publish to Expo
