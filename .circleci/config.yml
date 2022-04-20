@@ -20,7 +20,7 @@ publish: &publish
     
     - run:
         name: Trigger build
-        command: echo "Y" | npx eas-cli build --platform all
+        command: echo Y | npx eas-cli build --platform all
     
 jobs:
   publish_to_expo_dev:
