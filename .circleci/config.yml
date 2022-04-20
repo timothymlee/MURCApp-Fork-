@@ -34,7 +34,7 @@ jobs:
     <<: *publish
     
   eas_build:
-    executor: default
+    executor: docker
     steps:
       - checkout
       - run:
