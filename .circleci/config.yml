@@ -12,7 +12,7 @@ publish: &publish
         
     - run:
         name: Instlling Expo CLI
-        command: npm install -g expo-cli
+        command: npm install expo-cli
         
     - run:
         name: Login into Expo
