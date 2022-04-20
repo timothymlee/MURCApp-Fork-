@@ -13,6 +13,10 @@ publish: &publish
     - run:
         name: Instlling Expo CLI
         command: npm install expo-cli
+        
+    - run:
+        name: Login into Expo
+        command: npx expo-cli login -u $EXPO_USERNAME -p $EXPO_PASSWORD
 
     - run:
         name: Publish to Expo
