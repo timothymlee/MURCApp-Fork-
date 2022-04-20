@@ -3,7 +3,6 @@
     "name": "my-app",
     "slug": "my-app",
     "version": "1.0.0",
-    "android-package": "com.MUResourceCenter.app",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -21,11 +20,13 @@
       "supportsTablet": true
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
-    },
+     "adaptiveIcon": {
+       "foregroundImage": "./assets/adaptive-icon.png",
+       "backgroundColor": "#FFFFFF"
+     },
+     "package": "com.pagepro.testpublishapp",
+     "versionCode": 1
+   },
     "web": {
       "favicon": "./assets/favicon.png"
     }
