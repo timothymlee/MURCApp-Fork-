@@ -20,7 +20,7 @@ publish: &publish
     
     - run:
         name: Trigger build
-        command: npx eas-cli build --platform all --non-interactive --max-workers 1
+        command: npx eas-cli build --platform all --non-interactive
 
 jobs:
   publish_to_expo_dev:
