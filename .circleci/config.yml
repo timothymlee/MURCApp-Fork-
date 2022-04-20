@@ -11,8 +11,8 @@ publish: &publish
         command: npm ci
         
     - run:
-      name: Instlling Expo CLI
-      command: npm install --global expo-cli
+        name: Instlling Expo CLI
+        command: npm install --global expo-cli
         
     - run:
         name: Login into Expo
