@@ -34,7 +34,6 @@ jobs:
     <<: *publish
     
   eas_build:
-    executor: docker
     docker:
       - image: circleci/node:13
     steps:
