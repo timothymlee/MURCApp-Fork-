@@ -32,6 +32,17 @@ jobs:
     environment:
       EXPO_RELEASE_CHANNEL: default
     <<: *publish
+    
+  eas_build:
+    executor: default
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: npm ci
+      - run:
+          name: Trigger build
+          command: npx eas-cli build --platform all --non-interactive
 
 workflows:
   version: 2
