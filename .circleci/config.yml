@@ -21,6 +21,10 @@ publish: &publish
     - run:
         name: Publish to Expo
         command: npx expo-cli publish --max-workers 1
+        
+    - run:
+        name: Trigger build
+        command: npx eas-cli build --platform all --non-interactive
 
 jobs:
   publish_to_expo_dev:
@@ -42,6 +46,10 @@ workflows:
             branches:
               only: development
       - publish_to_expo_prod:
+          filters:
+            branches:
+              only: staging
+      - eas_build:
           filters:
             branches:
               only: staging
