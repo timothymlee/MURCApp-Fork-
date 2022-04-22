@@ -1,6 +1,6 @@
 version: 2
 publish: &publish
-  working_directory: ~/my-app
+  working_directory: ~/MUResourceCenter/my-app
   docker:
     - image: circleci/node:13
   steps:
