@@ -11,8 +11,11 @@ publish: &publish
         command: npm ci
 
     - run:
-        name: Login into Expo
-        command: npx expo-cli login -u $EXPO_USERNAME -p $EXPO_PASSWORD
+        name: Setup Expo
+        uses: expo/expo-github-action@v7
+        with:
+          expo-version: latest
+          token: NFQOtLrRHC0YBpDQMjaUU_WYLKmfvw7-doGHPEcC
 
     - run:
         name: Publish to Expo
