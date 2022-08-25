@@ -2,7 +2,7 @@ version: 2
 publish: &publish
   working_directory: ~/MUResourceCenter/my-app
   docker:
-    - image: circleci/node:18
+    - image: circleci/node:18.7
   steps:
     - checkout
 
