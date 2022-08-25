@@ -2,7 +2,7 @@ version: 2
 publish: &publish
   working_directory: ~/MUResourceCenter/my-app
   docker:
-    - image: cimg/node:18.7.0
+    - image: cimg/node:16.17.0
   steps:
     - checkout
 
