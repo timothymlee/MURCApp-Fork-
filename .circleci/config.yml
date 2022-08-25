@@ -13,10 +13,6 @@ publish: &publish
     - run:
         name: Installing Expo-CLI
         command: npm install expo-cli@6.0.5
-        
-    - run:
-        name: Login into Expo
-        command: npx expo-cli login -u $EXPO_USERNAME -p $EXPO_PASSWORD
     
     - run:
         name: Build Android
