@@ -2,7 +2,7 @@ version: 2
 publish: &publish
   working_directory: ~/MUResourceCenter/my-app
   docker:
-    - image: circleci/node:13
+    - image: circleci/node:18
   steps:
     - checkout
 
@@ -12,7 +12,7 @@ publish: &publish
         
     - run:
         name: Installing Expo-CLI
-        command: npm install expo-cli@3.13.1
+        command: npm install expo-cli@6.0.5
         
     - run:
         name: Login into Expo
