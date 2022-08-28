@@ -15,11 +15,8 @@ publish: &publish
         command: npm install expo-cli@6.0.5
     
     - run:
-        name: Build Android
-        command: npx expo build:android -t apk --non-interactive --release-channel $EXPO_RELEASE_CHANNEL --no-wait
-    - run:
-        name: Build iOS
-        command: npx expo build:ios -t simulator --non-interactive --release-channel $EXPO_RELEASE_CHANNEL --no-wait 
+        name: Build Both
+        command: npx eas-cli build --platform all --profile preview --non-interactive
     
 jobs:
   publish_to_expo_dev:
