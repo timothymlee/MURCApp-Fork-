@@ -53,3 +53,17 @@ Installing xcode on a mac is necessary. [ More information ](https://docs.expo.d
 ## Android Simulator
 
 Install Android Studio to run an Android Simulator. [ More information ] (https://docs.expo.dev/workflow/android-studio-emulator/)
+
+# Committing Code
+
+To commit code make sure to have your own dev branch on staging using 
+
+```console
+ git checkout -b devBranchName
+ ```
+You can then commit, set your origin and push your code. 
+```console
+git commit -a -m "something"
+git push --set-upstream origin devBranchName
+```
+Then you can submit a pull request to staging.
