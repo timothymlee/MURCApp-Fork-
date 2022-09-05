@@ -1,6 +1,55 @@
 # MURCApp
 
-## Overall App Goal
+# Overall App Goal
 
 "To provide a platform where Messiah students can quickly and conveniently access important resources to make their campus experience more enjoyable"
 "test"
+
+
+# Getting Started
+
+To start clone the to your local instance using
+
+```console
+git clone https://github.com/MUResourceCenter/MURCApp.git
+```
+
+Navigate to the App directory using
+
+```console
+cd MURCApp
+```
+
+and install all the dependencies
+
+```console
+npm install
+```
+
+If expo is not install install it using
+
+```console
+npm install --global expo-cli
+```
+
+or for mac users
+
+```console
+sudo npm install --global expo-cli
+```
+To start the app use
+```console
+npx expo start
+```
+
+## Using a device
+
+Scan the QR code with a device that has the Expo Go App installed on it to run the App.
+
+## IOS Simulator
+
+Installing xcode on a mac is necessary. [ More information ](https://docs.expo.dev/workflow/ios-simulator/)
+
+## Android Simulator
+
+Install Android Studio to run an Android Simulator. [ More information ] (https://docs.expo.dev/workflow/android-studio-emulator/)
