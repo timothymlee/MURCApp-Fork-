@@ -21,7 +21,10 @@
     "react-cas-client": "^1.1.0",
     "react-dom": "18.0.0",
     "react-native": "0.69.5",
-    "react-native-web": "~0.18.7"
+    "react-native-inappbrowser-reborn": "^3.7.0",
+    "react-native-web": "~0.18.7",
+    "expo-splash-screen": "~0.16.2",
+    "expo-web-browser": "~11.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.18.6"
