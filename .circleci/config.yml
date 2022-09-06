@@ -15,10 +15,6 @@ publish: &publish
         command: npm install expo-cli@6.0.5
 
     - run:
-        name: Expo Prebuild
-        command: npx expo prebuild
-
-    - run:
         name: Build Both
         command: npx eas-cli build --platform all --profile preview --non-interactive
     
