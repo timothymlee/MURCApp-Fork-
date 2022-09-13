@@ -39,7 +39,7 @@ jobs:
   publish_to_expo_prod:
     environment:
       EXPO_RELEASE_CHANNEL: MUResourceCenter
-    <<: *publish
+    <<: *release
           
 workflows:
   version: 2
