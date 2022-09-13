@@ -13,7 +13,7 @@ publish: &publish
     - run:
         name: Installing Expo-CLI
         command: npm install expo-cli@6.0.5
-    
+
     - run:
         name: Build Both
         command: npx eas-cli build --platform all --profile preview --non-interactive
