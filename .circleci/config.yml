@@ -1,6 +1,6 @@
 version: 2
 publish: &publish
-  working_directory: ~/MUResourceCenter/$EXPO_RELEASE_CHANNEL
+  working_directory: ~/MUResourceCenter/my-app
   docker:
     - image: cimg/node:16.17.0
   steps:
@@ -15,44 +15,28 @@ publish: &publish
         command: npm install expo-cli@6.0.5
 
     - run:
-        name: Expo Prebuild
-        command: npx expo prebuild
-
-    - run:
         name: Build Both
         command: npx eas-cli build --platform all --profile preview --non-interactive
-
-release: &release
-  working_directory: ~/MUResourceCenter/$EXPO_RELEASE_CHANNEL
-  docker:
-    - image: cimg/node:16.17.0
-  steps:
-    - checkout
-
-    - run:
-        name: Release iOS
-        command: eas submit -p ios --latest --profile foobar
-
-
+    
 jobs:
-  publish_to_expo_stag:
+  publish_to_expo_dev:
     environment:
-      EXPO_RELEASE_CHANNEL: my-app
+      EXPO_RELEASE_CHANNEL: dev
     <<: *publish
 
   publish_to_expo_prod:
     environment:
-      EXPO_RELEASE_CHANNEL: MUResourceCenter
-    <<: *release
+      EXPO_RELEASE_CHANNEL: default
+    <<: *publish
           
 workflows:
   version: 2
   my_app:
     jobs:
-      - publish_to_expo_stag:
+      - publish_to_expo_dev:
           filters:
             branches:
-              only: staging
+              only: development
       - publish_to_expo_prod:
           filters:
             branches:
