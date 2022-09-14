@@ -67,3 +67,5 @@ git commit -a -m "something"
 git push --set-upstream origin devBranchName
 ```
 Then you can submit a pull request to staging.
+
+More docs at Read the Docs
