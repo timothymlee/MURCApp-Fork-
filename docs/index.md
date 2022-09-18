@@ -7,4 +7,4 @@ We have built this page in order to better document out project.
     mkdocs.yml    # The configuration file.
     docs/
         index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+        ...
