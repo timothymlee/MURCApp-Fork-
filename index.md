@@ -1,6 +1,6 @@
 # Welcome to MURessources
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+For full visit [mkdocs.org](https://www.mkdocs.org).
 
 ## Commands
 
