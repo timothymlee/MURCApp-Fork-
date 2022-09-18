@@ -5,4 +5,4 @@ theme:
 
 nav:
     - HOME: 'index.md'
-    - About: ''other.md'
+    - About: 'other.md'
