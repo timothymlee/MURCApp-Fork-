@@ -1,33 +1,34 @@
-import React, { useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import {  Button,StyleSheet, Text, View } from 'react-native';
-import * as WebBrowser from 'expo-web-browser';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+// Import screens to use for navigation
+import Home from './screens/home';
+import Index from './screens/index';
+
+const Stack = createNativeStackNavigator();
+
+/* Structure will be:
+
+    <Stack.Screen ... />
+    {props => (...)}
+
+    for each screen. Must be imported above first.
+    See documentation: https://reactnavigation.org/docs/native-stack-navigator/
+
+    The top of the stack is the default page.
+*/
 
 export default function App() {
-  const [result, setResult] = useState(null);
-
-  const _handlePressButtonAsync = async () => {
-    let result = await WebBrowser.openBrowserAsync('https://union.messiah.edu/menu/', {
-      enableBarCollapsing: true,
-      toolbarColor: '#2a3e5e'
-    });
-    setResult(result);
-  };
-
-  
   return (
-    <View style={styles.container}>
-      <Button title="eats" onPress={_handlePressButtonAsync} />
-     
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name = "Index" component = {Index} />
+          {props => (<Index {...props} />)}
+        <Stack.Screen name = "Home" component = {Home} />
+          {props => (<Home {...props} />)}
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

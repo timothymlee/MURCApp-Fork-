@@ -2,13 +2,13 @@ import { ImageBackground, Pressable, StyleSheet, Text, TextInput, View } from "r
 import React from 'react';
 
 type CompProps = {
+  // We are only using the navigate and goBack functions
   navigation: { navigate: Function;};
 };
 
 export default function Home(props: CompProps) {
   return (
     <>
-      <ImageBackground source={require("../assets/images/splash_1.png")} resizeMode="cover" style={styles.something}>
         <View style={styles.container}>
           <View style={[styles.something, styles.something]}>
             <Text style={styles.something}>Unitivity Login</Text>
@@ -34,7 +34,6 @@ export default function Home(props: CompProps) {
             </Pressable>
           </View>
         </View>
-      </ImageBackground>
     </>
   );
 }
