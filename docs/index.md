@@ -1,15 +1,10 @@
-# MURCApp
+# Welcome to MU Ressources!
 
-# Overall App Goal
+MU Ressources is a project to create a mobile native ressource hub for students at Messiah University by Students at Messiah.We do this to provide a platform where Messiah students can quickly and conveniently access important resources to make their campus experience more enjoyable.
 
-"To provide a platform where Messiah students can quickly and conveniently access important resources to make their campus experience more enjoyable"
-<<<<<<< HEAD
-"Reid merge test"
-=======
-"test"
+## Getting Started
 
-
-# Getting Started
+### Getting a dev instance running
 
 To start clone the to your local instance using
 
@@ -45,19 +40,19 @@ To start the app use
 npx expo start
 ```
 
-## Using a device
+#### Using a device
 
 Scan the QR code with a device that has the Expo Go App installed on it to run the App.
 
-## IOS Simulator
+#### IOS Simulator
 
 Installing xcode on a mac is necessary. [ More information ](https://docs.expo.dev/workflow/ios-simulator/)
 
-## Android Simulator
+### Android Simulator
 
 Install Android Studio to run an Android Simulator. [ More information ] (https://docs.expo.dev/workflow/android-studio-emulator/)
 
-# Committing Code
+### Committing Code
 
 To commit code make sure to have your own dev branch on staging using 
 
@@ -70,9 +65,7 @@ git commit -a -m "something"
 git push --set-upstream origin devBranchName
 ```
 Then you can submit a pull request to staging.
-<<<<<<< HEAD
->>>>>>> aaa11ce65dee73a0d2df1ea8c508b763a15994f5
-=======
 
-More docs at Read the Docs
->>>>>>> 880620ba46266d0a4ffd2af892d335b865b9449f
+## CONTACT ME
+
+Contact me at at1345@messiah.edu for any questions or remarks
