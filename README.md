@@ -5,7 +5,6 @@
 "To provide a platform where Messiah students can quickly and conveniently access important resources to make their campus experience more enjoyable"
 
 
-
 # Getting Started
 
 To start clone the to your local instance using
@@ -66,9 +65,7 @@ git commit -a -m "something"
 git push --set-upstream origin devBranchName
 ```
 Then you can submit a pull request to staging.
-<<<<<<< HEAD
->>>>>>> aaa11ce65dee73a0d2df1ea8c508b763a15994f5
-=======
+
 
 More docs at Read the Docs
->>>>>>> 880620ba46266d0a4ffd2af892d335b865b9449f
+
