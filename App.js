@@ -19,17 +19,18 @@ const Stack = createNativeStackNavigator();
     The top of the stack is the default page.
 */
 
-// Import the functions you need from the SDKs you need
+
+// Optionally import the services that you want to use
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// Initialize Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyA38k22z_pVpMK9GEAm0VkbUUVzlm1h8T8",
   authDomain: "muresourcecenter-8275d.firebaseapp.com",
+  databaseURL: "https://muresourcecenter-8275d-default-rtdb.firebaseio.com",
   projectId: "muresourcecenter-8275d",
   storageBucket: "muresourcecenter-8275d.appspot.com",
   messagingSenderId: "384605507282",
@@ -37,8 +38,7 @@ const firebaseConfig = {
   measurementId: "G-H8NB4DF5XB"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+let myApp = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
 export default function App() {
@@ -54,3 +54,31 @@ export default function App() {
   );
 }
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
+
+import { getDatabase, ref, onValue } from 'firebase/database';
+
+function storeHighScore(userId, score) {
+  const db = getDatabase();
+  const reference = ref(db, 'users/' + userId);
+  set(reference, {
+    highscore: score,
+  });
+}
+
+
+function setupHighscoreListener(userId) {
+  const db = getDatabase();
+  const reference = ref(db, 'users/' + userId);
+  onValue(reference, (snapshot) => {
+    const highscore = snapshot.val().highscore;
+    console.log("New high score: " + highscore);
+  });
+}
