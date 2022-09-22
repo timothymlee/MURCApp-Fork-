@@ -23,10 +23,10 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name = "Home" component = {Home} />
+          {props => (<Home {...props} />)}
         <Stack.Screen name = "Index" component = {Index} />
           {props => (<Index {...props} />)}
-        <Stack.Screen name = "Home" component = {Home} />
-          {props => (<Home {...props} />)}
       </Stack.Navigator>
     </NavigationContainer>
   );
