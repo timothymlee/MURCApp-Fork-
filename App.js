@@ -65,20 +65,11 @@ const styles = StyleSheet.create({
 
 import { getDatabase, ref, onValue } from 'firebase/database';
 
-function storeHighScore(userId, score) {
+function writeUserData(userId, name, email, imageUrl) {
   const db = getDatabase();
-  const reference = ref(db, 'users/' + userId);
-  set(reference, {
-    highscore: score,
-  });
-}
-
-
-function setupHighscoreListener(userId) {
-  const db = getDatabase();
-  const reference = ref(db, 'users/' + userId);
-  onValue(reference, (snapshot) => {
-    const highscore = snapshot.val().highscore;
-    console.log("New high score: " + highscore);
+  set(ref(db, 'users/' + userId), {
+    username: name,
+    email: email,
+    profile_picture : imageUrl
   });
 }
