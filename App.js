@@ -73,3 +73,16 @@ function writeUserData(userId, name, email, imageUrl) {
     profile_picture : imageUrl
   });
 }
+
+function readUserData(userId) {
+  const db = getDatabase();
+  const ref = db.ref('users/');
+  console.log(ref.once('userId'), function(snapshot) {
+    snapshot.forEach(function(childSnapshot) {
+      let childKey = childSnapshot.key;
+      let childData = childSnapshot.val();
+
+      console.log("Key: " + childKey + ", Val: " + childData);
+    });
+  });
+}
