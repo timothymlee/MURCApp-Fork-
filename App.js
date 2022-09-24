@@ -32,3 +32,35 @@ export default function App() {
   );
 }
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
+
+import { getDatabase, ref, onValue } from 'firebase/database';
+
+function writeUserData(userId, name, email, imageUrl) {
+  const db = getDatabase();
+  set(ref(db, 'users/' + userId), {
+    username: name,
+    email: email,
+    profile_picture : imageUrl
+  });
+}
+
+function readUserData(userId) {
+  const db = getDatabase();
+  const ref = db.ref('users/');
+  console.log(ref.once('userId'), function(snapshot) {
+    snapshot.forEach(function(childSnapshot) {
+      let childKey = childSnapshot.key;
+      let childData = childSnapshot.val();
+
+      console.log("Key: " + childKey + ", Val: " + childData);
+    });
+  });
+}
