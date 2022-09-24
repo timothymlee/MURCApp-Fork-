@@ -24,7 +24,8 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#FFFFFF",
+        "softwareKeyboardLayoutMode": "pan"
       },
       "package": "com.MUResourceCenter.app",
       "versionCode": 1
