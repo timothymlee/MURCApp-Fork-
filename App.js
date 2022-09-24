@@ -6,6 +6,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './screens/home';
 import Index from './screens/index';
 
+// Import Cas
+import useCas from "./src/cas/useCas";
+
 const Stack = createNativeStackNavigator();
 
 /* Structure will be:
@@ -76,3 +79,6 @@ function readUserData(userId) {
     });
   });
 }
+
+// CAS Authentication
+const cas = useCas();
