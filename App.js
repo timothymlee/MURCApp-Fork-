@@ -22,7 +22,6 @@ const Stack = createNativeStackNavigator();
 
 // Optionally import the services that you want to use
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -39,7 +38,6 @@ const firebaseConfig = {
 };
 
 let myApp = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 
 export default function App() {
   return (
@@ -54,14 +52,6 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 
 import { getDatabase, ref, onValue } from 'firebase/database';
 
