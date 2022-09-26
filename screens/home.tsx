@@ -1,6 +1,6 @@
 import { ImageBackground, Pressable, StyleSheet, SafeAreaView, Text, TextInput, View, KeyboardAvoidingView, Keyboard, ScrollView } from "react-native";
-import React from 'react';
-import { Icon, SearchBar } from "@rneui/themed";
+import React, { useState } from 'react';
+import { Icon, SearchBar, Button, Overlay } from "@rneui/themed";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 type CompProps = {
@@ -8,15 +8,82 @@ type CompProps = {
   navigation: { navigate: Function; };
 };
 
+type OverlayComponentProps = {};
+
 export default function Home(props: CompProps) {
-  const [value, setValue] = React.useState("");
+
+  const [value, setValue] = useState("");
+  const [visible, setVisible] = useState(false);
+
+  const toggleOverlay = () => {
+    setVisible(!visible);
+  };
 
   return (
     <>
       <SafeAreaView style={styles.page}>
+
+        <Overlay isVisible={visible} onBackdropPress={toggleOverlay} overlayStyle={styles.overlay}>
+          <View style={{ flex: 1 }}></View>
+          <View style={styles.profile_overlay}>
+            <View style={{ flex: 2, flexDirection: 'row' }}>
+              <View style={{ flex: 1, alignItems: 'flex-start' }}>
+                <Icon name="person-circle-outline" type="ionicon" size={80} color={'black'}></Icon>
+              </View>
+              <View style={{ flex: 1, alignItems: 'flex-end' }}>
+                <Pressable onPress={toggleOverlay}>
+                  <Icon name="close" size={44} color={'black'}></Icon>
+                </Pressable>
+              </View>
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={{ color: 'black', fontSize: 30 }}>Joe Jenkins</Text>
+            </View>
+            <View style={{ flex: 1.5 }}>
+              <Text style={{ color: 'gray', fontSize: 20 }}>jj1234</Text>
+            </View>
+
+            <View style={{ flex: 1, flexDirection: 'row' }}>
+              <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
+                <Icon name="person-circle" type="ionicon" size={30} color={'black'}></Icon>
+              </View>
+              <View style={{ flex: 6, justifyContent: 'center' }}>
+                <Text style={{ color: 'black', fontSize: 20 }}>Profile</Text>
+              </View>
+            </View>
+            <View style={{ flex: 1, flexDirection: 'row' }}>
+              <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
+                <Icon name="fast-food" type="ionicon" size={30} color={'black'}></Icon>
+              </View>
+              <View style={{ flex: 6, justifyContent: 'center' }}>
+                <Text style={{ color: 'black', fontSize: 20 }}>Allergies and Preferences</Text>
+              </View>
+            </View>
+            <View style={{ flex: 1, flexDirection: 'row' }}>
+              <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
+                <Icon name="image" size={30} color={'black'}></Icon>
+              </View>
+              <View style={{ flex: 6, justifyContent: 'center' }}>
+                <Text style={{ color: 'black', fontSize: 20 }}>Background Image</Text>
+              </View>
+            </View>
+
+            <View style={{ flex: 8 }}></View>
+            <View style={{ flex: 1, flexDirection: 'row'  }}>
+              <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
+                  <Icon name="log-out" type="feather" size={30} color={'black'}></Icon>
+                </View>
+                <View style={{ flex: 6, justifyContent: 'center' }}>
+                  <Text style={{ color: 'black', fontSize: 20 }}>Log Out</Text>
+                </View>
+              </View>
+            <View style={{ flex: 1.5, backgroundColor: null }}></View>
+          </View>
+        </Overlay>
+
         <View style={styles.header}>
           <View style={[styles.header_content, { alignItems: 'flex-start' }]}>
-            <Pressable>
+            <Pressable onPress={toggleOverlay}>
               <Icon name="person" style={styles.header_icons} size={44} color={'white'}></Icon>
             </Pressable>
           </View>
@@ -38,7 +105,7 @@ export default function Home(props: CompProps) {
           <SearchBar
             platform="ios"
             containerStyle={{ backgroundColor: "#1E293B" }}
-            inputContainerStyle={{ backgroundColor: '#F3F3F3',  }}
+            inputContainerStyle={{ backgroundColor: '#F3F3F3', }}
             inputStyle={{}}
             leftIconContainerStyle={{}}
             rightIconContainerStyle={{}}
@@ -79,5 +146,17 @@ const styles = StyleSheet.create({
   },
   header_icons: {
     color: 'white'
+  },
+  profile_overlay: {
+    backgroundColor: 'white',
+    flex: 8,
+    padding: 20
+  },
+  overlay: {
+    width: '85%',
+    height: '100%',
+    position: 'absolute',
+    left: 0,
+    bottom: 0
   }
 });
