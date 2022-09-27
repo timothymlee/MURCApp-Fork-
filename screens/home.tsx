@@ -2,6 +2,7 @@ import { ImageBackground, Pressable, StyleSheet, SafeAreaView, Text, TextInput, 
 import React, { useState } from 'react';
 import { Icon, SearchBar, Button, Overlay } from "@rneui/themed";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import {readUserData, writeUserData} from "../src/firebaseCalls";
 
 type CompProps = {
   // We are only using the navigate and goBack functions
@@ -98,7 +99,23 @@ export default function Home(props: CompProps) {
         </View>
 
         <ScrollView style={styles.app_container}>
-
+          <Button
+              title="Get Data"
+              loading={false}
+              loadingProps={{ size: 'small', color: 'white' }}
+              buttonStyle={{
+                backgroundColor: 'rgba(111, 202, 186, 1)',
+                borderRadius: 5,
+              }}
+              titleStyle={{ fontWeight: 'bold', fontSize: 23 }}
+              containerStyle={{
+                marginHorizontal: 10,
+                height: 50,
+                width: 200,
+                marginVertical: 10,
+              }}
+              onPress={() => readUserData('tl1261')}
+          />
         </ScrollView>
 
         <KeyboardAvoidingView style={styles.search_container} behavior="position">
