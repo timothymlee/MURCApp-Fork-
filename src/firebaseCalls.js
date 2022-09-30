@@ -19,6 +19,7 @@ const firebaseConfig = {
 const myApp = initializeApp(firebaseConfig);
 
 import { getDatabase, ref, onValue} from 'firebase/database';
+import {throwError} from "react-cas-client/lib/util";
 
 function writeUserData(userId, name, email, imageUrl) {
     const db = getDatabase();
@@ -30,16 +31,18 @@ function writeUserData(userId, name, email, imageUrl) {
 }
 
 function readUserData(userId) {
+    let returnString = "\n";
     const db = getDatabase(myApp);
-    const userRef = ref(db, userId);
+    const userRef = ref(db, 'users/' + userId);
     onValue(userRef, (snapshot) => {
         snapshot.forEach(function(childSnapshot) {
-            let childKey = childSnapshot.key;
-            let childData = childSnapshot.val();
-
-            console.log("Key: " + childKey + ", Val: " + childData);
+            returnString += "Key: " + childSnapshot.key.toString();
+            returnString += ", Val: " + childSnapshot.val().toString();
+            returnString += "\n";
         });
     });
+    console.log(returnString);
+    return returnString;
 }
 
 // Export Methods for Use
