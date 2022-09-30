@@ -12,6 +12,7 @@ type CompProps = {
 type OverlayComponentProps = {};
 
 export default function Home(props: CompProps) {
+  let textString = readUserData('tl1261');
 
   const [value, setValue] = useState("");
   const [visible, setVisible] = useState(false);
@@ -99,23 +100,7 @@ export default function Home(props: CompProps) {
         </View>
 
         <ScrollView style={styles.app_container}>
-          <Button
-              title="Get Data"
-              loading={false}
-              loadingProps={{ size: 'small', color: 'white' }}
-              buttonStyle={{
-                backgroundColor: 'rgba(111, 202, 186, 1)',
-                borderRadius: 5,
-              }}
-              titleStyle={{ fontWeight: 'bold', fontSize: 23 }}
-              containerStyle={{
-                marginHorizontal: 10,
-                height: 50,
-                width: 200,
-                marginVertical: 10,
-              }}
-              onPress={() => readUserData('tl1261')}
-          />
+          <Text style={{fontSize: 20}}>Data = {textString}</Text>
         </ScrollView>
 
         <KeyboardAvoidingView style={styles.search_container} behavior="position">
