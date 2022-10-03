@@ -6,6 +6,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './screens/home';
 import Index from './screens/index';
 
+// Import Cas
+import useCas from "./src/cas/useCas";
+
 const Stack = createNativeStackNavigator();
 
 /* Structure will be:
@@ -19,16 +22,25 @@ const Stack = createNativeStackNavigator();
     The top of the stack is the default page.
 */
 
+
+
+
 export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name = "Home" component = {Home} />
+          {props => (<Home {...props} />)}
         <Stack.Screen name = "Index" component = {Index} />
           {props => (<Index {...props} />)}
-        <Stack.Screen name = "Home" component = {Home} />
-          {props => (<Home {...props} />)}
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
+
+
+
+
+// CAS Authentication
+const cas = useCas();
 
