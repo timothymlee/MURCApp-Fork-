@@ -3,14 +3,18 @@ import React, { useState } from 'react';
 import { Icon, SearchBar, Button, Overlay } from "@rneui/themed";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import {readUserData, writeUserData} from "../src/firebaseCalls";
-import Widget from '../src/js componets/widgetsV1.2';
-import { Image } from "@rneui/base";
+
+import Index from "./index";
+
+//notes: Got rid of changes made on this page for the javascript based drag and drop.
+//Does not currently work for website, android is fine though. Investigate later...
+//need to pretty up buttons (maybe with touchable opacity replacing button?)
 
 type CompProps = {
   // We are only using the navigate and goBack functions
   navigation: { navigate: Function; };
 };
-const image = {uri: "https://pbs.twimg.com/media/FdxI4qIXwAE28_5?format=jpg&name=4096x4096"}
+//const image = {uri: "https://pbs.twimg.com/media/FdxI4qIXwAE28_5?format=jpg&name=4096x4096"}
 type OverlayComponentProps = {};
 
 export default function Home(props: CompProps) {
@@ -102,9 +106,9 @@ export default function Home(props: CompProps) {
         </View>
 
         <ScrollView style={styles.app_container}>
-          <ImageBackground source={image} resizeMode="cover" style={styles.image} >
-              <Widget/>
-          </ImageBackground>
+          
+        <Index></Index>
+          
         </ScrollView>
 
         <KeyboardAvoidingView style={styles.search_container} behavior="position">
@@ -129,11 +133,8 @@ export default function Home(props: CompProps) {
 
 const styles = StyleSheet.create({
   app_container: {
-    flex: 7.1
-  },
-  image:{
-    flex: 1,
-    justifyContent: "center"
+    backgroundColor: '#CCC',
+    flex: 1
   },
   header: {
     backgroundColor: '#1E293B',

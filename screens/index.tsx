@@ -1,9 +1,8 @@
-import { StyleSheet, Button, View,} from "react-native";
+import { StyleSheet, Button, View, Linking,} from "react-native";
 import React, { useState, useEffect } from 'react';
 import * as WebBrowser from 'expo-web-browser';
 import { NoUnusedFragmentsRule } from "graphql";
 import { getPositionOfLineAndCharacter } from "typescript";
-
 
 type CompProps = {
   // We are only using the navigate and goBack functions
@@ -12,7 +11,7 @@ type CompProps = {
 
 export default function Index(props: CompProps) {
   const [result, setResult] = useState(null);
-
+  //not currently being utilized, artifact from original index vvvvv
   const _handlePressButtonAsync = async () => {
     let result = await WebBrowser.openBrowserAsync('https://union.messiah.edu/menu/', {
       enableBarCollapsing: true,
@@ -29,9 +28,9 @@ export default function Index(props: CompProps) {
   return (
    
     <View style={styles.container}>
-      <View style={styles.resourceButtons} on>
+      <View style={styles.resourceButtons} >
       <MapGrid 
-      dest={_handlePressButtonAsync}>  
+      dest={openLink}>  
       </MapGrid>
       </View>
 
@@ -46,15 +45,19 @@ export default function Index(props: CompProps) {
 //placeholder for potential JSON file implementation.
 //It currently contains the titles for the buttons
 let resources ={
-  resourcesList: ["Union", "Falcon", "CashNet", "Personal Info", "Register For Classes"],
-  resourceDestinations: [],
+  resourcesList: ["Union", "The Falcon", "Student Events", "Map", "Lottie Menu"],
+  resourceDestinations: ['https://union.messiah.edu/menu/', 'http://falcon.messiah.edu/menu/',
+'https://www.messiah.edu/a/sso/sso.php?url=https://www.messiah.edu/student-events', 'https://tour.messiah.edu/campus-map/',
+'https://www.messiah.edu/a/sso/sso.php?url=https://www.messiah.edu/download/downloads/id/9433/Lottie_thisweek.pdf'],
   editing: false,
   positions: [],
   switch: [],
   toggled: false
   
 } 
-
+function openLink(link){
+  Linking.openURL(link);
+}
 function ToggleButton(){
   let [switchE, setSwitchE] = React.useState(resources.editing);
   let [statusE, setStatusE] = React.useState("Edit");
@@ -93,7 +96,10 @@ function  MapGrid (sources){
   for (let i = 0; i < resources.resourcesList.length; i++){
   //the titles and position of a button are determined by the values within resources.positions
   //each render the button is updated with the new title and position and pushed to source buttons as seen below
-    sourceButtons.push(ResourceButtons(resources.resourcesList[resources.positions[i]], sources.dest, resources.positions[i]));
+    sourceButtons.push(ResourceButtons(resources.resourcesList[resources.positions[i]], 
+      //sources.dest(resources.resourceDestinations[i]), 
+      resources.resourceDestinations[resources.positions[i]],
+      resources.positions[i]));
   }
   /*useful for position testing
   console.log("Position array V");
@@ -152,27 +158,28 @@ function ResourceButtons (name, destination, position) {
     setSwitching(!switching);
     if(resources.editing == true){
       destination=handleButtonSwap;
+      destination()
     }
     else{
-      destination
+      openLink(destination);
     }
-    destination();
+
   }
 
-  
-  
-  let colors = "#000000";
+  const image = {uri: "https://pbs.twimg.com/media/FdxI4qIXwAE28_5?format=jpg&name=4096x4096"};
+
   let rButton =<Button
-  color={colors} 
+  color={styles.resourceButtons.color} 
+  //style={styles.resourceButtons}
   title={name+""} 
   onPress={onMouseEnter}
-  on>
+  on
+  >
   </Button>
-  //<div onMouseEnter={onMouseEnter}>{rButton}</div>
   let finalCard = <View style={styles.resourceButtons} 
   >
-    
   {rButton}
+
   </View>
 
   return( <>
@@ -185,12 +192,15 @@ function ResourceButtons (name, destination, position) {
 
 let styles = StyleSheet.create({
   container: {
-    flex: 1,
+    //flex: 1,
+    height: "100%",
+    width: "100%",
     flexDirection: "row",
-    backgroundColor: '#fff',
+    backgroundColor: '#CCC',
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
     marginTop: "10%",
+    
   },
   resourceButtons: {
     flexDirection: "row",
@@ -199,11 +209,15 @@ let styles = StyleSheet.create({
     marginLeft: "5%",
     marginBottom: "10%",
     position: "relative",
+    color: "#5EAEF9",
+
+
+    
   },
   editButton: {
     flexDirection: "row",
     flexWrap: "wrap",
-    top:"80%",
+    bottom:"20%",
     marginLeft: "80%",
     position: "absolute",
     
