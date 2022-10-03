@@ -1,22 +1,15 @@
 import { ImageBackground, Pressable, StyleSheet, SafeAreaView, Text, TextInput, View, KeyboardAvoidingView, Keyboard, ScrollView } from "react-native";
 import React, { useState } from 'react';
-import { Icon, SearchBar, Button, Overlay } from "@rneui/themed";
+import { Icon, SearchBar, Button, Overlay, Image } from "@rneui/themed";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import {readUserData, writeUserData} from "../src/firebaseCalls";
-import Widget from '../src/js componets/widgetsV1.2';
-import { Image } from "@rneui/base";
 
 type CompProps = {
   // We are only using the navigate and goBack functions
   navigation: { navigate: Function; };
 };
-const image = {uri: "https://pbs.twimg.com/media/FdxI4qIXwAE28_5?format=jpg&name=4096x4096"}
-type OverlayComponentProps = {};
 
 export default function Home(props: CompProps) {
-  let textString = readUserData('tl1261');
 
-  const [value, setValue] = useState("");
   const [visible, setVisible] = useState(false);
 
   const toggleOverlay = () => {
@@ -73,14 +66,14 @@ export default function Home(props: CompProps) {
             </View>
 
             <View style={{ flex: 8 }}></View>
-            <View style={{ flex: 1, flexDirection: 'row'  }}>
+            <View style={{ flex: 1, flexDirection: 'row' }}>
               <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
-                  <Icon name="log-out" type="feather" size={30} color={'black'}></Icon>
-                </View>
-                <View style={{ flex: 6, justifyContent: 'center' }}>
-                  <Text style={{ color: 'black', fontSize: 20 }}>Log Out</Text>
-                </View>
+                <Icon name="log-out" type="feather" size={30} color={'black'}></Icon>
               </View>
+              <View style={{ flex: 6, justifyContent: 'center' }}>
+                <Text style={{ color: 'black', fontSize: 20 }}>Log Out</Text>
+              </View>
+            </View>
             <View style={{ flex: 1.5, backgroundColor: null }}></View>
           </View>
         </Overlay>
@@ -101,29 +94,54 @@ export default function Home(props: CompProps) {
           </View>
         </View>
 
-        <ScrollView style={styles.app_container}>
-          <Button style={styles.button} onPress={() => props.navigation.navigate('Chapel')}>Chapel</Button>
-          <ImageBackground source={image} resizeMode="cover" style={styles.image} >
-              <Widget/>
-          </ImageBackground>
-          <Text style={{fontSize: 20, color: 'white'}}>Data = {textString}</Text>
-        </ScrollView>
-
-        <KeyboardAvoidingView style={styles.search_container} behavior="position">
-          <SearchBar
-            platform="ios"
-            containerStyle={{ backgroundColor: "#1E293B" }}
-            inputContainerStyle={{ backgroundColor: '#F3F3F3', }}
-            inputStyle={{}}
-            leftIconContainerStyle={{}}
-            rightIconContainerStyle={{}}
-            loadingProps={{}}
-            onChangeText={newVal => setValue(newVal)}
-            placeholder="Search"
-            placeholderTextColor="#888"
-            value={value}
+        <View style={styles.app_container}>
+          <Image
+            source={require('../assets/images/Hostetter_Chapel-1.jpeg')}
+            containerStyle={styles.header_image_cont}
+            style={styles.header_image}
           />
-        </KeyboardAvoidingView>
+          <Text style={styles.main_title}>Chapel Attendance</Text>
+          <View style={{ flex: 3}}>
+            <View style={styles.progress_container}>
+
+            </View>
+
+            <View style={{flex: 0.5, flexDirection: 'row', paddingHorizontal: 20}}>
+              <View style={{flex: 1, justifyContent: 'flex-end'}}>
+                <Text style={styles.subtitle}>Chapels Attended</Text>
+              </View>
+              <View style={{flex: 1, justifyContent: 'flex-end'}}>
+                <Text style={styles.subtitle}>Chapels Required</Text>
+              </View>
+            </View>
+            <View style={{flex: 0.5, flexDirection: 'row', paddingHorizontal: 20}}>
+              <View style={{flex: 1}}>
+                <Text style={styles.title}>9</Text>
+              </View>
+              <View style={{flex: 1}}>
+                <Text style={styles.title}>14</Text>
+              </View>
+            </View>
+            <View style={{flex: 0.5, flexDirection: 'row', paddingHorizontal: 20}}>
+              <View style={{flex: 1, justifyContent: 'flex-end'}}>
+                <Text style={styles.subtitle}>Chapel Adjustment</Text>
+              </View>
+              <View style={{flex: 1, justifyContent: 'flex-end'}}>
+                <Text style={styles.subtitle}>Remaining Chapels</Text>
+              </View>
+            </View>
+            <View style={{flex: 0.5, flexDirection: 'row', paddingHorizontal: 20}}>
+              <View style={{flex: 1}}>
+                <Text style={styles.title}>0</Text>
+              </View>
+              <View style={{flex: 1}}>
+                <Text style={styles.title}>5</Text>
+              </View>
+            </View>
+            <View style={{ flex: 3 }}></View>
+          </View>
+        </View>
+
       </SafeAreaView>
     </>
   );
@@ -131,20 +149,13 @@ export default function Home(props: CompProps) {
 
 const styles = StyleSheet.create({
   app_container: {
-    flex: 7.1
-  },
-  image:{
-    flex: 1,
-    justifyContent: "center"
+    backgroundColor: '#FBFBFB',
+    flex: 1
   },
   header: {
     backgroundColor: '#1E293B',
     flex: 0.1,
     flexDirection: 'row'
-  },
-  search_container: {
-    backgroundColor: '#1E293B',
-    flex: 0.14
   },
   page: {
     backgroundColor: '#1E293B',
@@ -170,7 +181,34 @@ const styles = StyleSheet.create({
     left: 0,
     bottom: 0
   },
-  button: {
-    padding: 20
+  header_image_cont: {
+    flex: 1
+  },
+  header_image: {
+    resizeMode: 'cover',
+    width: '100%',
+    height: '100%'
+  },
+  progress_container: {
+    flex: 0.6,
+    backgroundColor: 'gray'
+  },
+  subtitle: {
+    color: '#1E293B'
+  },
+  title: {
+    color: '#1E293B',
+    fontSize: 40,
+    fontWeight: '700'
+  },
+  main_title: {
+    color: 'white',
+    fontSize: 40,
+    fontWeight: '600',
+    position: 'absolute',
+    padding: 20,
+    shadowRadius: 5,
+    shadowOpacity: 0.6,
+    paddingTop: '28%'
   }
 });
