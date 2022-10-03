@@ -1,4 +1,4 @@
-import { StyleSheet, Button, View, Linking,} from "react-native";
+import { StyleSheet, Button, View, Linking, TouchableOpacity, Image, Text} from "react-native";
 import React, { useState, useEffect } from 'react';
 import * as WebBrowser from 'expo-web-browser';
 import { NoUnusedFragmentsRule } from "graphql";
@@ -49,6 +49,9 @@ let resources ={
   resourceDestinations: ['https://union.messiah.edu/menu/', 'http://falcon.messiah.edu/menu/',
 'https://www.messiah.edu/a/sso/sso.php?url=https://www.messiah.edu/student-events', 'https://tour.messiah.edu/campus-map/',
 'https://www.messiah.edu/a/sso/sso.php?url=https://www.messiah.edu/download/downloads/id/9433/Lottie_thisweek.pdf'],
+ resourceImages: [require("./../src/assets/img/food.png"), require("./../src/assets/img/dollar.png"), 
+  require("./../src/assets/img/calander.png"), 
+  require("./../src/assets/img/book.png"), require("./../src/assets/img/food.png")],
   editing: false,
   positions: [],
   switch: [],
@@ -99,7 +102,7 @@ function  MapGrid (sources){
     sourceButtons.push(ResourceButtons(resources.resourcesList[resources.positions[i]], 
       //sources.dest(resources.resourceDestinations[i]), 
       resources.resourceDestinations[resources.positions[i]],
-      resources.positions[i]));
+      resources.positions[i],));
   }
   /*useful for position testing
   console.log("Position array V");
@@ -166,19 +169,20 @@ function ResourceButtons (name, destination, position) {
 
   }
 
-  const image = {uri: "https://pbs.twimg.com/media/FdxI4qIXwAE28_5?format=jpg&name=4096x4096"};
-
-  let rButton =<Button
-  color={styles.resourceButtons.color} 
-  //style={styles.resourceButtons}
-  title={name+""} 
+  let rButton =<TouchableOpacity
+  //color={styles.resourceButtons.color} 
+  style={styles.opacityWrapper}
+  //title={name+""} 
   onPress={onMouseEnter}
-  on
+
   >
-  </Button>
+    <Image source={resources.resourceImages[position]}/>
+    <Text style={{color: "#ffffff"}}>{name}</Text>
+  </TouchableOpacity>
   let finalCard = <View style={styles.resourceButtons} 
   >
   {rButton}
+
 
   </View>
 
@@ -220,8 +224,14 @@ let styles = StyleSheet.create({
     bottom:"20%",
     marginLeft: "80%",
     position: "absolute",
+    padding: 5
     
 
+  },
+  opacityWrapper: {
+    alignItems: 'center',
+    backgroundColor: '#5EAEF9',
+    padding: 30
   }
 });
 
