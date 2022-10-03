@@ -105,6 +105,7 @@ export default function Home(props: CompProps) {
           <ImageBackground source={image} resizeMode="cover" style={styles.image} >
               <Widget/>
           </ImageBackground>
+          <Text style={{fontSize: 20, color: 'white'}}>Data = {textString}</Text>
         </ScrollView>
 
         <KeyboardAvoidingView style={styles.search_container} behavior="position">
