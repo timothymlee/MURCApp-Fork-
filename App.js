@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // Import screens to use for navigation
 import Home from './screens/home';
 import Index from './screens/index';
+import Chapel from './screens/chapel';
 
 const Stack = createNativeStackNavigator();
 
@@ -27,6 +28,8 @@ export default function App() {
           {props => (<Home {...props} />)}
         <Stack.Screen name = "Index" component = {Index} />
           {props => (<Index {...props} />)}
+        <Stack.Screen name = "Chapel" component = {Chapel} />
+          {props => (<Chapel {...props} />)}
       </Stack.Navigator>
     </NavigationContainer>
   );
