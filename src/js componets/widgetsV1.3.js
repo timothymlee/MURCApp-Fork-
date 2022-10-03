@@ -134,7 +134,7 @@ export default class Widget extends React.Component {
                   return (
                     <View>
                       <View>
-                        <Text style={{color:'white',textAlign: 'center',width: widgetsizeS * .90, height: widgetsizeS, resizeMode: 'contain'}}>
+                        <Text style={{color:'white',textAlign: 'center',width: (widgetsizeS * .90)-20, height: (widgetsizeS)-20, resizeMode: 'contain'}}>
                           <Text>{"Chapel Attendance"}{"\n"}</Text> 
                           <Text style={{fontSize:100,fontWeight:'bold'}}>{chaple}{"\n"}</Text>
                           <Text>{"/14"}</Text>
@@ -147,7 +147,7 @@ export default class Widget extends React.Component {
                   return (
                       <View>
                       <Text style={{color:'white',textAlign: 'center',width: widgetsizeS * .90, height: widgetsizeS, resizeMode: 'contain'}}>
-                          <Text>{"ID Card Balance"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}</Text>
+                          <Text>{"\n"}{"ID Card Balance"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}</Text>
                           
                           <Text style={{fontSize:40,fontWeight:'bold'}}>{balance}</Text>
                         </Text>  
