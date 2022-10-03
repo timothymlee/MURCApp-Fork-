@@ -2,15 +2,19 @@ import { ImageBackground, Pressable, StyleSheet, SafeAreaView, Text, TextInput, 
 import React, { useState } from 'react';
 import { Icon, SearchBar, Button, Overlay } from "@rneui/themed";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import {readUserData, writeUserData} from "../src/firebaseCalls";
+import Widget from '../src/js componets/widgetsV1.2';
+import { Image } from "@rneui/base";
 
 type CompProps = {
   // We are only using the navigate and goBack functions
   navigation: { navigate: Function; };
 };
-
+const image = {uri: "https://pbs.twimg.com/media/FdxI4qIXwAE28_5?format=jpg&name=4096x4096"}
 type OverlayComponentProps = {};
 
 export default function Home(props: CompProps) {
+  let textString = readUserData('tl1261');
 
   const [value, setValue] = useState("");
   const [visible, setVisible] = useState(false);
@@ -98,7 +102,9 @@ export default function Home(props: CompProps) {
         </View>
 
         <ScrollView style={styles.app_container}>
-
+          <ImageBackground source={image} resizeMode="cover" style={styles.image} >
+              <Widget/>
+          </ImageBackground>
         </ScrollView>
 
         <KeyboardAvoidingView style={styles.search_container} behavior="position">
@@ -123,8 +129,11 @@ export default function Home(props: CompProps) {
 
 const styles = StyleSheet.create({
   app_container: {
-    backgroundColor: '#CCC',
-    flex: 1
+    flex: 7.1
+  },
+  image:{
+    flex: 1,
+    justifyContent: "center"
   },
   header: {
     backgroundColor: '#1E293B',
