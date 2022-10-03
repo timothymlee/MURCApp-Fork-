@@ -4,6 +4,7 @@ import { Icon, SearchBar, Button, Overlay } from "@rneui/themed";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import {readUserData, writeUserData} from "../src/firebaseCalls";
 import Widget from '../src/js componets/widgetsV1.2';
+import Orgin from '../src/js componets/AnyThreePage';
 import { Image } from "@rneui/base";
 
 type CompProps = {

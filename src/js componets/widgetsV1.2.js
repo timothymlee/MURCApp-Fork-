@@ -12,7 +12,7 @@ import AnySizeDragSortableView from './AnySizeDragSortableView'
 import * as WebBrowser from 'expo-web-browser';
 
 var chaple = 9;
-var balance = ("$" + "623.71")
+var balance = "$623.71"
 var Menu = "Grilled Chicken Caesar Wrap        Italian Lasagna"
 var active = false;
 const {width} = Dimensions.get('window')
@@ -74,14 +74,7 @@ export default class Widget extends React.Component {
   }
 
   _renderItem = (item, index, isMoved) => {
-
-
-    
-    
-     
-     
-
-    
+  
     const {movedKey} = this.state
     return (
       <TouchableOpacity
@@ -91,7 +84,6 @@ export default class Widget extends React.Component {
             WebBrowser.openBrowserAsync(item.link);
           }
           }}
-          if
         onLongPress={() => {
             trigger();
             this.setState({movedKey: item.key})
