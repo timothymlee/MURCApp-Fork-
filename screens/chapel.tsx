@@ -1,6 +1,6 @@
-import { ImageBackground, Pressable, StyleSheet, SafeAreaView, Text, TextInput, View, KeyboardAvoidingView, Keyboard, ScrollView } from "react-native";
+import { ImageBackground, Pressable, Image, StyleSheet, SafeAreaView, Text, TextInput, View, KeyboardAvoidingView, Keyboard, ScrollView } from "react-native";
 import React, { useState } from 'react';
-import { Icon, SearchBar, Button, Overlay, Image } from "@rneui/themed";
+import { Icon, SearchBar, Button, Overlay } from "@rneui/themed";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 type CompProps = {
@@ -20,12 +20,12 @@ export default function Home(props: CompProps) {
     <>
       <SafeAreaView style={styles.page}>
 
-        <Overlay isVisible={visible} onBackdropPress={toggleOverlay} overlayStyle={styles.overlay}>
+      <Overlay isVisible={visible} onBackdropPress={toggleOverlay} overlayStyle={styles.overlay}>
           <View style={{ flex: 1 }}></View>
           <View style={styles.profile_overlay}>
-            <View style={{ flex: 2, flexDirection: 'row' }}>
+            <View style={{ flex: 2, minHeight: 40, flexDirection: 'row' }}>
               <View style={{ flex: 1, alignItems: 'flex-start' }}>
-                <Icon name="person-circle-outline" type="ionicon" size={80} color={'black'}></Icon>
+                <Image source={require('../assets/images/default_pfp.png')} style={styles.profile_pic}/>
               </View>
               <View style={{ flex: 1, alignItems: 'flex-end' }}>
                 <Pressable onPress={toggleOverlay}>
@@ -33,14 +33,14 @@ export default function Home(props: CompProps) {
                 </Pressable>
               </View>
             </View>
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, minHeight: 16 }}>
               <Text style={{ color: 'black', fontSize: 30 }}>Joe Jenkins</Text>
             </View>
-            <View style={{ flex: 1.5 }}>
+            <View style={{ flex: 1.5, minHeight: 24 }}>
               <Text style={{ color: 'gray', fontSize: 20 }}>jj1234</Text>
             </View>
 
-            <View style={{ flex: 1, flexDirection: 'row' }}>
+            <View style={{ flex: 1, minHeight: 16, flexDirection: 'row' }}>
               <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
                 <Icon name="person-circle" type="ionicon" size={30} color={'black'}></Icon>
               </View>
@@ -48,7 +48,7 @@ export default function Home(props: CompProps) {
                 <Text style={{ color: 'black', fontSize: 20 }}>Profile</Text>
               </View>
             </View>
-            <View style={{ flex: 1, flexDirection: 'row' }}>
+            <View style={{ flex: 1, minHeight: 16, flexDirection: 'row' }}>
               <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
                 <Icon name="fast-food" type="ionicon" size={30} color={'black'}></Icon>
               </View>
@@ -56,7 +56,7 @@ export default function Home(props: CompProps) {
                 <Text style={{ color: 'black', fontSize: 20 }}>Allergies and Preferences</Text>
               </View>
             </View>
-            <View style={{ flex: 1, flexDirection: 'row' }}>
+            <View style={{ flex: 1, minHeight: 16, flexDirection: 'row' }}>
               <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
                 <Icon name="image" size={30} color={'black'}></Icon>
               </View>
@@ -65,15 +65,15 @@ export default function Home(props: CompProps) {
               </View>
             </View>
 
-            <View style={{ flex: 8 }}></View>
-            <View style={{ flex: 1, flexDirection: 'row' }}>
+            <View style={{ flex: 10 }}></View>
+            <View style={{ flex: 1, minHeight: 16, flexDirection: 'row'  }}>
               <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
-                <Icon name="log-out" type="feather" size={30} color={'black'}></Icon>
+                  <Icon name="log-out" type="feather" size={30} color={'black'}></Icon>
+                </View>
+                <View style={{ flex: 6, justifyContent: 'center' }}>
+                  <Text style={{ color: 'black', fontSize: 20 }}>Log Out</Text>
+                </View>
               </View>
-              <View style={{ flex: 6, justifyContent: 'center' }}>
-                <Text style={{ color: 'black', fontSize: 20 }}>Log Out</Text>
-              </View>
-            </View>
             <View style={{ flex: 1.5, backgroundColor: null }}></View>
           </View>
         </Overlay>
@@ -85,7 +85,7 @@ export default function Home(props: CompProps) {
             </Pressable>
           </View>
           <View style={[styles.header_content, { alignItems: 'center' }]}>
-            <Text style={{ color: 'white', fontSize: 32 }}>MU</Text>
+            <Image source={require('../assets/images/messiah_logo.png')} style={styles.header_image}/>
           </View>
           <View style={[styles.header_content, { alignItems: 'flex-end' }]}>
             <Pressable onPress={() => props.navigation.navigate('Home')}>
@@ -95,15 +95,15 @@ export default function Home(props: CompProps) {
         </View>
 
         <View style={styles.app_container}>
-          <Image
-            source={require('../assets/images/Hostetter_Chapel-1.jpeg')}
-            containerStyle={styles.header_image_cont}
-            style={styles.header_image}
-          />
-          <Text style={styles.main_title}>Chapel Attendance</Text>
-          <View style={{ flex: 3}}>
+          <View style={styles.banner}>
+            <Image
+              source={require('../assets/images/Hostetter_Chapel-1.jpeg')}
+              style={styles.banner_image} />
+            <Text style={styles.main_title}>Chapel Attendance</Text>
+          </View>
+          
+          <View style={{ flex: 3, minHeight: 80 }}>
             <View style={styles.progress_container}>
-
             </View>
 
             <View style={{flex: 0.5, flexDirection: 'row', paddingHorizontal: 20}}>
@@ -138,8 +138,8 @@ export default function Home(props: CompProps) {
                 <Text style={styles.title}>5</Text>
               </View>
             </View>
-            <View style={{ flex: 3 }}></View>
           </View>
+          <View style={{ flex: 3 }}></View>
         </View>
 
       </SafeAreaView>
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: '#1E293B',
-    flex: 0.1,
+    minHeight: 60,
     flexDirection: 'row'
   },
   page: {
@@ -181,10 +181,10 @@ const styles = StyleSheet.create({
     left: 0,
     bottom: 0
   },
-  header_image_cont: {
+  banner_image_cont: {
     flex: 1
   },
-  header_image: {
+  banner_image: {
     resizeMode: 'cover',
     width: '100%',
     height: '100%'
@@ -203,12 +203,26 @@ const styles = StyleSheet.create({
   },
   main_title: {
     color: 'white',
-    fontSize: 40,
+    fontSize: 36,
     fontWeight: '600',
     position: 'absolute',
     padding: 20,
     shadowRadius: 5,
     shadowOpacity: 0.6,
-    paddingTop: '28%'
+    bottom: 0
+  },
+  banner: {
+    flex: 1,
+    minHeight: 100
+  },
+  header_image: {
+    width: 120,
+    height: 30,
+    resizeMode: 'cover'
+  },
+  profile_pic: {
+    borderRadius: 100,
+    width: 70,
+    height: 70
   }
 });

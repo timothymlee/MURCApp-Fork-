@@ -15,10 +15,11 @@ const Stack = createNativeStackNavigator();
 /* Structure will be:
 
     <Stack.Screen ... />
-    {props => (...)}
 
     for each screen. Must be imported above first.
-    See documentation: https://reactnavigation.org/docs/native-stack-navigator/
+    See documentation: 
+    https://reactnavigation.org/docs/native-stack-navigator/
+    https://reactnavigation.org/docs/nesting-navigators/
 
     The top of the stack is the default page.
 */
@@ -30,12 +31,9 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name = "Home" component = {Home} />
-          {props => (<Home {...props} />)}
+        <Stack.Screen name = "Home" component = {Home} />
         <Stack.Screen name = "Index" component = {Index} />
-          {props => (<Index {...props} />)}
         <Stack.Screen name = "Chapel" component = {Chapel} />
-          {props => (<Chapel {...props} />)}
       </Stack.Navigator>
     </NavigationContainer>
   );

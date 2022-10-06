@@ -27,12 +27,12 @@ export default function Home(props: CompProps) {
     <>
       <SafeAreaView style={styles.page}>
 
-        <Overlay isVisible={visible} onBackdropPress={toggleOverlay} overlayStyle={styles.overlay}>
+      <Overlay isVisible={visible} onBackdropPress={toggleOverlay} overlayStyle={styles.overlay}>
           <View style={{ flex: 1 }}></View>
           <View style={styles.profile_overlay}>
-            <View style={{ flex: 2, flexDirection: 'row' }}>
+            <View style={{ flex: 2, minHeight: 40, flexDirection: 'row' }}>
               <View style={{ flex: 1, alignItems: 'flex-start' }}>
-                <Icon name="person-circle-outline" type="ionicon" size={80} color={'black'}></Icon>
+                <Image source={require('../assets/images/default_pfp.png')} style={styles.profile_pic}/>
               </View>
               <View style={{ flex: 1, alignItems: 'flex-end' }}>
                 <Pressable onPress={toggleOverlay}>
@@ -40,14 +40,14 @@ export default function Home(props: CompProps) {
                 </Pressable>
               </View>
             </View>
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, minHeight: 16 }}>
               <Text style={{ color: 'black', fontSize: 30 }}>Joe Jenkins</Text>
             </View>
-            <View style={{ flex: 1.5 }}>
+            <View style={{ flex: 1.5, minHeight: 24 }}>
               <Text style={{ color: 'gray', fontSize: 20 }}>jj1234</Text>
             </View>
 
-            <View style={{ flex: 1, flexDirection: 'row' }}>
+            <View style={{ flex: 1, minHeight: 16, flexDirection: 'row' }}>
               <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
                 <Icon name="person-circle" type="ionicon" size={30} color={'black'}></Icon>
               </View>
@@ -55,7 +55,7 @@ export default function Home(props: CompProps) {
                 <Text style={{ color: 'black', fontSize: 20 }}>Profile</Text>
               </View>
             </View>
-            <View style={{ flex: 1, flexDirection: 'row' }}>
+            <View style={{ flex: 1, minHeight: 16, flexDirection: 'row' }}>
               <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
                 <Icon name="fast-food" type="ionicon" size={30} color={'black'}></Icon>
               </View>
@@ -63,7 +63,7 @@ export default function Home(props: CompProps) {
                 <Text style={{ color: 'black', fontSize: 20 }}>Allergies and Preferences</Text>
               </View>
             </View>
-            <View style={{ flex: 1, flexDirection: 'row' }}>
+            <View style={{ flex: 1, minHeight: 16, flexDirection: 'row' }}>
               <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
                 <Icon name="image" size={30} color={'black'}></Icon>
               </View>
@@ -72,8 +72,8 @@ export default function Home(props: CompProps) {
               </View>
             </View>
 
-            <View style={{ flex: 8 }}></View>
-            <View style={{ flex: 1, flexDirection: 'row'  }}>
+            <View style={{ flex: 10 }}></View>
+            <View style={{ flex: 1, minHeight: 16, flexDirection: 'row'  }}>
               <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
                   <Icon name="log-out" type="feather" size={30} color={'black'}></Icon>
                 </View>
@@ -92,7 +92,7 @@ export default function Home(props: CompProps) {
             </Pressable>
           </View>
           <View style={[styles.header_content, { alignItems: 'center' }]}>
-            <Text style={{ color: 'white', fontSize: 32 }}>MU</Text>
+            <Image source={require('../assets/images/messiah_logo.png')} style={styles.header_image}/>
           </View>
           <View style={[styles.header_content, { alignItems: 'flex-end' }]}>
             <Pressable onPress={() => props.navigation.navigate('Home')}>
@@ -101,13 +101,15 @@ export default function Home(props: CompProps) {
           </View>
         </View>
 
-        <ScrollView style={styles.app_container}>
-          <Button style={styles.button} onPress={() => props.navigation.navigate('Chapel')}>Chapel</Button>
-          <ImageBackground source={image} resizeMode="cover" style={styles.image} >
+        <View style={styles.app_container}>
+          <ImageBackground source={image} style={styles.bg_image} >
+            <ScrollView style={styles.app_container}>
+              <Button style={styles.button} onPress={() => props.navigation.navigate('Chapel')}>Chapel</Button>
               <Widget/>
+              <Text style={{fontSize: 20, color: 'white'}}>Data = {textString}</Text>
+            </ScrollView>
           </ImageBackground>
-          <Text style={{fontSize: 20, color: 'white'}}>Data = {textString}</Text>
-        </ScrollView>
+        </View>
 
         <KeyboardAvoidingView style={styles.search_container} behavior="position">
           <SearchBar
@@ -131,20 +133,21 @@ export default function Home(props: CompProps) {
 
 const styles = StyleSheet.create({
   app_container: {
-    flex: 7.1
+    flex: 1
   },
-  image:{
+  bg_image:{
+    justifyContent: "center",
     flex: 1,
-    justifyContent: "center"
+    resizeMode: 'cover'
   },
   header: {
     backgroundColor: '#1E293B',
-    flex: 0.1,
+    minHeight: 60,
     flexDirection: 'row'
   },
   search_container: {
     backgroundColor: '#1E293B',
-    flex: 0.14
+    minHeight: 70,
   },
   page: {
     backgroundColor: '#1E293B',
@@ -172,5 +175,15 @@ const styles = StyleSheet.create({
   },
   button: {
     padding: 20
+  },
+  profile_pic: {
+    borderRadius: 100,
+    width: 70,
+    height: 70
+  },
+  header_image: {
+    width: 120,
+    height: 30,
+    resizeMode: 'cover'
   }
 });
