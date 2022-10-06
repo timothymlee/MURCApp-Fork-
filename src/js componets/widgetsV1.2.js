@@ -75,13 +75,6 @@ export default class Widget extends React.Component {
 
   _renderItem = (item, index, isMoved) => {
 
-
-    
-    
-     
-     
-
-    
     const {movedKey} = this.state
     return (
       <TouchableOpacity
@@ -100,8 +93,6 @@ export default class Widget extends React.Component {
         onPressOut = {() => this.sortableViewRef.current.onPressOut()}
       >
        
-        
-      
       {(() => {
         
         // each if statement can be used for a widget
