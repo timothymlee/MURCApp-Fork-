@@ -1,86 +1,27 @@
-import { ImageBackground, Pressable, Image, StyleSheet, SafeAreaView, Text, TextInput, View, KeyboardAvoidingView, Keyboard, ScrollView } from "react-native";
+import { Pressable, Image, StyleSheet, SafeAreaView, Text, View } from "react-native";
 import React, { useState } from 'react';
-import { Icon, SearchBar, Button, Overlay } from "@rneui/themed";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { Icon, Slider } from "@rneui/themed";
 
 type CompProps = {
   // We are only using the navigate and goBack functions
   navigation: { navigate: Function; };
 };
 
-export default function Home(props: CompProps) {
+export default function Chapel(props: CompProps) {
 
   const [visible, setVisible] = useState(false);
-
-  const toggleOverlay = () => {
-    setVisible(!visible);
-  };
+  var attended = 6;
+  var adjustment = 0;
+  var required = 14;
+  var remaining = required - attended - adjustment;
 
   return (
     <>
       <SafeAreaView style={styles.page}>
 
-      <Overlay isVisible={visible} onBackdropPress={toggleOverlay} overlayStyle={styles.overlay}>
-          <View style={{ flex: 1 }}></View>
-          <View style={styles.profile_overlay}>
-            <View style={{ flex: 2, minHeight: 40, flexDirection: 'row' }}>
-              <View style={{ flex: 1, alignItems: 'flex-start' }}>
-                <Image source={require('../assets/images/default_pfp.png')} style={styles.profile_pic}/>
-              </View>
-              <View style={{ flex: 1, alignItems: 'flex-end' }}>
-                <Pressable onPress={toggleOverlay}>
-                  <Icon name="close" size={44} color={'black'}></Icon>
-                </Pressable>
-              </View>
-            </View>
-            <View style={{ flex: 1, minHeight: 16 }}>
-              <Text style={{ color: 'black', fontSize: 30 }}>Joe Jenkins</Text>
-            </View>
-            <View style={{ flex: 1.5, minHeight: 24 }}>
-              <Text style={{ color: 'gray', fontSize: 20 }}>jj1234</Text>
-            </View>
-
-            <View style={{ flex: 1, minHeight: 16, flexDirection: 'row' }}>
-              <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
-                <Icon name="person-circle" type="ionicon" size={30} color={'black'}></Icon>
-              </View>
-              <View style={{ flex: 6, justifyContent: 'center' }}>
-                <Text style={{ color: 'black', fontSize: 20 }}>Profile</Text>
-              </View>
-            </View>
-            <View style={{ flex: 1, minHeight: 16, flexDirection: 'row' }}>
-              <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
-                <Icon name="fast-food" type="ionicon" size={30} color={'black'}></Icon>
-              </View>
-              <View style={{ flex: 6, justifyContent: 'center' }}>
-                <Text style={{ color: 'black', fontSize: 20 }}>Allergies and Preferences</Text>
-              </View>
-            </View>
-            <View style={{ flex: 1, minHeight: 16, flexDirection: 'row' }}>
-              <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
-                <Icon name="image" size={30} color={'black'}></Icon>
-              </View>
-              <View style={{ flex: 6, justifyContent: 'center' }}>
-                <Text style={{ color: 'black', fontSize: 20 }}>Background Image</Text>
-              </View>
-            </View>
-
-            <View style={{ flex: 10 }}></View>
-            <View style={{ flex: 1, minHeight: 16, flexDirection: 'row'  }}>
-              <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
-                  <Icon name="log-out" type="feather" size={30} color={'black'}></Icon>
-                </View>
-                <View style={{ flex: 6, justifyContent: 'center' }}>
-                  <Text style={{ color: 'black', fontSize: 20 }}>Log Out</Text>
-                </View>
-              </View>
-            <View style={{ flex: 1.5, backgroundColor: null }}></View>
-          </View>
-        </Overlay>
-
         <View style={styles.header}>
           <View style={[styles.header_content, { alignItems: 'flex-start' }]}>
-            <Pressable onPress={toggleOverlay}>
+            <Pressable onPress={() => props.navigation.navigate('Settings')}>
               <Icon name="person" style={styles.header_icons} size={44} color={'white'}></Icon>
             </Pressable>
           </View>
@@ -104,6 +45,24 @@ export default function Home(props: CompProps) {
           
           <View style={{ flex: 3, minHeight: 80 }}>
             <View style={styles.progress_container}>
+              <Slider
+                disabled
+                maximumTrackTintColor="#fff"
+                maximumValue={required}
+                minimumTrackTintColor="#6EB3F2"
+                minimumValue={0}
+                orientation="horizontal"
+                step={1}
+                style={{ width: "90%" }}
+                thumbTintColor="null"
+                trackStyle={{
+                  height: 30,
+                  borderRadius: 20,
+                  borderWidth: 5,
+                  borderColor: "#B8B8B8"
+                }}
+                value={attended}
+              />
             </View>
 
             <View style={{flex: 0.5, flexDirection: 'row', paddingHorizontal: 20}}>
@@ -116,10 +75,10 @@ export default function Home(props: CompProps) {
             </View>
             <View style={{flex: 0.5, flexDirection: 'row', paddingHorizontal: 20}}>
               <View style={{flex: 1}}>
-                <Text style={styles.title}>9</Text>
+                <Text style={styles.title}>{attended}</Text>
               </View>
               <View style={{flex: 1}}>
-                <Text style={styles.title}>14</Text>
+                <Text style={styles.title}>{required}</Text>
               </View>
             </View>
             <View style={{flex: 0.5, flexDirection: 'row', paddingHorizontal: 20}}>
@@ -132,10 +91,10 @@ export default function Home(props: CompProps) {
             </View>
             <View style={{flex: 0.5, flexDirection: 'row', paddingHorizontal: 20}}>
               <View style={{flex: 1}}>
-                <Text style={styles.title}>0</Text>
+                <Text style={styles.title}>{adjustment}</Text>
               </View>
               <View style={{flex: 1}}>
-                <Text style={styles.title}>5</Text>
+                <Text style={styles.title}>{remaining}</Text>
               </View>
             </View>
           </View>
@@ -191,7 +150,8 @@ const styles = StyleSheet.create({
   },
   progress_container: {
     flex: 0.6,
-    backgroundColor: 'gray'
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   subtitle: {
     color: '#1E293B'
