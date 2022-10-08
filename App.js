@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './screens/home';
 import Index from './screens/index';
 import Chapel from './screens/chapel';
+import Settings from './screens/profile_popup';
 
 // Import Cas
 import useCas from "./src/cas/useCas";
@@ -30,10 +31,12 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Navigator screenOptions={{ headerShown: false, animation: 'fade' }}>
         <Stack.Screen name = "Home" component = {Home} />
         <Stack.Screen name = "Index" component = {Index} />
         <Stack.Screen name = "Chapel" component = {Chapel} />
+        <Stack.Screen name = "Settings" component = {Settings} 
+            options={{ fullScreenGestureEnabled: true, presentation: 'transparentModal', gestureDirection: 'horizontal', animation: 'fade'}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
