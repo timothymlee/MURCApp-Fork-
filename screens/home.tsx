@@ -15,7 +15,6 @@ export default function Home(props: CompProps) {
   let textString = readUserData('tl1261');
 
   const [value, setValue] = useState("");
-  const [visible, setVisible] = useState(false);
 
   return (
     <>
@@ -41,6 +40,8 @@ export default function Home(props: CompProps) {
           <ImageBackground source={image} style={styles.bg_image} >
             <ScrollView style={styles.app_container}>
               <Button style={styles.button} onPress={() => props.navigation.navigate('Chapel')}>Chapel</Button>
+              <Button style={styles.button} onPress={() => props.navigation.navigate('UnionMenu')}>Union</Button>
+              <Button style={styles.button} onPress={() => props.navigation.navigate('FalconMenu')}>Falcon</Button>
               <Widget/>
               <Text style={{fontSize: 20, color: 'white'}}>Data = {textString}</Text>
             </ScrollView>

@@ -9,7 +9,6 @@ type CompProps = {
 
 export default function Chapel(props: CompProps) {
 
-  const [visible, setVisible] = useState(false);
   var attended = 6;
   var adjustment = 0;
   var required = 14;
@@ -128,18 +127,6 @@ const styles = StyleSheet.create({
   header_icons: {
     color: 'white'
   },
-  profile_overlay: {
-    backgroundColor: 'white',
-    flex: 8,
-    padding: 20
-  },
-  overlay: {
-    width: '85%',
-    height: '100%',
-    position: 'absolute',
-    left: 0,
-    bottom: 0
-  },
   banner_image_cont: {
     flex: 1
   },
@@ -179,10 +166,5 @@ const styles = StyleSheet.create({
     width: 120,
     height: 30,
     resizeMode: 'cover'
-  },
-  profile_pic: {
-    borderRadius: 100,
-    width: 70,
-    height: 70
   }
 });

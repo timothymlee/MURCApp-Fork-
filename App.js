@@ -7,6 +7,8 @@ import Home from './screens/home';
 import Index from './screens/index';
 import Chapel from './screens/chapel';
 import Settings from './screens/profile_popup';
+import UnionMenu from './screens/union_menu';
+import FalconMenu from './screens/falcon_menu';
 
 // Import Cas
 import useCas from "./src/cas/useCas";
@@ -35,6 +37,8 @@ export default function App() {
         <Stack.Screen name = "Home" component = {Home} />
         <Stack.Screen name = "Index" component = {Index} />
         <Stack.Screen name = "Chapel" component = {Chapel} />
+        <Stack.Screen name = "UnionMenu" component = {UnionMenu} />
+        <Stack.Screen name = "FalconMenu" component = {FalconMenu} />
         <Stack.Screen name = "Settings" component = {Settings} 
             options={{ fullScreenGestureEnabled: true, presentation: 'transparentModal', gestureDirection: 'horizontal', animation: 'fade'}}/>
       </Stack.Navigator>
