@@ -2,6 +2,7 @@ import { Pressable, Image, StyleSheet, SafeAreaView, Text, View, ScrollView } fr
 import React, { useState } from 'react';
 import { Icon, Button, Overlay, ListItem } from "@rneui/themed";
 import {LinearGradient} from 'expo-linear-gradient';
+import * as WebBrowser from 'expo-web-browser';
 
 type CompProps = {
   // We are only using the navigate and goBack functions
@@ -10,6 +11,16 @@ type CompProps = {
 
 export default function FalconMenu(props: CompProps) {
 
+  // For linking to the Union site
+  const [result, setResult] = useState(null);
+
+  const _handlePressButtonAsync = async () => {
+    let result = await WebBrowser.openBrowserAsync('https://falcon.messiah.edu/menu/', {
+      enableBarCollapsing: true,
+      toolbarColor: '#2a3e5e'
+    });
+    setResult(result);
+  };
   // Each drop-down menu needs a set of bool values
   const [expanded1, setExpanded1] = useState(false);
   const [expanded2, setExpanded2] = useState(false);
@@ -225,7 +236,7 @@ export default function FalconMenu(props: CompProps) {
             buttonStyle={styles.button2}
             containerStyle={styles.button2_container}
             titleStyle={{ fontSize: 18 }}
-            onPress={() => props.navigation.navigate('')}
+            onPress={_handlePressButtonAsync}
           />
         </View>
 
