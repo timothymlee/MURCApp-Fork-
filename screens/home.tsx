@@ -42,6 +42,7 @@ export default function Home(props: CompProps) {
               <Button style={styles.button} onPress={() => props.navigation.navigate('Chapel')}>Chapel</Button>
               <Button style={styles.button} onPress={() => props.navigation.navigate('UnionMenu')}>Union</Button>
               <Button style={styles.button} onPress={() => props.navigation.navigate('FalconMenu')}>Falcon</Button>
+              <Button style={styles.button} onPress={() => props.navigation.navigate('Login')}>Log In Page</Button>
               <Widget/>
               <Text style={{fontSize: 20, color: 'white'}}>Data = {textString}</Text>
             </ScrollView>
