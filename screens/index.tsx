@@ -1,8 +1,9 @@
-import { StyleSheet, Button, View, Linking, TouchableOpacity, Image, Text} from "react-native";
-import React, { useState, useEffect } from 'react';
+import { StyleSheet, Button, View, Linking, TouchableOpacity, Image, Text, PanResponder, Animated} from "react-native";
+import React, { useState, useEffect, useRef } from 'react';
 import * as WebBrowser from 'expo-web-browser';
 import { NoUnusedFragmentsRule } from "graphql";
 import { getPositionOfLineAndCharacter } from "typescript";
+import WidgetDefault from "./Widgets/widgetDefault"
 
 type CompProps = {
   // We are only using the navigate and goBack functions
@@ -28,16 +29,27 @@ export default function Index(props: CompProps) {
   return (
    
     <View style={styles.container}>
-      <View style={styles.resourceButtons} >
+      <View style={styles.resourceButtons} 
+      >
       <MapGrid 
       dest={openLink}>  
       </MapGrid>
+      <View
+       onLayout={(event) => {
+        const layout = event.nativeEvent.layout;
+        console.log("Test Widget Position");
+        console.log("x:", layout.x);
+        console.log("y:", layout.y);
+      }}>
+        <WidgetDefault></WidgetDefault>
       </View>
-
+      </View>
+      
       <View style={styles.editButton}>
         <ToggleButton
         ></ToggleButton>
       </View>
+      
     </View> 
   );
 }
@@ -55,7 +67,9 @@ let resources ={
   editing: false,
   positions: [],
   switch: [],
-  toggled: false
+  toggled: false,
+  positionsX: [],
+  positionsY: []
   
 } 
 function openLink(link){
@@ -93,6 +107,9 @@ function  MapGrid (sources){
   if(resources.positions.length == 0){
     for(let i = 0; i < resources.resourcesList.length; i++){
       resources.positions.push(i);
+      //instantiate positions X
+      resources.positionsX.push(0);
+      resources.positionsY.push(0);
     }   
   }
 
@@ -102,7 +119,8 @@ function  MapGrid (sources){
     sourceButtons.push(ResourceButtons(resources.resourcesList[resources.positions[i]], 
       //sources.dest(resources.resourceDestinations[i]), 
       resources.resourceDestinations[resources.positions[i]],
-      resources.positions[i],));
+      resources.positions[i]));
+      //^^ i is being used as a place holder for the x position
   }
   /*useful for position testing
   console.log("Position array V");
@@ -112,22 +130,191 @@ function  MapGrid (sources){
 }
 
 
+
+
+
+
+
+
 function ResourceButtons (name, destination, position) {
   
   let [switching, setSwitching] = React.useState(false);
-  let [editC, setEditC] = React.useState(resources.editing)
+  let [editC, setEditC] = React.useState(resources.editing);
+
   
+  //hopefully the documentation code on the pan responder works
+  const pan = useRef<any>(new Animated.ValueXY()).current;
+  
+  //console.log(pan);
+  const panResponder = useRef(
+    PanResponder.create({
+      onMoveShouldSetPanResponder: () => true,
+      onPanResponderGrant: (e, gestureState) => {
+        //const {locationX, locationY} = e.nativeEvent;
+        //console.log(locationX+" is X");
+        //console.log(locationY+" is Y");
+        
+        /*pan.setOffset({
+          x: 0,
+          y: 0
+        });*/
+        pan.setOffset({
+          x: pan.x._value,
+          y: pan.y._value
+        });
+        console.log(name);
+        console.log("Current positions array vvvv");
+        console.log(resources.positions);
+      },
+      onPanResponderMove: Animated.event(
+        
+        [
+          null,
+          { dx: pan.x, dy: pan.y }
+        ],
+        {useNativeDriver: false}
+        
+      ),
+      onPanResponderRelease: (e, gestureState) => {
+        let point = position;
+        let dest = position;
+
+        //flatten offset is to keep the current
+        //position that the button is moved to.
+        //setting values to 0 cause button to return to orignal spot
+        //setSwitch just for updating
+        setSwitching(!switching);
+        if(resources.editing==false)
+        {
+          for(let i = 0; i < resources.positionsX.length; i++)
+        {
+          
+            if(
+            (((resources.positionsX[position]+gestureState.dx >= resources.positionsX[i]-40) && 
+            (resources.positionsX[position]+gestureState.dx <= resources.positionsX[i]+40))
+            && 
+            (((resources.positionsY[position]+gestureState.dy >= resources.positionsY[i]-40) && 
+            (resources.positionsY[position]+gestureState.dy <= resources.positionsY[i]+40))))
+            && 
+            (position!=i) 
+            )
+            /*
+            if(
+              (((gestureState.moveX+gestureState.dx >= resources.positionsX[i]-80) && 
+              (gestureState.moveX+gestureState.dx <= resources.positionsX[i]+80))
+              && 
+              (((gestureState.moveY+gestureState.dy >= resources.positionsY[i]-80) && 
+              (gestureState.moveY+gestureState.dy <= resources.positionsY[i]+80))))
+              && 
+              (position!=i) 
+              )*/
+            /*
+            if(
+              (((gestureState.moveX-90 >= resources.positionsX[i]-40) && 
+              (gestureState.moveX-90 <= resources.positionsX[i]+40))
+              && 
+              (((resources.positionsY[position]+gestureState.dy >= resources.positionsY[i]-40) && 
+              (resources.positionsY[position]+gestureState.dy <= resources.positionsY[i]+40))))
+              && 
+              (position!=i) 
+              )*/
+          {
+            
+            //if within range of another button, swaps the buttons.
+            console.log("within range!");
+            //vvvv can't be used to re-sort array due to automatic updating of positions.
+            let posCurX = resources.positionsX[position];
+            let posSwapX = resources.positionsX[i];
+            let posCurY = resources.positionsY[position];
+            let posSwapY = resources.positionsY[i];
+            /*
+            pan.setOffset({
+              x: posSwap,
+              y:0
+            })*/
+            
+            //reinstate later
+            /*
+            resources.positionsX[i] = posCurX;
+            resources.positionsX[position] = posSwapX;
+            resources.positionsY[i] = posCurY;
+            resources.positionsY[position] = posSwapY;
+            console.log(resources.positionsX);
+            console.log(resources.positionsY);
+            */
+
+
+            /* re instate later
+            resources.positions[position] = i;
+            resources.positions[i] = position;
+            console.log("Updated Positions vvv");
+            console.log(resources.positions);
+            //need to find way to update pan / transform / or layout with the newly swapped positions.
+            //Pan only responds when actually used for the individual instances :(
+            //Switching here just for the reponsiveness, need to gut the old switching stuff then.
+           
+        
+            setSwitching(!switching);
+            
+            //break;
+            */
+           //the issue is with how to calculate the positon of the buttons
+           //and where it is in the array.
+           //right now the location of the card is put in the same place as its position
+           //This is makes sense, as the exact positons change when swapping, but
+           //makes it hard to calculate when the position of the button is close
+           //to the desired button to be swapped.
+          setSwitching(!switching);
+           point = i;
+           dest = position;
+                        
+          }
+          else
+          {
+            console.log("Outside range!")
+            pan.setValue({
+              x: 0,
+              y: 0,
+            });
+          }
+        }
+        }
+
+        pan.flattenOffset();
+        resources.positions[point] = dest;
+        resources.positions[dest] = point;
+
+        console.log("abs x value: " + gestureState.moveX);
+        console.log("abs y value: " + gestureState.moveY);
+        console.log("dx: " + gestureState.dx);
+        console.log("dy: " + gestureState.dy);
+        console.log("x0: " + gestureState.x0);
+        console.log("y0: " + gestureState.y0);
+        console.log(resources.positionsX);
+        console.log(resources.positionsY);
+        console.log(resources.positions);
+        setSwitching(!switching);
+        
+        
+      }
+    })
+  ).current;
+
+
+
   if( editC == true){
     destination = handleButtonSwap;
   }
   //switching is used to force the buttons to re-render
   function handleButtonSwap(e){
     setSwitching(!switching);
-    if (resources.editing == true)
+    //if (resources.editing == true)
+    if(editC == true)
     {      
       if (resources.switch.length < 1)
       {
-        resources.switch.push(position);  
+        //pushes the current button to be swapped into the switch array
+        resources.switch.push(position); 
       }
      else
     {
@@ -155,9 +342,11 @@ function ResourceButtons (name, destination, position) {
       
     }
   }
-  function onMouseEnter(e){
+  function onButtonPress(e){
     //used to update the buttons with the boolean of resources.editing
     //without this check, it will load the links before one can edit, when in edit mode.
+    console.log(name);
+    console.log("Pressed");
     setSwitching(!switching);
     if(resources.editing == true){
       destination=handleButtonSwap;
@@ -168,27 +357,76 @@ function ResourceButtons (name, destination, position) {
     }
 
   }
+  function onHoldingPress(e){
+    console.log("longPress");
+  }
+  function onRelease(){
+    console.log("Released");
+  }
 
+  
   let rButton =<TouchableOpacity
   //color={styles.resourceButtons.color} 
-  style={styles.opacityWrapper}
+  //right now, when a user is editing, pressing on a button causes it
+  //to be moved to the left by a factor of 5.
+  //Hopefully changing this to touch / mouse pos will allow for a proper drag and drop.
+  style={[styles.buttonSize3]}
   //title={name+""} 
-  onPress={onMouseEnter}
+  /*
+  delayPressIn={500}
+  onPressIn={onHoldingPress}
+  pressRetentionOffset={{left:100, top:100, right:100, bottom:100}}
+  delayLongPress={700}
+  onLongPress={onHoldingPress}
+  onPressOut={onButtonPress}
+  delayPressOut={1500}*/
+  onPress={onButtonPress}
+  onPressOut={onRelease}
+  
 
+  
+  
+
+  
+  
   >
     <Image source={resources.resourceImages[position]}/>
     <Text style={{color: "#ffffff"}}>{name}</Text>
   </TouchableOpacity>
-  let finalCard = <View style={styles.resourceButtons} 
-  >
+
+  //}
+  let finalCard = <Animated.View onLayout={(event) => {
+    const layout = event.nativeEvent.layout;
+    console.log("Intial Layout on render / re-render");
+    resources.positionsX[position] = layout.x;
+    resources.positionsY[position] = layout.y;
+    console.log("x positions vvv");
+    console.log(resources.positionsX[position]);
+    console.log(resources.positionsX);
+    console.log("y positions vvvv");
+    console.log(resources.positionsY[position]);
+    console.log(resources.positionsY);
+    console.log("height:", layout.height);
+    console.log("width:", layout.width);
+    console.log(name+" position");
+    console.log("x:", layout.x);
+    console.log("y:", layout.y);
+  }}
+  style={{
+    transform: [{ translateX: pan.x }, { translateY: pan.y }]
+  }}
+  
+  {...panResponder.panHandlers}
+  > 
+    
+  <View style={styles.resourceButtons}>
   {rButton}
-
-
   </View>
-
+  
+  
+  </Animated.View>
   return( <>
     {finalCard}
-  
     </>
     
   )
@@ -211,9 +449,9 @@ let styles = StyleSheet.create({
     flexWrap: "wrap",
     marginTop:"5%",
     marginLeft: "5%",
-    marginBottom: "10%",
+    marginBottom: "5%",
     position: "relative",
-    color: "#5EAEF9",
+
 
 
     
@@ -231,8 +469,27 @@ let styles = StyleSheet.create({
   opacityWrapper: {
     alignItems: 'center',
     backgroundColor: '#5EAEF9',
+    padding: 15,
+    
+  },
+  buttonSize1: {
+    alignItems: 'center',
+    backgroundColor: '#5EAEF9',
+    padding: 10
+  },
+  buttonSize2: {
+    alignItems: 'center',
+    backgroundColor: '#5EAEF9',
+    padding: 15
+
+  },
+  buttonSize3: {
+    alignItems: 'center',
+    backgroundColor: '#5EAEF9',
     padding: 30
-  }
+
+  },
+  
 });
 
 
