@@ -17,7 +17,7 @@ import React, { useState } from 'react';
 
   const Range = () => {
     const [value, setValue] = useState(null);
-    const [isFocus, setIsFocus] = useState(false);
+    const [isFocus, setIsFocus] = useState(true);
 
     const renderLabel = () => {
       if (value || isFocus) {
@@ -40,10 +40,11 @@ import React, { useState } from 'react';
           iconStyle={styles.iconStyle}
           data={rangeData}
           
+          backgroundColor={'rgba(52, 52, 52, 0.8)'}
           maxHeight={300}
           labelField="label"
           valueField="value"
-          placeholder={!isFocus ? 'Past Month' : '4'}
+          placeholder={!isFocus ? 'Past Month' : 'Past Month'}
           value={value}
           onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(false)}
@@ -65,7 +66,7 @@ import React, { useState } from 'react';
   };
   const Account = () => {
     const [value, setValue] = useState(null);
-    const [isFocus, setIsFocus] = useState(false);
+    const [isFocus, setIsFocus] = useState(true);
 
     const renderLabel = () => {
       if (value || isFocus) {
@@ -89,9 +90,11 @@ import React, { useState } from 'react';
           data={accountData}
           
           maxHeight={300}
+          backgroundColor={'rgba(52, 52, 52, 0.8)'}
+
           labelField="label"
           valueField="value"
-          placeholder={!isFocus ? '02182621' : '...'}
+          placeholder={!isFocus ? '02182621' : '02182621'}
           value={value}
           onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(false)}
@@ -124,7 +127,7 @@ import React, { useState } from 'react';
     dropdown: {
       height: 50,
       borderColor: 'gray',
-      borderWidth: 0.5,
+      borderWidth: 1,
       borderRadius: 8,
       paddingHorizontal: 8,
     },

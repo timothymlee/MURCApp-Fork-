@@ -77,7 +77,7 @@ export default function IadfvnbdBalance(props: CompProps) {
         <View style={styles.app_container}>
           
           <View>            
-            <Text style={styles.title}>ID Card Balance</Text>
+            <Text style={styles.title}>Dining Dollars</Text>
           </View>
 
           <View >
@@ -85,11 +85,11 @@ export default function IadfvnbdBalance(props: CompProps) {
                 {title.map((l, i) => (
                     <ListItem key={i}>
                     <ListItem.Content style={styles.row}>
-                        <ListItem.Title style={styles.rowItem}>{title[i][0]}</ListItem.Title>
-                        <ListItem.Title style={styles.rowItem}>{title[i][1]}</ListItem.Title>
-                        <ListItem.Title style={styles.rowItem}>{title[i][2]}</ListItem.Title>
-                        <ListItem.Title style={styles.rowItem}>{title[i][3]}</ListItem.Title>
-                        <ListItem.Title style={styles.rowItem}>{title[i][4]}</ListItem.Title>
+                        <ListItem.Title style={styles.rowItemTitle}>{title[i][0]}</ListItem.Title>
+                        <ListItem.Title style={styles.rowItemTitle}>{title[i][1]}</ListItem.Title>
+                        <ListItem.Title style={styles.rowItemTitle}>{title[i][2]}</ListItem.Title>
+                        <ListItem.Title style={styles.rowItemTitle}>{title[i][3]}</ListItem.Title>
+                        <ListItem.Title style={styles.rowItemTitle}>{title[i][4]}</ListItem.Title>
 
                     </ListItem.Content>
                     </ListItem>
@@ -145,15 +145,28 @@ const styles = StyleSheet.create({
     flex: 1
   },
   scroll: {
-    height: "50%",
+    height: "43%",
+    
+    backgroundColor:'red'
   },
  
   row: {
     flexDirection: "row"
   },
   rowItem:{
-    width: "20%",
-    textAlign: "center"
+    width: "19%",
+    textAlign: "center",
+    fontSize: 12,
+    paddingRight: "0%"
+  },
+  rowItemTitle:{
+    width: "19%",
+    fontSize: 12,
+    color:'#968C8C',
+    textAlign: "center",
+    fontWeight: '700',
+    textDecorationLine: 'underline',
+    paddingRight: "0%"
   },
   header_content: {
     flex: 1,
@@ -185,10 +198,12 @@ const styles = StyleSheet.create({
   },
   title: {
     color: '#1E293B',
-    fontSize: 20,
+    fontSize: 28,
     fontWeight: '700',
     padding: 10,
-    marginTop: 10
+    marginTop: 25,
+    marginLeft: 15
+
 
   },
   main_title: {
@@ -212,12 +227,12 @@ const styles = StyleSheet.create({
     
   },
   box: {
-    backgroundColor: 'blue',
+    backgroundColor: '#54A6F2',
     width: "35%",
-    borderRadius: 25,
+    borderRadius: 15,
     alignItems: 'center',
     margin: 20,
-    marginTop: '2%',
+    marginTop: '6%',
     marginRight:'6%',
     alignSelf: 'flex-end'
   },

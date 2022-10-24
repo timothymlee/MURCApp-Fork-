@@ -10,7 +10,10 @@ import Settings from './screens/profile_popup';
 import UnionMenu from './screens/union_menu';
 import FalconMenu from './screens/falcon_menu';
 import Login from './screens/login';
-import Gym from './screens/id_balance';
+import Gym from './screens/gym';
+import DiningDollars from './screens/dining_dollars';
+import FalconDollars from './screens/falcon_dollars';
+
 
 // Import Cas
 import useCas from "./src/cas/useCas";
@@ -43,6 +46,8 @@ export default function App() {
         <Stack.Screen name = "FalconMenu" component = {FalconMenu} />
         <Stack.Screen name = "Login" component = {Login} />
         <Stack.Screen name = "Gym" component = {Gym} />
+        <Stack.Screen name = "FalconDollars" component = {FalconDollars} />
+        <Stack.Screen name = "DiningDollars" component = {DiningDollars} />
         <Stack.Screen name = "Settings" component = {Settings} 
             options={{ fullScreenGestureEnabled: true, presentation: 'transparentModal', gestureDirection: 'horizontal', animation: 'fade'}}/>
       </Stack.Navigator>
