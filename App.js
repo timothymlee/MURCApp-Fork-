@@ -10,7 +10,7 @@ import Settings from './screens/profile_popup';
 import UnionMenu from './screens/union_menu';
 import FalconMenu from './screens/falcon_menu';
 import Login from './screens/login';
-import Gym from './screens/gym';
+import Gym from './screens/id_balance';
 
 // Import Cas
 import useCas from "./src/cas/useCas";
