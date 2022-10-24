@@ -14,7 +14,7 @@ type CompProps = {
   navigation: { navigate: Function; };
 };
 
-export default function IadfvnbdBalance(props: CompProps) {
+export default function DiningDollars(props: CompProps) {
     var balance = '$'+'478.23';
     const [expanded1, setExpanded1] = useState(false);
     const [expanded2, setExpanded2] = useState(false);
@@ -77,10 +77,10 @@ export default function IadfvnbdBalance(props: CompProps) {
         <View style={styles.app_container}>
           
           <View>            
-            <Text style={styles.title}>ID Card Balance</Text>
+            <Text style={styles.title}>Dining Dollars</Text>
           </View>
 
-          <View >
+          <View>
                 <View>
                 {title.map((l, i) => (
                     <ListItem key={i}>
