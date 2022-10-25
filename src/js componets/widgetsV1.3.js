@@ -28,7 +28,6 @@ const getW = (index, isWidth) => isWidth ? index % 3 === 0 ? (width - 40) : (wid
  const widgetsizeS =((width * .4270072992))
  const widgetsizeM = ((width * .669))
  const widgetsizeL = ((width * .9002))
-
  const currDate= Date.now()
  const dt = new Date(currDate)
  var day = ["Monday","Tuesday", "Weunsday", "Thursday", "Friday", "Saterday", "Sunday"]
@@ -45,21 +44,21 @@ export default class Widget extends React.Component {
   constructor(props) {
     super(props);
     const items =  [
-    {"color":"#5eaef9","type":"app","key": "1", "height": iconsize, icon: require('../assets/img/phone.png'), "text": " ", "width": iconsize,"title":"Resource", "link":" ","page":" "},
-    {"color":"#5eaef9","type":"app","key": "2","height": iconsize, icon: require('../assets/img/laptop.png'), "text": " ", "width": iconsize,"title":"Resource", "link":" ","page":" "},
-    {"color":"#5eaef9","type":"app","key": "3","height": iconsize, icon: require('../assets/img/gavel.png'), "text": " ", "width": iconsize,"title":"Resource", "link":" ","page":" "},
-    {"color":"#5eaef9","type":"app","key": "4","height": iconsize, icon: require('../assets/img/dollar.png'), "text": " ", "width": iconsize,"title":"Resource", "link":" ","page":" "}, 
-    {"color":"#D8D02F","type":"widget1","key": "5","height": widgetsizeS,"width": widgetsizeS,"title":"ID Card Balance", "link":"", "link":" ","page":" "}, 
-    {"color":"#4552C9","type":"widget2","key": "6","height": widgetsizeS,"width": widgetsizeS,"title":"Chapel Attendance", "link":"", "link":" ","page":" "},
-    {"color":"#53AE4B","type":"widget3","key": "7","height":widgetsizeS,"width": widgetsizeL ,"title":"Lottie Menu", "link":" ","page":" "},
-    {"color":"#5eaef9","type":"app","key": "8","height": iconsize, icon: require('../assets/img/book.png'), "text": " ", "width": iconsize,"title":"Resource", "link":" ","page":" "},
-    {"color":"#5eaef9","type":"app","key": "9","height": iconsize, icon: require('../assets/img/target.png'), "text": " ", "width": iconsize,"title":"Resource", "link":" ","page":" "},
-    {"color":"#5eaef9","type":"app","key": "10","height": iconsize, icon: require('../assets/img/health.png'), "text": " ", "width": iconsize,"title":"Resource", "link":" ","page":" "},
-    {"color":"#5eaef9","type":"app","key": "11","height": iconsize, icon: require('../assets/img/calander.png'), "text": " ", "width": iconsize,"title":"Resource", "link":" ","page":" "},
-    {"color":"#5eaef9","type":"app","key": "12","height": iconsize, icon: require('../assets/img/people.png'), "text": " ", "width": iconsize,"title":"Resource", "link":" ","page":" "},
-    {"color":"#5eaef9","type":"app","key": "13","height": iconsize, icon: require('../assets/img/food.png'), "text": " ", "width": iconsize,"title":"Union Cafe", "link":"https://union.messiah.edu/menu/","page":" "},
-    {"color":"#5eaef9","type":"app","key": "14","height": iconsize, icon: require('../assets/img/food.png'), "text": " ", "width": iconsize,"title":"The Falcon", "link":"http://falcon.messiah.edu/","page":" "},
-    {"color":"none","type":"null","key": "15","height": iconsize, "text": " ", "width": widgetsizeL,"title":" ", "link":" ","page":" "}];
+    {"color":"#5eaef9","type":"app"    ,"key": "1" ,"height": iconsize   , icon: require('../assets/img/phone.png'), "text": " ",     "width": iconsize,    "title":"Resource",           "link":" ",                               "page":" ", "nav": " "},
+    {"color":"#5eaef9","type":"app"    ,"key": "2" ,"height": iconsize   , icon: require('../assets/img/laptop.png'), "text": " ",    "width": iconsize,    "title":"Resource",           "link":" ",                               "page":" ", "nav": " "},
+    {"color":"#5eaef9","type":"app"    ,"key": "3" ,"height": iconsize   , icon: require('../assets/img/gavel.png'), "text": " ",     "width": iconsize,    "title":"Resource",           "link":" ",                               "page":" ", "nav": " "},
+    {"color":"#5eaef9","type":"app"    ,"key": "4" ,"height": iconsize   , icon: require('../assets/img/dollar.png'), "text": " ",    "width": iconsize,    "title":"Resource",           "link":" ",                               "page":" ", "nav": " "}, 
+    {"color":"#D8D02F","type":"widget1","key": "5" ,"height": widgetsizeS,                                                            "width": widgetsizeS, "title":"ID Card Balance",    "link":"",                                "page":" ", "nav": 'DiningDollars'}, 
+    {"color":"#4552C9","type":"widget2","key": "6" ,"height": widgetsizeS,                                                            "width": widgetsizeS, "title":"Chapel Attendance",  "link":"",                                "page":" ", "nav": " "},
+    {"color":"#53AE4B","type":"widget3","key": "7" ,"height":widgetsizeS ,                                                            "width": widgetsizeL, "title":"Lottie Menu",        "link":" ",                               "page":" ", "nav": " "},
+    {"color":"#5eaef9","type":"app"    ,"key": "8" ,"height": iconsize   , icon: require('../assets/img/book.png'), "text": " ",      "width": iconsize,    "title":"Resource",           "link":" ",                               "page":" ", "nav": " "},
+    {"color":"#5eaef9","type":"app"    ,"key": "9" ,"height": iconsize   , icon: require('../assets/img/target.png'), "text": " ",    "width": iconsize,    "title":"Resource",           "link":" ",                               "page":" ", "nav": " "},
+    {"color":"#5eaef9","type":"app"    ,"key": "10","height": iconsize   , icon: require('../assets/img/health.png'), "text": " ",    "width": iconsize,    "title":"Resource",           "link":" ",                               "page":" ", "nav": " "},
+    {"color":"#5eaef9","type":"app"    ,"key": "11","height": iconsize   , icon: require('../assets/img/calander.png'), "text": " ",  "width": iconsize,    "title":"Resource",           "link":" ",                               "page":" ", "nav": " "},
+    {"color":"#5eaef9","type":"app"    ,"key": "12","height": iconsize   , icon: require('../assets/img/people.png'), "text": " ",    "width": iconsize,    "title":"Resource",           "link":" ",                               "page":" ", "nav": " "},
+    {"color":"#5eaef9","type":"app"    ,"key": "13","height": iconsize   , icon: require('../assets/img/food.png'), "text": " ",      "width": iconsize,    "title":"Union Cafe",         "link":"https://union.messiah.edu/menu/", "page":" ", "nav": " "},
+    {"color":"#5eaef9","type":"app"    ,"key": "14","height": iconsize   , icon: require('../assets/img/food.png'), "text": " ",      "width": iconsize,    "title":"The Falcon",         "link":"http://falcon.messiah.edu/",      "page":" ", "nav": " "},
+    {"color":"none"   ,"type":"null"   ,"key": "15","height": iconsize   ,                                           "text": " ",     "width": widgetsizeL, "title":" ",                  "link":" ",                               "page":" "}];
 
     this.state = { 
         items,
@@ -81,9 +80,11 @@ export default class Widget extends React.Component {
     return (
       <TouchableOpacity
         onPress={() => {
-           
+          
           if(item.link != " "){
             WebBrowser.openBrowserAsync(item.link);
+          } else if (item.nav != " "){
+            navigation.navigate(item.nav);
           }
           }}
         onLongPress={() => {
