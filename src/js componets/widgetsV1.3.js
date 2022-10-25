@@ -16,6 +16,8 @@ var balance = "$623.71"
 var Menu = "Grilled Chicken Caesar Wrap        Italian Lasagna"
 var active = false;
 const {width} = Dimensions.get('window')
+const {height} = Dimensions.get('window')
+console.log("width: "+width +" hieght: " + height)
 const headerViewHeight = 160
 const bottomViewHeight = 40
 
@@ -74,7 +76,7 @@ export default class Widget extends React.Component {
   }
 
   _renderItem = (item, index, isMoved) => {
-
+  
     const {movedKey} = this.state
     return (
       <TouchableOpacity
@@ -92,6 +94,8 @@ export default class Widget extends React.Component {
         onPressOut = {() => this.sortableViewRef.current.onPressOut()}
       >
        
+        
+      
       {(() => {
         
         // each if statement can be used for a widget
@@ -130,7 +134,7 @@ export default class Widget extends React.Component {
                   return (
                     <View>
                       <View>
-                        <Text style={{color:'white',textAlign: 'center',width: widgetsizeS * .90, height: widgetsizeS, resizeMode: 'contain'}}>
+                        <Text style={{color:'white',textAlign: 'center',width: (widgetsizeS * .90)-20, height: (widgetsizeS)-20, resizeMode: 'contain'}}>
                           <Text>{"Chapel Attendance"}{"\n"}</Text> 
                           <Text style={{fontSize:100,fontWeight:'bold'}}>{chaple}{"\n"}</Text>
                           <Text>{"/14"}</Text>
@@ -143,7 +147,7 @@ export default class Widget extends React.Component {
                   return (
                       <View>
                       <Text style={{color:'white',textAlign: 'center',width: widgetsizeS * .90, height: widgetsizeS, resizeMode: 'contain'}}>
-                          <Text>{"ID Card Balance"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}</Text>
+                          <Text>{"\n"}{"ID Card Balance"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}</Text>
                           
                           <Text style={{fontSize:40,fontWeight:'bold'}}>{balance}</Text>
                         </Text>  
