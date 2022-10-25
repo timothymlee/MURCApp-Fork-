@@ -8,7 +8,8 @@ import {
   Dimensions,
   SafeAreaView
 } from 'react-native';
-import AnySizeDragSortableView from './AnySizeDragSortableView'
+import AnySizeDragSortableView from './AnySizeDragSortableView';
+import {Scale, VerticalScale, ModerateScale} from './textScale';
 import * as WebBrowser from 'expo-web-browser';
 
 var chaple = 9;
@@ -16,6 +17,7 @@ var balance = "$623.71"
 var Menu = "Grilled Chicken Caesar Wrap        Italian Lasagna"
 var active = false;
 const {width} = Dimensions.get('window')
+console.log("width "+width);
 const headerViewHeight = 160
 const bottomViewHeight = 40
 
@@ -26,6 +28,18 @@ const getW = (index, isWidth) => isWidth ? index % 3 === 0 ? (width - 40) : (wid
  const widgetsizeS =((width * .4270072992))
  const widgetsizeM = ((width * .669))
  const widgetsizeL = ((width * .9002))
+
+
+ const { height } = Dimensions.get('window');
+ //Guideline sizes are based on standard ~5" screen mobile device
+ const guidelineBaseWidth = 350;
+ const guidelineBaseHeight = 680;
+ 
+
+ const scale = size => width / guidelineBaseWidth * size;
+ const verticalScale = size => height / guidelineBaseHeight * size;
+ const moderateScale = (size, factor = 0.5) => size + ( scale(size) - size ) * factor;
+
 
  const currDate= Date.now()
  const dt = new Date(currDate)
@@ -58,7 +72,7 @@ export default class Widget extends React.Component {
     {"color":"#5eaef9","type":"app","key": "13","height": iconsize, icon: require('../assets/img/food.png'), "text": " ", "width": iconsize,"title":"Union Cafe", "link":"https://union.messiah.edu/menu/","page":" "},
     {"color":"#5eaef9","type":"app","key": "14","height": iconsize, icon: require('../assets/img/food.png'), "text": " ", "width": iconsize,"title":"The Falcon", "link":"http://falcon.messiah.edu/","page":" "},
     {"color":"none","type":"null","key": "15","height": iconsize, "text": " ", "width": widgetsizeL,"title":" ", "link":" ","page":" "}];
-
+    
     this.state = { 
         items,
         movedKey: null
@@ -74,7 +88,7 @@ export default class Widget extends React.Component {
   }
 
   _renderItem = (item, index, isMoved) => {
-
+  
     const {movedKey} = this.state
     return (
       <TouchableOpacity
@@ -92,6 +106,8 @@ export default class Widget extends React.Component {
         onPressOut = {() => this.sortableViewRef.current.onPressOut()}
       >
        
+        
+      
       {(() => {
         
         // each if statement can be used for a widget
@@ -114,12 +130,24 @@ export default class Widget extends React.Component {
           
           )
         }
+        
       })()}   
         <View style={[styles.item_wrap, {opacity: (movedKey === item.key && !isMoved) ? 1 : 1}]}>
             
             <View style={[styles.item, {width: item.width, height: item.height, backgroundColor: isMoved ? 'red' : item.color}]}>
-            <View style={styles.item_icon}>
-                  <Image source={item.icon} style={styles.item_icon}/>     
+            <View style={{
+              width: ((item.width)*.4),
+              height: ((item.width)*.4),
+              flex: 1,
+              resizeMode: 'contain',
+            }}>
+            {(() => {console.log(item.width);})()}
+                  <Image source={item.icon} style={{
+                    width: ((item.width)*.4),
+                    height: ((item.width)*.4),
+                    flex: 1,
+                    resizeMode: 'contain',
+                  }}/>     
             </View>
               <Text style={styles.item_title}>{item.title}</Text>
             <View>
@@ -131,9 +159,9 @@ export default class Widget extends React.Component {
                     <View>
                       <View>
                         <Text style={{color:'white',textAlign: 'center',width: widgetsizeS * .90, height: widgetsizeS, resizeMode: 'contain'}}>
-                          <Text>{"Chapel Attendance"}{"\n"}</Text> 
-                          <Text style={{fontSize:100,fontWeight:'bold'}}>{chaple}{"\n"}</Text>
-                          <Text>{"/14"}</Text>
+                          <Text style={{fontSize: moderateScale(16),}}>{"Chapel Attendance"}{"\n"}</Text> 
+                          <Text style={{fontSize: moderateScale(65),fontWeight:'bold'}}>{chaple}{"\n"}</Text>
+                          <Text style={{fontSize: moderateScale(24)}}>{"/14"}</Text>
                         </Text>  
                       </View>
                     </View>  
@@ -143,9 +171,9 @@ export default class Widget extends React.Component {
                   return (
                       <View>
                       <Text style={{color:'white',textAlign: 'center',width: widgetsizeS * .90, height: widgetsizeS, resizeMode: 'contain'}}>
-                          <Text>{"ID Card Balance"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}</Text>
+                          <Text style={{fontSize: moderateScale(16)}}>{"ID Card Balance"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}</Text>
                           
-                          <Text style={{fontSize:40,fontWeight:'bold'}}>{balance}</Text>
+                          <Text style={{fontSize: moderateScale(30),fontWeight:'bold'}}>{balance}</Text>
                         </Text>  
                       </View>
                   )
@@ -156,9 +184,9 @@ export default class Widget extends React.Component {
                   <View>
                     <View>
                       <Text style={{color:'white',width: widgetsizeL-60, height: widgetsizeS-10, resizeMode: 'contain'}}>
-                        <Text>{"Lotties Menu"}{"\n"}{"\n"}{"\n"}</Text> 
-                        <Text style={{fontSize:20,fontWeight:'bold'}}>{Menu}{"\n"}{"\n"}</Text>
-                        <Text>{"Lunch"}</Text>
+                        <Text style={{fontSize: moderateScale(16)}}>{"Lotties Menu"}{"\n"}{"\n"}{"\n"}</Text> 
+                        <Text style={{fontSize: moderateScale(17),fontWeight:'bold'}}>{Menu}{"\n"}{"\n"}</Text>
+                        <Text style={{fontSize: moderateScale(16)}}>{"Lunch"}</Text>
                       </Text>  
                     </View>
                   </View>  
@@ -207,20 +235,21 @@ export default class Widget extends React.Component {
 const styles = StyleSheet.create({
   item_wrap: {
     position: 'relative',
-    paddingLeft: 20,
-    paddingTop: 20
+    paddingLeft: scale(17),
+    paddingTop: scale(17)
   },
   item: {
     justifyContent: 'space-around',
     alignItems: 'center',
     backgroundColor: '#f39c12',
-    borderRadius: 16,
+    borderRadius: scale(11),
   },
   item_title:{
     position: 'absolute',
     color:'white',
-    bottom: -18,
+    bottom: scale(-14.5),
     fontWeight:'bold',
+    fontSize: moderateScale(11),
     zIndex: 999
   },
   item_clear_wrap: {
@@ -254,12 +283,6 @@ const styles = StyleSheet.create({
       borderRadius: 50 * 0.5,
       justifyContent: 'center',
       alignItems: 'center',
-  },
-  item_icon: {
-    width: 30,
-    height: 30,
-    bottom:-6,
-    resizeMode: 'contain',
   },
   
   item_text_swipe: {

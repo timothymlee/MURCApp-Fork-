@@ -45,5 +45,20 @@ function readUserData(userId) {
     return returnString;
 }
 
+function readLottieData(date) {
+    let returnString = "\n";
+    const db = getDatabase(myApp);
+    const dateRef = ref(db, 'dining/lottie/menu/' + date);
+    onValue(dateRef, (snapshot) => {
+        snapshot.forEach(function(childSnapshot) {
+            returnString += "Key: " + childSnapshot.key.toString();
+            returnString += ", Val: " + childSnapshot.val().toString();
+            returnString += "\n";
+        });
+    });
+    console.log(returnString);
+    return returnString;
+}
+
 // Export Methods for Use
-export {writeUserData, readUserData};
+export {writeUserData, readUserData, readLottieData};

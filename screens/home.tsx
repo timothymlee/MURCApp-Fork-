@@ -1,102 +1,33 @@
-import { ImageBackground, Pressable, StyleSheet, SafeAreaView, Text, TextInput, View, KeyboardAvoidingView, Keyboard, ScrollView } from "react-native";
+import { ImageBackground, Pressable, StyleSheet, SafeAreaView, Text, View, KeyboardAvoidingView, Platform, StatusBar, ScrollView } from "react-native";
 import React, { useState } from 'react';
-import { Icon, SearchBar, Button, Overlay } from "@rneui/themed";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { Icon, SearchBar, Button } from "@rneui/themed";
 import {readUserData, writeUserData} from "../src/firebaseCalls";
-
-import Index from "./index";
-
-//notes: Got rid of changes made on this page for the javascript based drag and drop.
-//Does not currently work for website, android is fine though. Investigate later...
-//need to pretty up buttons (maybe with touchable opacity replacing button?)
+import Widget from '../src/js componets/widgetsV1.3';
+import { Image } from "@rneui/base";
 
 type CompProps = {
   // We are only using the navigate and goBack functions
   navigation: { navigate: Function; };
 };
-//const image = {uri: "https://pbs.twimg.com/media/FdxI4qIXwAE28_5?format=jpg&name=4096x4096"}
-type OverlayComponentProps = {};
+const image = {uri: "https://pbs.twimg.com/media/FdxI4qIXwAE28_5?format=jpg&name=4096x4096"}
 
 export default function Home(props: CompProps) {
   let textString = readUserData('tl1261');
 
   const [value, setValue] = useState("");
-  const [visible, setVisible] = useState(false);
-
-  const toggleOverlay = () => {
-    setVisible(!visible);
-  };
 
   return (
     <>
       <SafeAreaView style={styles.page}>
 
-        <Overlay isVisible={visible} onBackdropPress={toggleOverlay} overlayStyle={styles.overlay}>
-          <View style={{ flex: 1 }}></View>
-          <View style={styles.profile_overlay}>
-            <View style={{ flex: 2, flexDirection: 'row' }}>
-              <View style={{ flex: 1, alignItems: 'flex-start' }}>
-                <Icon name="person-circle-outline" type="ionicon" size={80} color={'black'}></Icon>
-              </View>
-              <View style={{ flex: 1, alignItems: 'flex-end' }}>
-                <Pressable onPress={toggleOverlay}>
-                  <Icon name="close" size={44} color={'black'}></Icon>
-                </Pressable>
-              </View>
-            </View>
-            <View style={{ flex: 1 }}>
-              <Text style={{ color: 'black', fontSize: 30 }}>Joe Jenkins</Text>
-            </View>
-            <View style={{ flex: 1.5 }}>
-              <Text style={{ color: 'gray', fontSize: 20 }}>jj1234</Text>
-            </View>
-
-            <View style={{ flex: 1, flexDirection: 'row' }}>
-              <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
-                <Icon name="person-circle" type="ionicon" size={30} color={'black'}></Icon>
-              </View>
-              <View style={{ flex: 6, justifyContent: 'center' }}>
-                <Text style={{ color: 'black', fontSize: 20 }}>Profile</Text>
-              </View>
-            </View>
-            <View style={{ flex: 1, flexDirection: 'row' }}>
-              <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
-                <Icon name="fast-food" type="ionicon" size={30} color={'black'}></Icon>
-              </View>
-              <View style={{ flex: 6, justifyContent: 'center' }}>
-                <Text style={{ color: 'black', fontSize: 20 }}>Allergies and Preferences</Text>
-              </View>
-            </View>
-            <View style={{ flex: 1, flexDirection: 'row' }}>
-              <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
-                <Icon name="image" size={30} color={'black'}></Icon>
-              </View>
-              <View style={{ flex: 6, justifyContent: 'center' }}>
-                <Text style={{ color: 'black', fontSize: 20 }}>Background Image</Text>
-              </View>
-            </View>
-
-            <View style={{ flex: 8 }}></View>
-            <View style={{ flex: 1, flexDirection: 'row'  }}>
-              <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
-                  <Icon name="log-out" type="feather" size={30} color={'black'}></Icon>
-                </View>
-                <View style={{ flex: 6, justifyContent: 'center' }}>
-                  <Text style={{ color: 'black', fontSize: 20 }}>Log Out</Text>
-                </View>
-              </View>
-            <View style={{ flex: 1.5, backgroundColor: null }}></View>
-          </View>
-        </Overlay>
-
         <View style={styles.header}>
           <View style={[styles.header_content, { alignItems: 'flex-start' }]}>
-            <Pressable onPress={toggleOverlay}>
+            <Pressable onPress={() => props.navigation.navigate('Settings')}>
               <Icon name="person" style={styles.header_icons} size={44} color={'white'}></Icon>
             </Pressable>
           </View>
           <View style={[styles.header_content, { alignItems: 'center' }]}>
-            <Text style={{ color: 'white', fontSize: 32 }}>MU</Text>
+            <Image source={require('../assets/images/messiah_logo.png')} style={styles.header_image}/>
           </View>
           <View style={[styles.header_content, { alignItems: 'flex-end' }]}>
             <Pressable onPress={() => props.navigation.navigate('Home')}>
@@ -105,11 +36,21 @@ export default function Home(props: CompProps) {
           </View>
         </View>
 
-        <ScrollView style={styles.app_container}>
-          
-        <Index></Index>
-          
-        </ScrollView>
+        <View style={styles.app_container}>
+          <ImageBackground source={image} style={styles.bg_image} >
+            <ScrollView style={styles.app_container}>
+              <Button style={styles.button} onPress={() => props.navigation.navigate('Chapel')}>Chapel</Button>
+              <Button style={styles.button} onPress={() => props.navigation.navigate('UnionMenu')}>Union</Button>
+              <Button style={styles.button} onPress={() => props.navigation.navigate('FalconMenu')}>Falcon</Button>
+              <Button style={styles.button} onPress={() => props.navigation.navigate('Login')}>Log In Page</Button>
+              <Button style={styles.button} onPress={() => props.navigation.navigate('Gym')}>Gym</Button>
+              <Button style={styles.button} onPress={() => props.navigation.navigate('DiningDollars')}>Dining Dollars Balance</Button>
+              <Button style={styles.button} onPress={() => props.navigation.navigate('FalconDollars')}>Falcon Dollars Balance</Button>
+              <Widget/>
+              <Text style={{fontSize: 20, color: 'white'}}>Data = {textString}</Text>
+            </ScrollView>
+          </ImageBackground>
+        </View>
 
         <KeyboardAvoidingView style={styles.search_container} behavior="position">
           <SearchBar
@@ -133,21 +74,26 @@ export default function Home(props: CompProps) {
 
 const styles = StyleSheet.create({
   app_container: {
-    backgroundColor: '#CCC',
     flex: 1
+  },
+  bg_image:{
+    justifyContent: "center",
+    flex: 1,
+    resizeMode: 'cover'
   },
   header: {
     backgroundColor: '#1E293B',
-    flex: 0.1,
+    minHeight: 60,
     flexDirection: 'row'
   },
   search_container: {
     backgroundColor: '#1E293B',
-    flex: 0.14
+    minHeight: 70,
   },
   page: {
     backgroundColor: '#1E293B',
-    flex: 1
+    flex: 1,
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
   },
   header_content: {
     flex: 1,
@@ -168,5 +114,18 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 0,
     bottom: 0
+  },
+  button: {
+    padding: 20
+  },
+  profile_pic: {
+    borderRadius: 100,
+    width: 70,
+    height: 70
+  },
+  header_image: {
+    width: 120,
+    height: 30,
+    resizeMode: 'cover'
   }
 });
