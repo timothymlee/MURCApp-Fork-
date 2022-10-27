@@ -42,6 +42,7 @@ export default function Home(props: CompProps) {
               <Button style={styles.button} onPress={() => props.navigation.navigate('Chapel')}>Chapel</Button>
               <Button style={styles.button} onPress={() => props.navigation.navigate('UnionMenu')}>Union</Button>
               <Button style={styles.button} onPress={() => props.navigation.navigate('FalconMenu')}>Falcon</Button>
+              <Button style={styles.button} onPress={() => props.navigation.navigate('LottieMenu')}>Lottie</Button>
               <Button style={styles.button} onPress={() => props.navigation.navigate('Login')}>Log In Page</Button>
               <Button style={styles.button} onPress={() => props.navigation.navigate('Gym')}>Gym</Button>
               <Button style={styles.button} onPress={() => props.navigation.navigate('DiningDollars')}>Dining Dollars Balance</Button>
