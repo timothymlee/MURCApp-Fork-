@@ -1,5 +1,5 @@
 // Optionally import the services that you want to use
-import { initializeApp } from "firebase/app";
+const {initializeApp} = require("firebase/app");
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -18,8 +18,7 @@ const firebaseConfig = {
 
 const myApp = initializeApp(firebaseConfig);
 
-import { getDatabase, ref, onValue} from 'firebase/database';
-import {throwError} from "react-cas-client/lib/util";
+const { getDatabase, ref, onValue, get} = require("firebase/database");;
 
 function writeUserData(userId, name, email, imageUrl) {
     const db = getDatabase();
@@ -60,5 +59,33 @@ function readLottieData(date) {
     return returnString;
 }
 
+// Return an array of events for a given day.
+// date should be in YYYY-MM-DD format
+async function readEventData(date) {
+    let returnObjectArray = [];
+
+    const db = getDatabase(myApp);
+
+    const dateRef = ref(db, 'events/calendar/' + date);
+
+    await get(dateRef).then(async (snapshot) => {
+        const keys = snapshot.val()
+        for (const key in keys) {
+            let individualEvent = ref(db, 'events/list/' + key);
+            await get(individualEvent).then((snapshot) => {
+                returnObjectArray.push(snapshot.val());
+            });
+        }
+    });
+
+    return returnObjectArray;
+}
+
+
 // Export Methods for Use
-export {writeUserData, readUserData, readLottieData};
+module.exports = {
+    writeUserData,
+    readUserData,
+    readLottieData,
+    readEventData
+}
