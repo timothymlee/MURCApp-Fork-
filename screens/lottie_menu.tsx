@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Icon, Button, Overlay, ListItem } from "@rneui/themed";
 import { LinearGradient } from 'expo-linear-gradient';
 import * as WebBrowser from 'expo-web-browser';
+import { Calendar, CalendarProvider, ExpandableCalendar, WeekCalendar } from 'react-native-calendars';
 
 type CompProps = {
   // We are only using the navigate and goBack functions
@@ -132,47 +133,77 @@ export default function LottieMenu(props: CompProps) {
             onPress={toggleOverlay}
           />
           <ScrollView>
-                <>
-                  {
-                    thisDay.forEach(function (meal) {
-                      //meal is a number 0-2, with one child (hence, index 0)
-                      //meal[0].forEach(function (category) {
-
-                      //})
-                      console.log(meal)
-                    })
+            <>
+              {thisDay.forEach(function (meal) {
+                <ListItem.Accordion
+                  content={
+                    <ListItem.Content>
+                      <ListItem.Title>{meal[0]}</ListItem.Title>
+                    </ListItem.Content>
                   }
-                </>
-
-            <ListItem.Accordion
-              content={
-                <ListItem.Content>
-                  <ListItem.Title>Breakfast</ListItem.Title>
-                </ListItem.Content>
+                  linearGradientProps={{
+                    colors: ['#FBFBFB', '#F3F3F3']
+                  }}
+                  ViewComponent={LinearGradient}
+                  containerStyle={styles.list_header}
+                  topDivider
+                  isExpanded={expanded1}
+                  onPress={() => {
+                    setExpanded1(!expanded1);
+                  }}>
+                  {meal.forEach(function (category) {
+                    <ListItem>
+                      <ListItem.Content>
+                        <>
+                          <ListItem.Title>{category[0]}</ListItem.Title>
+                          {category.forEach(function (food) {
+                            <ListItem.Subtitle>{food}</ListItem.Subtitle>
+                          })}
+                        </>
+                      </ListItem.Content>
+                    </ListItem>
+                  })}
+                </ListItem.Accordion>
+              })
               }
-              linearGradientProps={{
-                colors: ['#FBFBFB', '#F3F3F3']
-              }}
-              ViewComponent={LinearGradient}
-              containerStyle={styles.list_header}
-              topDivider
-              isExpanded={expanded1}
-              onPress={() => {
-                setExpanded1(!expanded1);
-              }}>
-              {BreakfastEntrees.map((l, i) => (
-                <ListItem key={i}>
-                  <ListItem.Content>
-                    <ListItem.Title>{l}</ListItem.Title>
-                  </ListItem.Content>
-                </ListItem>
-              ))}
-            </ListItem.Accordion>
+            </>
             <View style={{ height: 100 }}></View>
           </ScrollView>
         </View>
-
       </SafeAreaView>
+
+      <CalendarProvider date={new Date().toISOString()}>
+        <WeekCalendar
+          // Documentation: 
+          // https://www.npmjs.com/package/react-native-calendars?activeTab=readme
+          // https://wix.github.io/react-native-calendars/docs/CalendarProvider
+          // https://wix.github.io/react-native-calendars/docs/WeekCalendar
+          style={styles.calendarContainer}
+          theme={{
+            backgroundColor: '#ffffff',
+            calendarBackground: '#ffffff',
+            textSectionTitleColor: '#968C8C',
+            selectedDayBackgroundColor: '#1E293B',
+            selectedDayTextColor: 'ffffff',
+            todayTextColor: '#1E293B',
+            dayTextColor: '#ffffff',
+            textDisabledColor: '#EAEAEA'
+          }}
+          // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
+          minDate={'2022-08-10'}
+          // Maximum date that can be selected, dates after maxDate will be grayed out. Default = undefined
+          maxDate={'2022-12-22'}
+          // Handler which gets executed on day press. Default = undefined
+          onDayPress={(day) => console.log(day)}
+          // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday
+          firstDay={0}
+          // Disable all touch events for disabled days. can be override with disableTouchEvent in markedDates
+          disableAllTouchEventsForDisabledDays={false}
+          // Enable the option to swipe between months. Default = false
+          enableSwipeMonths={true}
+        />
+      </CalendarProvider>
+
     </>
   );
 }
@@ -261,5 +292,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '500',
     color: '#968C8C'
+  },
+  calendarContainer: {
+    backgroundColor: '#5DAEF8',
+    height: '100%',
+    bottom: 0
   }
 });
