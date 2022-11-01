@@ -3,5 +3,6 @@
     "jsx": "react",
     "esModuleInterop": true
 },
-  "extends": "expo/tsconfig.base"
+  "extends": "expo/tsconfig.base",
+  "typeRoots": ["./src/types"],
 }

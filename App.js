@@ -13,6 +13,7 @@ import Login from './screens/login';
 import Gym from './screens/gym';
 import DiningDollars from './screens/dining_dollars';
 import FalconDollars from './screens/falcon_dollars';
+import LottieMenu from './screens/lottie_menu';
 import Library from './screens/library';
 import Events from './screens/events';
 
@@ -49,6 +50,8 @@ export default function App() {
         <Stack.Screen name = "Gym" component = {Gym} />
         <Stack.Screen name = "FalconDollars" component = {FalconDollars} />
         <Stack.Screen name = "DiningDollars" component = {DiningDollars} />
+
+        <Stack.Screen name = "LottieMenu" component = {LottieMenu} />
         <Stack.Screen name = "Library" component = {Library} />
         <Stack.Screen name = "Events" component = {Events} />
 
