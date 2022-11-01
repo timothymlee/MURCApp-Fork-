@@ -10,7 +10,6 @@ npm-debug.*
 *.orig.*
 web-build/
 credentials.json
-.env
 muresourcecenter-firebase-adminsdk.json
 
 # macOS
