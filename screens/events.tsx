@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Icon, Button, Overlay, ListItem, Slider } from "@rneui/themed";
 import {LinearGradient} from 'expo-linear-gradient';
 import * as WebBrowser from 'expo-web-browser';
+import {readEventData} from '../src/firebaseCalls'
 
 type CompProps = {
   // We are only using the navigate and goBack functions
@@ -11,12 +12,13 @@ type CompProps = {
 
 export default function Gym(props: CompProps) {
 
-    const [expanded1, setExpanded1] = useState(true);
-    const [expanded2, setExpanded2] = useState(false);
-    const [expanded3, setExpanded3] = useState(false);
-    const todaysDate = ((new Date().getMonth() + 1).toLocaleString())+'-'+(new Date().getDate().toLocaleString()) +'-'+ (new Date().getFullYear().toLocaleString())
-   let selectedDate = todaysDate;
+ 
+    const todaysDate = ((new Date().getFullYear().toLocaleString())+'-'+(new Date().getMonth() + 1).toLocaleString())+'-'+(new Date().getDate().toLocaleString())
+    let todaysEvent;
+    let selectedDate = todaysDate;
     selectedDate = '10-31-2022'
+    todaysEvent = readEventData(selectedDate);
+
     const DummbyWebData = [
         { DataDate:'11-22-2022',title: 'Kirk Reese, Piano & Gavin Horning, Gutar Faculty Recital', date: 'October 27th 2022', location:'Calvin and Janet High Center for Worship and Performing Arts',time:'9:00am - 7:00pm', cost: 'Free & Open to Public',moreDetails:'' },
         { DataDate:'11-22-2022',title: 'Now and Then" Jack Troy', date: 'October 27th, 2022 - November 20th, 2022', location:'Climenhaga Building, Aughinbaugh Gallery',time:' 7:30pm-8:30pm', cost: 'Free & Open to Public',moreDetails:'Now and Then" Jack Troy A retrospective exhibition of the work of a renowned wood firing potter and poet. Hosted in conjunction with the Department of Language, Literature and Writings Poets and Writers Series' },
@@ -89,7 +91,7 @@ export default function Gym(props: CompProps) {
 
         <View style={styles.app_container}>
           <View style={styles.schedule}>
-            <Text style={styles.title}>Messiahs Events</Text>
+            <Text style={styles.title}>{todaysEvent}</Text>
             <ScrollView>
             
              <Card/>
