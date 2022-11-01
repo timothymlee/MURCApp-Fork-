@@ -14,6 +14,7 @@ import Gym from './screens/gym';
 import DiningDollars from './screens/dining_dollars';
 import FalconDollars from './screens/falcon_dollars';
 import Library from './screens/library';
+import Events from './screens/events';
 
 // Import Cas
 import useCas from "./src/cas/useCas";
@@ -49,6 +50,7 @@ export default function App() {
         <Stack.Screen name = "FalconDollars" component = {FalconDollars} />
         <Stack.Screen name = "DiningDollars" component = {DiningDollars} />
         <Stack.Screen name = "Library" component = {Library} />
+        <Stack.Screen name = "Events" component = {Events} />
 
         <Stack.Screen name = "Settings" component = {Settings} 
             options={{ fullScreenGestureEnabled: true, presentation: 'transparentModal', gestureDirection: 'horizontal', animation: 'fade'}}/>
