@@ -18,7 +18,7 @@ const firebaseConfig = {
 
 const myApp = initializeApp(firebaseConfig);
 
-const { getDatabase, ref, onValue, get} = require("firebase/database");;
+const { getDatabase, ref, onValue, get} = require("firebase/database");
 
 function writeUserData(userId, name, email, imageUrl) {
     const db = getDatabase();
