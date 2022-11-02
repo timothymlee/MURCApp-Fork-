@@ -2,6 +2,11 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+
+import { ApiProvider } from '@reduxjs/toolkit/dist/query/react';
+import { apiSlice } from './src/api/apiSlice';
+
+
 // Import screens to use for navigation
 import Home from './screens/home';
 import Index from './screens/index';
@@ -17,6 +22,7 @@ import LottieMenu from './screens/lottie_menu';
 
 // Import Cas
 import useCas from "./src/cas/useCas";
+//import { ApiProvider } from '@reduxjs/toolkit/dist/query/react';
 
 const Stack = createNativeStackNavigator();
 
@@ -37,6 +43,7 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
+    <ApiProvider api={apiSlice}>
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false, animation: 'fade' }}>
         <Stack.Screen name = "Home" component = {Home} />
@@ -53,6 +60,7 @@ export default function App() {
             options={{ fullScreenGestureEnabled: true, presentation: 'transparentModal', gestureDirection: 'horizontal', animation: 'fade'}}/>
       </Stack.Navigator>
     </NavigationContainer>
+    </ApiProvider>
   );
 }
 
