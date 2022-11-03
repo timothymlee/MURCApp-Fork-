@@ -10,6 +10,7 @@ npm-debug.*
 *.orig.*
 web-build/
 credentials.json
+muresourcecenter-firebase-adminsdk.json
 
 # macOS
 .DS_Store
