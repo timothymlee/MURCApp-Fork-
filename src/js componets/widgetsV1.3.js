@@ -40,7 +40,8 @@ function triggerOff(){
   active = false;
   return null;
 }
-export default class Widget extends React.Component {
+
+export default class Widget extends React.Component{
   constructor(props) {
     super(props);
     const items =  [
@@ -84,7 +85,8 @@ export default class Widget extends React.Component {
           if(item.link != " "){
             WebBrowser.openBrowserAsync(item.link);
           } else if (item.nav != " "){
-            navigation.navigate(item.nav);
+            props.navigation.navigate('Settings')
+            
           }
           }}
         onLongPress={() => {

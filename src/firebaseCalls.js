@@ -40,7 +40,7 @@ function readUserData(userId) {
             returnString += "\n";
         });
     });
-    console.log(returnString);
+    
     return returnString;
 }
 
@@ -55,13 +55,13 @@ function readLottieData(date) {
             returnString += "\n";
         });
     });
-    console.log(returnString);
     return returnString;
 }
 
 // Return an array of events for a given day.
 // date should be in YYYY-MM-DD format
 async function readEventData(date) {
+    console.log('im getting the date: '+ date)
     let returnObjectArray = [];
 
     const db = getDatabase(myApp);
@@ -69,6 +69,7 @@ async function readEventData(date) {
     const dateRef = ref(db, 'events/calendar/' + date);
 
     await get(dateRef).then(async (snapshot) => {
+        
         const keys = snapshot.val()
         for (const key in keys) {
             let individualEvent = ref(db, 'events/list/' + key);
@@ -76,8 +77,9 @@ async function readEventData(date) {
                 returnObjectArray.push(snapshot.val());
             });
         }
+      
     });
-
+    console.log(returnObjectArray)
     return returnObjectArray;
 }
 

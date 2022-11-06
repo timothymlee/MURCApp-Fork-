@@ -4,106 +4,125 @@ import { Icon, Button, Overlay, ListItem, Slider } from "@rneui/themed";
 import {LinearGradient} from 'expo-linear-gradient';
 import * as WebBrowser from 'expo-web-browser';
 import {readEventData} from '../src/firebaseCalls'
-
+import { runTransaction } from "firebase/database";
 type CompProps = {
   // We are only using the navigate and goBack functions
   navigation: { navigate: Function; };
 };
 
-export default function Gym(props: CompProps) {
-
+export default function Events1(props: CompProps) {
+  const todaysDate = ((new Date().getFullYear().toLocaleString())+'-'+(new Date().getMonth() + 1).toLocaleString())+'-'+(new Date().getDate().toLocaleString())
  
-    const todaysDate = ((new Date().getFullYear().toLocaleString())+'-'+(new Date().getMonth() + 1).toLocaleString())+'-'+(new Date().getDate().toLocaleString())
-    let todaysEvent;
-    let selectedDate = todaysDate;
-    selectedDate = '10-31-2022'
-    todaysEvent = readEventData(selectedDate);
+  let selectedDate = todaysDate;
+  selectedDate = "2022-11-5";
 
+  
+
+
+  
+
+  async function genEventsData(){
+   
+    let todaysEvent = await readEventData(selectedDate);
+    
+    return todaysEvent
+  }
+    
+  
+  
+    
+  
+   
     const DummbyWebData = [
-        { DataDate:'11-22-2022',title: 'Kirk Reese, Piano & Gavin Horning, Gutar Faculty Recital', date: 'October 27th 2022', location:'Calvin and Janet High Center for Worship and Performing Arts',time:'9:00am - 7:00pm', cost: 'Free & Open to Public',moreDetails:'' },
-        { DataDate:'11-22-2022',title: 'Now and Then" Jack Troy', date: 'October 27th, 2022 - November 20th, 2022', location:'Climenhaga Building, Aughinbaugh Gallery',time:' 7:30pm-8:30pm', cost: 'Free & Open to Public',moreDetails:'Now and Then" Jack Troy A retrospective exhibition of the work of a renowned wood firing potter and poet. Hosted in conjunction with the Department of Language, Literature and Writings Poets and Writers Series' },
-        { DataDate:'11-23-2022',title: 'Ricardos Grand singing for deaf children', date: 'October 27th 2022', location:'Calvin and Janet High Center for Worship and Performing Arts',time:'9:00am - 7:00pm', cost: 'Free & Open to Public',moreDetails:'' },
-        { DataDate:'11-23-2022',title: 'Goffy returns to school to finished the surviving children', date: 'October 27th 2022', location:'Calvin and Janet High Center for Worship and Performing Arts',time:'9:00am - 7:00pm', cost: 'Free & Open to Public',moreDetails:'' },
-        { DataDate:'10-31-2022',title: 'How to run from the police', date: 'October 27th 2022', location:'Calvin and Janet High Center for Worship and Performing Arts',time:'9:00am - 7:00pm', cost: 'Free & Open to Public',moreDetails:'' },
-        { DataDate:'11-22-2022',title: 'How to live knowing your a mistake', date: 'October 27th 2022', location:'Calvin and Janet High Center for Worship and Performing Arts',time:'9:00am - 7:00pm', cost: 'Free & Open to Public',moreDetails:'' }
+      { DataDate:'2022-11-5',title: 'Kirk Reese, Piano & Gavin Horning, Gutar Faculty Recital', date: 'October 27th 2022', location:'Calvin and Janet High Center for Worship and Performing Arts',time:'9:00am - 7:00pm', cost: 'Free & Open to Public',moreDetails:'' },
+      { DataDate:'2022-11-5',title: 'Now and Then" Jack Troy', date: 'October 27th, 2022 - November 20th, 2022', location:'Climenhaga Building, Aughinbaugh Gallery',time:' 7:30pm-8:30pm', cost: 'Free & Open to Public',moreDetails:'Now and Then" Jack Troy A retrospective exhibition of the work of a renowned wood firing potter and poet. Hosted in conjunction with the Department of Language, Literature and Writings Poets and Writers Series' },
+      { DataDate:'2022-11-5',title: 'Ricardos Grand singing for deaf children', date: 'October 27th 2022', location:'Calvin and Janet High Center for Worship and Performing Arts',time:'9:00am - 7:00pm', cost: 'Free & Open to Public',moreDetails:'' },
+      { DataDate:'2022-11-5',title: 'Goffy returns to school to finished the surviving children', date: 'October 27th 2022', location:'Calvin and Janet High Center for Worship and Performing Arts',time:'9:00am - 7:00pm', cost: 'Free & Open to Public',moreDetails:'' },
+      { DataDate:'2022-11-5',title: 'How to run from the police', date: 'October 27th 2022', location:'Calvin and Janet High Center for Worship and Performing Arts',time:'9:00am - 7:00pm', cost: 'Free & Open to Public',moreDetails:'' },
+      { DataDate:'2022-11-5',title: 'How to live knowing your a mistake', date: 'October 27th 2022', location:'Calvin and Janet High Center for Worship and Performing Arts',time:'9:00am - 7:00pm', cost: 'Free & Open to Public',moreDetails:'' }
 
-      ]
-      
-
-
-
-
-
-
-    const Card = () => {
-        const Card2 = [];
-
-        DummbyWebData.forEach((data, index) => {
-            if(DummbyWebData[index].DataDate == selectedDate){
-                Card2.push(
-                 
-                    <View  style={styles.center} key={index}>
-                    
-                    <View style={styles.card}>
-                      
-                      <View style={styles.pad}><Text style={styles.bold_subtitle}>{data.title}</Text></View>
-                      <View style={styles.pad}>
-                          <Text><Text style={styles.bold_subtitle}>Date: </Text ><Text style={styles.subtitle}>{data.date}</Text></Text>
-                          
-                          <Text><Text style={styles.bold_subtitle}>Location: </Text><Text style={styles.subtitle}>{data.location}</Text></Text>
-        
-                          <Text><Text style={styles.bold_subtitle}>Time: </Text><Text style={styles.subtitle}>{data.time}</Text></Text>
-                          
-                          <Text><Text style={styles.bold_subtitle}>Cost: </Text><Text style={styles.subtitle}>{data.cost}</Text></Text>
-                      </View>
-                      
-                    </View>
-                  </View>
-                
-            );     
-            }    
-            
-        });
-            return <View>{Card2}</View>
-        
-    }
+    ]
     
 
-  return (
-    <>
-      <SafeAreaView style={styles.page}>
-        
-        <View style={styles.header}>
-          <View style={[styles.header_content, { alignItems: 'flex-start' }]}>
-            <Pressable onPress={() => props.navigation.navigate('Settings')}>
-              <Icon name="person" style={styles.header_icons} size={44} color={'white'}></Icon>
-            </Pressable>
-          </View>
-          <View style={[styles.header_content, { alignItems: 'center' }]}>
-            <Image source={require('../assets/images/messiah_logo.png')} style={styles.header_image}/>
-          </View>
-          <View style={[styles.header_content, { alignItems: 'flex-end' }]}>
-            <Pressable onPress={() => props.navigation.navigate('Home')}>
-              <Icon name="home" style={styles.header_icons} size={44} color={'white'}></Icon>
-            </Pressable>
-          </View>
-        </View>
 
-        <View style={styles.app_container}>
-          <View style={styles.schedule}>
-            <Text style={styles.title}>{todaysEvent}</Text>
-            <ScrollView>
-            
-             <Card/>
-            
-            </ScrollView>
-          </View>
-        </View>
 
-      </SafeAreaView>
-    </>
-  );
-}
+
+ 
+
+  const Card = () => {
+      const Card2 = [];
+      
+      DummbyWebData.forEach((data, index) => {
+          if(DummbyWebData[index].DataDate == selectedDate){
+              Card2.push(
+               
+                  <View  style={styles.center} key={index}>
+                  
+                  <View style={styles.card}>
+                    
+                    <View style={styles.pad}><Text style={styles.bold_subtitle}>{data.title}</Text></View>
+                    <View style={styles.pad}>
+                        <Text><Text style={styles.bold_subtitle}>Date: </Text ><Text style={styles.subtitle}>{data.date}</Text></Text>
+                        
+                        <Text><Text style={styles.bold_subtitle}>Location: </Text><Text style={styles.subtitle}>{data.location}</Text></Text>
+      
+                        <Text><Text style={styles.bold_subtitle}>Time: </Text><Text style={styles.subtitle}>{data.time}</Text></Text>
+                        
+                        <Text><Text style={styles.bold_subtitle}>Cost: </Text><Text style={styles.subtitle}>{data.cost}</Text></Text>
+                    </View>
+                    
+                  </View>
+                </View>
+              
+          );     
+          }    
+          
+      });
+          return <View>{Card2}</View>
+      
+  }
+return (
+  <>
+  
+    <SafeAreaView style={styles.page}>
+      
+      <View style={styles.header}>
+        <View style={[styles.header_content, { alignItems: 'flex-start' }]}>
+          <Pressable onPress={() => props.navigation.navigate('Settings')}>
+            <Icon name="person" style={styles.header_icons} size={44} color={'white'}></Icon>
+          </Pressable>
+        </View>
+        <View style={[styles.header_content, { alignItems: 'center' }]}>
+          <Image source={require('../assets/images/messiah_logo.png')} style={styles.header_image}/>
+        </View>
+        <View style={[styles.header_content, { alignItems: 'flex-end' }]}>
+          <Pressable onPress={() => props.navigation.navigate('Home')}>
+            <Icon name="home" style={styles.header_icons} size={44} color={'white'}></Icon>
+          </Pressable>
+        </View>
+      </View>
+
+      <View style={styles.app_container}>
+        <View style={styles.schedule}>
+          <Text style={styles.title}>Hi</Text>
+          <ScrollView>
+          
+           <Card/>
+          
+          </ScrollView>
+        </View>
+      </View>
+
+    </SafeAreaView>
+  </>
+);
+
+  
+ 
+  } ;
+
+ 
+
 
 const styles = StyleSheet.create({
   app_container: {

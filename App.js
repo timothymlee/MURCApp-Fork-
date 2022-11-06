@@ -15,6 +15,7 @@ import DiningDollars from './screens/dining_dollars';
 import FalconDollars from './screens/falcon_dollars';
 import LottieMenu from './screens/lottie_menu';
 import Library from './screens/library';
+import TestPage from './screens/dataRerenderingPage';
 import Events from './screens/events';
 
 // Import Cas
@@ -50,6 +51,7 @@ export default function App() {
         <Stack.Screen name = "Gym" component = {Gym} />
         <Stack.Screen name = "FalconDollars" component = {FalconDollars} />
         <Stack.Screen name = "DiningDollars" component = {DiningDollars} />
+        <Stack.Screen name = "TestPage" component = {TestPage} />
 
         <Stack.Screen name = "LottieMenu" component = {LottieMenu} />
         <Stack.Screen name = "Library" component = {Library} />
