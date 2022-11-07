@@ -5,6 +5,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { ApiProvider } from '@reduxjs/toolkit/dist/query/react';
 import { apiSlice } from './src/api/apiSlice';
+import { Provider } from 'react-redux';
+import { store } from './src/app/store'
+
 
 
 // Import screens to use for navigation
@@ -43,6 +46,7 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
+    <Provider store={store}>
     <ApiProvider api={apiSlice}>
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false, animation: 'fade' }}>
@@ -61,6 +65,7 @@ export default function App() {
       </Stack.Navigator>
     </NavigationContainer>
     </ApiProvider>
+    </Provider>
   );
 }
 

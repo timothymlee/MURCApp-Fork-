@@ -16,7 +16,7 @@ export const apiSlice = createApi({
             query: () => '/',
         }),
         // endpoint for getting password cypher
-        cypher: builder.query({
+        cypher: builder.mutation({
             query: (pwd) => ({
                 url: '/get-pwd-cypher',
                 method: 'GET',
@@ -26,7 +26,7 @@ export const apiSlice = createApi({
             })
         }),
         // endpoint for auth token
-        auth: builder.query({
+        auth: builder.mutation({
             query: (arg) => {
                 const { userId, encryptedPwd } = arg;
                 return {
@@ -45,6 +45,6 @@ export const apiSlice = createApi({
 
 export const {
     useWelcomeQuery,
-    useCypherQuery,
-    useAuthQuery
+    useCypherMutation,
+    useAuthMutation
 } = apiSlice
