@@ -79,7 +79,6 @@ async function readEventData(date) {
         }
       
     });
-    console.log(returnObjectArray)
     return returnObjectArray;
 }
 
