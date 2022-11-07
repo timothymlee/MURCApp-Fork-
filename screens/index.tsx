@@ -45,11 +45,6 @@ export default function Index(props: CompProps) {
       </View>
       </View>
       
-      <View style={styles.editButton}>
-        <ToggleButton
-        ></ToggleButton>
-      </View>
-      
     </View> 
   );
 }
@@ -75,26 +70,6 @@ let resources ={
 function openLink(link){
   Linking.openURL(link);
 }
-function ToggleButton(){
-  let [switchE, setSwitchE] = React.useState(resources.editing);
-  let [statusE, setStatusE] = React.useState("Edit");
-  let [color, setColor] = React.useState("#00ff00");
-  function toggleEdit(e){
-    setSwitchE(switchE=!switchE);
-      resources.editing=switchE;
-    if (switchE==true){
-      setStatusE(statusE="Stop Editing");
-      setColor(color="#ff0000");
-    }
-    else{
-      setStatusE(statusE="Edit");
-      setColor(color="#00ff00");
-    }
-    
-  };
-  let editButton =<Button title={statusE} color={color} onPress={toggleEdit}></Button>
-  return <>{editButton}</>
-}
 
 
 //May not be best practice to directly edit the resources file.
@@ -107,7 +82,7 @@ function  MapGrid (sources){
   if(resources.positions.length == 0){
     for(let i = 0; i < resources.resourcesList.length; i++){
       resources.positions.push(i);
-      //instantiate positions X
+      //instantiate positions X and Y
       resources.positionsX.push(0);
       resources.positionsY.push(0);
     }   
@@ -115,12 +90,11 @@ function  MapGrid (sources){
 
   for (let i = 0; i < resources.resourcesList.length; i++){
   //the titles and position of a button are determined by the values within resources.positions
-  //each render the button is updated with the new title and position and pushed to source buttons as seen below
     sourceButtons.push(ResourceButtons(resources.resourcesList[resources.positions[i]], 
       //sources.dest(resources.resourceDestinations[i]), 
       resources.resourceDestinations[resources.positions[i]],
-      resources.positions[i]));
-      //^^ i is being used as a place holder for the x position
+      resources.positions[i], i));
+      
   }
   /*useful for position testing
   console.log("Position array V");
@@ -136,35 +110,31 @@ function  MapGrid (sources){
 
 
 
-function ResourceButtons (name, destination, position) {
-  
+function ResourceButtons (name, destination, position, layoutPos) {
+  const containerViewRef = useRef<View>(null);
+
+  let [, setPageY] = useState(0);
+  let [, setPageX] = useState(0);
+  let [h, setH] = useState(0);
+  let [w, setW] = useState(0);
+
   let [switching, setSwitching] = React.useState(false);
   let [editC, setEditC] = React.useState(resources.editing);
 
-  
-  //hopefully the documentation code on the pan responder works
+
+
   const pan = useRef<any>(new Animated.ValueXY()).current;
-  
-  //console.log(pan);
+ 
   const panResponder = useRef(
     PanResponder.create({
       onMoveShouldSetPanResponder: () => true,
       onPanResponderGrant: (e, gestureState) => {
-        //const {locationX, locationY} = e.nativeEvent;
-        //console.log(locationX+" is X");
-        //console.log(locationY+" is Y");
-        
-        /*pan.setOffset({
-          x: 0,
-          y: 0
-        });*/
         pan.setOffset({
           x: pan.x._value,
           y: pan.y._value
         });
         console.log(name);
-        console.log("Current positions array vvvv");
-        console.log(resources.positions);
+        
       },
       onPanResponderMove: Animated.event(
         
@@ -176,97 +146,40 @@ function ResourceButtons (name, destination, position) {
         
       ),
       onPanResponderRelease: (e, gestureState) => {
-        let point = position;
-        let dest = position;
 
         //flatten offset is to keep the current
         //position that the button is moved to.
         //setting values to 0 cause button to return to orignal spot
-        //setSwitch just for updating
-        setSwitching(!switching);
-        if(resources.editing==false)
-        {
+        
+        
           for(let i = 0; i < resources.positionsX.length; i++)
         {
-          
+            //since the center is pageX + width (pageY + height)
+            //then adding or subtracting w/h, which are half those values should give the borders
             if(
-            (((resources.positionsX[position]+gestureState.dx >= resources.positionsX[i]-40) && 
-            (resources.positionsX[position]+gestureState.dx <= resources.positionsX[i]+40))
-            && 
-            (((resources.positionsY[position]+gestureState.dy >= resources.positionsY[i]-40) && 
-            (resources.positionsY[position]+gestureState.dy <= resources.positionsY[i]+40))))
-            && 
-            (position!=i) 
-            )
-            /*
-            if(
-              (((gestureState.moveX+gestureState.dx >= resources.positionsX[i]-80) && 
-              (gestureState.moveX+gestureState.dx <= resources.positionsX[i]+80))
+              (((gestureState.moveX >= resources.positionsX[i]-w && 
+              (gestureState.moveX <= resources.positionsX[i]+w))
               && 
-              (((gestureState.moveY+gestureState.dy >= resources.positionsY[i]-80) && 
-              (gestureState.moveY+gestureState.dy <= resources.positionsY[i]+80))))
-              && 
-              (position!=i) 
-              )*/
-            /*
-            if(
-              (((gestureState.moveX-90 >= resources.positionsX[i]-40) && 
-              (gestureState.moveX-90 <= resources.positionsX[i]+40))
-              && 
-              (((resources.positionsY[position]+gestureState.dy >= resources.positionsY[i]-40) && 
-              (resources.positionsY[position]+gestureState.dy <= resources.positionsY[i]+40))))
-              && 
-              (position!=i) 
-              )*/
+              (((gestureState.moveY >= resources.positionsY[i]-h) && 
+              (gestureState.moveY <= resources.positionsY[i]+h)))
+              //&& 
+              //(position!=i) 
+              )))
+              
           {
+            
+            let buttonTouched = -1;
+            let buttonMatched = -1;
+            buttonMatched=resources.positions[i];
+            buttonTouched=resources.positions[layoutPos];
+
+            resources.positions[layoutPos]=buttonMatched;
+            resources.positions[i]=buttonTouched;
+
             
             //if within range of another button, swaps the buttons.
             console.log("within range!");
-            //vvvv can't be used to re-sort array due to automatic updating of positions.
-            let posCurX = resources.positionsX[position];
-            let posSwapX = resources.positionsX[i];
-            let posCurY = resources.positionsY[position];
-            let posSwapY = resources.positionsY[i];
-            /*
-            pan.setOffset({
-              x: posSwap,
-              y:0
-            })*/
             
-            //reinstate later
-            /*
-            resources.positionsX[i] = posCurX;
-            resources.positionsX[position] = posSwapX;
-            resources.positionsY[i] = posCurY;
-            resources.positionsY[position] = posSwapY;
-            console.log(resources.positionsX);
-            console.log(resources.positionsY);
-            */
-
-
-            /* re instate later
-            resources.positions[position] = i;
-            resources.positions[i] = position;
-            console.log("Updated Positions vvv");
-            console.log(resources.positions);
-            //need to find way to update pan / transform / or layout with the newly swapped positions.
-            //Pan only responds when actually used for the individual instances :(
-            //Switching here just for the reponsiveness, need to gut the old switching stuff then.
-           
-        
-            setSwitching(!switching);
-            
-            //break;
-            */
-           //the issue is with how to calculate the positon of the buttons
-           //and where it is in the array.
-           //right now the location of the card is put in the same place as its position
-           //This is makes sense, as the exact positons change when swapping, but
-           //makes it hard to calculate when the position of the button is close
-           //to the desired button to be swapped.
-          setSwitching(!switching);
-           point = i;
-           dest = position;
                         
           }
           else
@@ -278,14 +191,14 @@ function ResourceButtons (name, destination, position) {
             });
           }
         }
-        }
+        
 
         pan.flattenOffset();
-        resources.positions[point] = dest;
-        resources.positions[dest] = point;
+        setEditC(editC = true);
+        
 
-        console.log("abs x value: " + gestureState.moveX);
-        console.log("abs y value: " + gestureState.moveY);
+        console.log("abs x (moveX) value: " + gestureState.moveX);
+        console.log("abs y (moveY) value: " + gestureState.moveY);
         console.log("dx: " + gestureState.dx);
         console.log("dy: " + gestureState.dy);
         console.log("x0: " + gestureState.x0);
@@ -293,7 +206,7 @@ function ResourceButtons (name, destination, position) {
         console.log(resources.positionsX);
         console.log(resources.positionsY);
         console.log(resources.positions);
-        setSwitching(!switching);
+
         
         
       }
@@ -302,59 +215,11 @@ function ResourceButtons (name, destination, position) {
 
 
 
-  if( editC == true){
-    destination = handleButtonSwap;
-  }
-  //switching is used to force the buttons to re-render
-  function handleButtonSwap(e){
-    setSwitching(!switching);
-    //if (resources.editing == true)
-    if(editC == true)
-    {      
-      if (resources.switch.length < 1)
-      {
-        //pushes the current button to be swapped into the switch array
-        resources.switch.push(position); 
-      }
-     else
-    {
-     resources.switch.push(position);
-     //switches positions of elements when editing
-     let e0 = resources.switch[0];
-     let e1 = resources.switch[1];
-     for(let j = 0; j<resources.positions.length; j++){
-       if(resources.positions[j] == e0){
-         resources.positions[j] = e1;
-       }
-       else if (resources.positions[j] == e1){
-         resources.positions[j] = e0;
-       }
-     }
-     //resets switch array
-     resources.switch.length=0;
-     //useful for testing to make sure position swapping works
-     //console.log("Switch array");
-     //console.log(resources.switch);
-     //console.log("Pos array");
-     //console.log(resources.positions);   
-     
-    }
-      
-    }
-  }
   function onButtonPress(e){
-    //used to update the buttons with the boolean of resources.editing
-    //without this check, it will load the links before one can edit, when in edit mode.
+    
     console.log(name);
     console.log("Pressed");
-    setSwitching(!switching);
-    if(resources.editing == true){
-      destination=handleButtonSwap;
-      destination()
-    }
-    else{
-      openLink(destination);
-    }
+    openLink(destination);
 
   }
   function onHoldingPress(e){
@@ -366,10 +231,6 @@ function ResourceButtons (name, destination, position) {
 
   
   let rButton =<TouchableOpacity
-  //color={styles.resourceButtons.color} 
-  //right now, when a user is editing, pressing on a button causes it
-  //to be moved to the left by a factor of 5.
-  //Hopefully changing this to touch / mouse pos will allow for a proper drag and drop.
   style={[styles.buttonSize3]}
   //title={name+""} 
   /*
@@ -395,26 +256,66 @@ function ResourceButtons (name, destination, position) {
   </TouchableOpacity>
 
   //}
-  let finalCard = <Animated.View onLayout={(event) => {
-    const layout = event.nativeEvent.layout;
-    console.log("Intial Layout on render / re-render");
-    resources.positionsX[position] = layout.x;
-    resources.positionsY[position] = layout.y;
+  useEffect(() => {
+    //updates the render for the buttons
+    if(editC==true){
+      setEditC(editC = false);
+    }
+  });
+  let finalCard = <Animated.View ref={containerViewRef}   collapsable={false}
+  
+  style={{
+    transform: [{ translateX: pan.x }, { translateY: pan.y }]
+  }}
+  
+  onLayout={(event) => {
+    containerViewRef.current?.measure(
+      (x, y, width, height, pageX, pageY) => {
+        console.log("Intial Layout on render / re-render");
+        console.log(name+"VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV");
+        //The center of each button is equal to the page x position + half the width and or height.
+        setPageX(pageX + (width/2));
+        setPageY(pageY + (height/2));
+        console.log(name);
+        console.log("This is the page X vvvv");
+        console.log(pageX + (width/2));
+        console.log("This is the page Y vvvv");
+        console.log(pageY + (height/2));
+        console.log("Width: " + width);
+        console.log("Height: " + height);
+        setW(w = width/2);
+        setH(h = height/2);
+
+        
+    /*    if(position == layoutPos)
+    {
+
+    resources.positionsX[position] = pageX + (width/2);
+    resources.positionsY[position] = pageY + (height/2);
+
+    }*/
+    resources.positionsX[layoutPos] = pageX + (width/2);
+    resources.positionsY[layoutPos] = pageY + (height/2);
     console.log("x positions vvv");
     console.log(resources.positionsX[position]);
     console.log(resources.positionsX);
     console.log("y positions vvvv");
     console.log(resources.positionsY[position]);
     console.log(resources.positionsY);
-    console.log("height:", layout.height);
-    console.log("width:", layout.width);
-    console.log(name+" position");
-    console.log("x:", layout.x);
-    console.log("y:", layout.y);
+    
+    console.log("Current positions array vvvv");
+    console.log(resources.positions);
+
+    console.log("current position vvvv");
+    console.log(position);
+    
+      });
+    
+    
+    
+    
   }}
-  style={{
-    transform: [{ translateX: pan.x }, { translateY: pan.y }]
-  }}
+
   
   {...panResponder.panHandlers}
   > 
@@ -425,6 +326,7 @@ function ResourceButtons (name, destination, position) {
   
   
   </Animated.View>
+  
   return( <>
     {finalCard}
     </>
