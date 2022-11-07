@@ -42,9 +42,9 @@ export default function Profile_PopUp(props: CompProps) {
               <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
                 <Icon name="fast-food" type="ionicon" size={30} color={'black'}></Icon>
               </View>
-              <View style={{ flex: 6, justifyContent: 'center' }}>
+              <Pressable style={{ flex: 6, justifyContent: 'center' }} onPress={() => {props.navigation.goBack(); props.navigation.navigate('Allergies')}}>
                 <Text style={{ color: 'black', fontSize: 16 }}>Allergies and Preferences</Text>
-              </View>
+              </Pressable>
             </View>
             <View style={{ flex: 1, minHeight: 16, flexDirection: 'row' }}>
               <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
