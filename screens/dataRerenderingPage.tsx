@@ -10,7 +10,6 @@ import { CalendarProvider, WeekCalendar } from 'react-native-calendars';
 
 
 const todaysDate = ((new Date().getFullYear().toLocaleString())+'-'+(new Date().getMonth() + 1).toLocaleString())+'-'+(new Date().getDate().toLocaleString())
-console.log("This is todays date var "+ todaysDate)
 let DataState = false;
 let selectedDate = todaysDate;
 type CompProps = {
@@ -18,7 +17,7 @@ type CompProps = {
 };
 
 //let str = selectedDate.substring(0, pos) + chr + selectedDate.substring(pos, selectedDate.length);
-//console.log(str)
+
 function dateCal(data){
     const myArray = data.split("-");
     let year = myArray[0];
@@ -26,14 +25,12 @@ function dateCal(data){
     let day = ("0" + myArray[2]).slice(-2)
     //date gen conversion
     let date = year + '-' + month + '-' + day;
-    console.log(date)
     return date;
 }
 
 
 let todaysEvent = null;
 let today = new Date().toISOString().substring(0, 10);
-console.log("this is " + today);
 function date(data){
     let gendate;
     if (data.dateTimeStart.substr(0,10) == data.dateTimeEnd.substr(0,10)){
@@ -66,11 +63,14 @@ function date(data){
 function time(data){
     let time;
     let hour = (data).substr(11,2);
+   
     let minute = (data).substr(14,2);
     if (parseInt(hour) > 12){
         time = (parseInt(hour) - 12) +':'+ minute + " PM"
     }else {
-        time = hour + ':' + minute + ' AM'
+       
+        let hour1 = ((hour).substr(0,1)).replace("0", "") + ((hour).substr(1,2));
+        time = hour1 + ':' + minute + ' AM'
     }
     return time;
 }
@@ -209,7 +209,6 @@ export default function TestPage(props: CompProps) {
                 [dateCal(selectedDate)]: { marked: true, dotColor: 'white' }
               }}
               onDayPress={(day) => {selectedDate = day.year + '-' + day.month + '-' + day.day; 
-              console.log(selectedDate)
               todaysEvent = null;
               setPage(<View style={{borderColor:'black' ,width:'100%',height:'100%', justifyContent:"center",backgroundColor:"#ffffff", alignItems:"center"}}><Image source={require('../src/assets/loading.gif')}/></View>);
               genEventsData();}}
