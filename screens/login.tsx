@@ -1,8 +1,11 @@
 import { StyleSheet, View, Image, SafeAreaView, Text, KeyboardAvoidingView, Keyboard, Pressable } from "react-native";
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { LinearGradient } from "expo-linear-gradient";
 import { Button, Icon, CheckBox } from "@rneui/themed";
 import AnimatedInput from "react-native-animated-input";
+import {useAuthMutation,useCypherMutation} from '../src/api/apiSlice'
+import { useAppDispatch } from "../src/app/hooks";
+import { setUser } from "../src/api/authSlice";
 
 // Using this package for the input fields
 // https://www.npmjs.com/package/react-native-animated-input
@@ -12,18 +15,52 @@ type CompProps = {
   navigation: { navigate: Function; };
 };
 
+
 export default function Login(props: CompProps) {
 
   const [username, handleChange1] = useState("");
   const [password, handleChange2] = useState("");
+  const [encryptpwd, setpwd] = useState('');
   const [check, setCheck] = useState(false);
-  let saveInfo = false;
+  const dispatch = useAppDispatch();
 
+
+
+  const [auth, {
+    data: o,
+    isError,
+    isSuccess: isLoginSuccess,
+    error 
+  }] = useAuthMutation();
+
+
+  const [cyphper,{
+    data: enc,
+  }] = useCypherMutation();
+ 
   // For show/hide password field
   const [hidden, setHidden] = useState(true);
   const toggleHidden = () => {
     setHidden(!hidden);
   };
+
+  const handleLogin = async () => {
+    if (username && password){
+      await cyphper(password)
+      setpwd(enc) ;
+ 
+      await auth({ userId: username, encryptedPwd: encryptpwd});
+    }else {
+      console.log('error')
+    }
+  }
+
+  useEffect(() => {
+    if(isLoginSuccess){
+      dispatch(setUser({ name: username, token: o, cypher: enc }))
+      props.navigation.navigate('Home')
+    }
+  },[isLoginSuccess])
 
   return (
     <Pressable style={styles.page} onPress={Keyboard.dismiss}>
@@ -42,6 +79,7 @@ export default function Login(props: CompProps) {
                 <AnimatedInput
                   placeholder="Username"
                   errorText="Error"
+                  autoCapitalize='none'
                   value={username}
                   onChangeText={handleChange1}
                   styleLabel={{ fontWeight: "600" }}
@@ -54,6 +92,7 @@ export default function Login(props: CompProps) {
                   <AnimatedInput
                     placeholder="Password"
                     errorText="Error"
+                    autoCapitalize='none'
                     value={password}
                     onChangeText={handleChange2}
                     styleLabel={{ fontWeight: "600" }}
@@ -92,7 +131,7 @@ export default function Login(props: CompProps) {
             buttonStyle={styles.button}
             containerStyle={styles.button_container}
             titleStyle={{ fontSize: 18 }}
-            onPress={() => props.navigation.navigate('Home')}
+            onPress={() => handleLogin()}
           />
         </View>
       </SafeAreaView>
