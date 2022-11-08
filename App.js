@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -7,7 +7,7 @@ import { ApiProvider } from '@reduxjs/toolkit/dist/query/react';
 import { apiSlice } from './src/api/apiSlice';
 import { Provider } from 'react-redux';
 import { store } from './src/app/store'
-
+import { useAppDispatch } from './src/app/hooks';
 
 
 // Import screens to use for navigation
@@ -45,9 +45,17 @@ const Stack = createNativeStackNavigator();
 
 
 export default function App() {
+  //const dispatch = useAppDispatch();
+  //const user = JSON.parse(localStorage.getItem("user") || "{}")
+  /**
+  useEffect(() => {
+    dispatch(setUser(user));
+  },[]
+  )*/
   return (
-    <Provider store={store}>
+    
     <ApiProvider api={apiSlice}>
+      <Provider store={store}>
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false, animation: 'fade' }}>
         <Stack.Screen name = "Home" component = {Home} />
@@ -64,8 +72,8 @@ export default function App() {
             options={{ fullScreenGestureEnabled: true, presentation: 'transparentModal', gestureDirection: 'horizontal', animation: 'fade'}}/>
       </Stack.Navigator>
     </NavigationContainer>
-    </ApiProvider>
     </Provider>
+    </ApiProvider>
   );
 }
 
