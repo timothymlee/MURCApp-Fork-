@@ -4,7 +4,6 @@ import { Icon, SearchBar, Button } from "@rneui/themed";
 import {readUserData, writeUserData} from "../src/firebaseCalls";
 import Widget from '../src/js componets/widgetsV1.3';
 import { Image } from "@rneui/base";
-import {useWelcomeQuery,useCypherQuery,useAuthQuery } from '../src/api/apiSlice'
 
 type CompProps = {
   // We are only using the navigate and goBack functions
@@ -14,26 +13,6 @@ const image = {uri: "https://pbs.twimg.com/media/FdxI4qIXwAE28_5?format=jpg&name
 
 export default function Home(props: CompProps) {
   let textString = readUserData('tl1261');
-  const {
-    data: welc,
-    isLoading,
-    isSuccess,
-   
-  } = useCypherQuery('');
-  //Getting Password cypher
-
-  let t = JSON.stringify(welc);
-  
-  const {
-    data: auth,
-    isError,
-    error
-    
-  } = useAuthQuery({ userId: 'at1345', encryptedPwd: "{\"ecryptedString\":\"7zZB8OqJ7WEP8RNINUU5O72BAq0nPkW4P0tn7vuGVg8=\"}"});
-  //Get Auth Token
-  
-  textString = JSON.stringify(auth)
-  console.log("the errorrr" + auth )
 
   const [value, setValue] = useState("");
 
