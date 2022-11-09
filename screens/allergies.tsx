@@ -12,14 +12,25 @@ type CompProps = {
 export default function Allergies(props: CompProps) {
 
   // Set to true if they say they have an allergy
-  const [checked1, setChecked1] = React.useState(false); // Dairy
-  const [checked2, setChecked2] = React.useState(false); // Egg
-  const [checked3, setChecked3] = React.useState(false); // Fish
-  const [checked4, setChecked4] = React.useState(false); // Shellfish
-  const [checked5, setChecked5] = React.useState(false); // Peanuts
-  const [checked6, setChecked6] = React.useState(false); // Tree Nuts
-  const [checked7, setChecked7] = React.useState(false); // Gluten
-  const [checked8, setChecked8] = React.useState(false); // Vegan
+  let allergyPreferences: boolean[] = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ]
+
+  const [checked1, setChecked1] = React.useState(allergyPreferences[0]); // Dairy
+  const [checked2, setChecked2] = React.useState(allergyPreferences[1]); // Egg
+  const [checked3, setChecked3] = React.useState(allergyPreferences[2]); // Fish
+  const [checked4, setChecked4] = React.useState(allergyPreferences[3]); // Shellfish
+  const [checked5, setChecked5] = React.useState(allergyPreferences[4]); // Peanuts
+  const [checked6, setChecked6] = React.useState(allergyPreferences[5]); // Tree Nuts
+  const [checked7, setChecked7] = React.useState(allergyPreferences[6]); // Gluten
+  const [checked8, setChecked8] = React.useState(allergyPreferences[7]); // Vegan
 
   return (
     <>
@@ -47,95 +58,95 @@ export default function Allergies(props: CompProps) {
             <Text style={{ fontSize: 18, fontWeight: '600' }}>Back</Text>
           </Pressable>
           <Text style={styles.title}>Allergies</Text>
-          <ScrollView style={styles.checkBoxesContainer}>
-            <CheckBox
-              checked={checked1}
-              checkedColor="#0F0"
-              containerStyle={{ width: "100%", padding: 12, backgroundColor: '#EDEDED', margin: 0, marginLeft: 0}}
-              iconRight
-              onIconPress={() => setChecked1(!checked1)}
-              size={32}
-              textStyle={{fontWeight: '400', fontSize: 16, paddingLeft: '8%'}}
-              title="Dairy"
-              uncheckedColor="#838383"
-            />
-            <CheckBox
-              checked={checked2}
-              checkedColor="#0F0"
-              containerStyle={{ width: "100%", padding: 12, backgroundColor: null, margin: 0, marginLeft: 0}}
-              iconRight
-              onIconPress={() => setChecked2(!checked2)}
-              size={32}
-              textStyle={{fontWeight: '400', fontSize: 16, paddingLeft: '8%'}}
-              title="Egg"
-              uncheckedColor="#838383"
-            />
-            <CheckBox
-              checked={checked3}
-              checkedColor="#0F0"
-              containerStyle={{ width: "100%", padding: 12, backgroundColor: '#EDEDED', margin: 0, marginLeft: 0}}
-              iconRight
-              onIconPress={() => setChecked3(!checked3)}
-              size={32}
-              textStyle={{fontWeight: '400', fontSize: 16, paddingLeft: '8%'}}
-              title="Fish"
-              uncheckedColor="#838383"
-            />
-            <CheckBox
-              checked={checked4}
-              checkedColor="#0F0"
-              containerStyle={{ width: "100%", padding: 12, backgroundColor: null, margin: 0, marginLeft: 0}}
-              iconRight
-              onIconPress={() => setChecked4(!checked4)}
-              size={32}
-              textStyle={{fontWeight: '400', fontSize: 16, paddingLeft: '8%'}}
-              title="Shellfish"
-              uncheckedColor="#838383"
-            />
-            <CheckBox
-              checked={checked5}
-              checkedColor="#0F0"
-              containerStyle={{ width: "100%", padding: 12, backgroundColor: '#EDEDED', margin: 0, marginLeft: 0}}
-              iconRight
-              onIconPress={() => setChecked5(!checked5)}
-              size={32}
-              textStyle={{fontWeight: '400', fontSize: 16, paddingLeft: '8%'}}
-              title="Peanuts"
-              uncheckedColor="#838383"
-            />
-            <CheckBox
-              checked={checked6}
-              checkedColor="#0F0"
-              containerStyle={{ width: "100%", padding: 12, backgroundColor: null, margin: 0, marginLeft: 0}}
-              iconRight
-              onIconPress={() => setChecked6(!checked6)}
-              size={32}
-              textStyle={{fontWeight: '400', fontSize: 16, paddingLeft: '8%'}}
-              title="Tree Nuts"
-              uncheckedColor="#838383"
-            />
-            <CheckBox
-              checked={checked7}
-              checkedColor="#0F0"
-              containerStyle={{ width: "100%", padding: 12, backgroundColor: '#EDEDED', margin: 0, marginLeft: 0}}
-              iconRight
-              onIconPress={() => setChecked7(!checked7)}
-              size={32}
-              textStyle={{fontWeight: '400', fontSize: 16, paddingLeft: '8%'}}
-              title="Gluten"
-              uncheckedColor="#838383"
-            />
-            <CheckBox
-              checked={checked8}
-              checkedColor="#0F0"
-              containerStyle={{ width: "100%", padding: 12, backgroundColor: null, margin: 0, marginLeft: 0}}
-              iconRight
-              onIconPress={() => setChecked8(!checked8)}
-              size={32}
-              textStyle={{fontWeight: '400', fontSize: 16, paddingLeft: '8%'}}
-              title="Vegan"
-              uncheckedColor="#838383"
-            />
+          <ScrollView>
+            <View style={styles.checkboxItemContainer1}>
+              <Text style={styles.checkboxText}>Dairy</Text>
+              <CheckBox
+                checked={checked1}
+                checkedColor="#0F0"
+                containerStyle={styles.checkboxBoxContainer}
+                onIconPress={() => setChecked1(!checked1)}
+                size={32}
+                uncheckedColor="#838383"
+              />
+            </View>
+            <View style={styles.checkboxItemContainer2}>
+              <Text style={styles.checkboxText}>Egg</Text>
+              <CheckBox
+                checked={checked2}
+                checkedColor="#0F0"
+                containerStyle={styles.checkboxBoxContainer}
+                onIconPress={() => setChecked2(!checked2)}
+                size={32}
+                uncheckedColor="#838383"
+              />
+            </View>
+            <View style={styles.checkboxItemContainer1}>
+              <Text style={styles.checkboxText}>Fish</Text>
+              <CheckBox
+                checked={checked3}
+                checkedColor="#0F0"
+                containerStyle={styles.checkboxBoxContainer}
+                onIconPress={() => setChecked3(!checked3)}
+                size={32}
+                uncheckedColor="#838383"
+              />
+            </View>
+            <View style={styles.checkboxItemContainer2}>
+              <Text style={styles.checkboxText}>Shellfish</Text>
+              <CheckBox
+                checked={checked4}
+                checkedColor="#0F0"
+                containerStyle={styles.checkboxBoxContainer}
+                onIconPress={() => setChecked4(!checked4)}
+                size={32}
+                uncheckedColor="#838383"
+              />
+            </View>
+            <View style={styles.checkboxItemContainer1}>
+              <Text style={styles.checkboxText}>Peanuts</Text>
+              <CheckBox
+                checked={checked5}
+                checkedColor="#0F0"
+                containerStyle={styles.checkboxBoxContainer}
+                onIconPress={() => setChecked5(!checked5)}
+                size={32}
+                uncheckedColor="#838383"
+              />
+            </View>
+            <View style={styles.checkboxItemContainer2}>
+              <Text style={styles.checkboxText}>Tree Nuts</Text>
+              <CheckBox
+                checked={checked6}
+                checkedColor="#0F0"
+                containerStyle={styles.checkboxBoxContainer}
+                onIconPress={() => setChecked6(!checked6)}
+                size={32}
+                uncheckedColor="#838383"
+              />
+            </View>
+            <View style={styles.checkboxItemContainer1}>
+              <Text style={styles.checkboxText}>Gluten</Text>
+              <CheckBox
+                checked={checked7}
+                checkedColor="#0F0"
+                containerStyle={styles.checkboxBoxContainer}
+                onIconPress={() => setChecked7(!checked7)}
+                size={32}
+                uncheckedColor="#838383"
+              />
+            </View>
+            <View style={styles.checkboxItemContainer2}>
+              <Text style={styles.checkboxText}>Vegan</Text>
+              <CheckBox
+                checked={checked8}
+                checkedColor="#0F0"
+                containerStyle={styles.checkboxBoxContainer}
+                onIconPress={() => setChecked8(!checked8)}
+                size={32}
+                uncheckedColor="#838383"
+              />
+            </View>
             <View style={{height: 100}}></View>
           </ScrollView>
           <Button
@@ -144,7 +155,16 @@ export default function Allergies(props: CompProps) {
             containerStyle={styles.button_container}
             titleStyle={{ fontSize: 18 }}
             // onPress will save state of the current checked boxes in the database
-            onPress={() => props.navigation.navigate('Home')}
+            onPress={() => {
+              allergyPreferences[0] = checked1;
+              allergyPreferences[1] = checked2;
+              allergyPreferences[2] = checked3;
+              allergyPreferences[3] = checked4;
+              allergyPreferences[4] = checked5;
+              allergyPreferences[5] = checked6;
+              allergyPreferences[6] = checked7;
+              allergyPreferences[7] = checked8;
+            }}
           />
         </View>
 
@@ -221,7 +241,36 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: 'center'
   },
-  checkBoxesContainer: {
-
+  checkboxItemContainer1: {
+    flexDirection: 'row',
+    backgroundColor: '#EDEDED', 
+    margin: 0, 
+    marginLeft: 0,
+    alignItems: 'center',
+    paddingHorizontal: 40,
+    paddingVertical: 12
+  },
+  checkboxItemContainer2: {
+    flexDirection: 'row',
+    backgroundColor: null, 
+    margin: 0, 
+    marginLeft: 0,
+    alignItems: 'center',
+    paddingHorizontal: 40,
+    paddingVertical: 12
+  },
+  checkboxText: {
+    flex: 1,
+    fontWeight: '400', 
+    fontSize: 16, 
+    padding: 0
+  },
+  checkboxBoxContainer: {
+    flex: 1,
+    alignItems: 'flex-end',
+    backgroundColor:  null,
+    padding: 0,
+    margin: 0,
+    marginRight: 0
   }
 });
