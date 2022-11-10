@@ -1,6 +1,9 @@
 import { Pressable, Image, StyleSheet, SafeAreaView, Text, View } from "react-native";
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Icon, Slider } from "@rneui/themed";
+import { selectAuth } from "../src/api/authSlice";
+import { useAppSelector } from '../src/app/hooks';
+import {useDataMutation} from '../src/api/apiSlice'
 
 type CompProps = {
   // We are only using the navigate and goBack functions
@@ -9,6 +12,7 @@ type CompProps = {
 
 export default function Chapel(props: CompProps) {
 
+ 
   var attended = 6;
   var adjustment = 0;
   var required = 14;
