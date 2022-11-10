@@ -3,7 +3,7 @@ import React, { useState,useEffect } from 'react';
 import { LinearGradient } from "expo-linear-gradient";
 import { Button, Icon, CheckBox } from "@rneui/themed";
 import AnimatedInput from "react-native-animated-input";
-import {useAuthMutation,useCypherMutation} from '../src/api/apiSlice'
+import {useAuthMutation,useCypherMutation,useDataMutation} from '../src/api/apiSlice'
 import { useAppDispatch } from "../src/app/hooks";
 import { setUser } from "../src/api/authSlice";
 
@@ -30,6 +30,7 @@ export default function Login(props: CompProps) {
     data: o,
     isError,
     isSuccess: isLoginSuccess,
+    isLoading,
     error 
   }] = useAuthMutation();
 
@@ -38,6 +39,7 @@ export default function Login(props: CompProps) {
     data: enc,
   }] = useCypherMutation();
  
+
   // For show/hide password field
   const [hidden, setHidden] = useState(true);
   const toggleHidden = () => {
@@ -48,8 +50,12 @@ export default function Login(props: CompProps) {
     if (username && password){
       await cyphper(password)
       setpwd(enc) ;
- 
       await auth({ userId: username, encryptedPwd: encryptpwd});
+
+      console.log("cypher :" + enc)
+      console.log(isLoginSuccess)
+      console.log("is loading" + isLoading)
+      console.log("token :" + o)
     }else {
       console.log('error')
     }
