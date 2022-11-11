@@ -124,7 +124,7 @@ function ResourceButtons (name, destination, position, layoutPos) {
 
 
   const pan = useRef<any>(new Animated.ValueXY()).current;
- 
+  let pressingTouch = false
   const panResponder = useRef(
     PanResponder.create({
       onMoveShouldSetPanResponder: () => true,
@@ -134,24 +134,37 @@ function ResourceButtons (name, destination, position, layoutPos) {
           y: pan.y._value
         });
         console.log(name);
-        
+        pressingTouch = true;
       },
-      onPanResponderMove: Animated.event(
+      onPanResponderMove: (e, gestureState) => {
+        //if the button is pressed for long enough, the user must be trying to switch it.
+        //if(Math.abs(pan.x._value) > 5 || Math.abs(pan.y._value) > 5)
         
+        if(
+          setTimeout(function(){{timePassed: true}}, 1000))
+        {pressingTouch = false;}
+       return(
+        Animated.event(
         [
           null,
           { dx: pan.x, dy: pan.y }
         ],
         {useNativeDriver: false}
         
-      ),
+      )(e,gestureState)
+      )
+    
+    },
       onPanResponderRelease: (e, gestureState) => {
 
         //flatten offset is to keep the current
         //position that the button is moved to.
         //setting values to 0 cause button to return to orignal spot
         
-        
+        if(pressingTouch==true){
+          openLink(destination);
+        }
+        else{
           for(let i = 0; i < resources.positionsX.length; i++)
         {
             //since the center is pageX + width (pageY + height)
@@ -162,12 +175,12 @@ function ResourceButtons (name, destination, position, layoutPos) {
               && 
               (((gestureState.moveY >= resources.positionsY[i]-h) && 
               (gestureState.moveY <= resources.positionsY[i]+h)))
-              //&& 
-              //(position!=i) 
+              && 
+              (position!=i) 
               )))
               
           {
-            
+            //initializes the placements for button touched and matched
             let buttonTouched = -1;
             let buttonMatched = -1;
             buttonMatched=resources.positions[i];
@@ -182,6 +195,7 @@ function ResourceButtons (name, destination, position, layoutPos) {
             
                         
           }
+          
           else
           {
             console.log("Outside range!")
@@ -190,6 +204,7 @@ function ResourceButtons (name, destination, position, layoutPos) {
               y: 0,
             });
           }
+        }
         }
         
 
@@ -241,8 +256,9 @@ function ResourceButtons (name, destination, position, layoutPos) {
   onLongPress={onHoldingPress}
   onPressOut={onButtonPress}
   delayPressOut={1500}*/
-  onPress={onButtonPress}
-  onPressOut={onRelease}
+  
+  //onPress={onButtonPress}
+  //onPressOut={onRelease}
   
 
   
@@ -262,13 +278,16 @@ function ResourceButtons (name, destination, position, layoutPos) {
       setEditC(editC = false);
     }
   });
-  let finalCard = <Animated.View ref={containerViewRef}   collapsable={false}
+  let finalCard = <Animated.View ref={containerViewRef} collapsable={false}
   
   style={{
     transform: [{ translateX: pan.x }, { translateY: pan.y }]
   }}
   
   onLayout={(event) => {
+    //using the absolute value works for a non scrolling page
+    //scrolling the page changes the x and y values, so I either need to
+    //update them on when the user scrolls, or have an offset of some kind dependent on it.
     containerViewRef.current?.measure(
       (x, y, width, height, pageX, pageY) => {
         console.log("Intial Layout on render / re-render");
@@ -287,13 +306,6 @@ function ResourceButtons (name, destination, position, layoutPos) {
         setH(h = height/2);
 
         
-    /*    if(position == layoutPos)
-    {
-
-    resources.positionsX[position] = pageX + (width/2);
-    resources.positionsY[position] = pageY + (height/2);
-
-    }*/
     resources.positionsX[layoutPos] = pageX + (width/2);
     resources.positionsY[layoutPos] = pageY + (height/2);
     console.log("x positions vvv");
@@ -326,7 +338,10 @@ function ResourceButtons (name, destination, position, layoutPos) {
   
   
   </Animated.View>
-  
+  /*
+  if(editC==true){
+    setEditC(editC = false);
+  }*/
   return( <>
     {finalCard}
     </>
@@ -340,7 +355,6 @@ let styles = StyleSheet.create({
     height: "100%",
     width: "100%",
     flexDirection: "row",
-    backgroundColor: '#CCC',
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
     marginTop: "10%",

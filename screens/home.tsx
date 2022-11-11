@@ -2,7 +2,8 @@ import { ImageBackground, Pressable, StyleSheet, SafeAreaView, Text, View, Keybo
 import React, { useState } from 'react';
 import { Icon, SearchBar, Button } from "@rneui/themed";
 import {readUserData, writeUserData} from "../src/firebaseCalls";
-import Widget from '../src/js componets/widgetsV1.3';
+//import Widget from '../src/js componets/widgetsV1.3';
+import Widget from './index';
 import { Image } from "@rneui/base";
 
 type CompProps = {
@@ -47,7 +48,9 @@ export default function Home(props: CompProps) {
               <Button style={styles.button} onPress={() => props.navigation.navigate('DiningDollars')}>Dining Dollars Balance</Button>
               <Button style={styles.button} onPress={() => props.navigation.navigate('FalconDollars')}>Falcon Dollars Balance</Button>
               <Button style={styles.button} onPress={() => props.navigation.navigate('Index')}>Thomas' Drag N Drop</Button>
-              <Widget/>
+              <Widget navigation={{
+                navigate: Widget
+              }}/>
               <Text style={{fontSize: 20, color: 'white'}}>Data = {textString}</Text>
             </ScrollView>
           </ImageBackground>
