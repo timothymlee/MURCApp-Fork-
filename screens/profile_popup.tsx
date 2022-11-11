@@ -2,6 +2,8 @@ import { Pressable, StyleSheet, SafeAreaView, Text, View, Platform, StatusBar } 
 import React from 'react';
 import { Icon } from "@rneui/themed";
 import { Image } from "@rneui/base";
+import { selectAuth } from "../src/api/authSlice";
+import { useAppSelector } from '../src/app/hooks';
 
 type CompProps = {
   // We are only using the navigate and goBack functions
@@ -9,7 +11,7 @@ type CompProps = {
 };
 
 export default function Profile_PopUp(props: CompProps) {
-
+ const { name } = useAppSelector(selectAuth)
   return (
     <>
         <View style={styles.overlay}>
@@ -27,7 +29,7 @@ export default function Profile_PopUp(props: CompProps) {
               <Text style={{ color: 'black', fontSize: 30 }}>Joe Jenkins</Text>
             </View>
             <View style={{ flex: 1.5, minHeight: 24 }}>
-              <Text style={{ color: 'gray', fontSize: 20 }}>jj1234</Text>
+              <Text style={{ color: 'gray', fontSize: 20 }}>{name}</Text>
             </View>
 
             <View style={{ flex: 1, minHeight: 16, flexDirection: 'row' }}>
@@ -42,9 +44,9 @@ export default function Profile_PopUp(props: CompProps) {
               <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
                 <Icon name="fast-food" type="ionicon" size={30} color={'black'}></Icon>
               </View>
-              <View style={{ flex: 6, justifyContent: 'center' }}>
+              <Pressable style={{ flex: 6, justifyContent: 'center' }} onPress={() => {props.navigation.goBack(); props.navigation.navigate('Allergies')}}>
                 <Text style={{ color: 'black', fontSize: 16 }}>Allergies and Preferences</Text>
-              </View>
+              </Pressable>
             </View>
             <View style={{ flex: 1, minHeight: 16, flexDirection: 'row' }}>
               <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>

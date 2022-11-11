@@ -37,28 +37,28 @@ export default function UnionMenu(props: CompProps) {
 
   // Each menu category has items listed here
   const ice_cream_list = [
-    { name: 'ice cream' },
-    { name: 'ice cream' }
+    'ice cream' ,
+    'ice cream'
   ]
   const sandwich_list = [
-    { name: 'ice cream' },
-    { name: 'ice cream' }
+    'ice cream',
+    'ice cream'
   ]
   const burger_list = [
-    { name: 'ice cream' },
-    { name: 'ice cream' }
+    'ice cream' ,
+    'ice cream'
   ]
   const coffee_tea_list = [
-    { name: 'ice cream' },
-    { name: 'ice cream' }
+    'ice cream',
+    'ice cream'
   ]
   const pizza_list = [
-    { name: 'ice cream' },
-    { name: 'ice cream' }
+    'ice cream',
+    'ice cream'
   ]
   const u_create_list = [
-    { name: 'ice cream' },
-    { name: 'ice cream' }
+    'ice cream',
+    'ice cream'
   ]
   
   return (
@@ -139,7 +139,7 @@ export default function UnionMenu(props: CompProps) {
               {ice_cream_list.map((l, i) => (
                 <ListItem key={i}>
                   <ListItem.Content>
-                    <ListItem.Title>{l.name}</ListItem.Title>
+                    <ListItem.Title>{l}</ListItem.Title>
                   </ListItem.Content>
                 </ListItem>
               ))}
@@ -163,7 +163,7 @@ export default function UnionMenu(props: CompProps) {
               {sandwich_list.map((l, i) => (
                 <ListItem key={i}>
                   <ListItem.Content>
-                    <ListItem.Title>{l.name}</ListItem.Title>
+                    <ListItem.Title>{l}</ListItem.Title>
                   </ListItem.Content>
                 </ListItem>
               ))}
@@ -188,7 +188,7 @@ export default function UnionMenu(props: CompProps) {
                 <ListItem key={i}>
                   
                   <ListItem.Content>
-                    <ListItem.Title>{l.name}</ListItem.Title>
+                    <ListItem.Title>{l}</ListItem.Title>
                   </ListItem.Content>
                 </ListItem>
               ))}
@@ -212,7 +212,7 @@ export default function UnionMenu(props: CompProps) {
               {coffee_tea_list.map((l, i) => (
                 <ListItem key={i}>
                   <ListItem.Content>
-                    <ListItem.Title>{l.name}</ListItem.Title>
+                    <ListItem.Title>{l}</ListItem.Title>
                   </ListItem.Content>
                 </ListItem>
               ))}
@@ -236,7 +236,7 @@ export default function UnionMenu(props: CompProps) {
               {pizza_list.map((l, i) => (
                 <ListItem key={i}>
                   <ListItem.Content>
-                    <ListItem.Title>{l.name}</ListItem.Title>
+                    <ListItem.Title>{l}</ListItem.Title>
                   </ListItem.Content>
                 </ListItem>
               ))}
@@ -260,7 +260,7 @@ export default function UnionMenu(props: CompProps) {
               {u_create_list.map((l, i) => (
                 <ListItem key={i}>
                   <ListItem.Content>
-                    <ListItem.Title>{l.name}</ListItem.Title>
+                    <ListItem.Title>{l}</ListItem.Title>
                   </ListItem.Content>
                 </ListItem>
               ))}

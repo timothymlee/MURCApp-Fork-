@@ -1,6 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+
+import { ApiProvider } from '@reduxjs/toolkit/dist/query/react';
+import { apiSlice } from './src/api/apiSlice';
+import { Provider } from 'react-redux';
+import { store } from './src/app/store'
+import { useAppDispatch } from './src/app/hooks';
+
 
 // Import screens to use for navigation
 import Home from './screens/home';
@@ -13,10 +21,12 @@ import Login from './screens/login';
 import Gym from './screens/gym';
 import DiningDollars from './screens/dining_dollars';
 import FalconDollars from './screens/falcon_dollars';
-
+import LottieMenu from './screens/lottie_menu';
+import Allergies from './screens/allergies';
 
 // Import Cas
 import useCas from "./src/cas/useCas";
+//import { ApiProvider } from '@reduxjs/toolkit/dist/query/react';
 
 const Stack = createNativeStackNavigator();
 
@@ -36,7 +46,17 @@ const Stack = createNativeStackNavigator();
 
 
 export default function App() {
+  //const dispatch = useAppDispatch();
+  //const user = JSON.parse(localStorage.getItem("user") || "{}")
+  /**
+  useEffect(() => {
+    dispatch(setUser(user));
+  },[]
+  )*/
   return (
+    
+    <ApiProvider api={apiSlice}>
+      <Provider store={store}>
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false, animation: 'fade' }}>
         <Stack.Screen name = "Home" component = {Home} />
@@ -48,10 +68,14 @@ export default function App() {
         <Stack.Screen name = "Gym" component = {Gym} />
         <Stack.Screen name = "FalconDollars" component = {FalconDollars} />
         <Stack.Screen name = "DiningDollars" component = {DiningDollars} />
+        <Stack.Screen name = "LottieMenu" component = {LottieMenu} />
+        <Stack.Screen name = "Allergies" component = {Allergies} />
         <Stack.Screen name = "Settings" component = {Settings} 
             options={{ fullScreenGestureEnabled: true, presentation: 'transparentModal', gestureDirection: 'horizontal', animation: 'fade'}}/>
       </Stack.Navigator>
     </NavigationContainer>
+    </Provider>
+    </ApiProvider>
   );
 }
 

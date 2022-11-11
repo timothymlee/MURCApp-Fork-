@@ -16,9 +16,35 @@ export default function Home(props: CompProps) {
   let textString = readUserData('tl1261');
 
   const [value, setValue] = useState("");
+  const [results, setResults] = useState([])
 
-  return (
-    <>
+  let WidgetNames = [
+    { name: "Union Cafe", url: 'UnionMenu' },
+    { name: "Lottie Dining Hall", url: 'LottieMenu' },
+    { name: "Chapel Attendance", url: 'Chapel' },
+    { name: "Falcon", url: 'FalconMenu' },
+    { name: "Gym", url: 'Gym' },
+    { name: "Dining Dollars", url: 'DiningDollars' },
+    { name: "Falcon Dollars", url: 'FalconDollars' }
+  ]
+
+  const updateSearch = (value) => {
+    setValue(value);
+    let formatValue = value.toLowerCase();
+    let valLen = formatValue.length;
+    let storedResults = [];
+    WidgetNames.forEach(element => {
+      if (element.name.toLowerCase().includes(formatValue.toLowerCase())) {
+        storedResults.push(element);
+      }
+    });
+    setResults(storedResults);
+  };
+
+  const handleSearchChange = () => {
+    if (value == "") {
+      return (
+        <>
       <SafeAreaView style={styles.page}>
 
         <View style={styles.header}>
@@ -43,6 +69,7 @@ export default function Home(props: CompProps) {
               <Button style={styles.button} onPress={() => props.navigation.navigate('Chapel')}>Chapel</Button>
               <Button style={styles.button} onPress={() => props.navigation.navigate('UnionMenu')}>Union</Button>
               <Button style={styles.button} onPress={() => props.navigation.navigate('FalconMenu')}>Falcon</Button>
+              <Button style={styles.button} onPress={() => props.navigation.navigate('LottieMenu')}>Lottie</Button>
               <Button style={styles.button} onPress={() => props.navigation.navigate('Login')}>Log In Page</Button>
               <Button style={styles.button} onPress={() => props.navigation.navigate('Gym')}>Gym</Button>
               <Button style={styles.button} onPress={() => props.navigation.navigate('DiningDollars')}>Dining Dollars Balance</Button>
@@ -65,7 +92,7 @@ export default function Home(props: CompProps) {
             leftIconContainerStyle={{}}
             rightIconContainerStyle={{}}
             loadingProps={{}}
-            onChangeText={newVal => setValue(newVal)}
+            onChangeText={updateSearch}
             placeholder="Search"
             placeholderTextColor="#888"
             value={value}
@@ -73,7 +100,61 @@ export default function Home(props: CompProps) {
         </KeyboardAvoidingView>
       </SafeAreaView>
     </>
-  );
+      )
+    }
+    else {
+      return (
+        <>
+      <SafeAreaView style={styles.page}>
+
+        <View style={styles.header}>
+          <View style={[styles.header_content, { alignItems: 'flex-start' }]}>
+            <Pressable onPress={() => props.navigation.navigate('Settings')}>
+              <Icon name="person" style={styles.header_icons} size={44} color={'white'}></Icon>
+            </Pressable>
+          </View>
+          <View style={[styles.header_content, { alignItems: 'center' }]}>
+            <Image source={require('../assets/images/messiah_logo.png')} style={styles.header_image}/>
+          </View>
+          <View style={[styles.header_content, { alignItems: 'flex-end' }]}>
+            <Pressable onPress={() => props.navigation.navigate('Home')}>
+              <Icon name="home" style={styles.header_icons} size={44} color={'white'}></Icon>
+            </Pressable>
+          </View>
+        </View>
+
+        <View style={styles.app_container}>
+          <ImageBackground source={image} style={styles.bg_image} >
+            <Text style={styles.searchText}>Searching For "{value}"</Text>
+            <View style={styles.searchResultContainer}>
+            {results.map((result, i) =>
+              <Button key={i} style={styles.button} onPress={() => props.navigation.navigate(result.url)}>{result.name}</Button>
+            )}
+            </View>
+          </ImageBackground>
+        </View>
+
+        <KeyboardAvoidingView style={styles.search_container} behavior="position">
+          <SearchBar
+            platform="ios"
+            containerStyle={{ backgroundColor: "#1E293B" }}
+            inputContainerStyle={{ backgroundColor: '#F3F3F3', }}
+            inputStyle={{}}
+            leftIconContainerStyle={{}}
+            rightIconContainerStyle={{}}
+            loadingProps={{}}
+            onChangeText={updateSearch}
+            placeholder="Search"
+            placeholderTextColor="#888"
+            value={value}
+          />
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+    </>
+      )
+    }
+  }
+  return (handleSearchChange());
 }
 
 const styles = StyleSheet.create({
@@ -131,5 +212,13 @@ const styles = StyleSheet.create({
     width: 120,
     height: 30,
     resizeMode: 'cover'
+  },
+  searchText: {
+    color: 'white',
+    fontSize: 20,
+    padding: 20
+  },
+  searchResultContainer: {
+    flex: 1
   }
 });
