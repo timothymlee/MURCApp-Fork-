@@ -39,12 +39,25 @@ export const apiSlice = createApi({
                 };
               },
         }),
-        
+        data: builder.mutation({
+            query: (arg) => {
+                const { token, datatype } = arg;
+                return {
+                  url: '/get-user-data',
+                  method: 'POST',
+                  body: {
+                    'token': token,
+                    'datatype': datatype
+                  }
+                };
+              },
+        }),
     })
 })
 
 export const {
     useWelcomeQuery,
     useCypherMutation,
-    useAuthMutation
+    useAuthMutation,
+    useDataMutation
 } = apiSlice
