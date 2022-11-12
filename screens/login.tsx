@@ -6,6 +6,7 @@ import AnimatedInput from "react-native-animated-input";
 import {useAuthMutation,useCypherMutation,useDataMutation} from '../src/api/apiSlice'
 import { useAppDispatch } from "../src/app/hooks";
 import { setUser } from "../src/api/authSlice";
+import AppLoader from '../src/js componets/AppLoader'
 
 // Using this package for the input fields
 // https://www.npmjs.com/package/react-native-animated-input
@@ -22,6 +23,7 @@ export default function Login(props: CompProps) {
   const [password, handleChange2] = useState("");
   const [encryptpwd, setpwd] = useState('');
   const [check, setCheck] = useState(false);
+  const [loginPending,setLoginPending] = useState(false)
   const dispatch = useAppDispatch();
 
 
@@ -37,6 +39,7 @@ export default function Login(props: CompProps) {
 
   const [cyphper,{
     data: enc,
+    isSuccess: isCypherSuccess,
   }] = useCypherMutation();
  
 
@@ -48,18 +51,20 @@ export default function Login(props: CompProps) {
 
   const handleLogin = async () => {
     if (username && password){
+      setLoginPending(true);
       await cyphper(password)
-      setpwd(enc) ;
-      await auth({ userId: username, encryptedPwd: encryptpwd});
-
-      console.log("cypher :" + enc)
-      console.log(isLoginSuccess)
-      console.log("is loading" + isLoading)
-      console.log("token :" + o)
     }else {
       console.log('error')
     }
   }
+
+  useEffect(() => {
+    if(isCypherSuccess){
+      setpwd(enc)
+      auth({ userId: username, encryptedPwd: enc})
+
+    }
+  },[isCypherSuccess])
 
   useEffect(() => {
     if(isLoginSuccess){
@@ -69,6 +74,7 @@ export default function Login(props: CompProps) {
   },[isLoginSuccess])
 
   return (
+    <>
     <Pressable style={styles.page} onPress={Keyboard.dismiss}>
       <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
         <LinearGradient
@@ -142,6 +148,8 @@ export default function Login(props: CompProps) {
         </View>
       </SafeAreaView>
     </Pressable>
+    {loginPending? <AppLoader /> : null}
+    </>
   );
 }
 
