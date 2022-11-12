@@ -4,13 +4,13 @@ import * as WebBrowser from 'expo-web-browser';
 import { NoUnusedFragmentsRule } from "graphql";
 import { getPositionOfLineAndCharacter } from "typescript";
 import WidgetDefault from "./Widgets/widgetDefault"
-
+//not being used VVVVVV
 type CompProps = {
   // We are only using the navigate and goBack functions
   navigation: { navigate: Function;};
 };
 
-export default function Index(props: CompProps) {
+export default function Index(props) {
   const [result, setResult] = useState(null);
   //not currently being utilized, artifact from original index vvvvv
   const _handlePressButtonAsync = async () => {
@@ -20,19 +20,21 @@ export default function Index(props: CompProps) {
     });
     setResult(result);
   };
-  
+  //takes in the props from home.
+  let navigator = props.navFun;
+  console.log(navigator);
 
 
-  //the lone button below represents the default button
-  //<Button title="eats" onPress={_handlePressButtonAsync} />
   //the MapGrid is used for making the procedural buttons
   return (
-   
+    
     <View style={styles.container}>
       <View style={styles.resourceButtons} 
       >
-      <MapGrid 
-      dest={openLink}>  
+      <MapGrid sources={navigator}
+      //dest={openLink}
+      
+      >  
       </MapGrid>
       <View
        onLayout={(event) => {
@@ -51,11 +53,19 @@ export default function Index(props: CompProps) {
 
 //placeholder for potential JSON file implementation.
 //It currently contains the titles for the buttons
+//This (the url links from falcon link) will be eventually combined with the page links for
+//our own pages for the widgets and I'll be working on the logic for it.
+//for the purposes of the widgets, fust add the page url from home to them.
+//the convention for making the widgets / buttons is to:
+//have the name in resourcesList
+//have the url in resourceDestinations
+//have the image link in resourceImages
 let resources ={
-  resourcesList: ["Union", "The Falcon", "Student Events", "Map", "Lottie Menu"],
-  resourceDestinations: ['https://union.messiah.edu/menu/', 'http://falcon.messiah.edu/menu/',
+  resourcesList: ["Union", "The Falcon", "Chapel", "Gym", "Lottie Menu"],
+  /*resourceDestinations: ['https://union.messiah.edu/menu/', 'http://falcon.messiah.edu/menu/',
 'https://www.messiah.edu/a/sso/sso.php?url=https://www.messiah.edu/student-events', 'https://tour.messiah.edu/campus-map/',
-'https://www.messiah.edu/a/sso/sso.php?url=https://www.messiah.edu/download/downloads/id/9433/Lottie_thisweek.pdf'],
+'https://www.messiah.edu/a/sso/sso.php?url=https://www.messiah.edu/download/downloads/id/9433/Lottie_thisweek.pdf'],*/
+  resourceDestinations: ['UnionMenu','FalconMenu', 'Chapel', 'Gym', 'LottieMenu'],
  resourceImages: [require("./../src/assets/img/food.png"), require("./../src/assets/img/dollar.png"), 
   require("./../src/assets/img/calander.png"), 
   require("./../src/assets/img/book.png"), require("./../src/assets/img/food.png")],
@@ -66,9 +76,26 @@ let resources ={
   positionsX: [],
   positionsY: []
   
-} 
-function openLink(link){
-  Linking.openURL(link);
+}
+//below is for url refernce purposes
+/*
+let WidgetNames = [
+  { name: "Union Cafe", url: 'UnionMenu' },
+  { name: "Lottie Dining Hall", url: 'LottieMenu' },
+  { name: "Chapel Attendance", url: 'Chapel' },
+  { name: "Falcon", url: 'FalconMenu' },
+  { name: "Gym", url: 'Gym' },
+  { name: "Dining Dollars", url: 'DiningDollars' },
+  { name: "Falcon Dollars", url: 'FalconDollars' }
+]
+*/
+
+function openLink(link, navi){
+  //Linking.openURL(link);
+  //above opens website urls
+  //below is good for our own pages
+  console.log(navi);
+  navi.sources.navigation.navigate(link);
 }
 
 
@@ -76,7 +103,14 @@ function openLink(link){
 //On the flip side, I do not believe it is possible or advisable to edit props.
 function  MapGrid (sources){
   let sourceButtons = [];
-  //names = ["Union", "Falcon", "Test"];
+  //note: currently the widgets / buttons use absolute positioning to calculate the postion
+  //of the widgets. This works fine when the view does not scroll.
+  //when it does scroll, the absolute positions change, so I need to either need to make
+  //a reactive offset or update the positions array whenever the user moves the scroll view.
+  //For testing moving the widgets, either use the Drag n Drop button, or don't scroll
+  //the page on initial loadout.
+
+
   //need to add unique key prop later on.
   //The below code is for populating the initial positions array.
   if(resources.positions.length == 0){
@@ -93,7 +127,7 @@ function  MapGrid (sources){
     sourceButtons.push(ResourceButtons(resources.resourcesList[resources.positions[i]], 
       //sources.dest(resources.resourceDestinations[i]), 
       resources.resourceDestinations[resources.positions[i]],
-      resources.positions[i], i));
+      resources.positions[i], i, sources));
       
   }
   /*useful for position testing
@@ -110,7 +144,7 @@ function  MapGrid (sources){
 
 
 
-function ResourceButtons (name, destination, position, layoutPos) {
+function ResourceButtons (name, destination, position, layoutPos, navi) {
   const containerViewRef = useRef<View>(null);
 
   let [, setPageY] = useState(0);
@@ -162,7 +196,7 @@ function ResourceButtons (name, destination, position, layoutPos) {
         //setting values to 0 cause button to return to orignal spot
         
         if(pressingTouch==true){
-          openLink(destination);
+          openLink(destination, navi);
         }
         else{
           for(let i = 0; i < resources.positionsX.length; i++)
@@ -234,7 +268,7 @@ function ResourceButtons (name, destination, position, layoutPos) {
     
     console.log(name);
     console.log("Pressed");
-    openLink(destination);
+    openLink(destination, navi);
 
   }
   function onHoldingPress(e){
@@ -247,20 +281,6 @@ function ResourceButtons (name, destination, position, layoutPos) {
   
   let rButton =<TouchableOpacity
   style={[styles.buttonSize3]}
-  //title={name+""} 
-  /*
-  delayPressIn={500}
-  onPressIn={onHoldingPress}
-  pressRetentionOffset={{left:100, top:100, right:100, bottom:100}}
-  delayLongPress={700}
-  onLongPress={onHoldingPress}
-  onPressOut={onButtonPress}
-  delayPressOut={1500}*/
-  
-  //onPress={onButtonPress}
-  //onPressOut={onRelease}
-  
-
   
   
 
