@@ -61,7 +61,7 @@ export default function Chapel(props: CompProps) {
                 trackStyle={{
                   height: 30,
                   borderRadius: 20,
-                  borderWidth: 1,
+                  borderWidth: 5,
                   borderColor: "#B8B8B8"
                 }}
                 value={attended}

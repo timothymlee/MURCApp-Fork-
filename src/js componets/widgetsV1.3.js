@@ -17,7 +17,7 @@ var Menu = "Grilled Chicken Caesar Wrap        Italian Lasagna"
 var active = false;
 const {width} = Dimensions.get('window')
 const {height} = Dimensions.get('window')
-//console.log("width: "+width +" height: " + height)
+console.log("width: "+width +" hieght: " + height)
 const headerViewHeight = 160
 const bottomViewHeight = 40
 

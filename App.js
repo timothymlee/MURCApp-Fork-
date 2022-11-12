@@ -23,7 +23,6 @@ import DiningDollars from './screens/dining_dollars';
 import FalconDollars from './screens/falcon_dollars';
 import LottieMenu from './screens/lottie_menu';
 import Allergies from './screens/allergies';
-import Map from './screens/map';
 
 // Import Cas
 import useCas from "./src/cas/useCas";
@@ -71,7 +70,6 @@ export default function App() {
         <Stack.Screen name = "DiningDollars" component = {DiningDollars} />
         <Stack.Screen name = "LottieMenu" component = {LottieMenu} />
         <Stack.Screen name = "Allergies" component = {Allergies} />
-        <Stack.Screen name = "Map" component = {Map} />
         <Stack.Screen name = "Settings" component = {Settings} 
             options={{ fullScreenGestureEnabled: true, presentation: 'transparentModal', gestureDirection: 'horizontal', animation: 'fade'}}/>
       </Stack.Navigator>

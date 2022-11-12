@@ -11,6 +11,16 @@ type CompProps = {
 };
 
 export default function LottieMenu(props: CompProps) {
+  // For linking to the Union site
+  const [result, setResult] = useState(null);
+
+  const _handlePressButtonAsync = async () => {
+    let result = await WebBrowser.openBrowserAsync('https://union.messiah.edu/menu/', {
+      enableBarCollapsing: true,
+      toolbarColor: '#2a3e5e'
+    });
+    setResult(result);
+  };
 
   var today = new Date().toISOString().substring(0, 10);
 
@@ -135,6 +145,7 @@ export default function LottieMenu(props: CompProps) {
           />
           <ScrollView>
             <>
+            
               {thisDay.map((meal, i) =>
                 <ListItem.Accordion
                   key={i}
@@ -150,7 +161,7 @@ export default function LottieMenu(props: CompProps) {
                   containerStyle={styles.list_header}
                   topDivider
                   onPress={() => {
-                    setExpanded([...expanded.slice(0, i), !expanded[i], ...expanded.slice(i + 1, expanded.length)]);
+                    setExpanded([...expanded.slice(0, i), !expanded[i], ...expanded.slice(i+1, expanded.length)]);
                   }}
                   isExpanded={expanded[i]}>
                   {meal.value.map((category, j) =>
