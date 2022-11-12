@@ -40,7 +40,7 @@ function readUserData(userId) {
             returnString += "\n";
         });
     });
-    console.log(returnString);
+    //console.log(returnString);
     return returnString;
 }
 
@@ -55,7 +55,7 @@ function readLottieData(date) {
             returnString += "\n";
         });
     });
-    console.log(returnString);
+    //console.log(returnString);
     return returnString;
 }
 
