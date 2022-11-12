@@ -25,16 +25,16 @@ export default function Home(props: CompProps) {
     { name: "Falcon", url: 'FalconMenu' },
     { name: "Gym", url: 'Gym' },
     { name: "Dining Dollars", url: 'DiningDollars' },
-    { name: "Falcon Dollars", url: 'FalconDollars' }
+    { name: "Falcon Dollars", url: 'FalconDollars' },
+    { name: "Campus Map", url: 'Map' },
+    { name: "Log In", url: 'Login' }
   ]
 
   const updateSearch = (value) => {
     setValue(value);
-    let formatValue = value.toLowerCase();
-    let valLen = formatValue.length;
     let storedResults = [];
     WidgetNames.forEach(element => {
-      if (element.name.toLowerCase().includes(formatValue.toLowerCase())) {
+      if (element.name.toLowerCase().includes(value.toLowerCase())) {
         storedResults.push(element);
       }
     });
@@ -66,6 +66,7 @@ export default function Home(props: CompProps) {
         <View style={styles.app_container}>
           <ImageBackground source={image} style={styles.bg_image} >
             <ScrollView style={styles.app_container}>
+<<<<<<< HEAD
               <Button style={styles.button} onPress={() => props.navigation.navigate('Chapel')}>Chapel</Button>
               <Button style={styles.button} onPress={() => props.navigation.navigate('UnionMenu')}>Union</Button>
               <Button style={styles.button} onPress={() => props.navigation.navigate('FalconMenu')}>Falcon</Button>
@@ -77,6 +78,10 @@ export default function Home(props: CompProps) {
               <Button style={styles.button} onPress={() => props.navigation.navigate('Index')}>Thomas' Drag N Drop</Button>
               <Widget navFun={props}/>
               <Text style={{fontSize: 20, color: 'white'}}>Data = {textString}</Text>
+=======
+              <Widget/>
+              {/*<Text style={{fontSize: 20, color: 'white'}}>Data = {textString}</Text>*/}
+>>>>>>> parent of c08b56a (Created Map)
             </ScrollView>
           </ImageBackground>
         </View>
