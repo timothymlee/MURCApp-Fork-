@@ -27,7 +27,8 @@ export default function Home(props: CompProps) {
     { name: "Dining Dollars", url: 'DiningDollars' },
     { name: "Falcon Dollars", url: 'FalconDollars' },
     { name: "Campus Map", url: 'Map' },
-    { name: "Log In", url: 'Login' }
+    { name: "Log In", url: 'Login' },
+    { name: "Drag and Drop", url: 'Index'}
   ]
 
   const updateSearch = (value) => {
@@ -66,22 +67,8 @@ export default function Home(props: CompProps) {
         <View style={styles.app_container}>
           <ImageBackground source={image} style={styles.bg_image} >
             <ScrollView style={styles.app_container}>
-<<<<<<< HEAD
-              <Button style={styles.button} onPress={() => props.navigation.navigate('Chapel')}>Chapel</Button>
-              <Button style={styles.button} onPress={() => props.navigation.navigate('UnionMenu')}>Union</Button>
-              <Button style={styles.button} onPress={() => props.navigation.navigate('FalconMenu')}>Falcon</Button>
-              <Button style={styles.button} onPress={() => props.navigation.navigate('LottieMenu')}>Lottie</Button>
-              <Button style={styles.button} onPress={() => props.navigation.navigate('Login')}>Log In Page</Button>
-              <Button style={styles.button} onPress={() => props.navigation.navigate('Gym')}>Gym</Button>
-              <Button style={styles.button} onPress={() => props.navigation.navigate('DiningDollars')}>Dining Dollars Balance</Button>
-              <Button style={styles.button} onPress={() => props.navigation.navigate('FalconDollars')}>Falcon Dollars Balance</Button>
-              <Button style={styles.button} onPress={() => props.navigation.navigate('Index')}>Thomas' Drag N Drop</Button>
               <Widget navFun={props}/>
-              <Text style={{fontSize: 20, color: 'white'}}>Data = {textString}</Text>
-=======
-              <Widget/>
               {/*<Text style={{fontSize: 20, color: 'white'}}>Data = {textString}</Text>*/}
->>>>>>> parent of c08b56a (Created Map)
             </ScrollView>
           </ImageBackground>
         </View>
