@@ -1,7 +1,7 @@
 import { Pressable, Text, StyleSheet, SafeAreaView, View, Platform, StatusBar, Keyboard, KeyboardAvoidingView, ScrollView } from "react-native";
 import React, { useState, useEffect } from 'react';
-import { Icon, SearchBar, Button } from "@rneui/themed";
-import { Image } from "@rneui/base";
+import { Icon, SearchBar, Button, Overlay } from "@rneui/themed";
+import { BackgroundImage, Image, CheckBox } from "@rneui/base";
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { current } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
@@ -267,12 +267,20 @@ export default function Map(props: CompProps) {
     longitudeDelta: 0.006
   }
 
+  var _mapView: MapView;
+
   const [value, setValue] = useState("");
   const [results, setResults] = useState([])
   const [selected, setSelected] = useState("")
   const [selectedIcon, setIcon] = useState("")
   const [activePins, setPins] = useState([])
+  // For overlay
+  const [visible, setVisible] = useState(false);
   const [location, setLocation] = useState(currentLocation)
+
+  const toggleOverlay = () => {
+    setVisible(!visible);
+  };
 
   // Each digit is a boolean that corresponds with whether that category is active.
   // They go in order of the list in AllLocations.
@@ -287,9 +295,9 @@ export default function Map(props: CompProps) {
     setValue(value);
     let storedResults = [];
     AllLocations.forEach(function (name) {
-      name.category.map(function (location) {
-        if (location.name.toLowerCase().includes(value.toLowerCase())) {
-          storedResults.push([location, name.icon]);
+      name.category.map(function (thisLocation) {
+        if (thisLocation.name.toLowerCase().includes(value.toLowerCase())) {
+          storedResults.push([thisLocation, name.icon]);
         }
       });
     });
@@ -310,6 +318,25 @@ export default function Map(props: CompProps) {
     }
   }
 
+  function renderCheckBox(name, num) {
+    return (
+      <CheckBox
+        checked={categoriesActive[num]}
+        title={name}
+        checkedColor="#0F0"
+        containerStyle={styles.checkboxBoxContainer}
+        onIconPress={() => {
+          let tempActive = categoriesActive;
+          tempActive[num] = !tempActive[num];
+          setActive(tempActive);
+          setMarkers();
+        }}
+        size={32}
+        uncheckedColor="#838383"
+      />
+    )
+  }
+
   function setMarkers() {
     let currentCategory = 0;
     let pinsList = [];
@@ -323,7 +350,16 @@ export default function Map(props: CompProps) {
       currentCategory++;
     })
     if (selected != "") {
-      pinsList.push([selected, location.latitude + ", " + location.longitude, "target"])
+      let alreadyDisplayed = false
+      pinsList.map(function (pin) {
+        if (pin[0] == selected) {
+          alreadyDisplayed = true;
+        }
+      })
+      if (!alreadyDisplayed) {
+        // target icon should instead be whatever category it is from
+        pinsList.push([selected, location.latitude + ", " + location.longitude, "target"])
+      }
     }
     setPins(pinsList);
   }
@@ -332,143 +368,151 @@ export default function Map(props: CompProps) {
     if (value == "") {
       return (
         <>
-          <SafeAreaView style={styles.page}>
+          {renderSelectedHeader()}
 
-            <View style={styles.header}>
-              <View style={[styles.header_content, { alignItems: 'flex-start' }]}>
-                <Pressable onPress={() => props.navigation.navigate('Settings')}>
-                  <Icon name="person" style={styles.header_icons} size={44} color={'white'}></Icon>
-                </Pressable>
-              </View>
-              <View style={[styles.header_content, { alignItems: 'center' }]}>
-                <Image source={require('../assets/images/messiah_logo.png')} style={styles.header_image} />
-              </View>
-              <View style={[styles.header_content, { alignItems: 'flex-end' }]}>
-                <Pressable onPress={() => props.navigation.navigate('Home')}>
-                  <Icon name="home" style={styles.header_icons} size={44} color={'white'}></Icon>
-                </Pressable>
-              </View>
-            </View>
-
-            <View style={styles.app_container}>
-              {renderSelectedHeader()}
-              <MapView
-                // MapView is using this package:
-                // https://www.npmjs.com/package/react-native-maps 
-                mapType='hybrid'
-                //provider={PROVIDER_GOOGLE}
-                customMapStyle={mapStyle}
-                // "showsUserLocation" can be enabled, but we need to ask for user permission to do so
-                showsUserLocation
-                style={styles.map}
-                initialRegion={location}
-                region={location}>
-                {
-                  activePins.map(function (pin, i) {
-                    let splitCoord = pin[1].split(", ");
-                    return (
-                      <Marker
-                        key={i}
-                        coordinate={{ latitude: splitCoord[0], longitude: splitCoord[1] }}
-                        //icon={pin[2]}
-                        onPress={() => {
-                          setSelected(pin[0]); 
-                          setLocation({
+          <View style={{ flex: 1, height: '100%' }}>
+            <MapView
+              // MapView is using this package:
+              // https://www.npmjs.com/package/react-native-maps 
+              mapType='hybrid'
+              //provider={PROVIDER_GOOGLE}
+              customMapStyle={mapStyle}
+              // "showsUserLocation" can be enabled, but we need to ask for user permission to do so
+              showsUserLocation
+              ref={(mapView) => { _mapView = mapView; }}
+              style={styles.map}
+              initialRegion={location}
+            >
+              {
+                activePins.map(function (pin, i) {
+                  let splitCoord = pin[1].split(", ");
+                  return (
+                    <Marker
+                      key={i}
+                      coordinate={{ latitude: splitCoord[0], longitude: splitCoord[1] }}
+                      //icon={pin[2]}
+                      onPress={() => {
+                        setSelected(pin[0]);
+                        setIcon(pin[2]);
+                        _mapView.animateToRegion({
                           latitude: splitCoord[0],
                           longitude: splitCoord[1],
                           latitudeDelta: 0.001,
                           longitudeDelta: 0.0018,
-                          })
-                        }}
-                      />
-                    )
-                  })}
-              </MapView>
-            </View>
+                        }, 500)
+                        setLocation({
+                          latitude: splitCoord[0],
+                          longitude: splitCoord[1],
+                          latitudeDelta: 0.001,
+                          longitudeDelta: 0.0018,
+                        })
+                      }}
+                    >
+                      <View style={styles.markerContainer}>
+                        <Icon name={pin[2]} size={12} type={'material-community'} color={'white'}></Icon>
+                      </View>
+                    </Marker>
+                  )
+                })}
+            </MapView>
 
-            <KeyboardAvoidingView style={styles.search_container} behavior="position">
-              <SearchBar
-                platform="ios"
-                containerStyle={{ backgroundColor: "#1E293B" }}
-                inputContainerStyle={{ backgroundColor: '#F3F3F3', }}
-                inputStyle={{}}
-                leftIconContainerStyle={{}}
-                rightIconContainerStyle={{}}
-                loadingProps={{}}
-                onChangeText={updateSearch}
-                placeholder="Search in Maps"
-                placeholderTextColor="#888"
-                value={value}
-              />
-            </KeyboardAvoidingView>
-          </SafeAreaView>
+            <Button
+              title="Pins"
+              buttonStyle={styles.pinModalButton}
+              titleStyle={{ fontSize: 18 }}
+              onPress={toggleOverlay}
+            />
+          </View>
         </>
+
       )
     }
     else {
       return (
         <>
-          <SafeAreaView style={styles.page}>
-
-            <View style={styles.header}>
-              <View style={[styles.header_content, { alignItems: 'flex-start' }]}>
-                <Pressable onPress={() => props.navigation.navigate('Settings')}>
-                  <Icon name="person" style={styles.header_icons} size={44} color={'white'}></Icon>
-                </Pressable>
-              </View>
-              <View style={[styles.header_content, { alignItems: 'center' }]}>
-                <Image source={require('../assets/images/messiah_logo.png')} style={styles.header_image} />
-              </View>
-              <View style={[styles.header_content, { alignItems: 'flex-end' }]}>
-                <Pressable onPress={() => props.navigation.navigate('Home')}>
-                  <Icon name="home" style={styles.header_icons} size={44} color={'white'}></Icon>
-                </Pressable>
-              </View>
-            </View>
-
-            <View style={styles.app_container}>
-              <Text style={styles.searchText}>Searching For "{value}"</Text>
-              <ScrollView style={styles.searchResultContainer}>
-                {results.map((result, i) =>
-                  <Button key={i} style={styles.button} onPress={() => {
-                    setSelected(result[0].name);
-                    //setMarkers();
-                    setValue("");
-                    setIcon(result[1]);
-                    let coordinates = result[0].coords.split(", ");
-                    Keyboard.dismiss();
-                    setLocation({
-                      latitude: coordinates[0],
-                      longitude: coordinates[1],
-                      latitudeDelta: 0.001,
-                      longitudeDelta: 0.0018,
-                    })
-                  }}>{result[0].name}</Button>
-                )}
-              </ScrollView>
-            </View>
-
-            <KeyboardAvoidingView style={styles.search_container} behavior="position">
-              <SearchBar
-                platform="ios"
-                containerStyle={{ backgroundColor: "#1E293B" }}
-                inputContainerStyle={{ backgroundColor: '#F3F3F3', }}
-                inputStyle={{}}
-                leftIconContainerStyle={{}}
-                rightIconContainerStyle={{}}
-                loadingProps={{}}
-                onChangeText={updateSearch}
-                placeholder="Search in Maps"
-                placeholderTextColor="#888"
-                value={value}
-              />
-            </KeyboardAvoidingView>
-          </SafeAreaView>
+          <Text style={styles.searchText}>Searching For "{value}"</Text>
+          <ScrollView style={styles.searchResultContainer}>
+            {results.map((result, i) =>
+              <Button key={i} style={styles.button} onPress={() => {
+                setSelected(result[0].name);
+                setIcon(result[1]);
+                let coordinates = result[0].coords.split(", ");
+                Keyboard.dismiss();
+                setValue("");
+                setLocation({
+                  latitude: coordinates[0],
+                  longitude: coordinates[1],
+                  latitudeDelta: 0.001,
+                  longitudeDelta: 0.0018,
+                })
+              }}>{result[0].name}</Button>
+            )}
+          </ScrollView>
         </>
       )
     }
   }
-  return (handleSearchChange());
+
+  return (
+    <>
+      <SafeAreaView style={styles.page}>
+
+        <View style={styles.header}>
+          <View style={[styles.header_content, { alignItems: 'flex-start' }]}>
+            <Pressable onPress={() => props.navigation.navigate('Settings')}>
+              <Icon name="person" style={styles.header_icons} size={44} color={'white'}></Icon>
+            </Pressable>
+          </View>
+          <View style={[styles.header_content, { alignItems: 'center' }]}>
+            <Image source={require('../assets/images/messiah_logo.png')} style={styles.header_image} />
+          </View>
+          <View style={[styles.header_content, { alignItems: 'flex-end' }]}>
+            <Pressable onPress={() => props.navigation.navigate('Home')}>
+              <Icon name="home" style={styles.header_icons} size={44} color={'white'}></Icon>
+            </Pressable>
+          </View>
+        </View>
+
+        <Overlay
+          isVisible={visible}
+          onBackdropPress={toggleOverlay}
+          overlayStyle={styles.overlayContainer}
+        >
+          <Icon style={styles.closeOverlayIcon} onPress={toggleOverlay} name="close" size={44} color={'black'}></Icon>
+          <ScrollView>
+            {renderCheckBox("Academics and Administrative", 0)}
+            {renderCheckBox("Athletics and Recreation", 1)}
+            {renderCheckBox("ATM Locations", 2)}
+            {renderCheckBox("Bridges", 3)}
+            {renderCheckBox("Dining and Retail", 4)}
+            {renderCheckBox("Health and Safety", 5)}
+            {renderCheckBox("Facility and Auxiliary Services", 6)}
+            {renderCheckBox("Music, Theatre, and Art", 7)}
+            {renderCheckBox("Residences", 8)}
+            {renderCheckBox("Student Life", 9)}
+            {renderCheckBox("Oakes Museum", 10)}
+            {renderCheckBox("Parking Lots", 11)}
+          </ScrollView>
+        </Overlay>
+
+        <View style={styles.app_container}>
+          {handleSearchChange()}
+        </View>
+
+        <KeyboardAvoidingView style={styles.search_container} behavior="position">
+          <SearchBar
+            platform="ios"
+            containerStyle={{ backgroundColor: "#1E293B" }}
+            inputContainerStyle={{ backgroundColor: '#F3F3F3', }}
+            onChangeText={updateSearch}
+            placeholder="Search in Maps"
+            placeholderTextColor="#888"
+            value={value}
+          />
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+    </>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -532,9 +576,43 @@ const styles = StyleSheet.create({
     paddingRight: 20
   },
   map: {
-    flex: 1
+    flex: 1,
+    //margin: 20
   },
   selectedIcon: {
     paddingLeft: 14
+  },
+  markerContainer: {
+    height: 22,
+    width: 22,
+    borderRadius: 12,
+    backgroundColor: '#1E293B',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignContent: 'center'
+  },
+  pinModalButton: {
+    backgroundColor: '#54A6F2',
+    height: 70,
+    width: 70,
+    margin: 16,
+    shadowRadius: 5,
+    shadowOpacity: 0.3,
+    right: 0,
+    top: 0,
+    //position: 'absolute'
+  },
+  overlayContainer: {
+    width: '80%'
+  },
+  closeOverlayIcon: {
+    alignItems: 'flex-end',
+  },
+  checkboxBoxContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 0,
+    margin: 0,
+    marginRight: 0
   }
 });
