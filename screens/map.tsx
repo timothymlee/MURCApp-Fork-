@@ -1,9 +1,10 @@
 import { Pressable, Text, StyleSheet, SafeAreaView, View, Platform, StatusBar, Keyboard, KeyboardAvoidingView, ScrollView } from "react-native";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Icon, SearchBar, Button } from "@rneui/themed";
 import { Image } from "@rneui/base";
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { current } from "@reduxjs/toolkit";
+import { setupListeners } from "@reduxjs/toolkit/dist/query";
 
 type CompProps = {
   // We are only using the navigate and goBack functions
@@ -102,6 +103,7 @@ export default function Map(props: CompProps) {
     { name: "Sustainability Office", coords: "40.15802803760218, -76.98897239633791" },
     { name: "The Ernest L. Boyer Center", coords: "40.156865510233914, -76.98950662756197" },
     { name: "Ticket Office", coords: "40.15809872620166, -76.98967984924107" },
+    { name: "Climenhaga Homestead", coords: "40.15629967686645, -76.99020273412565" },
   ]
 
   let AthleticsAndRecreation = [
@@ -123,7 +125,10 @@ export default function Map(props: CompProps) {
     { name: "Sollenberger Sports Center", coords: "40.15889479259245, -76.988831130477" },
     { name: "Stabler Fitness Trail", coords: "40.15566477332862, -76.99090288536938" },
     { name: "Starry Athletic Fields Complex", coords: "40.15415488798856, -76.991274676834" },
-    { name: "Wrestling Room", coords: "40.15848090025935, -76.98912814042878" }
+    { name: "Wrestling Room", coords: "40.15848090025935, -76.98912814042878" },
+    { name: "Basketball Court", coords: "40.16046848228034, -76.98672423363692" },
+    { name: "North Volleyball Court", coords: "40.16003629790822, -76.98492561056601" },
+    { name: "South Volleyball Court", coords: "40.15739640016905, -76.98375747176725" }
   ]
 
   let ATMLocations = [
@@ -191,7 +196,8 @@ export default function Map(props: CompProps) {
     { name: "Smith Residence", coords: "40.159635239049116, -76.98757607657856" },
     { name: "Sollenberger Residence", coords: "40.15722128017081, -76.9852097903229" },
     { name: "Witmer Residence", coords: "40.156576851121415, -76.98399236875208" },
-    { name: "Harbor House", coords: "40.15577941064205, -76.98689315575649" }
+    { name: "Harbor House", coords: "40.15577941064205, -76.98689315575649" },
+    { name: "Miller Residence", coords: "40.159531682786415, -76.98673406007418" }
   ]
 
   let StudentLife = [
@@ -207,7 +213,10 @@ export default function Map(props: CompProps) {
     { name: "The Learning Center", coords: "40.156887834475874, -76.98800263117299" },
     { name: "The Loft", coords: "40.15801999381752, -76.98490938003746" },
     { name: "The Pulse", coords: "40.158427196233006, -76.98583297621545" },
-    { name: "Writing Center", coords: "40.15694584172471, -76.98812580519636" }
+    { name: "Writing Center", coords: "40.15694584172471, -76.98812580519636" },
+    { name: "Grantham Garden", coords: "40.15708077401567, -76.98642351280927" },
+    { name: "Miller Meadow", coords: "40.159337893320505, -76.9872195078658" },
+    { name: "Bittner Beach", coords: "40.15650883364112, -76.98657103429893" },
   ]
 
   let OakesMuseum = [
@@ -237,18 +246,18 @@ export default function Map(props: CompProps) {
   ]
 
   let AllLocations = [
-    AcademicsAndAdministrative,
-    AthleticsAndRecreation,
-    ATMLocations,
-    Bridges,
-    DiningAndRetail,
-    HeathAndSafety,
-    FacilityAndAuxiliaryServices,
-    MusicTheatreAndArt,
-    Residences,
-    StudentLife,
-    OakesMuseum,
-    ParkingLots
+    { category: AcademicsAndAdministrative, icon: 'book-open-page-variant' },
+    { category: AthleticsAndRecreation, icon: 'shoe-cleat' },
+    { category: ATMLocations, icon: 'currency-usd' },
+    { category: Bridges, icon: 'bridge' },
+    { category: DiningAndRetail, icon: 'food-fork-drink' },
+    { category: HeathAndSafety, icon: 'shield-half-full' },
+    { category: FacilityAndAuxiliaryServices, icon: 'wrench' },
+    { category: MusicTheatreAndArt, icon: 'music' },
+    { category: Residences, icon: 'home' },
+    { category: StudentLife, icon: 'account' },
+    { category: OakesMuseum, icon: 'leaf' },
+    { category: ParkingLots, icon: 'car' }
   ]
 
   let currentLocation = {
@@ -261,15 +270,26 @@ export default function Map(props: CompProps) {
   const [value, setValue] = useState("");
   const [results, setResults] = useState([])
   const [selected, setSelected] = useState("")
+  const [selectedIcon, setIcon] = useState("")
+  const [activePins, setPins] = useState([])
   const [location, setLocation] = useState(currentLocation)
+
+  // Each digit is a boolean that corresponds with whether that category is active.
+  // They go in order of the list in AllLocations.
+  const [categoriesActive, setActive] = useState([false, false, false, false, false, false, false, false, false, false, false, false])
+
+  useEffect(() => {
+    // run every time selected location changes
+    setMarkers();
+  }, [selected]);
 
   const updateSearch = (value) => {
     setValue(value);
     let storedResults = [];
-    AllLocations.forEach(function (category) {
-      category.map(function (location) {
+    AllLocations.forEach(function (name) {
+      name.category.map(function (location) {
         if (location.name.toLowerCase().includes(value.toLowerCase())) {
-          storedResults.push(location);
+          storedResults.push([location, name.icon]);
         }
       });
     });
@@ -280,6 +300,7 @@ export default function Map(props: CompProps) {
     if (selected != "") {
       return (
         <View style={styles.selectedHeader}>
+          <Icon style={styles.selectedIcon} name={selectedIcon} size={22} type={'material-community'} color={'white'}></Icon>
           <Text style={styles.selectedTitle}>{selected}</Text>
           <Pressable style={styles.closeHeaderContainer} onPress={() => { setSelected("") }}>
             <Icon name="close" size={44} color={'white'}></Icon>
@@ -289,14 +310,22 @@ export default function Map(props: CompProps) {
     }
   }
 
-  function renderMarker() {
+  function setMarkers() {
+    let currentCategory = 0;
+    let pinsList = [];
+    categoriesActive.map(function (isActive) {
+      if (isActive) {
+        let thisIcon = AllLocations[currentCategory].icon;
+        AllLocations[currentCategory].category.map(function (thisLocation) {
+          pinsList.push([thisLocation.name, thisLocation.coords, thisIcon]);
+        })
+      }
+      currentCategory++;
+    })
     if (selected != "") {
-      return (
-        <Marker
-          coordinate={{ latitude: location.latitude, longitude: location.longitude }}
-        />
-      )
+      pinsList.push([selected, location.latitude + ", " + location.longitude, "target"])
     }
+    setPins(pinsList);
   }
 
   const handleSearchChange = () => {
@@ -329,13 +358,31 @@ export default function Map(props: CompProps) {
                 mapType='hybrid'
                 //provider={PROVIDER_GOOGLE}
                 customMapStyle={mapStyle}
-                // "showsUserLocation" can be enabled, but we need user permission to do so
-                //showsUserLocation
+                // "showsUserLocation" can be enabled, but we need to ask for user permission to do so
+                showsUserLocation
                 style={styles.map}
                 initialRegion={location}
-                region={location}
-                onPress={() => { console.log() }}>
-                {renderMarker()}
+                region={location}>
+                {
+                  activePins.map(function (pin, i) {
+                    let splitCoord = pin[1].split(", ");
+                    return (
+                      <Marker
+                        key={i}
+                        coordinate={{ latitude: splitCoord[0], longitude: splitCoord[1] }}
+                        //icon={pin[2]}
+                        onPress={() => {
+                          setSelected(pin[0]); 
+                          setLocation({
+                          latitude: splitCoord[0],
+                          longitude: splitCoord[1],
+                          latitudeDelta: 0.001,
+                          longitudeDelta: 0.0018,
+                          })
+                        }}
+                      />
+                    )
+                  })}
               </MapView>
             </View>
 
@@ -384,17 +431,19 @@ export default function Map(props: CompProps) {
               <ScrollView style={styles.searchResultContainer}>
                 {results.map((result, i) =>
                   <Button key={i} style={styles.button} onPress={() => {
-                    setSelected(result.name);
+                    setSelected(result[0].name);
+                    //setMarkers();
                     setValue("");
-                    let coordinates = result.coords.split(", ");
-                    Keyboard.dismiss;
+                    setIcon(result[1]);
+                    let coordinates = result[0].coords.split(", ");
+                    Keyboard.dismiss();
                     setLocation({
                       latitude: coordinates[0],
                       longitude: coordinates[1],
                       latitudeDelta: 0.001,
                       longitudeDelta: 0.0018,
                     })
-                  }}>{result.name}</Button>
+                  }}>{result[0].name}</Button>
                 )}
               </ScrollView>
             </View>
@@ -474,7 +523,7 @@ const styles = StyleSheet.create({
   },
   selectedTitle: {
     fontSize: 18,
-    paddingLeft: 20,
+    paddingLeft: 14,
     flex: 2,
     color: 'white',
     fontWeight: '600'
@@ -484,5 +533,8 @@ const styles = StyleSheet.create({
   },
   map: {
     flex: 1
+  },
+  selectedIcon: {
+    paddingLeft: 14
   }
 });
