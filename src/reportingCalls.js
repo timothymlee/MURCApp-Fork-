@@ -42,7 +42,9 @@ function writeReport(category, desc, name, email) {
 
     update(ref(db), updates);
 
-    process.exit();
+    return("Message has been sent")
 }
-
+module.exports = {
+    writeReport,
+}
 writeReport("safety", "I saw a bear on campus");

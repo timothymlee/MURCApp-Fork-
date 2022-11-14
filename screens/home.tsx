@@ -39,6 +39,8 @@ export default function Home(props: CompProps) {
         <View style={styles.app_container}>
           <ImageBackground source={image} style={styles.bg_image} >
             <ScrollView style={styles.app_container}>
+            <Button style={styles.button} onPress={() => props.navigation.navigate('Reporting')}>Contact Secuirity</Button>
+
               <Button style={styles.button} onPress={() => props.navigation.navigate('TestPage')}>Testing</Button>
               <Button style={styles.button} onPress={() => props.navigation.navigate('Chapel')}>Chapel</Button>
               <Button style={styles.button} onPress={() => props.navigation.navigate('UnionMenu')}>Union</Button>

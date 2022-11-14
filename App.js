@@ -17,6 +17,8 @@ import LottieMenu from './screens/lottie_menu';
 import Library from './screens/library';
 import TestPage from './screens/dataRerenderingPage';
 import Events from './screens/events';
+import Reporting from './screens/reporting';
+
 
 // Import Cas
 import useCas from "./src/cas/useCas";
@@ -52,6 +54,7 @@ export default function App() {
         <Stack.Screen name = "FalconDollars" component = {FalconDollars} />
         <Stack.Screen name = "DiningDollars" component = {DiningDollars} />
         <Stack.Screen name = "TestPage" component = {TestPage} />
+        <Stack.Screen name = "Reporting" component = {Reporting} />
 
         <Stack.Screen name = "LottieMenu" component = {LottieMenu} />
         <Stack.Screen name = "Library" component = {Library} />

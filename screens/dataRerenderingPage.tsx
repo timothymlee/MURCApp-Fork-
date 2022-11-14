@@ -136,7 +136,7 @@ export default function TestPage(props: CompProps) {
         const array = [];
         if (todaysEvent == null){
             
-            todaysEvent = await readEventData(selectedDate);
+            todaysEvent = await readEventData(dateCal(selectedDate));
             if (todaysEvent == ""){
                 setPage(<Text>There are no events for { (selectedDate).substr(5,2) +"-"+ (((selectedDate).substr(8,2)).substr(0,1)).replace("0", "") + ((selectedDate).substr(8,3)).substr(1,1) +"-"+ (selectedDate).substr(0,4)}</Text>)
             }else{
