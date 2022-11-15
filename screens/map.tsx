@@ -376,7 +376,7 @@ export default function Map(props: CompProps) {
               // https://www.npmjs.com/package/react-native-maps 
               mapType='hybrid'
               //provider={PROVIDER_GOOGLE}
-              customMapStyle={mapStyle}
+              //customMapStyle={mapStyle}
               // "showsUserLocation" can be enabled, but we need to ask for user permission to do so
               showsUserLocation
               ref={(mapView) => { _mapView = mapView; }}
