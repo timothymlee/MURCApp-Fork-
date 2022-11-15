@@ -1,4 +1,4 @@
-import { ImageBackground, Pressable, StyleSheet, SafeAreaView, Text, View, KeyboardAvoidingView, Platform, StatusBar, ScrollView } from "react-native";
+import { ImageBackground, Pressable, StyleSheet, SafeAreaView, Text, View, KeyboardAvoidingView, Platform, StatusBar, ScrollView, Modal } from "react-native";
 import React, { useState } from 'react';
 import { Icon, SearchBar, Button } from "@rneui/themed";
 import {readUserData, writeUserData} from "../src/firebaseCalls";
@@ -75,6 +75,7 @@ export default function Home(props: CompProps) {
               <Button style={styles.button} onPress={() => props.navigation.navigate('DiningDollars')}>Dining Dollars Balance</Button>
               <Button style={styles.button} onPress={() => props.navigation.navigate('FalconDollars')}>Falcon Dollars Balance</Button>
               <Button style={styles.button} onPress={() => props.navigation.navigate('Index')}>Thomas' Drag N Drop</Button>
+
               <Widget navFun={props}/>
               <Text style={{fontSize: 20, color: 'white'}}>Data = {textString}</Text>
             </ScrollView>

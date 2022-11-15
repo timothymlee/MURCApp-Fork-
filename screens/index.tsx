@@ -21,6 +21,7 @@ export default function Index(props) {
     setResult(result);
   };
   //takes in the props from home.
+  //include <WidgetDefault> for testing modular widgets
   let navigator = props.navFun;
   console.log(navigator);
 
@@ -43,7 +44,7 @@ export default function Index(props) {
         console.log("x:", layout.x);
         console.log("y:", layout.y);
       }}>
-        <WidgetDefault></WidgetDefault>
+         
       </View>
       </View>
       
@@ -69,6 +70,7 @@ let resources ={
  resourceImages: [require("./../src/assets/img/food.png"), require("./../src/assets/img/dollar.png"), 
   require("./../src/assets/img/calander.png"), 
   require("./../src/assets/img/book.png"), require("./../src/assets/img/food.png")],
+  style: [2,1,1,1,2],
   editing: false,
   positions: [],
   switch: [],
@@ -90,11 +92,24 @@ let WidgetNames = [
 ]
 */
 
-function openLink(link, navi){
+function openLink(link, navi, pos){
   //Linking.openURL(link);
   //above opens website urls
   //below is good for our own pages
   console.log(navi);
+  navi.sources.navigation.navigate(resources.resourceDestinations[resources.positions[pos]]);
+  console.log("GesturePressed")
+  //for some reason the link / destination which is passed to the resource buttons do not update
+  //for pan responder interactions, despite visually doing so.
+  //this is also the same for name and positon. So it would seem that the values for pan responder
+  //occur before the re render.
+  //this is weird
+  //but I suppose it occurs because the destination used to be handled onButtonPress which
+  //I think occurs after everything has gone through the render?
+}
+function openLinkOnPress(link, navi, pos){
+  console.log(navi);
+  console.log("OnPressPressed")
   navi.sources.navigation.navigate(link);
 }
 
@@ -127,13 +142,14 @@ function  MapGrid (sources){
     sourceButtons.push(ResourceButtons(resources.resourcesList[resources.positions[i]], 
       //sources.dest(resources.resourceDestinations[i]), 
       resources.resourceDestinations[resources.positions[i]],
-      resources.positions[i], i, sources));
+      resources.positions[i], i, sources, resources.style[resources.positions[i]]));
       
   }
   /*useful for position testing
   console.log("Position array V");
   console.log(resources.positions);
   */
+  
   return <>{sourceButtons}</>
 }
 
@@ -144,7 +160,7 @@ function  MapGrid (sources){
 
 
 
-function ResourceButtons (name, destination, position, layoutPos, navi) {
+function ResourceButtons (name, destination, position, layoutPos, navi, style) {
   const containerViewRef = useRef<View>(null);
 
   let [, setPageY] = useState(0);
@@ -155,10 +171,10 @@ function ResourceButtons (name, destination, position, layoutPos, navi) {
   let [switching, setSwitching] = React.useState(false);
   let [editC, setEditC] = React.useState(resources.editing);
 
-
+  let styleType = [styles.buttonSize1,styles.buttonSize2,styles.buttonSize3];
 
   const pan = useRef<any>(new Animated.ValueXY()).current;
-  let pressingTouch = false
+  let pressingTouch = true;
   const panResponder = useRef(
     PanResponder.create({
       onMoveShouldSetPanResponder: () => true,
@@ -169,14 +185,24 @@ function ResourceButtons (name, destination, position, layoutPos, navi) {
         });
         console.log(name);
         pressingTouch = true;
+        //to account for scroll view
+        //the below code goes through the y values and updates them
+        //by taking the difference between where the user touches and the previously
+        //recorded positions
+        let yDifference = gestureState.moveY-resources.positionsY[layoutPos];
+        for(let j = 0; j < resources.positions.length; j++)
+        {
+          resources.positionsY[j] += yDifference;
+        }
       },
       onPanResponderMove: (e, gestureState) => {
         //if the button is pressed for long enough, the user must be trying to switch it.
         //if(Math.abs(pan.x._value) > 5 || Math.abs(pan.y._value) > 5)
-        
+
         if(
-          setTimeout(function(){{timePassed: true}}, 1000))
+          setTimeout(function(){{timePassed: true}}, 3000))
         {pressingTouch = false;}
+        
        return(
         Animated.event(
         [
@@ -196,7 +222,7 @@ function ResourceButtons (name, destination, position, layoutPos, navi) {
         //setting values to 0 cause button to return to orignal spot
         
         if(pressingTouch==true){
-          openLink(destination, navi);
+          openLink(destination, navi, position);
         }
         else{
           for(let i = 0; i < resources.positionsX.length; i++)
@@ -255,7 +281,7 @@ function ResourceButtons (name, destination, position, layoutPos, navi) {
         console.log(resources.positionsX);
         console.log(resources.positionsY);
         console.log(resources.positions);
-
+        
         
         
       }
@@ -263,12 +289,18 @@ function ResourceButtons (name, destination, position, layoutPos, navi) {
   ).current;
 
 
-
+  //onButtonPress is good for get touches not caught by the pan responder,
+  //I find.
   function onButtonPress(e){
     
     console.log(name);
     console.log("Pressed");
-    openLink(destination, navi);
+    //the different function is due to the different timings of
+    //the pan responder vs the on press event.
+    //the pan responder is too early and fires before the proper re render of the destination
+    //thus openLink is called using the resources object
+    //and the below uses destination.
+    openLinkOnPress(destination, navi, position);
 
   }
   function onHoldingPress(e){
@@ -279,16 +311,11 @@ function ResourceButtons (name, destination, position, layoutPos, navi) {
   }
 
   
-  let rButton =<TouchableOpacity
-  style={[styles.buttonSize3]}
-  
-  
-
-  
-  
+  let rButton =<TouchableOpacity onPress={onButtonPress}
+  style={styleType[style]}
   >
     <Image source={resources.resourceImages[position]}/>
-    <Text style={{color: "#ffffff"}}>{name}</Text>
+    <Text style={styles.buttonTextStyle}>{name}</Text>
   </TouchableOpacity>
 
   //}
@@ -297,13 +324,14 @@ function ResourceButtons (name, destination, position, layoutPos, navi) {
     if(editC==true){
       setEditC(editC = false);
     }
+    console.log("EFfect");
   });
   let finalCard = <Animated.View ref={containerViewRef} collapsable={false}
   
   style={{
     transform: [{ translateX: pan.x }, { translateY: pan.y }]
   }}
-  
+
   onLayout={(event) => {
     //using the absolute value works for a non scrolling page
     //scrolling the page changes the x and y values, so I either need to
@@ -340,6 +368,7 @@ function ResourceButtons (name, destination, position, layoutPos, navi) {
 
     console.log("current position vvvv");
     console.log(position);
+    console.log(destination);
     
       });
     
@@ -387,6 +416,8 @@ let styles = StyleSheet.create({
     marginLeft: "5%",
     marginBottom: "5%",
     position: "relative",
+    
+    
 
 
 
@@ -413,18 +444,27 @@ let styles = StyleSheet.create({
     backgroundColor: '#5EAEF9',
     padding: 10
   },
-  buttonSize2: {
+  buttonSize2:{
+    
     alignItems: 'center',
-    backgroundColor: '#5EAEF9',
-    padding: 15
+    backgroundColor: '#E41515',
+    paddingHorizontal: 35,
+    paddingVertical: 20,
+    
 
   },
   buttonSize3: {
-    alignItems: 'center',
+    alignItems: "center",
     backgroundColor: '#5EAEF9',
-    padding: 30
-
+    padding: 10,
+    
   },
+  buttonTextStyle: {
+    color: "#ffffff", 
+    minWidth: "25%", 
+    maxWidth:"100%",
+    textAlign:"center",
+  }
   
 });
 
