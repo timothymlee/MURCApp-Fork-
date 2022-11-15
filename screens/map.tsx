@@ -11,65 +11,6 @@ type CompProps = {
   navigation: { navigate: Function; };
 };
 
-let mapStyle = [
-  {
-    "elementType": "labels",
-    "stylers": [
-      {
-        "visibility": "off"
-      }
-    ]
-  },
-  {
-    "featureType": "administrative.land_parcel",
-    "stylers": [
-      {
-        "visibility": "off"
-      }
-    ]
-  },
-  {
-    "featureType": "administrative.neighborhood",
-    "stylers": [
-      {
-        "visibility": "off"
-      }
-    ]
-  },
-  {
-    "featureType": "landscape.man_made",
-    "stylers": [
-      {
-        "color": "#c0b8a5"
-      }
-    ]
-  },
-  {
-    "featureType": "poi.school",
-    "stylers": [
-      {
-        "color": "#7c916e"
-      }
-    ]
-  },
-  {
-    "featureType": "road.arterial",
-    "stylers": [
-      {
-        "visibility": "on"
-      }
-    ]
-  },
-  {
-    "featureType": "road.local",
-    "stylers": [
-      {
-        "visibility": "on"
-      }
-    ]
-  }
-]
-
 export default function Map(props: CompProps) {
 
   let AcademicsAndAdministrative = [
@@ -389,7 +330,10 @@ export default function Map(props: CompProps) {
                   return (
                     <Marker
                       key={i}
+
                       coordinate={{ latitude: splitCoord[0]*1.0, longitude: splitCoord[1]*1.0 }}
+
+                      coordinate={{ latitude: splitCoord[0] * 1.0, longitude: splitCoord[1] * 1.0}}
                       //icon={pin[2]}
                       onPress={() => {
                         setSelected(pin[0]);
