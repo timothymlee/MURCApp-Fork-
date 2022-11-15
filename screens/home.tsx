@@ -1,4 +1,4 @@
-import { ImageBackground, Pressable, StyleSheet, SafeAreaView, Text, View, KeyboardAvoidingView, Platform, StatusBar, ScrollView } from "react-native";
+import { ImageBackground, Pressable, StyleSheet, SafeAreaView, Text, View, KeyboardAvoidingView, Platform, StatusBar, ScrollView, Modal } from "react-native";
 import React, { useState } from 'react';
 import { Icon, SearchBar, Button } from "@rneui/themed";
 import {readUserData, writeUserData} from "../src/firebaseCalls";

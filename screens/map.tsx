@@ -330,6 +330,9 @@ export default function Map(props: CompProps) {
                   return (
                     <Marker
                       key={i}
+
+                      coordinate={{ latitude: splitCoord[0]*1.0, longitude: splitCoord[1]*1.0 }}
+
                       coordinate={{ latitude: splitCoord[0] * 1.0, longitude: splitCoord[1] * 1.0}}
                       //icon={pin[2]}
                       onPress={() => {
