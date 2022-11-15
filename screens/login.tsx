@@ -1,11 +1,12 @@
 import { StyleSheet, View, Image, SafeAreaView, Text, KeyboardAvoidingView, Keyboard, Pressable } from "react-native";
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { LinearGradient } from "expo-linear-gradient";
 import { Button, Icon, CheckBox } from "@rneui/themed";
 import AnimatedInput from "react-native-animated-input";
-import {useAuthMutation,useCypherMutation,useDataMutation} from '../src/api/apiSlice'
+import { useAuthMutation, useCypherMutation, useDataMutation } from '../src/api/apiSlice'
 import { useAppDispatch } from "../src/app/hooks";
 import { setUser } from "../src/api/authSlice";
+import AppLoader from '../src/js componets/AppLoader'
 
 // Using this package for the input fields
 // https://www.npmjs.com/package/react-native-animated-input
@@ -22,6 +23,7 @@ export default function Login(props: CompProps) {
   const [password, handleChange2] = useState("");
   const [encryptpwd, setpwd] = useState('');
   const [check, setCheck] = useState(false);
+  const [loginPending, setLoginPending] = useState(false)
   const dispatch = useAppDispatch();
 
 
@@ -31,14 +33,15 @@ export default function Login(props: CompProps) {
     isError,
     isSuccess: isLoginSuccess,
     isLoading,
-    error 
+    error
   }] = useAuthMutation();
 
 
-  const [cyphper,{
+  const [cyphper, {
     data: enc,
+    isSuccess: isCypherSuccess,
   }] = useCypherMutation();
- 
+
 
   // For show/hide password field
   const [hidden, setHidden] = useState(true);
@@ -47,38 +50,41 @@ export default function Login(props: CompProps) {
   };
 
   const handleLogin = async () => {
-    if (username && password){
+    if (username && password) {
+      setLoginPending(true);
       await cyphper(password)
-      setpwd(enc) ;
-      await auth({ userId: username, encryptedPwd: encryptpwd});
-
-      console.log("cypher :" + enc)
-      console.log(isLoginSuccess)
-      console.log("is loading" + isLoading)
-      console.log("token :" + o)
-    }else {
+    } else {
       console.log('error')
     }
   }
 
   useEffect(() => {
-    if(isLoginSuccess){
+    if (isCypherSuccess) {
+      setpwd(enc)
+      auth({ userId: username, encryptedPwd: enc })
+
+    }
+  }, [isCypherSuccess])
+
+  useEffect(() => {
+    if (isLoginSuccess) {
       dispatch(setUser({ name: username, token: o, cypher: enc }))
       props.navigation.navigate('Home')
     }
-  },[isLoginSuccess])
+  }, [isLoginSuccess])
 
   return (
-    <Pressable style={styles.page} onPress={Keyboard.dismiss}>
-      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
-        <LinearGradient
-          colors={['#5DAEF8', '#4C8ECA']}
-          style={styles.background}>
-          <SafeAreaView style={styles.background}>
-            <Image source={require('../assets/images/messiah_logo.png')} style={styles.logo} />
-          </SafeAreaView>
-        </LinearGradient>
-        <View style={styles.login_container}>
+    <>
+      <Pressable style={styles.page} onPress={Keyboard.dismiss}>
+        <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+          <LinearGradient
+            colors={['#5DAEF8', '#4C8ECA']}
+            style={styles.background}>
+            <SafeAreaView style={styles.background}>
+              <Image source={require('../assets/images/messiah_logo.png')} style={styles.logo} />
+            </SafeAreaView>
+          </LinearGradient>
+          <View style={styles.login_container}>
             <Text style={styles.heading}>Login</Text>
             <View style={styles.input_container}>
               <View>
@@ -94,7 +100,7 @@ export default function Login(props: CompProps) {
                 />
               </View>
               <View style={{ flexDirection: 'row' }}>
-                <View style={{flex: 1}}>
+                <View style={{ flex: 1 }}>
                   <AnimatedInput
                     placeholder="Password"
                     errorText="Error"
@@ -120,28 +126,30 @@ export default function Login(props: CompProps) {
                   checked={check}
                   onPress={() => setCheck(!check)}
                   //iconRight
-                  containerStyle={{alignSelf: 'flex-start', margin: 0, padding: 0, flex: 1 }}
-                  textStyle={{fontSize: 14, fontWeight: '400'}}
+                  containerStyle={{ alignSelf: 'flex-start', margin: 0, padding: 0, flex: 1 }}
+                  textStyle={{ fontSize: 14, fontWeight: '400' }}
                 />
-                <Pressable onPress={() => alert('Forgot Password Screen')} style={{justifyContent: 'center'}}>
+                <Pressable onPress={() => alert('Forgot Password Screen')} style={{ justifyContent: 'center' }}>
                   <Text style={styles.forgot_text}>Forgot?</Text>
                 </Pressable>
               </View>
             </View>
-        </View>
-      </KeyboardAvoidingView>
-      <SafeAreaView>
-        <View style={{ flex: 1 }}>
-          <Button
-            title="Log In"
-            buttonStyle={styles.button}
-            containerStyle={styles.button_container}
-            titleStyle={{ fontSize: 18 }}
-            onPress={() => handleLogin()}
-          />
-        </View>
-      </SafeAreaView>
-    </Pressable>
+          </View>
+        </KeyboardAvoidingView>
+        <SafeAreaView>
+          <View style={{ flex: 1 }}>
+            <Button
+              title="Log In"
+              buttonStyle={styles.button}
+              containerStyle={styles.button_container}
+              titleStyle={{ fontSize: 18 }}
+              onPress={() => handleLogin()}
+            />
+          </View>
+        </SafeAreaView>
+      </Pressable>
+      {loginPending ? <AppLoader /> : null}
+    </>
   );
 }
 

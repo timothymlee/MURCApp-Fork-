@@ -25,16 +25,17 @@ export default function Home(props: CompProps) {
     { name: "Falcon", url: 'FalconMenu' },
     { name: "Gym", url: 'Gym' },
     { name: "Dining Dollars", url: 'DiningDollars' },
-    { name: "Falcon Dollars", url: 'FalconDollars' }
+    { name: "Falcon Dollars", url: 'FalconDollars' },
+    { name: "Campus Map", url: 'Map' },
+    { name: "Log In", url: 'Login' },
+    { name: "Drag and Drop", url: 'Index'}
   ]
 
   const updateSearch = (value) => {
     setValue(value);
-    let formatValue = value.toLowerCase();
-    let valLen = formatValue.length;
     let storedResults = [];
     WidgetNames.forEach(element => {
-      if (element.name.toLowerCase().includes(formatValue.toLowerCase())) {
+      if (element.name.toLowerCase().includes(value.toLowerCase())) {
         storedResults.push(element);
       }
     });
@@ -66,18 +67,8 @@ export default function Home(props: CompProps) {
         <View style={styles.app_container}>
           <ImageBackground source={image} style={styles.bg_image} >
             <ScrollView style={styles.app_container}>
-              <Button style={styles.button} onPress={() => props.navigation.navigate('Chapel')}>Chapel</Button>
-              <Button style={styles.button} onPress={() => props.navigation.navigate('UnionMenu')}>Union</Button>
-              <Button style={styles.button} onPress={() => props.navigation.navigate('FalconMenu')}>Falcon</Button>
-              <Button style={styles.button} onPress={() => props.navigation.navigate('LottieMenu')}>Lottie</Button>
-              <Button style={styles.button} onPress={() => props.navigation.navigate('Login')}>Log In Page</Button>
-              <Button style={styles.button} onPress={() => props.navigation.navigate('Gym')}>Gym</Button>
-              <Button style={styles.button} onPress={() => props.navigation.navigate('DiningDollars')}>Dining Dollars Balance</Button>
-              <Button style={styles.button} onPress={() => props.navigation.navigate('FalconDollars')}>Falcon Dollars Balance</Button>
-              <Button style={styles.button} onPress={() => props.navigation.navigate('Index')}>Thomas' Drag N Drop</Button>
-
               <Widget navFun={props}/>
-              <Text style={{fontSize: 20, color: 'white'}}>Data = {textString}</Text>
+              {/*<Text style={{fontSize: 20, color: 'white'}}>Data = {textString}</Text>*/}
             </ScrollView>
           </ImageBackground>
         </View>
