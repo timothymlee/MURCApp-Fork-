@@ -376,7 +376,7 @@ export default function Map(props: CompProps) {
               // https://www.npmjs.com/package/react-native-maps 
               mapType='hybrid'
               //provider={PROVIDER_GOOGLE}
-              customMapStyle={mapStyle}
+              //customMapStyle={mapStyle}
               // "showsUserLocation" can be enabled, but we need to ask for user permission to do so
               showsUserLocation
               ref={(mapView) => { _mapView = mapView; }}
@@ -389,7 +389,7 @@ export default function Map(props: CompProps) {
                   return (
                     <Marker
                       key={i}
-                      coordinate={{ latitude: splitCoord[0], longitude: splitCoord[1] }}
+                      coordinate={{ latitude: splitCoord[0]*1.0, longitude: splitCoord[1]*1.0 }}
                       //icon={pin[2]}
                       onPress={() => {
                         setSelected(pin[0]);
@@ -440,8 +440,8 @@ export default function Map(props: CompProps) {
                 Keyboard.dismiss();
                 setValue("");
                 setLocation({
-                  latitude: coordinates[0],
-                  longitude: coordinates[1],
+                  latitude: coordinates[0] * 1.0,
+                  longitude: coordinates[1] * 1.0,
                   latitudeDelta: 0.001,
                   longitudeDelta: 0.0018,
                 })
