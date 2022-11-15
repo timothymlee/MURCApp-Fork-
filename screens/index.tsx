@@ -62,15 +62,23 @@ export default function Index(props) {
 //have the url in resourceDestinations
 //have the image link in resourceImages
 let resources ={
-  resourcesList: ["Union", "The Falcon", "Chapel", "Gym", "Lottie Menu"],
+  resourcesList: ["Union", "Lottie Menu", "Chapel", "The Falcon", "Gym", "Dining Dollars", 
+  "Falcon Dollars", "Campus Map", "Log In"],
   /*resourceDestinations: ['https://union.messiah.edu/menu/', 'http://falcon.messiah.edu/menu/',
 'https://www.messiah.edu/a/sso/sso.php?url=https://www.messiah.edu/student-events', 'https://tour.messiah.edu/campus-map/',
 'https://www.messiah.edu/a/sso/sso.php?url=https://www.messiah.edu/download/downloads/id/9433/Lottie_thisweek.pdf'],*/
-  resourceDestinations: ['UnionMenu','FalconMenu', 'Chapel', 'Gym', 'LottieMenu'],
- resourceImages: [require("./../src/assets/img/food.png"), require("./../src/assets/img/dollar.png"), 
+  resourceDestinations: ['UnionMenu','LottieMenu', 'Chapel', 'FalconMenu', 'Gym', "DiningDollars",
+  "FalconDollars", "Map", "Login"],
+ resourceImages: [require("./../src/assets/img/food.png"), 
+  require("./../src/assets/img/food.png"),
+  require("./../src/assets/img/dollar.png"), 
   require("./../src/assets/img/calander.png"), 
-  require("./../src/assets/img/book.png"), require("./../src/assets/img/food.png")],
-  style: [2,1,1,1,2],
+  require("./../src/assets/img/book.png"),
+  require("./../src/assets/img/dollar.png"), 
+  require("./../src/assets/img/dollar.png"),
+  require("./../src/assets/img/book.png"),
+  require("./../src/assets/img/target.png")],
+  style: [1,0,2,1,2,2,1,0,2],
   editing: false,
   positions: [],
   switch: [],
@@ -82,14 +90,17 @@ let resources ={
 //below is for url refernce purposes
 /*
 let WidgetNames = [
-  { name: "Union Cafe", url: 'UnionMenu' },
-  { name: "Lottie Dining Hall", url: 'LottieMenu' },
-  { name: "Chapel Attendance", url: 'Chapel' },
-  { name: "Falcon", url: 'FalconMenu' },
-  { name: "Gym", url: 'Gym' },
-  { name: "Dining Dollars", url: 'DiningDollars' },
-  { name: "Falcon Dollars", url: 'FalconDollars' }
-]
+    { name: "Union Cafe", url: 'UnionMenu' },
+    { name: "Lottie Dining Hall", url: 'LottieMenu' },
+    { name: "Chapel Attendance", url: 'Chapel' },
+    { name: "Falcon", url: 'FalconMenu' },
+    { name: "Gym", url: 'Gym' },
+    { name: "Dining Dollars", url: 'DiningDollars' },
+    { name: "Falcon Dollars", url: 'FalconDollars' },
+    { name: "Campus Map", url: 'Map' },
+    { name: "Log In", url: 'Login' },
+    { name: "Drag and Drop", url: 'Index'}
+  ]
 */
 
 function openLink(link, navi, pos){
@@ -200,7 +211,7 @@ function ResourceButtons (name, destination, position, layoutPos, navi, style) {
         //if(Math.abs(pan.x._value) > 5 || Math.abs(pan.y._value) > 5)
 
         if(
-          setTimeout(function(){{timePassed: true}}, 3000))
+          setTimeout(function(){{timePassed: true}}, 2000))
         {pressingTouch = false;}
         
        return(
@@ -271,7 +282,7 @@ function ResourceButtons (name, destination, position, layoutPos, navi, style) {
         pan.flattenOffset();
         setEditC(editC = true);
         
-
+/*
         console.log("abs x (moveX) value: " + gestureState.moveX);
         console.log("abs y (moveY) value: " + gestureState.moveY);
         console.log("dx: " + gestureState.dx);
@@ -281,7 +292,7 @@ function ResourceButtons (name, destination, position, layoutPos, navi, style) {
         console.log(resources.positionsX);
         console.log(resources.positionsY);
         console.log(resources.positions);
-        
+   */     
         
         
       }
@@ -356,6 +367,7 @@ function ResourceButtons (name, destination, position, layoutPos, navi, style) {
         
     resources.positionsX[layoutPos] = pageX + (width/2);
     resources.positionsY[layoutPos] = pageY + (height/2);
+    /*
     console.log("x positions vvv");
     console.log(resources.positionsX[position]);
     console.log(resources.positionsX);
@@ -369,7 +381,7 @@ function ResourceButtons (name, destination, position, layoutPos, navi, style) {
     console.log("current position vvvv");
     console.log(position);
     console.log(destination);
-    
+    */
       });
     
     
@@ -441,8 +453,9 @@ let styles = StyleSheet.create({
   },
   buttonSize1: {
     alignItems: 'center',
-    backgroundColor: '#5EAEF9',
-    padding: 10
+    backgroundColor: '#4349D6',
+    paddingHorizontal: 40,
+    paddingVertical: 35
   },
   buttonSize2:{
     
