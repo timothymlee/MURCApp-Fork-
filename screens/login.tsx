@@ -23,22 +23,23 @@ export default function Login(props: CompProps) {
   const [password, handleChange2] = useState("");
   const [encryptpwd, setpwd] = useState('');
   const [check, setCheck] = useState(false);
-  const [loginPending, setLoginPending] = useState(false)
+  const [loginPending, setLoginPending] = useState(false);
+  const [errorText, setErrorText] = useState('')
+  const [showErrorText, setShowErrorMessage] = useState(false); 
   const dispatch = useAppDispatch();
 
 
 
   const [auth, {
-    data: o,
-    isError,
+    data: loginData,
+    isError:isLoginError,
     isSuccess: isLoginSuccess,
-    isLoading,
-    error
+    error: loginError
   }] = useAuthMutation();
 
 
   const [cyphper, {
-    data: enc,
+    data: cypherData,
     isSuccess: isCypherSuccess,
   }] = useCypherMutation();
 
@@ -49,26 +50,46 @@ export default function Login(props: CompProps) {
     setHidden(!hidden);
   };
 
+  //once login is clicked show loading animation and start with 
   const handleLogin = async () => {
     if (username && password) {
       setLoginPending(true);
+      setShowErrorMessage(false);
       await cyphper(password)
     } else {
       console.log('error')
+      setErrorText('Please enter username and password');
+      setShowErrorMessage(true);
     }
   }
 
+  //hide error message when user is changing input
+  useEffect(() => {
+     setShowErrorMessage(false);
+  }, [username])
+  useEffect(() => {
+    setShowErrorMessage(false);
+  }, [password])  
+
   useEffect(() => {
     if (isCypherSuccess) {
-      setpwd(enc)
-      auth({ userId: username, encryptedPwd: enc })
-
+      setpwd(cypherData)
+      auth({ userId: username, encryptedPwd: cypherData })
     }
   }, [isCypherSuccess])
 
   useEffect(() => {
+    if(isLoginError) {
+      setLoginPending(false);
+      setErrorText('Wrong username or password');
+      setShowErrorMessage(true);
+      console.log(loginData);
+    }
+  }, [isLoginError])
+
+  useEffect(() => {
     if (isLoginSuccess) {
-      dispatch(setUser({ name: username, token: o, cypher: enc }))
+      dispatch(setUser({ name: username, token: loginData, cypher: cypherData }))
       props.navigation.navigate('Home')
     }
   }, [isLoginSuccess])
@@ -103,7 +124,8 @@ export default function Login(props: CompProps) {
                 <View style={{ flex: 1 }}>
                   <AnimatedInput
                     placeholder="Password"
-                    errorText="Error"
+                    errorText={errorText}
+                    valid={!showErrorText}
                     autoCapitalize='none'
                     value={password}
                     onChangeText={handleChange2}
@@ -179,6 +201,10 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     alignSelf: 'center',
     margin: 40
+  },
+  error: {
+    alignSelf: 'center',
+    color: 'red'
   },
   button: {
     backgroundColor: '#1E293B',
