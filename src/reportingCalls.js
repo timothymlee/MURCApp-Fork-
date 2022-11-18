@@ -44,5 +44,3 @@ function writeReport(category, desc, name, email) {
 
     process.exit();
 }
-
-writeReport("safety", "I saw a bear on campus");

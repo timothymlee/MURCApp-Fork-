@@ -6,3 +6,6 @@ theme:
 nav:
     - HOME: 'index.md'
     - API: 'api.md'
+    - FRONTEND: 'front.md'
+    - BACKEND: 'back.md'
+    - CONTRIBUTE: 'contribute.md'

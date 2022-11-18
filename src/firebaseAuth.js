@@ -1,14 +1,8 @@
-/*
-const {getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged } = require("firebase/auth");
-const {useCypherQuery, useAuthQuery} = require('../src/api/apiSlice');
-let admin = require("firebase-admin");
-const {initializeApp} = require("firebase/app");
-*/
-
 const {getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged } = require("firebase/auth");
 const admin = require("firebase-admin");
 const {initializeApp} = require("firebase/app");
 const JWT = require('jsonwebtoken');
+const serviceAccount = require("../muresourcecenter-firebase-adminsdk.json");
 
 
 // Initialize Firebase
@@ -24,9 +18,9 @@ const firebaseConfig = {
 };
 const myApp = initializeApp(firebaseConfig);
 
-signInAuth();
+authenticateWithFirebase("tl1261");
 
-async function signInAuth()
+async function authenticateWithFirebase(user_id)
 {
     // Key file from firebase
     let serviceAccount = require("../muresourcecenter-firebase-adminsdk.json");
@@ -36,19 +30,23 @@ async function signInAuth()
         databaseURL: "https://muresourcecenter-8275d-default-rtdb.firebaseio.com"
     });
 
-    // Get token that we get from Messiah
-
+    // Only grant token if authorized through Messiah (Redux state?)
     const auth = getAuth();
-    const token = JWT.sign({butter: "79573fb0f715f8951fc956b04a356a17", knife: "2ca71e9a7723fe6a", toast: "2CtLO8iB7ll1whTQe5EkXf4JmyRjtAKlvKiNNMajBb93/EZOJ9Z4cXYQ7RmRrakXjDmN353zuzAttJXqLN3wyLwuXLTbPOjgoiXhoq74mSOV4J10hzpLqmx8XEZODwUkS+OBUWLtWqlGFlu9HzxclslYACR72U1/rdQg/34fJUL+A2xIgRm2ERb/emIokppqrMO05MMCBfbpuUZSUERI2qrwjrxdKkXkAaT278xSkMM="}, 'ssh');
+    const token = JWT.sign({uid: user_id}, serviceAccount.private_key,
+        {
+                issuer: serviceAccount.client_email,
+                subject: serviceAccount.client_email,
+                audience: "https://identitytoolkit.googleapis.com/google.identity.identitytoolkit.v1.IdentityToolkit",
+                expiresIn: '1h',
+                algorithm : 'RS256'});
 
     try {
         let userCredential = await signInWithCustomToken(auth, token);
-        console.log("Sent token to firebase");
         const user = userCredential.user;
     } catch(error) {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log("Error code: " + errorCode + " :  " + errorMessage);
+        console.log("Error code: " + errorCode + " |||| " + errorMessage);
         // ...
     }
 }
@@ -75,4 +73,8 @@ function anonymousAuth() {
             // ...
         }
     });
+}
+// Export Methods for Use
+module.exports = {
+    authenticateWithFirebase
 }
