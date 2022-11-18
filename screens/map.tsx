@@ -340,7 +340,7 @@ export default function Map(props: CompProps) {
                   return (
                     <Marker
                       key={i}
-                      coordinate={{ latitude: splitCoord[0] * 1.0, longitude: splitCoord[1] * 1.0}}
+                      coordinate={{ latitude: splitCoord[0] * 1.0, longitude: splitCoord[1] * 1.0 }}
                       onPress={() => {
                         setSelected(pin[0]);
                         setIcon(pin[2]);
@@ -358,7 +358,7 @@ export default function Map(props: CompProps) {
                         })
                       }}
                     >
-                      <View 
+                      <View
                         style={pin[3] ? styles.markerContainerSelected : styles.markerContainer}
                       >
                         <Icon name={pin[2]} size={pin[3] ? 18 : 12} type={'material-community'} color={'white'}></Icon>
@@ -368,7 +368,7 @@ export default function Map(props: CompProps) {
                 })}
             </MapView>
 
-            <Button 
+            <Button
               buttonStyle={styles.pinModalButton}
               titleStyle={{ fontSize: 18 }}
               onPress={toggleOverlay}
@@ -436,7 +436,7 @@ export default function Map(props: CompProps) {
             <Text style={styles.overlayTitle}>Enabled Icons</Text>
             <Icon style={styles.closeOverlayIcon} onPress={toggleOverlay} name="close" size={34} color={'black'}></Icon>
           </View>
-          
+
           <ScrollView>
             {renderCheckBox("Academics and Administrative", 0)}
             {renderCheckBox("Athletics and Recreation", 1)}

@@ -57,10 +57,11 @@ export default function Allergies(props: CompProps) {
             <Icon name="chevron-back" type="ionicon" size={28} color={'black'}></Icon>
             <Text style={{ fontSize: 18, fontWeight: '600' }}>Back</Text>
           </Pressable>
-          <Text style={styles.title}>Allergies</Text>
+          <Text style={styles.title}>Dietary Preferences</Text>
+          <Text style={styles.subtitle}>This information will only be used when placing an online order</Text>
           <ScrollView>
             <View style={styles.checkboxItemContainer1}>
-              <Text style={styles.checkboxText}>Dairy</Text>
+              <Text style={styles.checkboxText}>No Dairy</Text>
               <CheckBox
                 checked={checked1}
                 checkedColor="#0F0"
@@ -71,7 +72,7 @@ export default function Allergies(props: CompProps) {
               />
             </View>
             <View style={styles.checkboxItemContainer2}>
-              <Text style={styles.checkboxText}>Egg</Text>
+              <Text style={styles.checkboxText}>No Egg</Text>
               <CheckBox
                 checked={checked2}
                 checkedColor="#0F0"
@@ -82,7 +83,7 @@ export default function Allergies(props: CompProps) {
               />
             </View>
             <View style={styles.checkboxItemContainer1}>
-              <Text style={styles.checkboxText}>Fish</Text>
+              <Text style={styles.checkboxText}>No Fish</Text>
               <CheckBox
                 checked={checked3}
                 checkedColor="#0F0"
@@ -93,7 +94,7 @@ export default function Allergies(props: CompProps) {
               />
             </View>
             <View style={styles.checkboxItemContainer2}>
-              <Text style={styles.checkboxText}>Shellfish</Text>
+              <Text style={styles.checkboxText}>No Shellfish</Text>
               <CheckBox
                 checked={checked4}
                 checkedColor="#0F0"
@@ -104,7 +105,7 @@ export default function Allergies(props: CompProps) {
               />
             </View>
             <View style={styles.checkboxItemContainer1}>
-              <Text style={styles.checkboxText}>Peanuts</Text>
+              <Text style={styles.checkboxText}>No Peanuts</Text>
               <CheckBox
                 checked={checked5}
                 checkedColor="#0F0"
@@ -115,7 +116,7 @@ export default function Allergies(props: CompProps) {
               />
             </View>
             <View style={styles.checkboxItemContainer2}>
-              <Text style={styles.checkboxText}>Tree Nuts</Text>
+              <Text style={styles.checkboxText}>No Tree Nuts</Text>
               <CheckBox
                 checked={checked6}
                 checkedColor="#0F0"
@@ -126,7 +127,7 @@ export default function Allergies(props: CompProps) {
               />
             </View>
             <View style={styles.checkboxItemContainer1}>
-              <Text style={styles.checkboxText}>Gluten</Text>
+              <Text style={styles.checkboxText}>No Gluten</Text>
               <CheckBox
                 checked={checked7}
                 checkedColor="#0F0"
@@ -196,14 +197,17 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   subtitle: {
-    color: '#1E293B'
+    color: '#1E293B',
+    paddingLeft: 30,
+    paddingBottom: 20,
+    fontSize: 12
   },
   title: {
     color: '#1E293B',
     fontSize: 28,
     fontWeight: '600',
     paddingLeft: 30,
-    paddingBottom: 20
+    paddingBottom: 10
   },
   header_image: {
     width: 120,

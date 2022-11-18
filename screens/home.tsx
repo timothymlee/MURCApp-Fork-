@@ -1,4 +1,4 @@
-import { ImageBackground, Pressable, StyleSheet, SafeAreaView, Text, View, KeyboardAvoidingView, Platform, StatusBar, ScrollView, Modal } from "react-native";
+import { ImageBackground, Pressable, StyleSheet, SafeAreaView, Text, View, ScrollView, KeyboardAvoidingView, Platform, StatusBar, Modal, TouchableWithoutFeedback } from "react-native";
 import React, { useState } from 'react';
 import { Icon, SearchBar, Button } from "@rneui/themed";
 import {readUserData, writeUserData} from "../src/firebaseCalls";
@@ -67,7 +67,9 @@ export default function Home(props: CompProps) {
         <View style={styles.app_container}>
           <ImageBackground source={image} style={styles.bg_image} >
             <ScrollView style={styles.app_container}>
+              <TouchableWithoutFeedback>
               <Widget navFun={props}/>
+              </TouchableWithoutFeedback>
               {/*<Text style={{fontSize: 20, color: 'white'}}>Data = {textString}</Text>*/}
             </ScrollView>
           </ImageBackground>
