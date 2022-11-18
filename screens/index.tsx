@@ -1,4 +1,4 @@
-import { StyleSheet, Button, View, Linking, TouchableOpacity, Image, Text, PanResponder, Animated} from "react-native";
+import { StyleSheet, Button, View, Linking, TouchableOpacity, Image, Text, PanResponder, Animated, Dimensions } from "react-native";
 import React, { useState, useEffect, useRef } from 'react';
 import * as WebBrowser from 'expo-web-browser';
 import { NoUnusedFragmentsRule } from "graphql";
@@ -7,48 +7,46 @@ import WidgetDefault from "./Widgets/widgetDefault"
 //not being used VVVVVV
 type CompProps = {
   // We are only using the navigate and goBack functions
-  navigation: { navigate: Function;};
+  navigation: { navigate: Function; };
 };
 
 export default function Index(props) {
-  const [result, setResult] = useState(null);
   //not currently being utilized, artifact from original index vvvvv
   const _handlePressButtonAsync = async () => {
     let result = await WebBrowser.openBrowserAsync('https://union.messiah.edu/menu/', {
       enableBarCollapsing: true,
       toolbarColor: '#2a3e5e'
     });
-    setResult(result);
   };
   //takes in the props from home.
   //include <WidgetDefault> for testing modular widgets
   let navigator = props.navFun;
-  console.log(navigator);
+  //console.log(navigator);
 
 
   //the MapGrid is used for making the procedural buttons
   return (
-    
+
     <View style={styles.container}>
-      <View style={styles.resourceButtons} 
+      <View style={styles.resourceButtons}
       >
-      <MapGrid sources={navigator}
-      //dest={openLink}
-      
-      >  
-      </MapGrid>
-      <View
-       onLayout={(event) => {
-        const layout = event.nativeEvent.layout;
-        console.log("Test Widget Position");
-        console.log("x:", layout.x);
-        console.log("y:", layout.y);
-      }}>
-         
+        <MapGrid sources={navigator}
+        //dest={openLink}
+
+        >
+        </MapGrid>
+        <View
+          onLayout={(event) => {
+            const layout = event.nativeEvent.layout;
+            //console.log("Test Widget Position");
+            //console.log("x:", layout.x);
+            //console.log("y:", layout.y);
+          }}>
+
+        </View>
       </View>
-      </View>
-      
-    </View> 
+
+    </View>
   );
 }
 
@@ -61,31 +59,31 @@ export default function Index(props) {
 //have the name in resourcesList
 //have the url in resourceDestinations
 //have the image link in resourceImages
-let resources ={
-  resourcesList: ["Union", "Lottie Menu", "Chapel", "The Falcon", "Gym", "Dining Dollars", 
-  "Falcon Dollars", "Campus Map", "Log In"],
+let resources = {
+  resourcesList: ["Union", "Lottie Menu", "Chapel", "The Falcon", "Gym", "Dining Dollars",
+    "Falcon Dollars", "Campus Map", "Log In"],
   /*resourceDestinations: ['https://union.messiah.edu/menu/', 'http://falcon.messiah.edu/menu/',
 'https://www.messiah.edu/a/sso/sso.php?url=https://www.messiah.edu/student-events', 'https://tour.messiah.edu/campus-map/',
 'https://www.messiah.edu/a/sso/sso.php?url=https://www.messiah.edu/download/downloads/id/9433/Lottie_thisweek.pdf'],*/
-  resourceDestinations: ['UnionMenu','LottieMenu', 'Chapel', 'FalconMenu', 'Gym', "DiningDollars",
-  "FalconDollars", "Map", "Login"],
- resourceImages: [require("./../src/assets/img/food.png"), 
+  resourceDestinations: ['UnionMenu', 'LottieMenu', 'Chapel', 'FalconMenu', 'Gym', "DiningDollars",
+    "FalconDollars", "Map", "Login"],
+  resourceImages: [require("./../src/assets/img/food.png"),
   require("./../src/assets/img/food.png"),
-  require("./../src/assets/img/dollar.png"), 
-  require("./../src/assets/img/calander.png"), 
+  require("./../src/assets/img/dollar.png"),
+  require("./../src/assets/img/calander.png"),
   require("./../src/assets/img/book.png"),
-  require("./../src/assets/img/dollar.png"), 
+  require("./../src/assets/img/dollar.png"),
   require("./../src/assets/img/dollar.png"),
   require("./../src/assets/img/book.png"),
   require("./../src/assets/img/target.png")],
-  style: [1,0,2,1,2,2,1,0,2],
+  style: [2, 0, 2, 2, 2, 0, 2, 1, 2],
   editing: false,
   positions: [],
   switch: [],
   toggled: false,
   positionsX: [],
   positionsY: []
-  
+
 }
 //below is for url refernce purposes
 /*
@@ -103,13 +101,13 @@ let WidgetNames = [
   ]
 */
 
-function openLink(link, navi, pos){
+function openLink(link, navi, pos) {
   //Linking.openURL(link);
   //above opens website urls
   //below is good for our own pages
-  console.log(navi);
+  //console.log(navi);
   navi.sources.navigation.navigate(resources.resourceDestinations[resources.positions[pos]]);
-  console.log("GesturePressed")
+  //console.log("GesturePressed")
   //for some reason the link / destination which is passed to the resource buttons do not update
   //for pan responder interactions, despite visually doing so.
   //this is also the same for name and positon. So it would seem that the values for pan responder
@@ -118,16 +116,16 @@ function openLink(link, navi, pos){
   //but I suppose it occurs because the destination used to be handled onButtonPress which
   //I think occurs after everything has gone through the render?
 }
-function openLinkOnPress(link, navi, pos){
-  console.log(navi);
-  console.log("OnPressPressed")
+function openLinkOnPress(link, navi, pos) {
+  //console.log(navi);
+  //console.log("OnPressPressed")
   navi.sources.navigation.navigate(link);
 }
 
 
 //May not be best practice to directly edit the resources file.
 //On the flip side, I do not believe it is possible or advisable to edit props.
-function  MapGrid (sources){
+function MapGrid(sources) {
   let sourceButtons = [];
   //note: currently the widgets / buttons use absolute positioning to calculate the postion
   //of the widgets. This works fine when the view does not scroll.
@@ -139,28 +137,28 @@ function  MapGrid (sources){
 
   //need to add unique key prop later on.
   //The below code is for populating the initial positions array.
-  if(resources.positions.length == 0){
-    for(let i = 0; i < resources.resourcesList.length; i++){
+  if (resources.positions.length == 0) {
+    for (let i = 0; i < resources.resourcesList.length; i++) {
       resources.positions.push(i);
       //instantiate positions X and Y
       resources.positionsX.push(0);
       resources.positionsY.push(0);
-    }   
+    }
   }
 
-  for (let i = 0; i < resources.resourcesList.length; i++){
-  //the titles and position of a button are determined by the values within resources.positions
-    sourceButtons.push(ResourceButtons(resources.resourcesList[resources.positions[i]], 
+  for (let i = 0; i < resources.resourcesList.length; i++) {
+    //the titles and position of a button are determined by the values within resources.positions
+    sourceButtons.push(ResourceButtons(resources.resourcesList[resources.positions[i]],
       //sources.dest(resources.resourceDestinations[i]), 
       resources.resourceDestinations[resources.positions[i]],
       resources.positions[i], i, sources, resources.style[resources.positions[i]]));
-      
+
   }
   /*useful for position testing
   console.log("Position array V");
   console.log(resources.positions);
   */
-  
+
   return <>{sourceButtons}</>
 }
 
@@ -171,7 +169,7 @@ function  MapGrid (sources){
 
 
 
-function ResourceButtons (name, destination, position, layoutPos, navi, style) {
+function ResourceButtons(name, destination, position, layoutPos, navi, style) {
   const containerViewRef = useRef<View>(null);
 
   let [, setPageY] = useState(0);
@@ -182,7 +180,7 @@ function ResourceButtons (name, destination, position, layoutPos, navi, style) {
   let [switching, setSwitching] = React.useState(false);
   let [editC, setEditC] = React.useState(resources.editing);
 
-  let styleType = [styles.buttonSize1,styles.buttonSize2,styles.buttonSize3];
+  let styleType = [styles.buttonSize1, styles.buttonSize2, styles.buttonSize3];
 
   const pan = useRef<any>(new Animated.ValueXY()).current;
   let pressingTouch = true;
@@ -194,15 +192,14 @@ function ResourceButtons (name, destination, position, layoutPos, navi, style) {
           x: pan.x._value,
           y: pan.y._value
         });
-        console.log(name);
+        //console.log(name);
         pressingTouch = true;
         //to account for scroll view
         //the below code goes through the y values and updates them
         //by taking the difference between where the user touches and the previously
         //recorded positions
-        let yDifference = gestureState.moveY-resources.positionsY[layoutPos];
-        for(let j = 0; j < resources.positions.length; j++)
-        {
+        let yDifference = gestureState.moveY - resources.positionsY[layoutPos];
+        for (let j = 0; j < resources.positions.length; j++) {
           resources.positionsY[j] += yDifference;
         }
       },
@@ -210,91 +207,86 @@ function ResourceButtons (name, destination, position, layoutPos, navi, style) {
         //if the button is pressed for long enough, the user must be trying to switch it.
         //if(Math.abs(pan.x._value) > 5 || Math.abs(pan.y._value) > 5)
 
-        if(
-          setTimeout(function(){{timePassed: true}}, 2000))
-        {pressingTouch = false;}
-        
-       return(
-        Animated.event(
-        [
-          null,
-          { dx: pan.x, dy: pan.y }
-        ],
-        {useNativeDriver: false}
-        
-      )(e,gestureState)
-      )
-    
-    },
+        if (
+          setTimeout(function () { { timePassed: true } }, 2000)) { pressingTouch = false; }
+
+        return (
+          Animated.event(
+            [
+              null,
+              { dx: pan.x, dy: pan.y }
+            ],
+            { useNativeDriver: false }
+
+          )(e, gestureState)
+        )
+
+      },
       onPanResponderRelease: (e, gestureState) => {
 
         //flatten offset is to keep the current
         //position that the button is moved to.
         //setting values to 0 cause button to return to orignal spot
-        
-        if(pressingTouch==true){
+
+        if (pressingTouch == true) {
           openLink(destination, navi, position);
         }
-        else{
-          for(let i = 0; i < resources.positionsX.length; i++)
-        {
+        else {
+          for (let i = 0; i < resources.positionsX.length; i++) {
             //since the center is pageX + width (pageY + height)
             //then adding or subtracting w/h, which are half those values should give the borders
-            if(
-              (((gestureState.moveX >= resources.positionsX[i]-w && 
-              (gestureState.moveX <= resources.positionsX[i]+w))
-              && 
-              (((gestureState.moveY >= resources.positionsY[i]-h) && 
-              (gestureState.moveY <= resources.positionsY[i]+h)))
-              && 
-              (position!=i) 
-              )))
-              
-          {
-            //initializes the placements for button touched and matched
-            let buttonTouched = -1;
-            let buttonMatched = -1;
-            buttonMatched=resources.positions[i];
-            buttonTouched=resources.positions[layoutPos];
+            if (
+              (((gestureState.moveX >= resources.positionsX[i] - w &&
+                (gestureState.moveX <= resources.positionsX[i] + w))
+                &&
+                (((gestureState.moveY >= resources.positionsY[i] - h) &&
+                  (gestureState.moveY <= resources.positionsY[i] + h)))
+                &&
+                (position != i)
+              ))) {
+              //initializes the placements for button touched and matched
+              let buttonTouched = -1;
+              let buttonMatched = -1;
+              buttonMatched = resources.positions[i];
+              buttonTouched = resources.positions[layoutPos];
 
-            resources.positions[layoutPos]=buttonMatched;
-            resources.positions[i]=buttonTouched;
+              resources.positions[layoutPos] = buttonMatched;
+              resources.positions[i] = buttonTouched;
 
-            
-            //if within range of another button, swaps the buttons.
-            console.log("within range!");
-            
-                        
-          }
-          
-          else
-          {
-            console.log("Outside range!")
-            pan.setValue({
-              x: 0,
-              y: 0,
-            });
+
+              //if within range of another button, swaps the buttons.
+              //("within range!");
+
+
+            }
+
+            else {
+              //console.log("Outside range!")
+              pan.setValue({
+                x: 0,
+                y: 0,
+              });
+            }
           }
         }
-        }
-        
+
 
         pan.flattenOffset();
         setEditC(editC = true);
-        
-/*
-        console.log("abs x (moveX) value: " + gestureState.moveX);
-        console.log("abs y (moveY) value: " + gestureState.moveY);
-        console.log("dx: " + gestureState.dx);
-        console.log("dy: " + gestureState.dy);
-        console.log("x0: " + gestureState.x0);
-        console.log("y0: " + gestureState.y0);
-        console.log(resources.positionsX);
-        console.log(resources.positionsY);
-        console.log(resources.positions);
-   */     
-        
-        
+
+        /*
+                console.log("abs x (moveX) value: " + gestureState.moveX);
+                console.log("abs y (moveY) value: " + gestureState.moveY);
+                console.log("dx: " + gestureState.dx);
+                console.log("dy: " + gestureState.dy);
+                console.log("x0: " + gestureState.x0);
+                console.log("y0: " + gestureState.y0);
+                console.log(resources.positionsX);
+                console.log(resources.positionsY);
+                console.log(resources.positions);
+           */
+
+
       }
     })
   ).current;
@@ -302,10 +294,10 @@ function ResourceButtons (name, destination, position, layoutPos, navi, style) {
 
   //onButtonPress is good for get touches not caught by the pan responder,
   //I find.
-  function onButtonPress(e){
-    
-    console.log(name);
-    console.log("Pressed");
+  function onButtonPress(e) {
+
+    //console.log(name);
+    //console.log("Pressed");
     //the different function is due to the different timings of
     //the pan responder vs the on press event.
     //the pan responder is too early and fires before the proper re render of the destination
@@ -314,101 +306,107 @@ function ResourceButtons (name, destination, position, layoutPos, navi, style) {
     openLinkOnPress(destination, navi, position);
 
   }
-  function onHoldingPress(e){
-    console.log("longPress");
+  function onHoldingPress(e) {
+    //console.log("longPress");
   }
-  function onRelease(){
-    console.log("Released");
+  function onRelease() {
+    //console.log("Released");
   }
 
-  
-  let rButton =<TouchableOpacity onPress={onButtonPress}
-  style={styleType[style]}
-  >
-    <Image source={resources.resourceImages[position]}/>
-    <Text style={styles.buttonTextStyle}>{name}</Text>
-  </TouchableOpacity>
+
+  let rButton =
+    <TouchableOpacity onPress={onButtonPress}
+      style={styleType[style]}
+    >
+      <Image source={resources.resourceImages[position]} />
+      <Text style={styles.buttonTextStyle}>{name}</Text>
+    </TouchableOpacity>
 
   //}
   useEffect(() => {
     //updates the render for the buttons
-    if(editC==true){
+    if (editC == true) {
       setEditC(editC = false);
     }
-    console.log("EFfect");
+    //console.log("EFfect");
   });
   let finalCard = <Animated.View ref={containerViewRef} collapsable={false}
-  
-  style={{
-    transform: [{ translateX: pan.x }, { translateY: pan.y }]
-  }}
 
-  onLayout={(event) => {
-    //using the absolute value works for a non scrolling page
-    //scrolling the page changes the x and y values, so I either need to
-    //update them on when the user scrolls, or have an offset of some kind dependent on it.
-    containerViewRef.current?.measure(
-      (x, y, width, height, pageX, pageY) => {
-        console.log("Intial Layout on render / re-render");
-        console.log(name+"VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV");
-        //The center of each button is equal to the page x position + half the width and or height.
-        setPageX(pageX + (width/2));
-        setPageY(pageY + (height/2));
-        console.log(name);
-        console.log("This is the page X vvvv");
-        console.log(pageX + (width/2));
-        console.log("This is the page Y vvvv");
-        console.log(pageY + (height/2));
-        console.log("Width: " + width);
-        console.log("Height: " + height);
-        setW(w = width/2);
-        setH(h = height/2);
+    style={{
+      transform: [{ translateX: pan.x }, { translateY: pan.y }]
+    }}
 
-        
-    resources.positionsX[layoutPos] = pageX + (width/2);
-    resources.positionsY[layoutPos] = pageY + (height/2);
-    /*
-    console.log("x positions vvv");
-    console.log(resources.positionsX[position]);
-    console.log(resources.positionsX);
-    console.log("y positions vvvv");
-    console.log(resources.positionsY[position]);
-    console.log(resources.positionsY);
-    
-    console.log("Current positions array vvvv");
-    console.log(resources.positions);
+    onLayout={(event) => {
+      //using the absolute value works for a non scrolling page
+      //scrolling the page changes the x and y values, so I either need to
+      //update them on when the user scrolls, or have an offset of some kind dependent on it.
+      containerViewRef.current?.measure(
+        (x, y, width, height, pageX, pageY) => {
+          //console.log("Intial Layout on render / re-render");
+          //console.log(name + "VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV");
+          //The center of each button is equal to the page x position + half the width and or height.
+          setPageX(pageX + (width / 2));
+          setPageY(pageY + (height / 2));
+          //console.log(name);
+          //console.log("This is the page X vvvv");
+          //console.log(pageX + (width / 2));
+          //console.log("This is the page Y vvvv");
+          //console.log(pageY + (height / 2));
+          //console.log("Width: " + width);
+          //console.log("Height: " + height);
+          setW(w = width / 2);
+          setH(h = height / 2);
 
-    console.log("current position vvvv");
-    console.log(position);
-    console.log(destination);
-    */
-      });
-    
-    
-    
-    
-  }}
 
-  
-  {...panResponder.panHandlers}
-  > 
-    
-  <View style={styles.resourceButtons}>
-  {rButton}
-  </View>
-  
-  
+          resources.positionsX[layoutPos] = pageX + (width / 2);
+          resources.positionsY[layoutPos] = pageY + (height / 2);
+          /*
+          console.log("x positions vvv");
+          console.log(resources.positionsX[position]);
+          console.log(resources.positionsX);
+          console.log("y positions vvvv");
+          console.log(resources.positionsY[position]);
+          console.log(resources.positionsY);
+          
+          console.log("Current positions array vvvv");
+          console.log(resources.positions);
+      
+          console.log("current position vvvv");
+          console.log(position);
+          console.log(destination);
+          */
+        });
+
+
+
+
+    }}
+
+
+    {...panResponder.panHandlers}
+  >
+
+    <View style={styles.resourceButtons}>
+      {rButton}
+    </View>
+
+
   </Animated.View>
   /*
   if(editC==true){
     setEditC(editC = false);
   }*/
-  return( <>
+  return (<>
     {finalCard}
-    </>
-    
+  </>
+
   )
 }
+
+let w = Dimensions.get('window').width;
+let m = 10;
+let s = (w / 4) - (2 * m);
+console.log(w, s)
 
 let styles = StyleSheet.create({
   container: {
@@ -418,67 +416,61 @@ let styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
-    marginTop: "10%",
-    
+    //marginTop: "10%",
   },
   resourceButtons: {
     flexDirection: "row",
     flexWrap: "wrap",
-    marginTop:"5%",
-    marginLeft: "5%",
-    marginBottom: "5%",
+    //marginTop: "5%",
+    //marginLeft: "5%",
+    //marginBottom: "5%",
     position: "relative",
-    
-    
-
-
-
-    
   },
   editButton: {
     flexDirection: "row",
     flexWrap: "wrap",
-    bottom:"20%",
+    bottom: "20%",
     marginLeft: "80%",
     position: "absolute",
     padding: 5
-    
-
   },
   opacityWrapper: {
     alignItems: 'center',
     backgroundColor: '#5EAEF9',
     padding: 15,
-    
+
   },
   buttonSize1: {
     alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: '#4349D6',
-    paddingHorizontal: 40,
-    paddingVertical: 35
+    margin: m,
+    height: 2 * s + 2 * m,
+    width: 2 * s + 2 * m
   },
-  buttonSize2:{
-    
+  buttonSize2: {
     alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: '#E41515',
-    paddingHorizontal: 35,
-    paddingVertical: 20,
-    
-
+    margin: m,
+    height: s,
+    width: 2 * s + 2 * m
   },
   buttonSize3: {
     alignItems: "center",
+    justifyContent: 'center',
     backgroundColor: '#5EAEF9',
-    padding: 10,
-    
+    margin: m,
+    height: s,
+    width: s
   },
   buttonTextStyle: {
-    color: "#ffffff", 
-    minWidth: "25%", 
-    maxWidth:"100%",
-    textAlign:"center",
+    color: "#ffffff",
+    minWidth: "25%",
+    maxWidth: "100%",
+    textAlign: "center",
   }
-  
+
 });
 
 
