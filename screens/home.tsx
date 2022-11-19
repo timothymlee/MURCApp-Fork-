@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Icon, SearchBar, Button } from "@rneui/themed";
 import {readUserData, writeUserData} from "../src/firebaseCalls";
 //import Widget from '../src/js componets/widgetsV1.3';
-import Widget from './index';
+import Widget from './widget2';
 import { Image } from "@rneui/base";
 
 type CompProps = {
@@ -66,12 +66,12 @@ export default function Home(props: CompProps) {
 
         <View style={styles.app_container}>
           <ImageBackground source={image} style={styles.bg_image} >
-            <ScrollView style={styles.app_container}>
+            <View style={styles.app_container}>
               <TouchableWithoutFeedback>
               <Widget navFun={props}/>
               </TouchableWithoutFeedback>
               {/*<Text style={{fontSize: 20, color: 'white'}}>Data = {textString}</Text>*/}
-            </ScrollView>
+            </View>
           </ImageBackground>
         </View>
 
