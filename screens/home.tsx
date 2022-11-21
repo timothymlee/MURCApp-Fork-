@@ -17,6 +17,7 @@ export default function Home(props: CompProps) {
 
   const [value, setValue] = useState("");
   const [results, setResults] = useState([])
+  const [scrolling, setScrolling] = useState(true);
 
   let WidgetNames = [
     { name: "Union Cafe", url: 'UnionMenu' },
@@ -41,9 +42,15 @@ export default function Home(props: CompProps) {
     });
     setResults(storedResults);
   };
-
+  //scroll disabled is needed for drag and drop to work on ios.
+  //I need to add something in index that
+  //handleWidgetMove should hopefully disabel / enable scroll view for
+  //ios devices to work.
   const handleSearchChange = () => {
     if (value == "") {
+      const handleWidgetMove = scroll => {
+        setScrolling(scrolling => scroll)
+      }
       return (
         <>
       <SafeAreaView style={styles.page}>
@@ -63,11 +70,13 @@ export default function Home(props: CompProps) {
             </Pressable>
           </View>
         </View>
-
+        
         <View style={styles.app_container}>
           <ImageBackground source={image} style={styles.bg_image} >
-            <ScrollView style={styles.app_container}>
-              <Widget navFun={props}/>
+            
+            <ScrollView style={styles.app_container} scrollEnabled={scrolling}>
+              
+              <Widget navFun={props} handleWidgetMove={handleWidgetMove}/>
               {/*<Text style={{fontSize: 20, color: 'white'}}>Data = {textString}</Text>*/}
             </ScrollView>
           </ImageBackground>

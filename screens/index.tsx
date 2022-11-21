@@ -10,7 +10,7 @@ type CompProps = {
   navigation: { navigate: Function;};
 };
 
-export default function Index(props) {
+export default function Index(props, {handleWidgetMove}) {
   const [result, setResult] = useState(null);
   //not currently being utilized, artifact from original index vvvvv
   const _handlePressButtonAsync = async () => {
@@ -23,6 +23,7 @@ export default function Index(props) {
   //takes in the props from home.
   //include <WidgetDefault> for testing modular widgets
   let navigator = props.navFun;
+
   console.log(navigator);
 
 
@@ -40,9 +41,10 @@ export default function Index(props) {
       <View
        onLayout={(event) => {
         const layout = event.nativeEvent.layout;
+        /*
         console.log("Test Widget Position");
         console.log("x:", layout.x);
-        console.log("y:", layout.y);
+        console.log("y:", layout.y);*/
       }}>
          
       </View>
@@ -127,7 +129,7 @@ function openLinkOnPress(link, navi, pos){
 
 //May not be best practice to directly edit the resources file.
 //On the flip side, I do not believe it is possible or advisable to edit props.
-function  MapGrid (sources){
+function  MapGrid (sources, handleWidgetMove){
   let sourceButtons = [];
   //note: currently the widgets / buttons use absolute positioning to calculate the postion
   //of the widgets. This works fine when the view does not scroll.
@@ -153,7 +155,7 @@ function  MapGrid (sources){
     sourceButtons.push(ResourceButtons(resources.resourcesList[resources.positions[i]], 
       //sources.dest(resources.resourceDestinations[i]), 
       resources.resourceDestinations[resources.positions[i]],
-      resources.positions[i], i, sources, resources.style[resources.positions[i]]));
+      resources.positions[i], i, sources, resources.style[resources.positions[i]], handleWidgetMove));
       
   }
   /*useful for position testing
@@ -171,7 +173,7 @@ function  MapGrid (sources){
 
 
 
-function ResourceButtons (name, destination, position, layoutPos, navi, style) {
+function ResourceButtons (name, destination, position, layoutPos, navi, style, handleWidgetMove) {
   const containerViewRef = useRef<View>(null);
 
   let [, setPageY] = useState(0);
@@ -212,7 +214,7 @@ function ResourceButtons (name, destination, position, layoutPos, navi, style) {
 
         if(
           setTimeout(function(){{timePassed: true}}, 2000))
-        {pressingTouch = false;}
+        {pressingTouch = false; handleWidgetMove(false);}
         
        return(
         Animated.event(
@@ -236,6 +238,7 @@ function ResourceButtons (name, destination, position, layoutPos, navi, style) {
           openLink(destination, navi, position);
         }
         else{
+          handleWidgetMove(true);
           for(let i = 0; i < resources.positionsX.length; i++)
         {
             //since the center is pageX + width (pageY + height)
@@ -322,7 +325,7 @@ function ResourceButtons (name, destination, position, layoutPos, navi, style) {
   }
 
   
-  let rButton =<TouchableOpacity onPress={onButtonPress}
+  let rButton =<TouchableOpacity onPress={onButtonPress} 
   style={styleType[style]}
   >
     <Image source={resources.resourceImages[position]}/>
@@ -335,7 +338,7 @@ function ResourceButtons (name, destination, position, layoutPos, navi, style) {
     if(editC==true){
       setEditC(editC = false);
     }
-    console.log("EFfect");
+    //console.log("EFfect");
   });
   let finalCard = <Animated.View ref={containerViewRef} collapsable={false}
   
@@ -349,18 +352,19 @@ function ResourceButtons (name, destination, position, layoutPos, navi, style) {
     //update them on when the user scrolls, or have an offset of some kind dependent on it.
     containerViewRef.current?.measure(
       (x, y, width, height, pageX, pageY) => {
-        console.log("Intial Layout on render / re-render");
-        console.log(name+"VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV");
+        /*console.log("Intial Layout on render / re-render");
+        console.log(name+"VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV");*/
         //The center of each button is equal to the page x position + half the width and or height.
         setPageX(pageX + (width/2));
         setPageY(pageY + (height/2));
+        /*
         console.log(name);
         console.log("This is the page X vvvv");
         console.log(pageX + (width/2));
         console.log("This is the page Y vvvv");
         console.log(pageY + (height/2));
         console.log("Width: " + width);
-        console.log("Height: " + height);
+        console.log("Height: " + height);*/
         setW(w = width/2);
         setH(h = height/2);
 
