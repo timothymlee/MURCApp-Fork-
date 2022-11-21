@@ -1,8 +1,7 @@
 import { Pressable, Image, StyleSheet, SafeAreaView, Text, View, ScrollView } from "react-native";
 import React, { useState } from 'react';
 import { Icon, Button, Overlay, ListItem, CheckBox } from "@rneui/themed";
-import { LinearGradient } from 'expo-linear-gradient';
-import * as WebBrowser from 'expo-web-browser';
+import Header from "./header"
 
 type CompProps = {
   // We are only using the navigate and goBack functions
@@ -36,21 +35,7 @@ export default function Allergies(props: CompProps) {
     <>
       <SafeAreaView style={styles.page}>
 
-        <View style={styles.header}>
-          <View style={[styles.header_content, { alignItems: 'flex-start' }]}>
-            <Pressable onPress={() => props.navigation.navigate('Settings')}>
-              <Icon name="person" style={styles.header_icons} size={44} color={'white'}></Icon>
-            </Pressable>
-          </View>
-          <View style={[styles.header_content, { alignItems: 'center' }]}>
-            <Image source={require('../assets/images/messiah_logo.png')} style={styles.header_image} />
-          </View>
-          <View style={[styles.header_content, { alignItems: 'flex-end' }]}>
-            <Pressable onPress={() => props.navigation.navigate('Home')}>
-              <Icon name="home" style={styles.header_icons} size={44} color={'white'}></Icon>
-            </Pressable>
-          </View>
-        </View>
+        <Header props={props}/>
 
         <View style={styles.app_container}>
           <Pressable style={styles.backButtonContainer} onPress={() => props.navigation.goBack()}>
@@ -179,22 +164,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#FBFBFB',
     flex: 1
   },
-  header: {
-    backgroundColor: '#1E293B',
-    minHeight: 60,
-    flexDirection: 'row'
-  },
   page: {
     backgroundColor: '#1E293B',
     flex: 1
-  },
-  header_content: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 10
-  },
-  header_icons: {
-    color: 'white'
   },
   subtitle: {
     color: '#1E293B',
@@ -208,11 +180,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     paddingLeft: 30,
     paddingBottom: 10
-  },
-  header_image: {
-    width: 120,
-    height: 30,
-    resizeMode: 'cover'
   },
   button: {
     backgroundColor: '#5EBD4E',

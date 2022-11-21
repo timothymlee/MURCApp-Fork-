@@ -1,7 +1,6 @@
-import { StyleSheet, Button, View, Linking, TouchableOpacity, Image, Text, PanResponder, Animated, Dimensions } from "react-native";
+import { StyleSheet, View, TouchableOpacity, Text, PanResponder, Animated, Dimensions } from "react-native";
 import React, { useState, useEffect, useRef } from 'react';
 import { Icon } from "@rneui/themed";
-import * as WebBrowser from 'expo-web-browser';
 
 let lightBlue = "#6EB3F2"
 let blue = '#4552C9'
@@ -35,7 +34,7 @@ let widgetList = [];
 
 // These variables are for button styling
 let w = Dimensions.get('window').width;
-let m = 12;
+let m = 18;
 let s = (w / 4) - (2 * m);
 
 export default function WidgetDisplay(props) {
@@ -93,8 +92,6 @@ function MapGrid(props) {
         widget.id, //position
         widget.color, //color
         widget.icon, //icon
-        widget.posX, //center X
-        widget.posY, //center Y
         widget.width, //width of widget
         widget.height, //height of widget
         props
@@ -105,15 +102,10 @@ function MapGrid(props) {
   return <>{sourceButtons}</>
 }
 
-function ResourceButtons(name, destination, position, color, icon, posX, posY, width, height, props) {
+function ResourceButtons(name, destination, position, color, icon, width, height, props) {
   // Gets called once for each widget on the screen
   let layoutPos = position;
   const containerViewRef = useRef<View>(null);
-
-  let [, setPageY] = useState(0);
-  let [, setPageX] = useState(0);
-  let [h, setH] = useState(0);
-  let [w, setW] = useState(0);
 
   let [editC, setEditC] = React.useState(false);
 
@@ -135,9 +127,7 @@ function ResourceButtons(name, destination, position, color, icon, posX, posY, w
         //if the button is pressed for long enough, the user must be trying to switch it.
         //if(Math.abs(pan.x._value) > 5 || Math.abs(pan.y._value) > 5)
 
-        if (
-          setTimeout(function () { { timePassed: true } }, 2000)) { pressingTouch = false; }
-
+        if (setTimeout(function () { { timePassed: true } }, 2000)) { pressingTouch = false; }
         return (
           Animated.event(
             [
@@ -148,7 +138,6 @@ function ResourceButtons(name, destination, position, color, icon, posX, posY, w
 
           )(e, gestureState)
         )
-
       },
 
       onPanResponderRelease: (e, gestureState) => {
@@ -221,7 +210,6 @@ function ResourceButtons(name, destination, position, color, icon, posX, posY, w
 
       {...panResponder.panHandlers}
     >
-      {/*console.log(props.props.navFun.navigation)*/}
       <View style={styles.resourceButtons}>
         <View style={{ width: width + 2*m, height: height + 2.4*m }}>
           <TouchableOpacity
@@ -267,7 +255,7 @@ let styles = StyleSheet.create({
     backgroundColor: '#4349D6',
     margin: m,
     marginBottom: m / 3,
-    borderRadius: 10,
+    borderRadius: 16,
     shadowColor: 'black',
     shadowOpacity: 0.4,
     shadowRadius: 8,
@@ -277,8 +265,8 @@ let styles = StyleSheet.create({
     minWidth: "25%",
     maxWidth: "100%",
     textAlign: "center",
-    fontSize: 12,
-    fontWeight: "300"
+    fontSize: 13,
+    fontWeight: "400",
   },
   widgetIcon: {
 

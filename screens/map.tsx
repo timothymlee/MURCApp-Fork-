@@ -1,10 +1,9 @@
 import { Pressable, Text, StyleSheet, SafeAreaView, View, Platform, StatusBar, Keyboard, KeyboardAvoidingView, ScrollView } from "react-native";
 import React, { useState, useEffect } from 'react';
 import { Icon, SearchBar, Button, Overlay } from "@rneui/themed";
-import { BackgroundImage, Image, CheckBox } from "@rneui/base";
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import { current } from "@reduxjs/toolkit";
-import { setupListeners } from "@reduxjs/toolkit/dist/query";
+import { CheckBox } from "@rneui/base";
+import MapView, { Marker } from 'react-native-maps';
+import Header from "./header";
 
 type CompProps = {
   // We are only using the navigate and goBack functions
@@ -410,21 +409,7 @@ export default function Map(props: CompProps) {
     <>
       <SafeAreaView style={styles.page}>
 
-        <View style={styles.header}>
-          <View style={[styles.header_content, { alignItems: 'flex-start' }]}>
-            <Pressable onPress={() => props.navigation.navigate('Settings')}>
-              <Icon name="person" style={styles.header_icons} size={44} color={'white'}></Icon>
-            </Pressable>
-          </View>
-          <View style={[styles.header_content, { alignItems: 'center' }]}>
-            <Image source={require('../assets/images/messiah_logo.png')} style={styles.header_image} />
-          </View>
-          <View style={[styles.header_content, { alignItems: 'flex-end' }]}>
-            <Pressable onPress={() => props.navigation.navigate('Home')}>
-              <Icon name="home" style={styles.header_icons} size={44} color={'white'}></Icon>
-            </Pressable>
-          </View>
-        </View>
+      <Header props={props}/>
 
         <Overlay
           isVisible={visible}
@@ -478,28 +463,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FBFBFB'
   },
-  header: {
-    backgroundColor: '#1E293B',
-    minHeight: 60,
-    flexDirection: 'row'
-  },
   page: {
     backgroundColor: '#1E293B',
     flex: 1,
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
-  },
-  header_content: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 10
-  },
-  header_icons: {
-    color: 'white'
-  },
-  header_image: {
-    width: 120,
-    height: 30,
-    resizeMode: 'cover'
   },
   search_container: {
     backgroundColor: '#1E293B',

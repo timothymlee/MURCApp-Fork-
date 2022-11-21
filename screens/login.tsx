@@ -16,7 +16,6 @@ type CompProps = {
   navigation: { navigate: Function; };
 };
 
-
 export default function Login(props: CompProps) {
 
   const [username, handleChange1] = useState("");
@@ -26,9 +25,6 @@ export default function Login(props: CompProps) {
   const [errorText, setErrorText] = useState('')
   const [showErrorText, setShowErrorMessage] = useState(false); 
   const dispatch = useAppDispatch();
-
-
-
 
   // Calling Messiah API to get encrypted string 
   const [cyphper, {

@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, SafeAreaView, Text, View, Platform, StatusBar } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import React, {useState} from 'react';
 import { Icon } from "@rneui/themed";
 import { Image } from "@rneui/base";

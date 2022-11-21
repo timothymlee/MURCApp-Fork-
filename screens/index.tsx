@@ -63,15 +63,15 @@ let resources = {
 }
 let widgetInfo = [
   { name: "Union Cafe", url: 'UnionMenu', icon: '', size: 0, color: "blue" },
-  { name: "Lottie Dining Hall", url: 'LottieMenu', icon: '', size: 6, color: "blue"  },
-  { name: "Chapel Attendance", url: 'Chapel', icon: '', size: 4, color: "blue"  },
-  { name: "Falcon", url: 'FalconMenu', icon: '', size: 0, color: "blue"  },
-  { name: "Gym", url: 'Gym', icon: '', size: 0, color: "blue"  },
-  { name: "Dining Dollars", url: 'DiningDollars', icon: '', size: 1, color: "blue"  },
-  { name: "Falcon Dollars", url: 'FalconDollars', icon: '', size: 1, color: "blue"  },
-  { name: "Campus Map", url: 'Map', icon: '', size: 0, color: "blue"  },
-  { name: "Log In", url: 'Login', icon: '', size: 0, color: "blue"  },
-  { name: "Drag and Drop", url: 'Index', icon: '', size: 0, color: "blue"  }
+  { name: "Lottie Dining Hall", url: 'LottieMenu', icon: '', size: 6, color: "blue" },
+  { name: "Chapel Attendance", url: 'Chapel', icon: '', size: 4, color: "blue" },
+  { name: "Falcon", url: 'FalconMenu', icon: '', size: 0, color: "blue" },
+  { name: "Gym", url: 'Gym', icon: '', size: 0, color: "blue" },
+  { name: "Dining Dollars", url: 'DiningDollars', icon: '', size: 1, color: "blue" },
+  { name: "Falcon Dollars", url: 'FalconDollars', icon: '', size: 1, color: "blue" },
+  { name: "Campus Map", url: 'Map', icon: '', size: 0, color: "blue" },
+  { name: "Log In", url: 'Login', icon: '', size: 0, color: "blue" },
+  { name: "Drag and Drop", url: 'Index', icon: '', size: 0, color: "blue" }
 ]
 
 let widgetList = []
@@ -112,7 +112,7 @@ function MapGrid(sources) {
   let i = 0
   let sourceButtons = [];
 
-  widgetInfo.map(function(widget) {
+  widgetInfo.map(function (widget) {
     let thisWidget = widgetButton;
 
     thisWidget.name = widget.name
@@ -224,7 +224,7 @@ function ResourceButtons(name, destination, position, navi, style) {
               let buttonMatched = -1;
               buttonMatched = resources.positions[i];
               buttonTouched = resources.positions[layoutPos];
-              
+
               //if within range of another button, swaps the buttons.
               resources.positions[layoutPos] = buttonMatched;
               resources.positions[i] = buttonTouched;
