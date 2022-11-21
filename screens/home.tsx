@@ -1,16 +1,15 @@
-import { ImageBackground, Pressable, StyleSheet, SafeAreaView, Text, View, ScrollView, KeyboardAvoidingView, Platform, StatusBar, Modal, TouchableWithoutFeedback } from "react-native";
+import { ImageBackground, StyleSheet, SafeAreaView, Text, View, ScrollView, KeyboardAvoidingView, Platform, StatusBar, TouchableWithoutFeedback } from "react-native";
 import React, { useState } from 'react';
-import { Icon, SearchBar, Button } from "@rneui/themed";
-import {readUserData, writeUserData} from "../src/firebaseCalls";
-//import Widget from '../src/js componets/widgetsV1.3';
+import { SearchBar, Button } from "@rneui/themed";
+import { readUserData, writeUserData } from "../src/firebaseCalls";
 import Widget from './widget2';
-import { Image } from "@rneui/base";
+import Header from "./header";
 
 type CompProps = {
   // We are only using the navigate and goBack functions
   navigation: { navigate: Function; };
 };
-const image = {uri: "https://pbs.twimg.com/media/FdxI4qIXwAE28_5?format=jpg&name=4096x4096"}
+const image = { uri: "https://pbs.twimg.com/media/FdxI4qIXwAE28_5?format=jpg&name=4096x4096" }
 
 export default function Home(props: CompProps) {
   let textString = readUserData('tl1261');
@@ -28,7 +27,7 @@ export default function Home(props: CompProps) {
     { name: "Falcon Dollars", url: 'FalconDollars' },
     { name: "Campus Map", url: 'Map' },
     { name: "Log In", url: 'Login' },
-    { name: "Drag and Drop", url: 'Index'}
+    { name: "Drag and Drop", url: 'Index' }
   ]
 
   const updateSearch = (value) => {
@@ -46,83 +45,35 @@ export default function Home(props: CompProps) {
     if (value == "") {
       return (
         <>
-      <SafeAreaView style={styles.page}>
-
-        <View style={styles.header}>
-          <View style={[styles.header_content, { alignItems: 'flex-start' }]}>
-            <Pressable onPress={() => props.navigation.navigate('Settings')}>
-              <Icon name="person" style={styles.header_icons} size={44} color={'white'}></Icon>
-            </Pressable>
+          <View style={styles.app_container}>
+            <TouchableWithoutFeedback>
+              <Widget navFun={props} />
+            </TouchableWithoutFeedback>
           </View>
-          <View style={[styles.header_content, { alignItems: 'center' }]}>
-            <Image source={require('../assets/images/messiah_logo.png')} style={styles.header_image}/>
-          </View>
-          <View style={[styles.header_content, { alignItems: 'flex-end' }]}>
-            <Pressable onPress={() => props.navigation.navigate('Home')}>
-              <Icon name="home" style={styles.header_icons} size={44} color={'white'}></Icon>
-            </Pressable>
-          </View>
-        </View>
-
-        <View style={styles.app_container}>
-          <ImageBackground source={image} style={styles.bg_image} >
-            <View style={styles.app_container}>
-              <TouchableWithoutFeedback>
-              <Widget navFun={props}/>
-              </TouchableWithoutFeedback>
-              {/*<Text style={{fontSize: 20, color: 'white'}}>Data = {textString}</Text>*/}
-            </View>
-          </ImageBackground>
-        </View>
-
-        <KeyboardAvoidingView style={styles.search_container} behavior="position">
-          <SearchBar
-            platform="ios"
-            containerStyle={{ backgroundColor: "#1E293B" }}
-            inputContainerStyle={{ backgroundColor: '#F3F3F3', }}
-            inputStyle={{}}
-            leftIconContainerStyle={{}}
-            rightIconContainerStyle={{}}
-            loadingProps={{}}
-            onChangeText={updateSearch}
-            placeholder="Search"
-            placeholderTextColor="#888"
-            value={value}
-          />
-        </KeyboardAvoidingView>
-      </SafeAreaView>
-    </>
+        </>
       )
     }
     else {
       return (
         <>
-      <SafeAreaView style={styles.page}>
-
-        <View style={styles.header}>
-          <View style={[styles.header_content, { alignItems: 'flex-start' }]}>
-            <Pressable onPress={() => props.navigation.navigate('Settings')}>
-              <Icon name="person" style={styles.header_icons} size={44} color={'white'}></Icon>
-            </Pressable>
-          </View>
-          <View style={[styles.header_content, { alignItems: 'center' }]}>
-            <Image source={require('../assets/images/messiah_logo.png')} style={styles.header_image}/>
-          </View>
-          <View style={[styles.header_content, { alignItems: 'flex-end' }]}>
-            <Pressable onPress={() => props.navigation.navigate('Home')}>
-              <Icon name="home" style={styles.header_icons} size={44} color={'white'}></Icon>
-            </Pressable>
-          </View>
-        </View>
-
-        <View style={styles.app_container}>
-          <ImageBackground source={image} style={styles.bg_image} >
-            <Text style={styles.searchText}>Searching For "{value}"</Text>
-            <View style={styles.searchResultContainer}>
+          <Text style={styles.searchText}>Searching For "{value}"</Text>
+          <View style={styles.searchResultContainer}>
             {results.map((result, i) =>
               <Button key={i} style={styles.button} onPress={() => props.navigation.navigate(result.url)}>{result.name}</Button>
             )}
-            </View>
+          </View>
+        </>
+      )
+    }
+  }
+  return (
+    <>
+      <SafeAreaView style={styles.page}>
+        <Header props={props} />
+
+        <View style={styles.app_container}>
+          <ImageBackground source={image} style={styles.bg_image} >
+            {handleSearchChange()}
           </ImageBackground>
         </View>
 
@@ -143,25 +94,17 @@ export default function Home(props: CompProps) {
         </KeyboardAvoidingView>
       </SafeAreaView>
     </>
-      )
-    }
-  }
-  return (handleSearchChange());
+  )
 }
 
 const styles = StyleSheet.create({
   app_container: {
     flex: 1
   },
-  bg_image:{
+  bg_image: {
     justifyContent: "center",
     flex: 1,
     resizeMode: 'cover'
-  },
-  header: {
-    backgroundColor: '#1E293B',
-    minHeight: 60,
-    flexDirection: 'row'
   },
   search_container: {
     backgroundColor: '#1E293B',
@@ -171,14 +114,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#1E293B',
     flex: 1,
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
-  },
-  header_content: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 10
-  },
-  header_icons: {
-    color: 'white'
   },
   profile_overlay: {
     backgroundColor: 'white',
@@ -199,11 +134,6 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     width: 70,
     height: 70
-  },
-  header_image: {
-    width: 120,
-    height: 30,
-    resizeMode: 'cover'
   },
   searchText: {
     color: 'white',

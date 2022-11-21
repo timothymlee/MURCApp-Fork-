@@ -1,8 +1,9 @@
-import { Pressable, Image, StyleSheet, SafeAreaView, Text, View, ScrollView } from "react-native";
+import { StyleSheet, SafeAreaView, Text, View, ScrollView } from "react-native";
 import React, { useState } from 'react';
-import { Icon, Button, Overlay, ListItem } from "@rneui/themed";
-import {LinearGradient} from 'expo-linear-gradient';
+import { Button, ListItem } from "@rneui/themed";
+import { LinearGradient } from 'expo-linear-gradient';
 import * as WebBrowser from 'expo-web-browser';
+import Header from "./header";
 
 type CompProps = {
   // We are only using the navigate and goBack functions
@@ -21,13 +22,7 @@ export default function FalconMenu(props: CompProps) {
     });
     setResult(result);
   };
-  // Each drop-down menu needs a set of bool values
-  const [expanded1, setExpanded1] = useState(false);
-  const [expanded2, setExpanded2] = useState(false);
-  const [expanded3, setExpanded3] = useState(false);
-  const [expanded4, setExpanded4] = useState(false);
-  const [expanded5, setExpanded5] = useState(false);
-  const [expanded6, setExpanded6] = useState(false);
+  const [expandedList, setExpandedList] = useState([false]);
 
   // Each menu category has items listed here
   const ice_cream_list = [
@@ -54,194 +49,70 @@ export default function FalconMenu(props: CompProps) {
     { name: 'ice cream' },
     { name: 'ice cream' }
   ]
-  
+
+  const menu_list = [
+    { name: "Ice Cream", items: ice_cream_list },
+    { name: "Sandwiches", items: sandwich_list },
+    { name: "Burgers", items: burger_list },
+    { name: "Coffee & Tea", items: coffee_tea_list },
+    { name: "Pizza", items: pizza_list },
+    { name: "U-CREATE", items: u_create_list }
+  ]
+
   return (
-    <>
-      <SafeAreaView style={styles.page}>
+    <SafeAreaView style={styles.page}>
 
-        <View style={styles.header}>
-          <View style={[styles.header_content, { alignItems: 'flex-start' }]}>
-            <Pressable onPress={() => props.navigation.navigate('Settings')}>
-              <Icon name="person" style={styles.header_icons} size={44} color={'white'}></Icon>
-            </Pressable>
-          </View>
-          <View style={[styles.header_content, { alignItems: 'center' }]}>
-            <Image source={require('../assets/images/messiah_logo.png')} style={styles.header_image} />
-          </View>
-          <View style={[styles.header_content, { alignItems: 'flex-end' }]}>
-            <Pressable onPress={() => props.navigation.navigate('Home')}>
-              <Icon name="home" style={styles.header_icons} size={44} color={'white'}></Icon>
-            </Pressable>
-          </View>
+      <Header props={props} />
+
+      <View style={styles.app_container}>
+        <Text style={styles.title}>Falcon Menu</Text>
+        <View style={styles.hours_container}>
+          <Text style={styles.hours_heading}>Hours of Operation</Text>
+          <Text style={styles.hours_subtitle}>Monday - Friday</Text>
+          <Text style={styles.hours_times}>7:30 - 3:30</Text>
         </View>
+        <ScrollView>
+          <>
+            {menu_list.map((category, i) =>
+              <ListItem.Accordion
+                key={i}
+                content={
+                  <ListItem.Content>
+                    <ListItem.Title>{category.name}</ListItem.Title>
+                  </ListItem.Content>
+                }
+                linearGradientProps={{
+                  colors: ['#FBFBFB', '#F3F3F3']
+                }}
+                ViewComponent={LinearGradient}
+                containerStyle={styles.list_header}
+                topDivider
+                isExpanded={expandedList[i]}
+                onPress={() => {
+                  setExpandedList([...expandedList.slice(0, i), !expandedList[i], ...expandedList.slice(i + 1, expandedList.length)]);
+                }}>
+                {category.items.map((item, j) => (
+                  <ListItem key={j}>
+                    <ListItem.Content>
+                      <ListItem.Title>{item.name}</ListItem.Title>
+                    </ListItem.Content>
+                  </ListItem>
+                ))}
+              </ListItem.Accordion>
+            )}
+            <View style={{ height: 100 }}></View>
+          </>
+        </ScrollView>
+        <Button
+          title="Order Now"
+          buttonStyle={styles.button2}
+          containerStyle={styles.button2_container}
+          titleStyle={{ fontSize: 18 }}
+          onPress={_handlePressButtonAsync}
+        />
+      </View>
 
-        <View style={styles.app_container}>
-          <Text style={styles.title}>Falcon Menu</Text>
-          <View style={styles.hours_container}>
-            <Text style={styles.hours_heading}>Hours of Operation</Text>
-            <Text style={styles.hours_subtitle}>Monday - Friday</Text>
-            <Text style={styles.hours_times}>7:30 - 3:30</Text>
-          </View>
-          <ScrollView>
-            <ListItem.Accordion
-              content={
-                  <ListItem.Content>
-                    <ListItem.Title>Ice Cream</ListItem.Title>
-                  </ListItem.Content>
-              }
-              linearGradientProps={{
-                colors: ['#FBFBFB', '#F3F3F3']
-              }}
-              ViewComponent={LinearGradient}
-              containerStyle = {styles.list_header}
-              topDivider
-              isExpanded={expanded1}
-              onPress={() => {
-                setExpanded1(!expanded1);
-              }}>
-              {ice_cream_list.map((l, i) => (
-                <ListItem key={i}>
-                  <ListItem.Content>
-                    <ListItem.Title>{l.name}</ListItem.Title>
-                  </ListItem.Content>
-                </ListItem>
-              ))}
-            </ListItem.Accordion>
-            <ListItem.Accordion
-              content={
-                  <ListItem.Content>
-                    <ListItem.Title>Sandwiches</ListItem.Title>
-                  </ListItem.Content>
-              }
-              linearGradientProps={{
-                colors: ['#FBFBFB', '#F3F3F3']
-              }}
-              ViewComponent={LinearGradient}
-              containerStyle = {styles.list_header}
-              topDivider
-              isExpanded={expanded2}
-              onPress={() => {
-                setExpanded2(!expanded2);
-              }}>
-              {sandwich_list.map((l, i) => (
-                <ListItem key={i}>
-                  <ListItem.Content>
-                    <ListItem.Title>{l.name}</ListItem.Title>
-                  </ListItem.Content>
-                </ListItem>
-              ))}
-            </ListItem.Accordion>
-            <ListItem.Accordion
-              content={
-                  <ListItem.Content>
-                    <ListItem.Title>Burgers</ListItem.Title>
-                  </ListItem.Content>
-              }
-              linearGradientProps={{
-                colors: ['#FBFBFB', '#F3F3F3']
-              }}
-              ViewComponent={LinearGradient}
-              containerStyle = {styles.list_header}
-              topDivider
-              isExpanded={expanded3}
-              onPress={() => {
-                setExpanded3(!expanded3);
-              }}>
-              {burger_list.map((l, i) => (
-                <ListItem key={i}>
-                  
-                  <ListItem.Content>
-                    <ListItem.Title>{l.name}</ListItem.Title>
-                  </ListItem.Content>
-                </ListItem>
-              ))}
-            </ListItem.Accordion>
-            <ListItem.Accordion
-              content={
-                  <ListItem.Content>
-                    <ListItem.Title>Coffee & Tea</ListItem.Title>
-                  </ListItem.Content>
-              }
-              linearGradientProps={{
-                colors: ['#FBFBFB', '#F3F3F3']
-              }}
-              ViewComponent={LinearGradient}
-              containerStyle = {styles.list_header}
-              topDivider
-              isExpanded={expanded4}
-              onPress={() => {
-                setExpanded4(!expanded4);
-              }}>
-              {coffee_tea_list.map((l, i) => (
-                <ListItem key={i}>
-                  <ListItem.Content>
-                    <ListItem.Title>{l.name}</ListItem.Title>
-                  </ListItem.Content>
-                </ListItem>
-              ))}
-            </ListItem.Accordion>
-            <ListItem.Accordion
-              content={
-                  <ListItem.Content>
-                    <ListItem.Title>Pizza</ListItem.Title>
-                  </ListItem.Content>
-              }
-              linearGradientProps={{
-                colors: ['#FBFBFB', '#F3F3F3']
-              }}
-              ViewComponent={LinearGradient}
-              containerStyle = {styles.list_header}
-              topDivider
-              isExpanded={expanded5}
-              onPress={() => {
-                setExpanded5(!expanded5);
-              }}>
-              {pizza_list.map((l, i) => (
-                <ListItem key={i}>
-                  <ListItem.Content>
-                    <ListItem.Title>{l.name}</ListItem.Title>
-                  </ListItem.Content>
-                </ListItem>
-              ))}
-            </ListItem.Accordion>
-            <ListItem.Accordion
-              content={
-                  <ListItem.Content>
-                    <ListItem.Title>U-CREATE</ListItem.Title>
-                  </ListItem.Content>
-              }
-              linearGradientProps={{
-                colors: ['#FBFBFB', '#F3F3F3']
-              }}
-              ViewComponent={LinearGradient}
-              containerStyle = {styles.list_header}
-              topDivider
-              isExpanded={expanded6}
-              onPress={() => {
-                setExpanded6(!expanded6);
-              }}>
-              {u_create_list.map((l, i) => (
-                <ListItem key={i}>
-                  <ListItem.Content>
-                    <ListItem.Title>{l.name}</ListItem.Title>
-                  </ListItem.Content>
-                </ListItem>
-              ))}
-            </ListItem.Accordion>
-            <View style={{height: 100}}></View>
-            
-          </ScrollView>
-          <Button
-            title="Order Now"
-            buttonStyle={styles.button2}
-            containerStyle={styles.button2_container}
-            titleStyle={{ fontSize: 18 }}
-            onPress={_handlePressButtonAsync}
-          />
-        </View>
-
-      </SafeAreaView>
-    </>
+    </SafeAreaView>
   );
 }
 
@@ -250,22 +121,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#FBFBFB',
     flex: 1
   },
-  header: {
-    backgroundColor: '#1E293B',
-    minHeight: 60,
-    flexDirection: 'row'
-  },
   page: {
     backgroundColor: '#1E293B',
     flex: 1
-  },
-  header_content: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 10
-  },
-  header_icons: {
-    color: 'white'
   },
   subtitle: {
     color: '#1E293B'
@@ -275,11 +133,6 @@ const styles = StyleSheet.create({
     fontSize: 36,
     fontWeight: '600',
     padding: 30
-  },
-  header_image: {
-    width: 120,
-    height: 30,
-    resizeMode: 'cover'
   },
   button1: {
     backgroundColor: '#5EBD4E',
@@ -324,7 +177,7 @@ const styles = StyleSheet.create({
   hours_container: {
     marginHorizontal: 30,
     marginBottom: 20,
-    borderRadius:  20,
+    borderRadius: 20,
     justifyContent: 'center',
     padding: 20,
     backgroundColor: '#5EBD4E'
