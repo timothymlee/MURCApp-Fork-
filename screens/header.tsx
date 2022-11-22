@@ -8,7 +8,7 @@ export default function Header(props) {
         <View style={styles.header}>
             <View style={[styles.header_content, { alignItems: 'flex-start' }]}>
                 <Pressable onPress={() => props.props.navigation.navigate('Settings')}>
-                    <Icon name="person" style={styles.header_icons} size={44} color={'white'}></Icon>
+                    <Icon name="person-circle-outline" style={styles.header_icons} type={'ionicon'} size={38} color={'white'}></Icon>
                 </Pressable>
             </View>
             <View style={[styles.header_content, { alignItems: 'center' }]}>
@@ -16,7 +16,7 @@ export default function Header(props) {
             </View>
             <View style={[styles.header_content, { alignItems: 'flex-end' }]}>
                 <Pressable onPress={() => props.props.navigation.navigate('Home')}>
-                    <Icon name="home" style={styles.header_icons} size={44} color={'white'}></Icon>
+                    <Icon name="ios-home" style={styles.header_icons} type={'ionicon'} size={30} color={'white'}></Icon>
                 </Pressable>
             </View>
         </View>
@@ -32,15 +32,11 @@ const styles = StyleSheet.create({
     header_content: {
       flex: 1,
       justifyContent: 'center',
-      padding: 10
+      padding: 10,
+      paddingHorizontal: 14
     },
     header_icons: {
       color: 'white'
-    },
-    profile_overlay: {
-      backgroundColor: 'white',
-      flex: 8,
-      padding: 20
     },
     header_image: {
       width: 120,

@@ -4,6 +4,7 @@ import { SearchBar, Button } from "@rneui/themed";
 import { readUserData, writeUserData } from "../src/firebaseCalls";
 import Widget from './widget2';
 import Header from "./header";
+import WidgetDisplay from "./displayWidget";
 
 type CompProps = {
   // We are only using the navigate and goBack functions
@@ -11,23 +12,39 @@ type CompProps = {
 };
 const image = { uri: "https://pbs.twimg.com/media/FdxI4qIXwAE28_5?format=jpg&name=4096x4096" }
 
+let isGuest = true;
+
 export default function Home(props: CompProps) {
   let textString = readUserData('tl1261');
 
   const [value, setValue] = useState("");
   const [results, setResults] = useState([])
 
+  // All icons for resources
+  let resourceImages = [
+    "md-restaurant",
+    "logo-usd",
+    "calendar",
+    "book",
+    "md-locate-sharp"
+  ]
+
+  let lightBlue = "#6EB3F2"
+  let blue = '#4552C9'
+  let darkBlue = '#1E293B'
+  let green = '#5EBD4E'
+
   let WidgetNames = [
-    { name: "Union Cafe", url: 'UnionMenu' },
-    { name: "Lottie Dining Hall", url: 'LottieMenu' },
-    { name: "Chapel Attendance", url: 'Chapel' },
-    { name: "Falcon", url: 'FalconMenu' },
-    { name: "Gym", url: 'Gym' },
-    { name: "Dining Dollars", url: 'DiningDollars' },
-    { name: "Falcon Dollars", url: 'FalconDollars' },
-    { name: "Campus Map", url: 'Map' },
-    { name: "Log In", url: 'Login' },
-    { name: "Drag and Drop", url: 'Index' }
+    { name: "Lottie Dining Hall", url: 'LottieMenu', icon: resourceImages[0], size: 6, color: darkBlue, guest: true },
+    { name: "Union Cafe", url: 'UnionMenu', icon: resourceImages[0], size: 0, color: lightBlue, guest: true },
+    { name: "Campus Map", url: 'Map', icon: resourceImages[3], size: 0, color: darkBlue, guest: true },
+    { name: "Log In", url: 'Login', icon: resourceImages[4], size: 0, color: blue, guest: true },
+    { name: "Drag and Drop", url: 'Index', icon: resourceImages[4], size: 0, color: lightBlue, guest: true },
+    { name: "Chapel Attendance", url: 'Chapel', icon: resourceImages[1], size: 4, color: green, guest: false },
+    { name: "Falcon", url: 'FalconMenu', icon: resourceImages[2], size: 0, color: blue, guest: true },
+    { name: "Gym", url: 'Gym', icon: resourceImages[3], size: 0, color: green, guest: true },
+    { name: "Dining Dollars", url: 'DiningDollars', icon: resourceImages[1], size: 1, color: lightBlue, guest: false },
+    { name: "Falcon Dollars", url: 'FalconDollars', icon: resourceImages[1], size: 1, color: lightBlue, guest: false },
   ]
 
   const updateSearch = (value) => {
@@ -47,7 +64,7 @@ export default function Home(props: CompProps) {
         <>
           <View style={styles.app_container}>
             <TouchableWithoutFeedback>
-              <Widget navFun={props} />
+              <Widget guest={isGuest} widgets={WidgetNames} />
             </TouchableWithoutFeedback>
           </View>
         </>
@@ -59,7 +76,7 @@ export default function Home(props: CompProps) {
           <Text style={styles.searchText}>Searching For "{value}"</Text>
           <View style={styles.searchResultContainer}>
             {results.map((result, i) =>
-              <Button key={i} style={styles.button} onPress={() => props.navigation.navigate(result.url)}>{result.name}</Button>
+              <WidgetDisplay widget={result}/>
             )}
           </View>
         </>
@@ -141,6 +158,8 @@ const styles = StyleSheet.create({
     padding: 20
   },
   searchResultContainer: {
-    flex: 1
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: "wrap",
   }
 });
