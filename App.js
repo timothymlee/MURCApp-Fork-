@@ -73,7 +73,7 @@ export default function App() {
         <Stack.Screen name = "Allergies" component = {Allergies} />
         <Stack.Screen name = "Map" component = {Map} />
         <Stack.Screen name = "Settings" component = {Settings} 
-            options={{ fullScreenGestureEnabled: true, presentation: 'transparentModal', gestureDirection: 'horizontal', animation: 'fade'}}/>
+            options={{ fullScreenGestureEnabled: true, presentation: 'transparentModal', gestureDirection: 'horizontal', animation: 'slide'}}/>
       </Stack.Navigator>
     </NavigationContainer>
     </Provider>
