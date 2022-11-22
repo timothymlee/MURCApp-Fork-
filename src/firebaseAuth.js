@@ -3,7 +3,7 @@ const admin = require("firebase-admin");
 const {initializeApp} = require("firebase/app");
 const JWT = require('jsonwebtoken');
 const serviceAccount = require("../muresourcecenter-firebase-adminsdk.json");
-
+const {createFirebaseProfile} = require("firebaseCalls");
 
 // Initialize Firebase
 const firebaseConfig = {
@@ -43,6 +43,8 @@ async function authenticateWithFirebase(user_id)
     try {
         let userCredential = await signInWithCustomToken(auth, token);
         const user = userCredential.user;
+        await createFirebaseProfile(user);
+        return userCredential;
     } catch(error) {
         const errorCode = error.code;
         const errorMessage = error.message;
