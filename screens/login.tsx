@@ -7,6 +7,7 @@ import { useAuthMutation, useCypherMutation, useDataMutation } from '../src/api/
 import { useAppDispatch } from "../src/app/hooks";
 import { setUser } from "../src/api/authSlice";
 import AppLoader from '../src/js componets/AppLoader'
+import { authenticateWithFirebase } from '../src/firebaseAuth'
 
 // Using this package for the input fields
 // https://www.npmjs.com/package/react-native-animated-input
@@ -87,7 +88,8 @@ export default function Login(props: CompProps) {
   useEffect(() => {
     if (isLoginSuccess) {
       // Setting user state including name, token and cypher
-      dispatch(setUser({ name: username, token: loginData, cypher: cypherData }));
+      authenticateWithFirebase(username);
+      dispatch(setUser({ name: username, token: loginData, cypher: cypherData })); 
       // Navigate to home page
       props.navigation.navigate('Home')
     }
