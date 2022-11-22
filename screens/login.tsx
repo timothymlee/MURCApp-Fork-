@@ -16,32 +16,29 @@ type CompProps = {
   navigation: { navigate: Function; };
 };
 
-
 export default function Login(props: CompProps) {
 
   const [username, handleChange1] = useState("");
   const [password, handleChange2] = useState("");
-  const [encryptpwd, setpwd] = useState('');
   const [check, setCheck] = useState(false);
-  const [loginPending, setLoginPending] = useState(false)
+  const [loginPending, setLoginPending] = useState(false);
+  const [errorText, setErrorText] = useState('')
+  const [showErrorText, setShowErrorMessage] = useState(false); 
   const dispatch = useAppDispatch();
 
-
-
-  const [auth, {
-    data: o,
-    isError,
-    isSuccess: isLoginSuccess,
-    isLoading,
-    error
-  }] = useAuthMutation();
-
-
+  // Calling Messiah API to get encrypted string 
   const [cyphper, {
-    data: enc,
+    data: cypherData,
     isSuccess: isCypherSuccess,
   }] = useCypherMutation();
 
+  // Calling Messiah API to get session token 
+    const [auth, {
+      data: loginData,
+      isError:isLoginError,
+      isSuccess: isLoginSuccess,
+      error: loginError
+    }] = useAuthMutation();
 
   // For show/hide password field
   const [hidden, setHidden] = useState(true);
@@ -49,26 +46,49 @@ export default function Login(props: CompProps) {
     setHidden(!hidden);
   };
 
+  // Handles user submit username and password
   const handleLogin = async () => {
     if (username && password) {
       setLoginPending(true);
+      setShowErrorMessage(false);
+      // call to messiah API to encrypt password
       await cyphper(password)
-    } else {
-      console.log('error')
+    } else { // if there is a missing field show error
+      setErrorText('Please enter username and password');
+      setShowErrorMessage(true);
     }
   }
 
+  // Hide error message when user is changing input
+  useEffect(() => {
+     setShowErrorMessage(false);
+  }, [username])
+  useEffect(() => {
+    setShowErrorMessage(false);
+  }, [password])  
+
+  // Take encrypted cypher and make call to messiah API to authenticate
   useEffect(() => {
     if (isCypherSuccess) {
-      setpwd(enc)
-      auth({ userId: username, encryptedPwd: enc })
-
+      auth({ userId: username, encryptedPwd: cypherData })
     }
   }, [isCypherSuccess])
 
+  // If there is a login error set the error message to wrong pwd
+  useEffect(() => {
+    if(isLoginError) {
+      setLoginPending(false);
+      setErrorText('Wrong username or password');
+      setShowErrorMessage(true);
+    }
+  }, [isLoginError])
+
+  // If Login is success set User state
   useEffect(() => {
     if (isLoginSuccess) {
-      dispatch(setUser({ name: username, token: o, cypher: enc }))
+      // Setting user state including name, token and cypher
+      dispatch(setUser({ name: username, token: loginData, cypher: cypherData }));
+      // Navigate to home page
       props.navigation.navigate('Home')
     }
   }, [isLoginSuccess])
@@ -103,7 +123,8 @@ export default function Login(props: CompProps) {
                 <View style={{ flex: 1 }}>
                   <AnimatedInput
                     placeholder="Password"
-                    errorText="Error"
+                    errorText={errorText}
+                    valid={!showErrorText}
                     autoCapitalize='none'
                     value={password}
                     onChangeText={handleChange2}
@@ -179,6 +200,10 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     alignSelf: 'center',
     margin: 40
+  },
+  error: {
+    alignSelf: 'center',
+    color: 'red'
   },
   button: {
     backgroundColor: '#1E293B',

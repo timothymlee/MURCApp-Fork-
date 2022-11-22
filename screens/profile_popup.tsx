@@ -1,5 +1,5 @@
-import { Pressable, StyleSheet, SafeAreaView, Text, View, Platform, StatusBar } from "react-native";
-import React from 'react';
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import React, {useState} from 'react';
 import { Icon } from "@rneui/themed";
 import { Image } from "@rneui/base";
 import { selectAuth } from "../src/api/authSlice";
@@ -11,62 +11,69 @@ type CompProps = {
 };
 
 export default function Profile_PopUp(props: CompProps) {
- const { name } = useAppSelector(selectAuth)
+  const { name } = useAppSelector(selectAuth)
+  console.log(name);
+  let username = "Guest"
+  
+  // get username from data HERE
+
+  const [logoutText, setLogoutText] = useState("Log In");
+  const [logoutIcon, setLogoutIcon] = useState("log-in");
+  const [logoutURL, setLogoutURL] = useState("Login");
+
+  if (name != null) {
+    setLogoutText("Log Out");
+    setLogoutIcon("log-out");
+    // set log out url
+  }
+
   return (
     <>
-        <View style={styles.overlay}>
-            <View style={{ flex: 2, minHeight: 40, flexDirection: 'row' }}>
-              <View style={{ flex: 1, alignItems: 'flex-start' }}>
-                <Image source={require('../assets/images/default_pfp.png')} style={styles.profile_pic} />
-              </View>
-              <View style={{ flex: 1, alignItems: 'flex-end' }}>
-                <Pressable onPress={() => props.navigation.goBack()}>
-                  <Icon name="close" size={44} color={'black'}></Icon>
-                </Pressable>
-              </View>
-            </View>
-            <View style={{ flex: 1, minHeight: 16 }}>
-              <Text style={{ color: 'black', fontSize: 30 }}>Joe Jenkins</Text>
-            </View>
-            <View style={{ flex: 1.5, minHeight: 24 }}>
-              <Text style={{ color: 'gray', fontSize: 20 }}>{name}</Text>
-            </View>
-
-            <View style={{ flex: 1, minHeight: 16, flexDirection: 'row' }}>
-              <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
-                <Icon name="person-circle" type="ionicon" size={30} color={'black'}></Icon>
-              </View>
-              <View style={{ flex: 6, justifyContent: 'center' }}>
-                <Text style={{ color: 'black', fontSize: 16 }}>Profile</Text>
-              </View>
-            </View>
-            <View style={{ flex: 1, minHeight: 16, flexDirection: 'row' }}>
-              <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
-                <Icon name="fast-food" type="ionicon" size={30} color={'black'}></Icon>
-              </View>
-              <Pressable style={{ flex: 6, justifyContent: 'center' }} onPress={() => {props.navigation.goBack(); props.navigation.navigate('Allergies')}}>
-                <Text style={{ color: 'black', fontSize: 16 }}>Allergies and Preferences</Text>
-              </Pressable>
-            </View>
-            <View style={{ flex: 1, minHeight: 16, flexDirection: 'row' }}>
-              <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
-                <Icon name="image" size={30} color={'black'}></Icon>
-              </View>
-              <View style={{ flex: 6, justifyContent: 'center' }}>
-                <Text style={{ color: 'black', fontSize: 16 }}>Background Image</Text>
-              </View>
-            </View>
-
-            <View style={{ flex: 10 }}></View>
-            <View style={{ flex: 1, minHeight: 16, flexDirection: 'row' }}>
-              <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
-                <Icon name="log-out" type="feather" size={30} color={'black'}></Icon>
-              </View>
-              <View style={{ flex: 6, justifyContent: 'center' }}>
-                <Text style={{ color: 'black', fontSize: 20 }}>Log Out</Text>
-              </View>
-            </View>
+      <View style={styles.overlay}>
+        <View style={{ flex: 2, minHeight: 40, flexDirection: 'row' }}>
+          <View style={{ flex: 1, alignItems: 'flex-start' }}>
+            <Image source={require('../assets/images/default_pfp.png')} style={styles.profile_pic} />
+          </View>
+          <View style={{ flex: 1, alignItems: 'flex-end' }}>
+            <Pressable onPress={() => props.navigation.goBack()}>
+              <Icon name="close" size={44} color={'black'}></Icon>
+            </Pressable>
+          </View>
         </View>
+        <View style={{ flex: 1, minHeight: 16 }}>
+          <Text style={{ color: 'black', fontSize: 30 }}>{username}</Text>
+        </View>
+        <View style={{ flex: 1.5, minHeight: 24 }}>
+          <Text style={{ color: 'gray', fontSize: 20 }}>{name}</Text>
+        </View>
+
+        <View style={{ flex: 1, minHeight: 16, flexDirection: 'row' }}>
+          <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
+            <Icon name="fast-food" type="ionicon" size={30} color={'black'}></Icon>
+          </View>
+          <Pressable style={{ flex: 6, justifyContent: 'center' }} onPress={() => { props.navigation.goBack(); props.navigation.navigate('Allergies') }}>
+            <Text style={{ color: 'black', fontSize: 16 }}>Dietary Preferences</Text>
+          </Pressable>
+        </View>
+        <View style={{ flex: 1, minHeight: 16, flexDirection: 'row' }}>
+          <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
+            <Icon name="image" size={30} color={'black'}></Icon>
+          </View>
+          <View style={{ flex: 6, justifyContent: 'center' }}>
+            <Text style={{ color: 'black', fontSize: 16 }}>Background Image</Text>
+          </View>
+        </View>
+
+        <View style={{ flex: 10 }}></View>
+        <Pressable style={styles.loginContainer} onPress={() => { props.navigation.goBack(); props.navigation.navigate(logoutURL)} }>
+          <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
+            <Icon name={logoutIcon} type="feather" size={30} color={'black'}></Icon>
+          </View>
+          <View style={{ flex: 6, justifyContent: 'center' }}>
+            <Text style={{ color: 'black', fontSize: 20 }}>{logoutText}</Text>
+          </View>
+        </Pressable>
+      </View>
     </>
   );
 }
@@ -86,5 +93,10 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     width: 70,
     height: 70
+  },
+  loginContainer: {
+    flex: 1,
+    minHeight: 16,
+    flexDirection: 'row'
   }
 });

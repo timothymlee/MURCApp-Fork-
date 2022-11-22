@@ -1,74 +1,14 @@
 import { Pressable, Text, StyleSheet, SafeAreaView, View, Platform, StatusBar, Keyboard, KeyboardAvoidingView, ScrollView } from "react-native";
 import React, { useState, useEffect } from 'react';
 import { Icon, SearchBar, Button, Overlay } from "@rneui/themed";
-import { BackgroundImage, Image, CheckBox } from "@rneui/base";
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import { current } from "@reduxjs/toolkit";
-import { setupListeners } from "@reduxjs/toolkit/dist/query";
+import { CheckBox } from "@rneui/base";
+import MapView, { Marker } from 'react-native-maps';
+import Header from "./header";
 
 type CompProps = {
   // We are only using the navigate and goBack functions
   navigation: { navigate: Function; };
 };
-
-let mapStyle = [
-  {
-    "elementType": "labels",
-    "stylers": [
-      {
-        "visibility": "off"
-      }
-    ]
-  },
-  {
-    "featureType": "administrative.land_parcel",
-    "stylers": [
-      {
-        "visibility": "off"
-      }
-    ]
-  },
-  {
-    "featureType": "administrative.neighborhood",
-    "stylers": [
-      {
-        "visibility": "off"
-      }
-    ]
-  },
-  {
-    "featureType": "landscape.man_made",
-    "stylers": [
-      {
-        "color": "#c0b8a5"
-      }
-    ]
-  },
-  {
-    "featureType": "poi.school",
-    "stylers": [
-      {
-        "color": "#7c916e"
-      }
-    ]
-  },
-  {
-    "featureType": "road.arterial",
-    "stylers": [
-      {
-        "visibility": "on"
-      }
-    ]
-  },
-  {
-    "featureType": "road.local",
-    "stylers": [
-      {
-        "visibility": "on"
-      }
-    ]
-  }
-]
 
 export default function Map(props: CompProps) {
 
@@ -344,7 +284,7 @@ export default function Map(props: CompProps) {
       if (isActive) {
         let thisIcon = AllLocations[currentCategory].icon;
         AllLocations[currentCategory].category.map(function (thisLocation) {
-          pinsList.push([thisLocation.name, thisLocation.coords, thisIcon]);
+          pinsList.push([thisLocation.name, thisLocation.coords, thisIcon, false]);
         })
       }
       currentCategory++;
@@ -353,12 +293,22 @@ export default function Map(props: CompProps) {
       let alreadyDisplayed = false
       pinsList.map(function (pin) {
         if (pin[0] == selected) {
+          pin[3] = true;
           alreadyDisplayed = true;
         }
       })
       if (!alreadyDisplayed) {
         // target icon should instead be whatever category it is from
-        pinsList.push([selected, location.latitude + ", " + location.longitude, "target"])
+        let thisIcon = "target";
+        AllLocations.map(function (currentCategory) {
+          thisIcon = currentCategory.icon;
+          for (let i = 0; i < currentCategory.category.length; i++) {
+            if (currentCategory.category[i].name == selected) {
+              pinsList.push([selected, location.latitude + ", " + location.longitude, thisIcon, true])
+              break;
+            }
+          }
+        })
       }
     }
     setPins(pinsList);
@@ -389,8 +339,7 @@ export default function Map(props: CompProps) {
                   return (
                     <Marker
                       key={i}
-                      coordinate={{ latitude: splitCoord[0]*1.0, longitude: splitCoord[1]*1.0 }}
-                      //icon={pin[2]}
+                      coordinate={{ latitude: splitCoord[0] * 1.0, longitude: splitCoord[1] * 1.0 }}
                       onPress={() => {
                         setSelected(pin[0]);
                         setIcon(pin[2]);
@@ -408,8 +357,10 @@ export default function Map(props: CompProps) {
                         })
                       }}
                     >
-                      <View style={styles.markerContainer}>
-                        <Icon name={pin[2]} size={12} type={'material-community'} color={'white'}></Icon>
+                      <View
+                        style={pin[3] ? styles.markerContainerSelected : styles.markerContainer}
+                      >
+                        <Icon name={pin[2]} size={pin[3] ? 18 : 12} type={'material-community'} color={'white'}></Icon>
                       </View>
                     </Marker>
                   )
@@ -417,11 +368,12 @@ export default function Map(props: CompProps) {
             </MapView>
 
             <Button
-              title="Pins"
               buttonStyle={styles.pinModalButton}
               titleStyle={{ fontSize: 18 }}
               onPress={toggleOverlay}
-            />
+            >
+              <Icon name="pin-drop" size={32} type={'material-icons'} color={'white'}></Icon>
+            </Button>
           </View>
         </>
 
@@ -457,28 +409,19 @@ export default function Map(props: CompProps) {
     <>
       <SafeAreaView style={styles.page}>
 
-        <View style={styles.header}>
-          <View style={[styles.header_content, { alignItems: 'flex-start' }]}>
-            <Pressable onPress={() => props.navigation.navigate('Settings')}>
-              <Icon name="person" style={styles.header_icons} size={44} color={'white'}></Icon>
-            </Pressable>
-          </View>
-          <View style={[styles.header_content, { alignItems: 'center' }]}>
-            <Image source={require('../assets/images/messiah_logo.png')} style={styles.header_image} />
-          </View>
-          <View style={[styles.header_content, { alignItems: 'flex-end' }]}>
-            <Pressable onPress={() => props.navigation.navigate('Home')}>
-              <Icon name="home" style={styles.header_icons} size={44} color={'white'}></Icon>
-            </Pressable>
-          </View>
-        </View>
+      <Header props={props}/>
 
         <Overlay
           isVisible={visible}
           onBackdropPress={toggleOverlay}
           overlayStyle={styles.overlayContainer}
         >
-          <Icon style={styles.closeOverlayIcon} onPress={toggleOverlay} name="close" size={44} color={'black'}></Icon>
+          <View style={styles.overlayHeaderContainer}>
+            <Icon name="pin-drop" style={styles.overlayTitleIcon} size={28} type={'material-icons'} color={'black'}></Icon>
+            <Text style={styles.overlayTitle}>Enabled Icons</Text>
+            <Icon style={styles.closeOverlayIcon} onPress={toggleOverlay} name="close" size={34} color={'black'}></Icon>
+          </View>
+
           <ScrollView>
             {renderCheckBox("Academics and Administrative", 0)}
             {renderCheckBox("Athletics and Recreation", 1)}
@@ -520,28 +463,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FBFBFB'
   },
-  header: {
-    backgroundColor: '#1E293B',
-    minHeight: 60,
-    flexDirection: 'row'
-  },
   page: {
     backgroundColor: '#1E293B',
     flex: 1,
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
-  },
-  header_content: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 10
-  },
-  header_icons: {
-    color: 'white'
-  },
-  header_image: {
-    width: 120,
-    height: 30,
-    resizeMode: 'cover'
   },
   search_container: {
     backgroundColor: '#1E293B',
@@ -576,16 +501,26 @@ const styles = StyleSheet.create({
     paddingRight: 20
   },
   map: {
-    flex: 1,
-    //margin: 20
+    position: 'absolute',
+    height: '100%',
+    width: '100%'
   },
   selectedIcon: {
     paddingLeft: 14
   },
   markerContainer: {
-    height: 22,
-    width: 22,
-    borderRadius: 12,
+    height: 24,
+    width: 24,
+    borderRadius: 20,
+    backgroundColor: '#1E293B',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignContent: 'center'
+  },
+  markerContainerSelected: {
+    height: 34,
+    width: 34,
+    borderRadius: 20,
     backgroundColor: '#1E293B',
     justifyContent: 'center',
     alignItems: 'center',
@@ -593,20 +528,19 @@ const styles = StyleSheet.create({
   },
   pinModalButton: {
     backgroundColor: '#54A6F2',
-    height: 70,
-    width: 70,
+    height: 60,
+    width: 60,
     margin: 16,
     shadowRadius: 5,
     shadowOpacity: 0.3,
-    right: 0,
-    top: 0,
-    //position: 'absolute'
+    alignSelf: 'flex-end'
   },
   overlayContainer: {
     width: '80%'
   },
   closeOverlayIcon: {
-    alignItems: 'flex-end',
+    alignContent: 'center',
+    flex: 1
   },
   checkboxBoxContainer: {
     flex: 1,
@@ -614,5 +548,22 @@ const styles = StyleSheet.create({
     padding: 0,
     margin: 0,
     marginRight: 0
+  },
+  overlayTitle: {
+    flex: 1,
+    fontSize: 18,
+    fontWeight: '700',
+  },
+  overlayHeaderContainer: {
+    height: 42,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+    borderBottomWidth: 1,
+    paddingBottom: 5,
+    borderColor: 'gray'
+  },
+  overlayTitleIcon: {
+    marginHorizontal: 8
   }
 });

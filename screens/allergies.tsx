@@ -1,8 +1,7 @@
 import { Pressable, Image, StyleSheet, SafeAreaView, Text, View, ScrollView } from "react-native";
 import React, { useState } from 'react';
 import { Icon, Button, Overlay, ListItem, CheckBox } from "@rneui/themed";
-import { LinearGradient } from 'expo-linear-gradient';
-import * as WebBrowser from 'expo-web-browser';
+import Header from "./header"
 
 type CompProps = {
   // We are only using the navigate and goBack functions
@@ -36,31 +35,18 @@ export default function Allergies(props: CompProps) {
     <>
       <SafeAreaView style={styles.page}>
 
-        <View style={styles.header}>
-          <View style={[styles.header_content, { alignItems: 'flex-start' }]}>
-            <Pressable onPress={() => props.navigation.navigate('Settings')}>
-              <Icon name="person" style={styles.header_icons} size={44} color={'white'}></Icon>
-            </Pressable>
-          </View>
-          <View style={[styles.header_content, { alignItems: 'center' }]}>
-            <Image source={require('../assets/images/messiah_logo.png')} style={styles.header_image} />
-          </View>
-          <View style={[styles.header_content, { alignItems: 'flex-end' }]}>
-            <Pressable onPress={() => props.navigation.navigate('Home')}>
-              <Icon name="home" style={styles.header_icons} size={44} color={'white'}></Icon>
-            </Pressable>
-          </View>
-        </View>
+        <Header props={props}/>
 
         <View style={styles.app_container}>
           <Pressable style={styles.backButtonContainer} onPress={() => props.navigation.goBack()}>
             <Icon name="chevron-back" type="ionicon" size={28} color={'black'}></Icon>
             <Text style={{ fontSize: 18, fontWeight: '600' }}>Back</Text>
           </Pressable>
-          <Text style={styles.title}>Allergies</Text>
+          <Text style={styles.title}>Dietary Preferences</Text>
+          <Text style={styles.subtitle}>This information will only be used when placing an online order</Text>
           <ScrollView>
             <View style={styles.checkboxItemContainer1}>
-              <Text style={styles.checkboxText}>Dairy</Text>
+              <Text style={styles.checkboxText}>No Dairy</Text>
               <CheckBox
                 checked={checked1}
                 checkedColor="#0F0"
@@ -71,7 +57,7 @@ export default function Allergies(props: CompProps) {
               />
             </View>
             <View style={styles.checkboxItemContainer2}>
-              <Text style={styles.checkboxText}>Egg</Text>
+              <Text style={styles.checkboxText}>No Egg</Text>
               <CheckBox
                 checked={checked2}
                 checkedColor="#0F0"
@@ -82,7 +68,7 @@ export default function Allergies(props: CompProps) {
               />
             </View>
             <View style={styles.checkboxItemContainer1}>
-              <Text style={styles.checkboxText}>Fish</Text>
+              <Text style={styles.checkboxText}>No Fish</Text>
               <CheckBox
                 checked={checked3}
                 checkedColor="#0F0"
@@ -93,7 +79,7 @@ export default function Allergies(props: CompProps) {
               />
             </View>
             <View style={styles.checkboxItemContainer2}>
-              <Text style={styles.checkboxText}>Shellfish</Text>
+              <Text style={styles.checkboxText}>No Shellfish</Text>
               <CheckBox
                 checked={checked4}
                 checkedColor="#0F0"
@@ -104,7 +90,7 @@ export default function Allergies(props: CompProps) {
               />
             </View>
             <View style={styles.checkboxItemContainer1}>
-              <Text style={styles.checkboxText}>Peanuts</Text>
+              <Text style={styles.checkboxText}>No Peanuts</Text>
               <CheckBox
                 checked={checked5}
                 checkedColor="#0F0"
@@ -115,7 +101,7 @@ export default function Allergies(props: CompProps) {
               />
             </View>
             <View style={styles.checkboxItemContainer2}>
-              <Text style={styles.checkboxText}>Tree Nuts</Text>
+              <Text style={styles.checkboxText}>No Tree Nuts</Text>
               <CheckBox
                 checked={checked6}
                 checkedColor="#0F0"
@@ -126,7 +112,7 @@ export default function Allergies(props: CompProps) {
               />
             </View>
             <View style={styles.checkboxItemContainer1}>
-              <Text style={styles.checkboxText}>Gluten</Text>
+              <Text style={styles.checkboxText}>No Gluten</Text>
               <CheckBox
                 checked={checked7}
                 checkedColor="#0F0"
@@ -178,37 +164,22 @@ const styles = StyleSheet.create({
     backgroundColor: '#FBFBFB',
     flex: 1
   },
-  header: {
-    backgroundColor: '#1E293B',
-    minHeight: 60,
-    flexDirection: 'row'
-  },
   page: {
     backgroundColor: '#1E293B',
     flex: 1
   },
-  header_content: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 10
-  },
-  header_icons: {
-    color: 'white'
-  },
   subtitle: {
-    color: '#1E293B'
+    color: '#1E293B',
+    paddingLeft: 30,
+    paddingBottom: 20,
+    fontSize: 12
   },
   title: {
     color: '#1E293B',
     fontSize: 28,
     fontWeight: '600',
     paddingLeft: 30,
-    paddingBottom: 20
-  },
-  header_image: {
-    width: 120,
-    height: 30,
-    resizeMode: 'cover'
+    paddingBottom: 10
   },
   button: {
     backgroundColor: '#5EBD4E',

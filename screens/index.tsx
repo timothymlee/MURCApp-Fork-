@@ -1,56 +1,25 @@
-import { StyleSheet, Button, View, Linking, TouchableOpacity, Image, Text, PanResponder, Animated} from "react-native";
+import { StyleSheet, Button, View, Linking, TouchableOpacity, Image, Text, PanResponder, Animated, Dimensions } from "react-native";
 import React, { useState, useEffect, useRef } from 'react';
 import * as WebBrowser from 'expo-web-browser';
-import { NoUnusedFragmentsRule } from "graphql";
-import { getPositionOfLineAndCharacter } from "typescript";
-import WidgetDefault from "./Widgets/widgetDefault"
-//not being used VVVVVV
-type CompProps = {
-  // We are only using the navigate and goBack functions
-  navigation: { navigate: Function;};
-};
 
-export default function Index(props, {handleWidgetMove}) {
-  const [result, setResult] = useState(null);
-  //not currently being utilized, artifact from original index vvvvv
-  const _handlePressButtonAsync = async () => {
-    let result = await WebBrowser.openBrowserAsync('https://union.messiah.edu/menu/', {
-      enableBarCollapsing: true,
-      toolbarColor: '#2a3e5e'
-    });
-    setResult(result);
-  };
+export default function Index(props) {
+
   //takes in the props from home.
   //include <WidgetDefault> for testing modular widgets
   let navigator = props.navFun;
 
-  console.log(navigator);
-
-
   //the MapGrid is used for making the procedural buttons
   return (
-    
     <View style={styles.container}>
-      <View style={styles.resourceButtons} 
-      >
-      <MapGrid sources={navigator}
-      //dest={openLink}
-      
-      >  
-      </MapGrid>
-      <View
-       onLayout={(event) => {
-        const layout = event.nativeEvent.layout;
-        /*
-        console.log("Test Widget Position");
-        console.log("x:", layout.x);
-        console.log("y:", layout.y);*/
-      }}>
-         
+      <View style={styles.resourceButtons}>
+        <MapGrid sources={navigator} />
+        <View
+          onLayout={(event) => {
+            const layout = event.nativeEvent.layout;
+          }}>
+        </View>
       </View>
-      </View>
-      
-    </View> 
+    </View>
   );
 }
 
@@ -63,55 +32,66 @@ export default function Index(props, {handleWidgetMove}) {
 //have the name in resourcesList
 //have the url in resourceDestinations
 //have the image link in resourceImages
-let resources ={
-  resourcesList: ["Union", "Lottie Menu", "Chapel", "The Falcon", "Gym", "Dining Dollars", 
-  "Falcon Dollars", "Campus Map", "Log In"],
+let resources = {
+  resourcesList: [
+    "Union", "Lottie Menu", "Chapel", "The Falcon", "Gym", "Dining Dollars",
+    "Falcon Dollars", "Campus Map", "Log In"
+  ],
   /*resourceDestinations: ['https://union.messiah.edu/menu/', 'http://falcon.messiah.edu/menu/',
-'https://www.messiah.edu/a/sso/sso.php?url=https://www.messiah.edu/student-events', 'https://tour.messiah.edu/campus-map/',
-'https://www.messiah.edu/a/sso/sso.php?url=https://www.messiah.edu/download/downloads/id/9433/Lottie_thisweek.pdf'],*/
-  resourceDestinations: ['UnionMenu','LottieMenu', 'Chapel', 'FalconMenu', 'Gym', "DiningDollars",
-  "FalconDollars", "Map", "Login"],
- resourceImages: [require("./../src/assets/img/food.png"), 
-  require("./../src/assets/img/food.png"),
-  require("./../src/assets/img/dollar.png"), 
-  require("./../src/assets/img/calander.png"), 
-  require("./../src/assets/img/book.png"),
-  require("./../src/assets/img/dollar.png"), 
-  require("./../src/assets/img/dollar.png"),
-  require("./../src/assets/img/book.png"),
-  require("./../src/assets/img/target.png")],
-  style: [1,0,2,1,2,2,1,0,2],
+  'https://www.messiah.edu/a/sso/sso.php?url=https://www.messiah.edu/student-events', 'https://tour.messiah.edu/campus-map/',
+  'https://www.messiah.edu/a/sso/sso.php?url=https://www.messiah.edu/download/downloads/id/9433/Lottie_thisweek.pdf'],*/
+  resourceDestinations: ['UnionMenu', 'LottieMenu', 'Chapel', 'FalconMenu', 'Gym', "DiningDollars",
+    "FalconDollars", "Map", "Login"],
+  resourceImages: [
+    require("./../src/assets/img/food.png"),
+    require("./../src/assets/img/food.png"),
+    require("./../src/assets/img/dollar.png"),
+    require("./../src/assets/img/calander.png"),
+    require("./../src/assets/img/book.png"),
+    require("./../src/assets/img/dollar.png"),
+    require("./../src/assets/img/dollar.png"),
+    require("./../src/assets/img/book.png"),
+    require("./../src/assets/img/target.png")
+  ],
+  style: [0, 6, 4, 0, 0, 1, 1, 0, 0],
   editing: false,
   positions: [],
   switch: [],
   toggled: false,
   positionsX: [],
   positionsY: []
-  
 }
-//below is for url refernce purposes
-/*
-let WidgetNames = [
-    { name: "Union Cafe", url: 'UnionMenu' },
-    { name: "Lottie Dining Hall", url: 'LottieMenu' },
-    { name: "Chapel Attendance", url: 'Chapel' },
-    { name: "Falcon", url: 'FalconMenu' },
-    { name: "Gym", url: 'Gym' },
-    { name: "Dining Dollars", url: 'DiningDollars' },
-    { name: "Falcon Dollars", url: 'FalconDollars' },
-    { name: "Campus Map", url: 'Map' },
-    { name: "Log In", url: 'Login' },
-    { name: "Drag and Drop", url: 'Index'}
-  ]
-*/
+let widgetInfo = [
+  { name: "Union Cafe", url: 'UnionMenu', icon: '', size: 0, color: "blue" },
+  { name: "Lottie Dining Hall", url: 'LottieMenu', icon: '', size: 6, color: "blue" },
+  { name: "Chapel Attendance", url: 'Chapel', icon: '', size: 4, color: "blue" },
+  { name: "Falcon", url: 'FalconMenu', icon: '', size: 0, color: "blue" },
+  { name: "Gym", url: 'Gym', icon: '', size: 0, color: "blue" },
+  { name: "Dining Dollars", url: 'DiningDollars', icon: '', size: 1, color: "blue" },
+  { name: "Falcon Dollars", url: 'FalconDollars', icon: '', size: 1, color: "blue" },
+  { name: "Campus Map", url: 'Map', icon: '', size: 0, color: "blue" },
+  { name: "Log In", url: 'Login', icon: '', size: 0, color: "blue" },
+  { name: "Drag and Drop", url: 'Index', icon: '', size: 0, color: "blue" }
+]
 
-function openLink(link, navi, pos){
+let widgetList = []
+
+// Should use this object instead of adding everything to one huge object
+let widgetButton = {
+  name: "",
+  icon: "",
+  destination: "",
+  positionX: 0,
+  positionY: 0,
+  size: 0,
+  color: ""
+}
+
+function openLink(link, navi, pos) {
   //Linking.openURL(link);
   //above opens website urls
   //below is good for our own pages
-  console.log(navi);
   navi.sources.navigation.navigate(resources.resourceDestinations[resources.positions[pos]]);
-  console.log("GesturePressed")
   //for some reason the link / destination which is passed to the resource buttons do not update
   //for pan responder interactions, despite visually doing so.
   //this is also the same for name and positon. So it would seem that the values for pan responder
@@ -120,60 +100,48 @@ function openLink(link, navi, pos){
   //but I suppose it occurs because the destination used to be handled onButtonPress which
   //I think occurs after everything has gone through the render?
 }
-function openLinkOnPress(link, navi, pos){
-  console.log(navi);
-  console.log("OnPressPressed")
+function openLinkOnPress(link, navi) {
   navi.sources.navigation.navigate(link);
 }
 
 
 //May not be best practice to directly edit the resources file.
 //On the flip side, I do not believe it is possible or advisable to edit props.
-function  MapGrid (sources, handleWidgetMove){
+function MapGrid(sources, handleWidgetMove) {
+
+  let i = 0
   let sourceButtons = [];
-  //note: currently the widgets / buttons use absolute positioning to calculate the postion
-  //of the widgets. This works fine when the view does not scroll.
-  //when it does scroll, the absolute positions change, so I need to either need to make
-  //a reactive offset or update the positions array whenever the user moves the scroll view.
-  //For testing moving the widgets, either use the Drag n Drop button, or don't scroll
-  //the page on initial loadout.
 
+  widgetInfo.map(function (widget) {
+    let thisWidget = widgetButton;
 
-  //need to add unique key prop later on.
-  //The below code is for populating the initial positions array.
-  if(resources.positions.length == 0){
-    for(let i = 0; i < resources.resourcesList.length; i++){
-      resources.positions.push(i);
-      //instantiate positions X and Y
-      resources.positionsX.push(0);
-      resources.positionsY.push(0);
-    }   
-  }
+    thisWidget.name = widget.name
+    thisWidget.destination = widget.url
+    thisWidget.size = widget.size
+    thisWidget.color = widget.color
+    thisWidget.icon = widget.icon
+    thisWidget.positionX = 0
+    thisWidget.positionY = 0
 
-  for (let i = 0; i < resources.resourcesList.length; i++){
-  //the titles and position of a button are determined by the values within resources.positions
-    sourceButtons.push(ResourceButtons(resources.resourcesList[resources.positions[i]], 
-      //sources.dest(resources.resourceDestinations[i]), 
-      resources.resourceDestinations[resources.positions[i]],
-      resources.positions[i], i, sources, resources.style[resources.positions[i]], handleWidgetMove));
-      
-  }
-  /*useful for position testing
-  console.log("Position array V");
-  console.log(resources.positions);
-  */
-  
+    widgetList.push(thisWidget)
+
+    sourceButtons.push(
+      ResourceButtons(
+        widget.name, //name
+        widget.url, //destination
+        i, //position
+        sources, //navi
+        widget.size //style
+      )
+    );
+    i++
+  })
+
   return <>{sourceButtons}</>
 }
 
-
-
-
-
-
-
-
-function ResourceButtons (name, destination, position, layoutPos, navi, style, handleWidgetMove) {
+function ResourceButtons(name, destination, position, navi, style) {
+  let layoutPos = position;
   const containerViewRef = useRef<View>(null);
 
   let [, setPageY] = useState(0);
@@ -181,13 +149,17 @@ function ResourceButtons (name, destination, position, layoutPos, navi, style, h
   let [h, setH] = useState(0);
   let [w, setW] = useState(0);
 
-  let [switching, setSwitching] = React.useState(false);
   let [editC, setEditC] = React.useState(resources.editing);
 
-  let styleType = [styles.buttonSize1,styles.buttonSize2,styles.buttonSize3];
+  // Styles for each kind of button
+  let styleType = [styles.buttonSize1x1, styles.buttonSize1x2,
+  styles.buttonSize1x3, styles.buttonSize1x4, styles.buttonSize2x2,
+  styles.buttonSize2x3, styles.buttonSize2x4];
 
+  // Creating Pan Responder
   const pan = useRef<any>(new Animated.ValueXY()).current;
   let pressingTouch = true;
+
   const panResponder = useRef(
     PanResponder.create({
       onMoveShouldSetPanResponder: () => true,
@@ -196,15 +168,13 @@ function ResourceButtons (name, destination, position, layoutPos, navi, style, h
           x: pan.x._value,
           y: pan.y._value
         });
-        console.log(name);
         pressingTouch = true;
         //to account for scroll view
         //the below code goes through the y values and updates them
         //by taking the difference between where the user touches and the previously
         //recorded positions
-        let yDifference = gestureState.moveY-resources.positionsY[layoutPos];
-        for(let j = 0; j < resources.positions.length; j++)
-        {
+        let yDifference = gestureState.moveY - resources.positionsY[layoutPos];
+        for (let j = 0; j < resources.positions.length; j++) {
           resources.positionsY[j] += yDifference;
         }
       },
@@ -212,277 +182,206 @@ function ResourceButtons (name, destination, position, layoutPos, navi, style, h
         //if the button is pressed for long enough, the user must be trying to switch it.
         //if(Math.abs(pan.x._value) > 5 || Math.abs(pan.y._value) > 5)
 
-        if(
-          setTimeout(function(){{timePassed: true}}, 2000))
-        {pressingTouch = false; handleWidgetMove(false);}
-        
-       return(
-        Animated.event(
-        [
-          null,
-          { dx: pan.x, dy: pan.y }
-        ],
-        {useNativeDriver: false}
-        
-      )(e,gestureState)
-      )
-    
-    },
+        if (
+          setTimeout(function () { { timePassed: true } }, 2000)) { pressingTouch = false; }
+
+        return (
+          Animated.event(
+            [
+              null,
+              { dx: pan.x, dy: pan.y }
+            ],
+            { useNativeDriver: false }
+
+          )(e, gestureState)
+        )
+
+      },
       onPanResponderRelease: (e, gestureState) => {
 
         //flatten offset is to keep the current
         //position that the button is moved to.
         //setting values to 0 cause button to return to orignal spot
-        
-        if(pressingTouch==true){
+
+        if (pressingTouch == true) {
           openLink(destination, navi, position);
         }
-        else{
-          handleWidgetMove(true);
-          for(let i = 0; i < resources.positionsX.length; i++)
-        {
+        else {
+          for (let i = 0; i < resources.positionsX.length; i++) {
             //since the center is pageX + width (pageY + height)
             //then adding or subtracting w/h, which are half those values should give the borders
-            if(
-              (((gestureState.moveX >= resources.positionsX[i]-w && 
-              (gestureState.moveX <= resources.positionsX[i]+w))
-              && 
-              (((gestureState.moveY >= resources.positionsY[i]-h) && 
-              (gestureState.moveY <= resources.positionsY[i]+h)))
-              && 
-              (position!=i) 
-              )))
-              
-          {
-            //initializes the placements for button touched and matched
-            let buttonTouched = -1;
-            let buttonMatched = -1;
-            buttonMatched=resources.positions[i];
-            buttonTouched=resources.positions[layoutPos];
+            if (
+              (((gestureState.moveX >= resources.positionsX[i] - w &&
+                (gestureState.moveX <= resources.positionsX[i] + w))
+                &&
+                (((gestureState.moveY >= resources.positionsY[i] - h) &&
+                  (gestureState.moveY <= resources.positionsY[i] + h)))
+                &&
+                (position != i)
+              ))) {
+              //initializes the placements for button touched and matched
+              let buttonTouched = -1;
+              let buttonMatched = -1;
+              buttonMatched = resources.positions[i];
+              buttonTouched = resources.positions[layoutPos];
 
-            resources.positions[layoutPos]=buttonMatched;
-            resources.positions[i]=buttonTouched;
+              //if within range of another button, swaps the buttons.
+              resources.positions[layoutPos] = buttonMatched;
+              resources.positions[i] = buttonTouched;
+            }
 
-            
-            //if within range of another button, swaps the buttons.
-            console.log("within range!");
-            
-                        
-          }
-          
-          else
-          {
-            console.log("Outside range!")
-            pan.setValue({
-              x: 0,
-              y: 0,
-            });
+            else {
+              // Outside range of button
+              pan.setValue({
+                x: 0,
+                y: 0,
+              });
+            }
           }
         }
-        }
-        
 
         pan.flattenOffset();
         setEditC(editC = true);
-        
-/*
-        console.log("abs x (moveX) value: " + gestureState.moveX);
-        console.log("abs y (moveY) value: " + gestureState.moveY);
-        console.log("dx: " + gestureState.dx);
-        console.log("dy: " + gestureState.dy);
-        console.log("x0: " + gestureState.x0);
-        console.log("y0: " + gestureState.y0);
-        console.log(resources.positionsX);
-        console.log(resources.positionsY);
-        console.log(resources.positions);
-   */     
-        
-        
       }
     })
   ).current;
+  //onButtonPress is good for get touches not caught by the pan responder
+  function onButtonPress(e) {
 
-
-  //onButtonPress is good for get touches not caught by the pan responder,
-  //I find.
-  function onButtonPress(e){
-    
-    console.log(name);
-    console.log("Pressed");
     //the different function is due to the different timings of
     //the pan responder vs the on press event.
     //the pan responder is too early and fires before the proper re render of the destination
     //thus openLink is called using the resources object
     //and the below uses destination.
-    openLinkOnPress(destination, navi, position);
+    openLinkOnPress(destination, navi);
 
   }
-  function onHoldingPress(e){
-    console.log("longPress");
+  function onHoldingPress(e) {
+    //console.log("longPress");
   }
-  function onRelease(){
-    console.log("Released");
+  function onRelease() {
+    //console.log("Released");
   }
 
-  
-  let rButton =<TouchableOpacity onPress={onButtonPress} 
-  style={styleType[style]}
-  >
-    <Image source={resources.resourceImages[position]}/>
-    <Text style={styles.buttonTextStyle}>{name}</Text>
-  </TouchableOpacity>
-
-  //}
   useEffect(() => {
     //updates the render for the buttons
-    if(editC==true){
+    if (editC == true) {
       setEditC(editC = false);
     }
-    //console.log("EFfect");
   });
-  let finalCard = <Animated.View ref={containerViewRef} collapsable={false}
-  
-  style={{
-    transform: [{ translateX: pan.x }, { translateY: pan.y }]
-  }}
 
-  onLayout={(event) => {
-    //using the absolute value works for a non scrolling page
-    //scrolling the page changes the x and y values, so I either need to
-    //update them on when the user scrolls, or have an offset of some kind dependent on it.
-    containerViewRef.current?.measure(
-      (x, y, width, height, pageX, pageY) => {
-        /*console.log("Intial Layout on render / re-render");
-        console.log(name+"VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV");*/
-        //The center of each button is equal to the page x position + half the width and or height.
-        setPageX(pageX + (width/2));
-        setPageY(pageY + (height/2));
-        /*
-        console.log(name);
-        console.log("This is the page X vvvv");
-        console.log(pageX + (width/2));
-        console.log("This is the page Y vvvv");
-        console.log(pageY + (height/2));
-        console.log("Width: " + width);
-        console.log("Height: " + height);*/
-        setW(w = width/2);
-        setH(h = height/2);
+  return (
+    <Animated.View
+      key={position}
+      ref={containerViewRef}
+      collapsable={false}
+      // Puts button in proper absolute position
+      style={{
+        transform: [{ translateX: pan.x }, { translateY: pan.y }]
+      }}
+      onLayout={() => {
+        //using the absolute value works for a non scrolling page
+        //scrolling the page changes the x and y values, so I either need to
+        //update them on when the user scrolls, or have an offset of some kind dependent on it.
+        containerViewRef.current?.measure(
+          (x, y, width, height, pageX, pageY) => {
+            //The center of each button is equal to the page x position + half the width and or height.
+            setPageX(pageX + (width / 2));
+            setPageY(pageY + (height / 2));
+            setW(w = width / 2);
+            setH(h = height / 2);
 
-        
-    resources.positionsX[layoutPos] = pageX + (width/2);
-    resources.positionsY[layoutPos] = pageY + (height/2);
-    /*
-    console.log("x positions vvv");
-    console.log(resources.positionsX[position]);
-    console.log(resources.positionsX);
-    console.log("y positions vvvv");
-    console.log(resources.positionsY[position]);
-    console.log(resources.positionsY);
-    
-    console.log("Current positions array vvvv");
-    console.log(resources.positions);
+            resources.positionsX[layoutPos] = pageX + (width / 2);
+            resources.positionsY[layoutPos] = pageY + (height / 2);
+          });
+      }}
 
-    console.log("current position vvvv");
-    console.log(position);
-    console.log(destination);
-    */
-      });
-    
-    
-    
-    
-  }}
+      {...panResponder.panHandlers}
+    >
+      <View style={styles.resourceButtons}>
+        <TouchableOpacity onPress={onButtonPress}
+          style={[styleType[style], styles.widgetButton]}>
+          <Image source={resources.resourceImages[position]} />
+          <Text style={styles.buttonTextStyle}>{name}</Text>
+        </TouchableOpacity>
+      </View>
 
-  
-  {...panResponder.panHandlers}
-  > 
-    
-  <View style={styles.resourceButtons}>
-  {rButton}
-  </View>
-  
-  
-  </Animated.View>
-  /*
-  if(editC==true){
-    setEditC(editC = false);
-  }*/
-  return( <>
-    {finalCard}
-    </>
-    
+    </Animated.View>
   )
 }
 
+let w = Dimensions.get('window').width;
+let m = 12;
+let s = (w / 4) - (2 * m);
+
 let styles = StyleSheet.create({
   container: {
-    //flex: 1,
-    height: "100%",
-    width: "100%",
     flexDirection: "row",
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
-    marginTop: "10%",
-    
   },
   resourceButtons: {
     flexDirection: "row",
     flexWrap: "wrap",
-    marginTop:"5%",
-    marginLeft: "5%",
-    marginBottom: "5%",
     position: "relative",
-    
-    
-
-
-
-    
   },
   editButton: {
     flexDirection: "row",
     flexWrap: "wrap",
-    bottom:"20%",
+    bottom: "20%",
     marginLeft: "80%",
     position: "absolute",
     padding: 5
-    
-
   },
   opacityWrapper: {
     alignItems: 'center',
     backgroundColor: '#5EAEF9',
     padding: 15,
-    
   },
-  buttonSize1: {
+  widgetButton: {
     alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: '#4349D6',
-    paddingHorizontal: 40,
-    paddingVertical: 35
+    margin: m,
+    borderRadius: 10,
+    shadowColor: 'black',
+    shadowOpacity: 0.4,
+    shadowRadius: 8
   },
-  buttonSize2:{
-    
-    alignItems: 'center',
-    backgroundColor: '#E41515',
-    paddingHorizontal: 35,
-    paddingVertical: 20,
-    
-
+  buttonSize2x4: {
+    height: 2 * s + 2 * m,
+    width: 4 * s + 6 * m,
   },
-  buttonSize3: {
-    alignItems: "center",
-    backgroundColor: '#5EAEF9',
-    padding: 10,
-    
+  buttonSize2x3: {
+    height: 2 * s + 2 * m,
+    width: 3 * s + 4 * m,
+  },
+  buttonSize2x2: {
+    height: 2 * s + 2 * m,
+    width: 2 * s + 2 * m,
+  },
+  buttonSize1x4: {
+    height: s,
+    width: 4 * s + 6 * m,
+  },
+  buttonSize1x3: {
+    height: s,
+    width: 3 * s + 4 * m,
+  },
+  buttonSize1x2: {
+    height: s,
+    width: 2 * s + 2 * m,
+  },
+  buttonSize1x1: {
+    height: s,
+    width: s,
   },
   buttonTextStyle: {
-    color: "#ffffff", 
-    minWidth: "25%", 
-    maxWidth:"100%",
-    textAlign:"center",
+    color: "#ffffff",
+    minWidth: "25%",
+    maxWidth: "100%",
+    textAlign: "center",
   }
-  
 });
 
 
