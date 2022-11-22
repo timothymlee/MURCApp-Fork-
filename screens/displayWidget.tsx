@@ -24,7 +24,6 @@ export default function WidgetDisplay(props) {
     const navigation = useNavigation();
 
     let widget = props.widget;
-    console.log(widget)
     let guest = widget.guest;
     let name = widget.name;
     let icon = widget.icon;
