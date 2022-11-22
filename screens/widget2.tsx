@@ -1,56 +1,21 @@
 import { StyleSheet, View, TouchableOpacity, Text, PanResponder, Animated, Dimensions } from "react-native";
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Icon } from "@rneui/themed";
+import { useNavigation } from '@react-navigation/native';
 
-let lightBlue = "#6EB3F2"
-let blue = '#4552C9'
-let darkBlue = '#1E293B'
-let green = '#5EBD4E'
+let grayed = '#AAA'
 
-// All icons for resources
-let resourceImages = [
-  "md-restaurant",
-  "logo-usd",
-  "calendar",
-  "book",
-  "md-locate-sharp"
-]
+// Determines if certain buttons are disabled
+let isGuest = true;
 
 // Stores all info for each widget
-let widgetInfo = [
-  { name: "Lottie Dining Hall", url: 'LottieMenu', icon: resourceImages[0], size: 6, color: darkBlue },
-  { name: "Union Cafe", url: 'UnionMenu', icon: resourceImages[0], size: 0, color: lightBlue },
-  { name: "Campus Map", url: 'Map', icon: resourceImages[3], size: 0, color: darkBlue },
-  { name: "Log In", url: 'Login', icon: resourceImages[4], size: 0, color: blue },
-  { name: "Drag and Drop", url: 'Index', icon: resourceImages[4], size: 0, color: lightBlue },
-  { name: "Chapel Attendance", url: 'Chapel', icon: resourceImages[1], size: 4, color: green },
-  { name: "Falcon", url: 'FalconMenu', icon: resourceImages[2], size: 0, color: blue },
-  { name: "Gym", url: 'Gym', icon: resourceImages[3], size: 0, color: green },
-  { name: "Dining Dollars", url: 'DiningDollars', icon: resourceImages[1], size: 1, color: lightBlue },
-  { name: "Falcon Dollars", url: 'FalconDollars', icon: resourceImages[1], size: 1, color: lightBlue },
-]
-
+let widgetInfo = [];
 let widgetList = [];
 
 // These variables are for button styling
 let w = Dimensions.get('window').width;
 let m = 18;
 let s = (w / 4) - (2 * m);
-
-export default function WidgetDisplay(props) {
-  //const [widgetPositions, setWidgetPositions] = useState([])
-
-  return (
-    <View style={styles.container}>
-      <View style={styles.resourceButtons}>
-        <>
-          {fillWidgetList()}
-          <MapGrid props={props} />
-        </>
-      </View>
-    </View>
-  );
-}
 
 function fillWidgetList() {
   let i = 0
@@ -74,49 +39,48 @@ function fillWidgetList() {
       posY: 0,
       id: i,
       width: w,
-      height: h
+      height: h,
+      guest: widget.guest
     })
     i++
   })
 }
 
-function MapGrid(props) {
+function buttonPressed(destination, guest, nav) {
 
-  let sourceButtons = [];
-
-  widgetList.map(function (widget) {
-    sourceButtons.push(
-      ResourceButtons(
-        widget.name, //name
-        widget.destination, //destination
-        widget.id, //position
-        widget.color, //color
-        widget.icon, //icon
-        widget.width, //width of widget
-        widget.height, //height of widget
-        props
-      )
-    );
-  })
-
-  return <>{sourceButtons}</>
+  if (isGuest && !guest) {
+    // Button is disabled
+    alert("You must log in to use this widget.")
+  }
+  else {
+    nav.navigate(destination);
+  }
 }
 
-function ResourceButtons(name, destination, position, color, icon, width, height, props) {
-  // Gets called once for each widget on the screen
-  let layoutPos = position;
-  const containerViewRef = useRef<View>(null);
+function ResourceButtons(widget, nav) {
 
-  let [editC, setEditC] = React.useState(false);
+  // Gets called once for each widget on the screen
+
+  // There is an error involving hook re-renders that has something to do with these useRefs
+  const containerViewRef = useRef<View>(null);
 
   // Creating Pan Responder
   const pan = useRef<any>(new Animated.ValueXY()).current;
   let pressingTouch = true;
 
+  //const [editC, setEditC] = React.useState(false);
+
+  /*useEffect(() => {
+    //updates the render for the buttons
+    if (editC == true) {
+      setEditC(false);
+    }
+  });*/
+
   const panResponder = useRef(
     PanResponder.create({
       onMoveShouldSetPanResponder: () => true,
-      onPanResponderGrant: (e, gestureState) => {
+      onPanResponderGrant: () => {
         pan.setOffset({
           x: pan.x._value,
           y: pan.y._value
@@ -148,20 +112,20 @@ function ResourceButtons(name, destination, position, color, icon, width, height
           let y = gestureState.moveY;
           let widgetX = thisWidget.posX;
           let widgetY = thisWidget.posY;
-          //console.log(thisWidget.posX, thisWidget.posY, thisWidget.width, thisWidget.height)
           if (
             (x >= (widgetX - thisWidget.width / 2)) && (x <= (widgetX + thisWidget.width / 2))
             && (y >= (widgetY - thisWidget.height / 2)) && (y <= (widgetY + thisWidget.height / 2))
-            && thisWidget.name != name
+            && thisWidget.name != widget.name
           ) {
-            console.log("SWITCH " + name + " (" + position + ") with " + thisWidget.name + " (" + thisWidget.id + ")")
+            console.log("SWITCH " + widget.name + " (" + widget.id + ") with " + thisWidget.name + " (" + thisWidget.id + ")")
 
-            //if within range of another button, swaps the buttons.
+            //if within range of another button, swaps the id
             let toSwitchId = thisWidget.id
 
-            widgetList[position].id = thisWidget.id;
-            widgetList[toSwitchId].id = position;
+            widgetList[widget.id].id = thisWidget.id;
+            widgetList[toSwitchId].id = widget.id;
 
+            // Sorts order of widgets based on their id
             widgetList.sort((a, b) => a.id - b.id);
           }
           else {
@@ -175,22 +139,14 @@ function ResourceButtons(name, destination, position, color, icon, width, height
         })
 
         pan.flattenOffset();
-        setEditC(editC = true);
+        //setEditC(true);
       }
     })
   ).current;
 
-  useEffect(() => {
-    //updates the render for the buttons
-    if (editC == true) {
-      setEditC(editC = false);
-    }
-  });
-
   return (
     <Animated.View
-      key={position}
-      ref={containerViewRef}
+      key={widget.id}
       collapsable={false}
       // Puts button in proper absolute position
       style={{
@@ -198,31 +154,53 @@ function ResourceButtons(name, destination, position, color, icon, width, height
         flexDirection: 'row'
       }}
       onLayout={() => {
-        //using the absolute value works for a non scrolling page
-        //scrolling the page changes the x and y values, so I either need to
-        //update them on when the user scrolls, or have an offset of some kind dependent on it.
+        // Setting posX and posY for each widget
         containerViewRef.current?.measure(
           (x, y, width, height, pageX, pageY) => {
-            widgetList[layoutPos].posX = pageX + (width / 2);
-            widgetList[layoutPos].posY = pageY + (height / 2);
-          });
+            widgetList[widget.id].posX = pageX + (width / 2);
+            widgetList[widget.id].posY = pageY + (height / 2);
+          }
+        );
       }}
 
       {...panResponder.panHandlers}
     >
       <View style={styles.resourceButtons}>
-        <View style={{ width: width + 2*m, height: height + 2.4*m }}>
+        <View style={{ width: widget.width + 2 * m, height: widget.height + 2.4 * m }}>
           <TouchableOpacity
-            onPress={() => props.props.navFun.navigation.navigate(destination)}
-            style={[styles.widgetButton, { width: width, height: height, backgroundColor: color }]}>
-            <Icon style={styles.widgetIcon} name={icon} size={30} type="ionicon" color={'white'}></Icon>
+            onPress={() => buttonPressed(widget.destination, widget.guest, nav)}
+            style={[
+              styles.widgetButton,
+              {
+                width: widget.width, height: widget.height, backgroundColor: (!widget.guest && isGuest) ? grayed : widget.color,
+                opacity: (!widget.guest && isGuest) ? 0.5 : 1
+              }]}>
+            <Icon style={styles.widgetIcon} name={widget.icon} size={30} type="ionicon" color={'white'}></Icon>
           </TouchableOpacity>
-          <Text style={styles.buttonTextStyle}>{name}</Text>
+          <Text style={styles.buttonTextStyle}>{widget.name}</Text>
         </View>
       </View>
 
     </Animated.View>
   )
+}
+
+export default function WidgetScreenDisplay(props) {
+  isGuest = props.guest;
+  widgetInfo = props.widgets;
+  const nav = useNavigation();
+
+  fillWidgetList();
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.resourceButtons}>
+        {widgetList.map((widget) =>
+          ResourceButtons(widget, nav)
+        )}
+      </View>
+    </View>
+  );
 }
 
 let styles = StyleSheet.create({
@@ -270,12 +248,5 @@ let styles = StyleSheet.create({
   },
   widgetIcon: {
 
-  },
-  buttonContainer: {
-    flex: 1,
-    backgroundColor: 'red',
-    borderWidth: 2
   }
 });
-
-
