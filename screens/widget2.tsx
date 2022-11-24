@@ -175,7 +175,7 @@ function ResourceButtons(widget, nav) {
                 width: widget.width, height: widget.height, backgroundColor: (!widget.guest && isGuest) ? grayed : widget.color,
                 opacity: (!widget.guest && isGuest) ? 0.5 : 1
               }]}>
-            <Icon style={styles.widgetIcon} name={widget.icon} size={30} type="ionicon" color={'white'}></Icon>
+            <Icon style={styles.widgetIcon} name={widget.icon} size={30} type={"ionicon"} color={'white'}></Icon>
           </TouchableOpacity>
           <Text style={styles.buttonTextStyle}>{widget.name}</Text>
         </View>

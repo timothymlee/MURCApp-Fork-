@@ -12,7 +12,7 @@ type CompProps = {
 
 export default function Profile_PopUp(props: CompProps) {
   const { name } = useAppSelector(selectAuth)
-  console.log(name);
+  //console.log(name);
   let username = "Guest"
   
   // get username from data HERE

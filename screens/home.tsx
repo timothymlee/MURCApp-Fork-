@@ -5,6 +5,8 @@ import { readUserData, writeUserData } from "../src/firebaseCalls";
 import Widget from './widget2';
 import Header from "./header";
 import WidgetDisplay from "./displayWidget";
+import { selectAuth } from "../src/api/authSlice";
+import { useAppSelector } from '../src/app/hooks';
 
 type CompProps = {
   // We are only using the navigate and goBack functions
@@ -12,10 +14,14 @@ type CompProps = {
 };
 const image = { uri: "https://pbs.twimg.com/media/FdxI4qIXwAE28_5?format=jpg&name=4096x4096" }
 
-let isGuest = true;
+let isGuest = false;
+//const { name } = useAppSelector(selectAuth)
 
 export default function Home(props: CompProps) {
   let textString = readUserData('tl1261');
+  const { name } = useAppSelector(selectAuth)
+
+  if (name == null) { isGuest = true }
 
   const [value, setValue] = useState("");
   const [results, setResults] = useState([])
@@ -39,7 +45,6 @@ export default function Home(props: CompProps) {
     { name: "Union Cafe", url: 'UnionMenu', icon: resourceImages[0], size: 0, color: lightBlue, guest: true },
     { name: "Campus Map", url: 'Map', icon: resourceImages[3], size: 0, color: darkBlue, guest: true },
     { name: "Log In", url: 'Login', icon: resourceImages[4], size: 0, color: blue, guest: true },
-    { name: "Drag and Drop", url: 'Index', icon: resourceImages[4], size: 0, color: lightBlue, guest: true },
     { name: "Chapel Attendance", url: 'Chapel', icon: resourceImages[1], size: 4, color: green, guest: false },
     { name: "Falcon", url: 'FalconMenu', icon: resourceImages[2], size: 0, color: blue, guest: true },
     { name: "Gym", url: 'Gym', icon: resourceImages[3], size: 0, color: green, guest: true },
