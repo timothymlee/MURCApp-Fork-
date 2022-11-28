@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import { Icon, Button, Overlay, ListItem } from "@rneui/themed";
 import { LinearGradient } from 'expo-linear-gradient';
 import * as WebBrowser from 'expo-web-browser';
-import Header from "./header";
+import Header from "./Components/header";
+import { menu_list } from '../data';
 
 type CompProps = {
   // We are only using the navigate and goBack functions
@@ -30,41 +31,6 @@ export default function UnionMenu(props: CompProps) {
   const toggleOverlay = () => {
     setVisible(!visible);
   };
-
-  // Each menu category has items listed here
-  const ice_cream_list = [
-    'ice cream',
-    'ice cream'
-  ]
-  const sandwich_list = [
-    'ice cream',
-    'ice cream'
-  ]
-  const burger_list = [
-    'ice cream',
-    'ice cream'
-  ]
-  const coffee_tea_list = [
-    'ice cream',
-    'ice cream'
-  ]
-  const pizza_list = [
-    'ice cream',
-    'ice cream'
-  ]
-  const u_create_list = [
-    'ice cream',
-    'ice cream'
-  ]
-
-  const menu_list = [
-    { name: "Ice Cream", items: ice_cream_list },
-    { name: "Sandwiches", items: sandwich_list },
-    { name: "Burgers", items: burger_list },
-    { name: "Coffee & Tea", items: coffee_tea_list },
-    { name: "Pizza", items: pizza_list },
-    { name: "U-CREATE", items: u_create_list }
-  ]
 
   return (
     <>
@@ -132,7 +98,7 @@ export default function UnionMenu(props: CompProps) {
                 {category.items.map((item, j) => (
                   <ListItem key={j}>
                     <ListItem.Content>
-                      <ListItem.Title>{item}</ListItem.Title>
+                      <ListItem.Title>{item.name}</ListItem.Title>
                     </ListItem.Content>
                   </ListItem>
                 ))}

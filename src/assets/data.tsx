@@ -1,17 +1,89 @@
-import { Pressable, Text, StyleSheet, SafeAreaView, View, Platform, StatusBar, Keyboard, KeyboardAvoidingView, ScrollView } from "react-native";
-import React, { useState, useEffect } from 'react';
-import { Icon, SearchBar, Button, Overlay } from "@rneui/themed";
-import { CheckBox } from "@rneui/base";
-import MapView, { Marker } from 'react-native-maps';
-import Header from "./header";
+    // Icons for Resources
+  export const resourceImages = [
+    "md-restaurant",
+    "logo-usd",
+    "calendar",
+    "book",
+    "md-locate-sharp"
+  ]
 
-type CompProps = {
-  // We are only using the navigate and goBack functions
-  navigation: { navigate: Function; };
-};
+  // App Colors
+  export const lightBlue = "#6EB3F2"
+  export const blue = '#4552C9'
+  export const darkBlue = '#1E293B'
+  export const green = '#5EBD4E'
 
-export default function Map(props: CompProps) {
+  // Widgets
+  export const WidgetNames = [
+    { name: "Lottie Dining Hall", url: 'LottieMenu', icon: resourceImages[0], size: 6, color: darkBlue, guest: true },
+    { name: "Union Cafe", url: 'UnionMenu', icon: resourceImages[0], size: 0, color: lightBlue, guest: true },
+    { name: "Campus Map", url: 'Map', icon: resourceImages[3], size: 0, color: darkBlue, guest: true },
+    { name: "Log In", url: 'Login', icon: resourceImages[4], size: 0, color: blue, guest: true },
+    { name: "Chapel Attendance", url: 'Chapel', icon: resourceImages[1], size: 4, color: green, guest: false },
+    { name: "Falcon", url: 'FalconMenu', icon: resourceImages[2], size: 0, color: blue, guest: true },
+    { name: "Gym", url: 'Gym', icon: resourceImages[3], size: 0, color: green, guest: true },
+    { name: "Dining Dollars", url: 'DiningDollars', icon: resourceImages[1], size: 1, color: lightBlue, guest: false },
+    { name: "Falcon Dollars", url: 'FalconDollars', icon: resourceImages[1], size: 1, color: lightBlue, guest: false },
+  ]
 
+  // Falcon Menu
+  const ice_cream_list = [
+    { name: 'ice cream' },
+    { name: 'ice cream' }
+  ]
+  const sandwich_list = [
+    { name: 'ice cream' },
+    { name: 'ice cream' }
+  ]
+  const burger_list = [
+    { name: 'ice cream' },
+    { name: 'ice cream' }
+  ]
+  const coffee_tea_list = [
+    { name: 'ice cream' },
+    { name: 'ice cream' }
+  ]
+  const pizza_list = [
+    { name: 'ice cream' },
+    { name: 'ice cream' }
+  ]
+  const u_create_list = [
+    { name: 'ice cream' },
+    { name: 'ice cream' }
+  ]
+
+  export const menu_list = [
+    { name: "Ice Cream", items: ice_cream_list },
+    { name: "Sandwiches", items: sandwich_list },
+    { name: "Burgers", items: burger_list },
+    { name: "Coffee & Tea", items: coffee_tea_list },
+    { name: "Pizza", items: pizza_list },
+    { name: "U-CREATE", items: u_create_list }
+  ]
+
+  // Union Menu Items
+
+  // Falcon Fitness Center Hours
+  export const general_gym_hours = [
+    { name: 'Monday: 6am - 11pm' },
+    { name: 'Tuesday: 6am - 11pm' },
+    { name: 'Wednesday: 6am - 11pm' },
+    { name: 'Thursday: 6am - 11pm' },
+    { name: 'Friday: 6am - 8pm' },
+    { name: 'Saturday: 8am - 8pm' },
+    { name: 'Sunday: 1pm - 11pm' }
+  ]
+
+  // Falcon Fitness Center Text
+  export const gym_info = "Access is free for Messiah University students, employees, spouses of employees, and depedents of employees between the ages of 16-18. You must bring your Messiah ID with you each time you access the fitness center. Passing an ID card or using an ID card other than your own may result in an up to two week suspension of fitness center access. To activate your card, follow this link to our waiver."
+
+  export const gym_info2 = "At Messiah University we have been blessed with an amazing fitness center. As a community, it is now our responsibility to keep this center, and equipment, in state of the art condition. Take a moment to familiarize yourself with the rules and policies of the Falcon Fitness Center. Exercising here is a privilege, not a right; failing to follow any of these rules may result in losing that privilege and further discipline by the University."
+
+  export const gym_rules = "We strongly encourage members to follow CDC masking guidlines Equipment must be sanitized before and after use. In some areas paper towels and spray bottles have replaced pre-wet wipes. Please make sure the paper towel is fully 'soaked' before using it to sanitize any and all equipment, before and after use. All behaviors, attitudes, and policies outlined in the Messiah University Student handbook and Community Covenant should be followed at all times while in the fitness center.  All injuries should be reported to the welcome desk immediately Damaged or broken equipment must be reported to a student worker or the director immediately Signs and instructions specific to each location are conveniently placed around the fitness center. Follow all instructions and guidelines on signs and posters."
+
+  export const gym_dress_code = "All dress code policies outlined in the Messiah University Student Handbook must be followed while in the fitness center. Shirts and closed toe shoes are required at all times. Sandals or open toe shoes are not permitted. Jeans, Jean shorts, belts or any other clothing with metal objects are not permitted. On poor weather days bring a separate pair of shoes."
+
+  // Map Locations and Coordinates
   let AcademicsAndAdministrative = [
     { name: "Admissions Office", coords: "40.157583, -76.989482" },
     { name: "Alumni and Parent Relations", coords: "40.157947, -76.989222" },
@@ -185,7 +257,7 @@ export default function Map(props: CompProps) {
     { name: "VV Lot - Visitor Parking", coords: "40.157674568137814, -76.99055067086216" },
   ]
 
-  let AllLocations = [
+  export const AllLocations = [
     { category: AcademicsAndAdministrative, icon: 'book-open-page-variant' },
     { category: AthleticsAndRecreation, icon: 'shoe-cleat' },
     { category: ATMLocations, icon: 'currency-usd' },
@@ -199,371 +271,3 @@ export default function Map(props: CompProps) {
     { category: OakesMuseum, icon: 'leaf' },
     { category: ParkingLots, icon: 'car' }
   ]
-
-  let currentLocation = {
-    latitude: 40.157515,
-    longitude: -76.987994,
-    latitudeDelta: 0.012,
-    longitudeDelta: 0.006
-  }
-
-  var _mapView: MapView;
-
-  const [value, setValue] = useState("");
-  const [results, setResults] = useState([])
-  const [selected, setSelected] = useState("")
-  const [selectedIcon, setIcon] = useState("")
-  const [activePins, setPins] = useState([])
-  // For overlay
-  const [visible, setVisible] = useState(false);
-  const [location, setLocation] = useState(currentLocation)
-
-  const toggleOverlay = () => {
-    setVisible(!visible);
-  };
-
-  // Each digit is a boolean that corresponds with whether that category is active.
-  // They go in order of the list in AllLocations.
-  const [categoriesActive, setActive] = useState([false, false, false, false, false, false, false, false, false, false, false, false])
-
-  useEffect(() => {
-    // run every time selected location changes
-    setMarkers();
-  }, [selected]);
-
-  const updateSearch = (value) => {
-    setValue(value);
-    let storedResults = [];
-    AllLocations.forEach(function (name) {
-      name.category.map(function (thisLocation) {
-        if (thisLocation.name.toLowerCase().includes(value.toLowerCase())) {
-          storedResults.push([thisLocation, name.icon]);
-        }
-      });
-    });
-    setResults(storedResults);
-  };
-
-  function renderSelectedHeader() {
-    if (selected != "") {
-      return (
-        <View style={styles.selectedHeader}>
-          <Icon style={styles.selectedIcon} name={selectedIcon} size={22} type={'material-community'} color={'white'}></Icon>
-          <Text style={styles.selectedTitle}>{selected}</Text>
-          <Pressable style={styles.closeHeaderContainer} onPress={() => { setSelected("") }}>
-            <Icon name="close" size={44} color={'white'}></Icon>
-          </Pressable>
-        </View>
-      )
-    }
-  }
-
-  function renderCheckBox(name, num) {
-    return (
-      <CheckBox
-        checked={categoriesActive[num]}
-        title={name}
-        checkedColor="#0F0"
-        containerStyle={styles.checkboxBoxContainer}
-        onIconPress={() => {
-          let tempActive = categoriesActive;
-          tempActive[num] = !tempActive[num];
-          setActive(tempActive);
-          setMarkers();
-        }}
-        size={32}
-        uncheckedColor="#838383"
-      />
-    )
-  }
-
-  function setMarkers() {
-    let currentCategory = 0;
-    let pinsList = [];
-    categoriesActive.map(function (isActive) {
-      if (isActive) {
-        let thisIcon = AllLocations[currentCategory].icon;
-        AllLocations[currentCategory].category.map(function (thisLocation) {
-          pinsList.push([thisLocation.name, thisLocation.coords, thisIcon, false]);
-        })
-      }
-      currentCategory++;
-    })
-    if (selected != "") {
-      let alreadyDisplayed = false
-      pinsList.map(function (pin) {
-        if (pin[0] == selected) {
-          pin[3] = true;
-          alreadyDisplayed = true;
-        }
-      })
-      if (!alreadyDisplayed) {
-        // target icon should instead be whatever category it is from
-        let thisIcon = "target";
-        AllLocations.map(function (currentCategory) {
-          thisIcon = currentCategory.icon;
-          for (let i = 0; i < currentCategory.category.length; i++) {
-            if (currentCategory.category[i].name == selected) {
-              pinsList.push([selected, location.latitude + ", " + location.longitude, thisIcon, true])
-              break;
-            }
-          }
-        })
-      }
-    }
-    setPins(pinsList);
-  }
-
-  const handleSearchChange = () => {
-    if (value == "") {
-      return (
-        <>
-          {renderSelectedHeader()}
-
-          <View style={{ flex: 1, height: '100%' }}>
-            <MapView
-              // MapView is using this package:
-              // https://www.npmjs.com/package/react-native-maps 
-              mapType='hybrid'
-              //provider={PROVIDER_GOOGLE}
-              //customMapStyle={mapStyle}
-              // "showsUserLocation" can be enabled, but we need to ask for user permission to do so
-              showsUserLocation
-              ref={(mapView) => { _mapView = mapView; }}
-              style={styles.map}
-              initialRegion={location}
-            >
-              {
-                activePins.map(function (pin, i) {
-                  let splitCoord = pin[1].split(", ");
-                  return (
-                    <Marker
-                      key={i}
-                      coordinate={{ latitude: splitCoord[0] * 1.0, longitude: splitCoord[1] * 1.0 }}
-                      onPress={() => {
-                        setSelected(pin[0]);
-                        setIcon(pin[2]);
-                        _mapView.animateToRegion({
-                          latitude: splitCoord[0],
-                          longitude: splitCoord[1],
-                          latitudeDelta: 0.001,
-                          longitudeDelta: 0.0018,
-                        }, 500)
-                        setLocation({
-                          latitude: splitCoord[0],
-                          longitude: splitCoord[1],
-                          latitudeDelta: 0.001,
-                          longitudeDelta: 0.0018,
-                        })
-                      }}
-                    >
-                      <View
-                        style={pin[3] ? styles.markerContainerSelected : styles.markerContainer}
-                      >
-                        <Icon name={pin[2]} size={pin[3] ? 18 : 12} type={'material-community'} color={'white'}></Icon>
-                      </View>
-                    </Marker>
-                  )
-                })}
-            </MapView>
-
-            <Button
-              buttonStyle={styles.pinModalButton}
-              titleStyle={{ fontSize: 18 }}
-              onPress={toggleOverlay}
-            >
-              <Icon name="pin-drop" size={32} type={'material-icons'} color={'white'}></Icon>
-            </Button>
-          </View>
-        </>
-
-      )
-    }
-    else {
-      return (
-        <>
-          <Text style={styles.searchText}>Searching For "{value}"</Text>
-          <ScrollView style={styles.searchResultContainer}>
-            {results.map((result, i) =>
-              <Button key={i} style={styles.button} onPress={() => {
-                setSelected(result[0].name);
-                setIcon(result[1]);
-                let coordinates = result[0].coords.split(", ");
-                Keyboard.dismiss();
-                setValue("");
-                setLocation({
-                  latitude: coordinates[0] * 1.0,
-                  longitude: coordinates[1] * 1.0,
-                  latitudeDelta: 0.001,
-                  longitudeDelta: 0.0018,
-                })
-              }}>{result[0].name}</Button>
-            )}
-          </ScrollView>
-        </>
-      )
-    }
-  }
-
-  return (
-    <>
-      <SafeAreaView style={styles.page}>
-
-      <Header props={props}/>
-
-        <Overlay
-          isVisible={visible}
-          onBackdropPress={toggleOverlay}
-          overlayStyle={styles.overlayContainer}
-        >
-          <View style={styles.overlayHeaderContainer}>
-            <Icon name="pin-drop" style={styles.overlayTitleIcon} size={28} type={'material-icons'} color={'black'}></Icon>
-            <Text style={styles.overlayTitle}>Enabled Icons</Text>
-            <Icon style={styles.closeOverlayIcon} onPress={toggleOverlay} name="close" size={34} color={'black'}></Icon>
-          </View>
-
-          <ScrollView>
-            {renderCheckBox("Academics and Administrative", 0)}
-            {renderCheckBox("Athletics and Recreation", 1)}
-            {renderCheckBox("ATM Locations", 2)}
-            {renderCheckBox("Bridges", 3)}
-            {renderCheckBox("Dining and Retail", 4)}
-            {renderCheckBox("Health and Safety", 5)}
-            {renderCheckBox("Facility and Auxiliary Services", 6)}
-            {renderCheckBox("Music, Theatre, and Art", 7)}
-            {renderCheckBox("Residences", 8)}
-            {renderCheckBox("Student Life", 9)}
-            {renderCheckBox("Oakes Museum", 10)}
-            {renderCheckBox("Parking Lots", 11)}
-          </ScrollView>
-        </Overlay>
-
-        <View style={styles.app_container}>
-          {handleSearchChange()}
-        </View>
-
-        <KeyboardAvoidingView style={styles.search_container} behavior="position">
-          <SearchBar
-            platform="ios"
-            containerStyle={{ backgroundColor: "#1E293B" }}
-            inputContainerStyle={{ backgroundColor: '#F3F3F3', }}
-            onChangeText={updateSearch}
-            placeholder="Search in Maps"
-            placeholderTextColor="#888"
-            value={value}
-          />
-        </KeyboardAvoidingView>
-      </SafeAreaView>
-    </>
-  )
-}
-
-const styles = StyleSheet.create({
-  app_container: {
-    flex: 1,
-    backgroundColor: '#FBFBFB'
-  },
-  page: {
-    backgroundColor: '#1E293B',
-    flex: 1,
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
-  },
-  search_container: {
-    backgroundColor: '#1E293B',
-    minHeight: 70,
-  },
-  searchText: {
-    color: 'black',
-    fontSize: 20,
-    padding: 20
-  },
-  searchResultContainer: {
-    flex: 1
-  },
-  button: {
-    paddingHorizontal: 20,
-    paddingVertical: 5
-  },
-  selectedHeader: {
-    backgroundColor: '#54A6F2',
-    height: 80,
-    alignItems: 'center',
-    flexDirection: 'row'
-  },
-  selectedTitle: {
-    fontSize: 18,
-    paddingLeft: 14,
-    flex: 2,
-    color: 'white',
-    fontWeight: '600'
-  },
-  closeHeaderContainer: {
-    paddingRight: 20
-  },
-  map: {
-    position: 'absolute',
-    height: '100%',
-    width: '100%'
-  },
-  selectedIcon: {
-    paddingLeft: 14
-  },
-  markerContainer: {
-    height: 24,
-    width: 24,
-    borderRadius: 20,
-    backgroundColor: '#1E293B',
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignContent: 'center'
-  },
-  markerContainerSelected: {
-    height: 34,
-    width: 34,
-    borderRadius: 20,
-    backgroundColor: '#1E293B',
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignContent: 'center'
-  },
-  pinModalButton: {
-    backgroundColor: '#54A6F2',
-    height: 60,
-    width: 60,
-    margin: 16,
-    shadowRadius: 5,
-    shadowOpacity: 0.3,
-    alignSelf: 'flex-end'
-  },
-  overlayContainer: {
-    width: '80%'
-  },
-  closeOverlayIcon: {
-    alignContent: 'center',
-    flex: 1
-  },
-  checkboxBoxContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 0,
-    margin: 0,
-    marginRight: 0
-  },
-  overlayTitle: {
-    flex: 1,
-    fontSize: 18,
-    fontWeight: '700',
-  },
-  overlayHeaderContainer: {
-    height: 42,
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 20,
-    borderBottomWidth: 1,
-    paddingBottom: 5,
-    borderColor: 'gray'
-  },
-  overlayTitleIcon: {
-    marginHorizontal: 8
-  }
-});

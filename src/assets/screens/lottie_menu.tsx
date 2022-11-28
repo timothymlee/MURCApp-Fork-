@@ -2,7 +2,7 @@ import { StyleSheet, SafeAreaView, Text, View, ScrollView } from "react-native";
 import React, { useState } from 'react';
 import { Button, Overlay, ListItem } from "@rneui/themed";
 import { LinearGradient } from 'expo-linear-gradient';
-import Header from "./header";
+import Header from "./Components/header";
 import { CalendarProvider, WeekCalendar } from 'react-native-calendars';
 
 type CompProps = {

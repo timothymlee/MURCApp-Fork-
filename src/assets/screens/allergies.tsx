@@ -1,7 +1,7 @@
 import { Pressable, Image, StyleSheet, SafeAreaView, Text, View, ScrollView } from "react-native";
 import React, { useState } from 'react';
 import { Icon, Button, Overlay, ListItem, CheckBox } from "@rneui/themed";
-import Header from "./header"
+import Header from "./Components/header"
 
 type CompProps = {
   // We are only using the navigate and goBack functions

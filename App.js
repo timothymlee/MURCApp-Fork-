@@ -11,19 +11,19 @@ import { useAppDispatch } from './src/app/hooks';
 
 
 // Import screens to use for navigation
-import Home from './screens/home';
-import Index from './screens/index';
-import Chapel from './screens/chapel';
-import Settings from './screens/profile_popup';
-import UnionMenu from './screens/union_menu';
-import FalconMenu from './screens/falcon_menu';
-import Login from './screens/login';
-import Gym from './screens/gym';
-import DiningDollars from './screens/dining_dollars';
-import FalconDollars from './screens/falcon_dollars';
-import LottieMenu from './screens/lottie_menu';
-import Allergies from './screens/allergies';
-import Map from './screens/map';
+import Home from './src/assets/screens/home';
+import Index from './src/assets/screens/index';
+import Chapel from './src/assets/screens/chapel';
+import Settings from './src/assets/screens/Components/profile_popup';
+import UnionMenu from './src/assets/screens/union_menu';
+import FalconMenu from './src/assets/screens/falcon_menu';
+import Login from './src/assets/screens/login';
+import Gym from './src/assets/screens/gym';
+import DiningDollars from './src/assets/screens/dining_dollars';
+import FalconDollars from './src/assets/screens/falcon_dollars';
+import LottieMenu from './src/assets/screens/lottie_menu';
+import Allergies from './src/assets/screens/allergies';
+import Map from './src/assets/screens/map';
 
 // Import Cas
 import useCas from "./src/cas/useCas";

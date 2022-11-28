@@ -1,12 +1,13 @@
 import { ImageBackground, StyleSheet, SafeAreaView, Text, View, ScrollView, KeyboardAvoidingView, Platform, StatusBar, TouchableWithoutFeedback } from "react-native";
 import React, { useState } from 'react';
 import { SearchBar, Button } from "@rneui/themed";
-import { readUserData, writeUserData } from "../src/firebaseCalls";
-import Widget from './widget2';
-import Header from "./header";
-import WidgetDisplay from "./displayWidget";
-import { selectAuth } from "../src/api/authSlice";
-import { useAppSelector } from '../src/app/hooks';
+import { readUserData } from "../../firebaseCalls";
+import Widget from './Components/widget2';
+import Header from "./Components/header";
+import WidgetDisplay from "./Components/displayWidget";
+import { selectAuth } from "../../api/authSlice";
+import { useAppSelector } from '../../app/hooks';
+import { WidgetNames } from '../data';
 
 type CompProps = {
   // We are only using the navigate and goBack functions
@@ -25,32 +26,6 @@ export default function Home(props: CompProps) {
 
   const [value, setValue] = useState("");
   const [results, setResults] = useState([])
-
-  // All icons for resources
-  let resourceImages = [
-    "md-restaurant",
-    "logo-usd",
-    "calendar",
-    "book",
-    "md-locate-sharp"
-  ]
-
-  let lightBlue = "#6EB3F2"
-  let blue = '#4552C9'
-  let darkBlue = '#1E293B'
-  let green = '#5EBD4E'
-
-  let WidgetNames = [
-    { name: "Lottie Dining Hall", url: 'LottieMenu', icon: resourceImages[0], size: 6, color: darkBlue, guest: true },
-    { name: "Union Cafe", url: 'UnionMenu', icon: resourceImages[0], size: 0, color: lightBlue, guest: true },
-    { name: "Campus Map", url: 'Map', icon: resourceImages[3], size: 0, color: darkBlue, guest: true },
-    { name: "Log In", url: 'Login', icon: resourceImages[4], size: 0, color: blue, guest: true },
-    { name: "Chapel Attendance", url: 'Chapel', icon: resourceImages[1], size: 4, color: green, guest: false },
-    { name: "Falcon", url: 'FalconMenu', icon: resourceImages[2], size: 0, color: blue, guest: true },
-    { name: "Gym", url: 'Gym', icon: resourceImages[3], size: 0, color: green, guest: true },
-    { name: "Dining Dollars", url: 'DiningDollars', icon: resourceImages[1], size: 1, color: lightBlue, guest: false },
-    { name: "Falcon Dollars", url: 'FalconDollars', icon: resourceImages[1], size: 1, color: lightBlue, guest: false },
-  ]
 
   const updateSearch = (value) => {
     setValue(value);
