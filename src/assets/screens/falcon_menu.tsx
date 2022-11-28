@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import { Button, ListItem } from "@rneui/themed";
 import { LinearGradient } from 'expo-linear-gradient';
 import * as WebBrowser from 'expo-web-browser';
-import Header from "./header";
+import Header from "./Components/header";
+import { menu_list } from '../data';
 
 type CompProps = {
   // We are only using the navigate and goBack functions
@@ -23,41 +24,6 @@ export default function FalconMenu(props: CompProps) {
     setResult(result);
   };
   const [expandedList, setExpandedList] = useState([false]);
-
-  // Each menu category has items listed here
-  const ice_cream_list = [
-    { name: 'ice cream' },
-    { name: 'ice cream' }
-  ]
-  const sandwich_list = [
-    { name: 'ice cream' },
-    { name: 'ice cream' }
-  ]
-  const burger_list = [
-    { name: 'ice cream' },
-    { name: 'ice cream' }
-  ]
-  const coffee_tea_list = [
-    { name: 'ice cream' },
-    { name: 'ice cream' }
-  ]
-  const pizza_list = [
-    { name: 'ice cream' },
-    { name: 'ice cream' }
-  ]
-  const u_create_list = [
-    { name: 'ice cream' },
-    { name: 'ice cream' }
-  ]
-
-  const menu_list = [
-    { name: "Ice Cream", items: ice_cream_list },
-    { name: "Sandwiches", items: sandwich_list },
-    { name: "Burgers", items: burger_list },
-    { name: "Coffee & Tea", items: coffee_tea_list },
-    { name: "Pizza", items: pizza_list },
-    { name: "U-CREATE", items: u_create_list }
-  ]
 
   return (
     <SafeAreaView style={styles.page}>

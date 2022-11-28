@@ -12,7 +12,7 @@ export default function Header(props) {
                 </Pressable>
             </View>
             <View style={[styles.header_content, { alignItems: 'center' }]}>
-                <Image source={require('../assets/images/messiah_logo.png')} style={styles.header_image} />
+                <Image source={require('../../images/messiah_logo.png')} style={styles.header_image} />
             </View>
             <View style={[styles.header_content, { alignItems: 'flex-end' }]}>
                 <Pressable onPress={() => props.props.navigation.navigate('Home')}>

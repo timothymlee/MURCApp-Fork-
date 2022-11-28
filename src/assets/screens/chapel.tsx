@@ -1,10 +1,10 @@
 import { Image, StyleSheet, SafeAreaView, Text, View } from "react-native";
 import React from 'react';
 import { Slider } from "@rneui/themed";
-import Header from "./header";
-import { selectAuth } from "../src/api/authSlice";
-import { useAppSelector } from '../src/app/hooks';
-import {useDataMutation} from '../src/api/apiSlice'
+import Header from "./Components/header";
+import { selectAuth } from "../../api/authSlice";
+import { useAppSelector } from '../../app/hooks';
+import {useDataMutation} from '../../api/apiSlice'
 
 type CompProps = {
   // We are only using the navigate and goBack functions
@@ -27,7 +27,7 @@ export default function Chapel(props: CompProps) {
         <View style={styles.app_container}>
           <View style={styles.banner}>
             <Image
-              source={require('../assets/images/Hostetter_Chapel-1.jpeg')}
+              source={require("../images/Hostetter_Chapel-1.jpeg")}
               style={styles.banner_image} />
             <Text style={styles.main_title}>Chapel Attendance</Text>
           </View>
