@@ -37,7 +37,7 @@ function fillWidgetList() {
       color: widget.color,
       posX: 0,
       posY: 0,
-      id: i,
+      key: widget.key,
       width: w,
       height: h,
       guest: widget.guest
@@ -117,16 +117,16 @@ function ResourceButtons(widget, nav) {
             && (y >= (widgetY - thisWidget.height / 2)) && (y <= (widgetY + thisWidget.height / 2))
             && thisWidget.name != widget.name
           ) {
-            console.log("SWITCH " + widget.name + " (" + widget.id + ") with " + thisWidget.name + " (" + thisWidget.id + ")")
+            console.log("SWITCH " + widget.name + " (" + widget.key + ") with " + thisWidget.name + " (" + thisWidget.key + ")")
 
             //if within range of another button, swaps the id
-            let toSwitchId = thisWidget.id
+            let toSwitchId = thisWidget.key
 
-            widgetList[widget.id].id = thisWidget.id;
-            widgetList[toSwitchId].id = widget.id;
+            widgetList[widget.key].key = thisWidget.key;
+            widgetList[toSwitchId].key = widget.key;
 
             // Sorts order of widgets based on their id
-            widgetList.sort((a, b) => a.id - b.id);
+            widgetList.sort((a, b) => a.key - b.key);
           }
           else {
             // Outside range of button
@@ -146,7 +146,7 @@ function ResourceButtons(widget, nav) {
 
   return (
     <Animated.View
-      key={widget.id}
+      key={widget.key}
       collapsable={false}
       // Puts button in proper absolute position
       style={{
@@ -157,8 +157,8 @@ function ResourceButtons(widget, nav) {
         // Setting posX and posY for each widget
         containerViewRef.current?.measure(
           (x, y, width, height, pageX, pageY) => {
-            widgetList[widget.id].posX = pageX + (width / 2);
-            widgetList[widget.id].posY = pageY + (height / 2);
+            widgetList[widget.key].posX = pageX + (width / 2);
+            widgetList[widget.key].posY = pageY + (height / 2);
           }
         );
       }}
