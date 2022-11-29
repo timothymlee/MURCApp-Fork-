@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Icon, Button, Overlay, ListItem, Slider } from "@rneui/themed";
 import {LinearGradient} from 'expo-linear-gradient';
 import * as WebBrowser from 'expo-web-browser';
-import {readEventData} from '../src/firebaseCalls'
+import {readEventData} from '../../firebaseCalls'
 import { runTransaction } from "firebase/database";
 type CompProps = {
   // We are only using the navigate and goBack functions

@@ -44,3 +44,6 @@ function writeReport(category, desc, name, email) {
 
     process.exit();
 }
+module.exports = {
+    writeReport
+}
