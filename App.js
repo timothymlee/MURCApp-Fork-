@@ -22,8 +22,15 @@ import Gym from './src/assets/screens/gym';
 import DiningDollars from './src/assets/screens/dining_dollars';
 import FalconDollars from './src/assets/screens/falcon_dollars';
 import LottieMenu from './src/assets/screens/lottie_menu';
+import Library from './screens/library';
+import TestPage from './screens/dataRerenderingPage';
+import Events from './screens/events';
+import Reporting from './screens/reporting';
 import Allergies from './src/assets/screens/allergies';
 import Map from './src/assets/screens/map';
+
+
+
 
 // Import Cas
 import useCas from "./src/cas/useCas";
@@ -69,7 +76,13 @@ export default function App() {
         <Stack.Screen name = "Gym" component = {Gym} />
         <Stack.Screen name = "FalconDollars" component = {FalconDollars} />
         <Stack.Screen name = "DiningDollars" component = {DiningDollars} />
+        <Stack.Screen name = "TestPage" component = {TestPage} />
+        <Stack.Screen name = "Reporting" component = {Reporting} />
+
         <Stack.Screen name = "LottieMenu" component = {LottieMenu} />
+        <Stack.Screen name = "Library" component = {Library} />
+        <Stack.Screen name = "Events" component = {Events} />
+
         <Stack.Screen name = "Allergies" component = {Allergies} />
         <Stack.Screen name = "Map" component = {Map} />
         <Stack.Screen name = "Settings" component = {Settings} 
