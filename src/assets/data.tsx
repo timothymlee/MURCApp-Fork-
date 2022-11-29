@@ -15,15 +15,17 @@
 
   // Widgets
   export const WidgetNames = [
-    { name: "Lottie Dining Hall", url: 'LottieMenu', icon: resourceImages[0], size: 6, color: darkBlue, guest: true },
-    { name: "Union Cafe", url: 'UnionMenu', icon: resourceImages[0], size: 0, color: lightBlue, guest: true },
-    { name: "Campus Map", url: 'Map', icon: resourceImages[3], size: 0, color: darkBlue, guest: true },
-    { name: "Log In", url: 'Login', icon: resourceImages[4], size: 0, color: blue, guest: true },
-    { name: "Chapel Attendance", url: 'Chapel', icon: resourceImages[1], size: 4, color: green, guest: false },
-    { name: "Falcon", url: 'FalconMenu', icon: resourceImages[2], size: 0, color: blue, guest: true },
-    { name: "Gym", url: 'Gym', icon: resourceImages[3], size: 0, color: green, guest: true },
-    { name: "Dining Dollars", url: 'DiningDollars', icon: resourceImages[1], size: 1, color: lightBlue, guest: false },
-    { name: "Falcon Dollars", url: 'FalconDollars', icon: resourceImages[1], size: 1, color: lightBlue, guest: false },
+    {key:'1', name: "Lottie Dining Hall", url: 'LottieMenu', icon: resourceImages[0], size: 6, color: darkBlue, guest: true },
+    {key:'2', name: "Union Cafe", url: 'UnionMenu', icon: resourceImages[0], size: 0, color: lightBlue, guest: true },
+    {key:'3', name: "Campus Map", url: 'Map', icon: resourceImages[3], size: 0, color: darkBlue, guest: true },
+    {key:'4', name: "Log In", url: 'Login', icon: resourceImages[4], size: 0, color: blue, guest: true },
+    {key:'5', name: "Chapel Attendance", url: 'Chapel', icon: resourceImages[1], size: 4, color: green, guest: false },
+    {key:'6', name: "Falcon", url: 'FalconMenu', icon: resourceImages[2], size: 0, color: blue, guest: true },
+    {key:'7', name: "Gym", url: 'Gym', icon: resourceImages[3], size: 0, color: green, guest: true },
+    {key:'8', name: "Dining Dollars", url: 'DiningDollars', icon: resourceImages[1], size: 1, color: lightBlue, guest: false },
+    {key:'9', name: "Falcon Dollars", url: 'FalconDollars', icon: resourceImages[1], size: 1, color: lightBlue, guest: false },
+    {key:'10', name: "Events", url: 'Events', icon: resourceImages[3], size: 0, color: green, guest: true },
+    {key:'12', name: "Library", url: 'Library', icon: resourceImages[3], size: 0, color: green, guest: true },
   ]
 
   // Falcon Menu

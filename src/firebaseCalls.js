@@ -90,7 +90,7 @@ async function readEventData(date) {
             });
         }
     });
-
+    //console.log("detDatabase is returning: "+ returnObjectArray + " .When receiving "+ date)
     return returnObjectArray;
 }
 

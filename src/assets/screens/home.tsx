@@ -32,6 +32,7 @@ export default function Home(props: CompProps) {
     let storedResults = [];
     WidgetNames.forEach(element => {
       if (element.name.toLowerCase().includes(value.toLowerCase())) {
+        element["key"] = element["key"]+1000;
         storedResults.push(element);
       }
     });
@@ -55,14 +56,16 @@ export default function Home(props: CompProps) {
         <>
           <Text style={styles.searchText}>Searching For "{value}"</Text>
           <View style={styles.searchResultContainer}>
-            {results.map((result, i) =>
-              <WidgetDisplay widget={result}/>
-            )}
+             {results.map((result, i) =>
+                <WidgetDisplay widget={result} key={result.key}/>
+             )}
           </View>
         </>
       )
     }
   }
+  
+  /**/
   return (
     <>
       <SafeAreaView style={styles.page}>
