@@ -107,7 +107,7 @@ function openLinkOnPress(link, navi) {
 
 //May not be best practice to directly edit the resources file.
 //On the flip side, I do not believe it is possible or advisable to edit props.
-function MapGrid(sources, handleWidgetMove) {
+function MapGrid(sources) {
 
   let i = 0
   let sourceButtons = [];
@@ -304,7 +304,7 @@ function ResourceButtons(name, destination, position, navi, style) {
           <Image source={resources.resourceImages[position]} />
           <Text style={styles.buttonTextStyle}>{name}</Text>
         </TouchableOpacity>
-      </View>
+        </View>
 
     </Animated.View>
   )
