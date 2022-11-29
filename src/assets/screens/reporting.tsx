@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Icon, Button, Overlay, ListItem, Slider } from "@rneui/themed";
 import {LinearGradient} from 'expo-linear-gradient';
 import * as WebBrowser from 'expo-web-browser';
-import {writeReport} from '../src/reportingCalls';
+import {writeReport} from '../../reportingCalls';
 
 const name = "Ricardo Padilla"
 const email = "rp1288@messiah.edu"
