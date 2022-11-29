@@ -55,14 +55,16 @@ export default function Home(props: CompProps) {
         <>
           <Text style={styles.searchText}>Searching For "{value}"</Text>
           <View style={styles.searchResultContainer}>
-            {results.map((result, i) =>
-              <WidgetDisplay widget={result}/>
-            )}
+             {results.map((result, i) =>
+                <WidgetDisplay widget={result}/>
+             )}
           </View>
         </>
       )
     }
   }
+  
+  /**/
   return (
     <>
       <SafeAreaView style={styles.page}>
