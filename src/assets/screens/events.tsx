@@ -11,6 +11,7 @@ import { CalendarProvider, WeekCalendar } from 'react-native-calendars';
 
 const todaysDate = ((new Date().getFullYear().toLocaleString())+'-'+(new Date().getMonth() + 1).toLocaleString())+'-'+(new Date().getDate().toLocaleString())
 let DataState = false;
+let todaysEvent = null;
 let selectedDate = todaysDate;
 type CompProps = {
   navigation: { navigate: Function; };
@@ -18,19 +19,22 @@ type CompProps = {
 
 //let str = selectedDate.substring(0, pos) + chr + selectedDate.substring(pos, selectedDate.length);
 
+//generates the date formate that the calandar takes from the database formate
 function dateCal(data){
     const myArray = data.split("-");
     let year = myArray[0];
     let month = ("0" + myArray[1]).slice(-2)
     let day = ("0" + myArray[2]).slice(-2)
-    //date gen conversion
     let date = year + '-' + month + '-' + day;
     return date;
 }
 
 
-let todaysEvent = null;
+
 let today = new Date().toISOString().substring(0, 10);
+
+//This gets the merged date and time and separates the date then converts it from mmddyyyy to mm-dd-yyyy for both the starting time&date and the ending time&date 
+//then formats it into a string mm-dd-yyyy to mm-dd-yyyy.
 function date(data){
     let gendate;
     if (data.dateTimeStart.substr(0,10) == data.dateTimeEnd.substr(0,10)){
@@ -59,7 +63,7 @@ function date(data){
 }
 
   
-//time gen conversion
+// this get the mergered time and date and gets the time which is in military time and converts it to standard time format.
 function time(data){
     let time;
     let hour = (data).substr(11,2);
@@ -78,15 +82,20 @@ function time(data){
 
 
 export default function TestPage(props: CompProps) {
+        
         //This created the page state which by defualt is set to show a loading gif 
         //until the page state is changed.
+        
+        let todaysEvent = null;
         const [page, setPage] = useState(<View style={{borderColor:'black' ,width:'100%',height:'100%', justifyContent:"center",backgroundColor:"#ffffff", alignItems:"center"}}><Image source={require('../images/loading.gif')}/></View>);
-
-        //This will be used to get the data and after the data is collected the page 
-        //state will chage to show the events page.
+        genEventsData();
+        //This will be used to display the data and after the data is collected the page 
+        //state will change to show the events page.
         const getData = () => {
             const Card = () => {
                 const Card2 = [];
+                //This will create a card which will be pushed to Card2 for each event that is sent back from the database then after all the cards 
+                //are finished it will be pushed to the card element where it can be displays.
                 todaysEvent.forEach((data, index) => {
                     ///Because this if statement compared the date dont forget to re formate the date into a comparable var to compare with selected date
                     let imgSource;
@@ -128,28 +137,27 @@ export default function TestPage(props: CompProps) {
                     return <View>{Card2}</View>
                 
             }
-            
+            //This simply set the state of the page to show the cards after the events are rendered and the cards are created
             setPage(<Card/>);
         }
-        
+    //this function get the data from the    
     async function genEventsData(){
+        
+        
         const array = [];
         if (todaysEvent == null){
-            
             todaysEvent = await readEventData(dateCal(selectedDate));
             if (todaysEvent == ""){
                 setPage(<Text>There are no events for { (selectedDate).substr(5,2) +"-"+ (((selectedDate).substr(8,2)).substr(0,1)).replace("0", "") + ((selectedDate).substr(8,3)).substr(1,1) +"-"+ (selectedDate).substr(0,4)}</Text>)
             }else{
                 getData();
             }
-           
-            
         }
         
         
     }
     
-    genEventsData();
+   
 
 
     return(
