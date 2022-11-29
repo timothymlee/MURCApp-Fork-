@@ -35,7 +35,7 @@ export default function Reporting(props: CompProps) {
             </Pressable>
           </View>
           <View style={[styles.header_content, { alignItems: 'center' }]}>
-            <Image source={require('../assets/images/messiah_logo.png')} style={styles.header_image}/>
+            <Image source={require('../images/messiah_logo.png')} style={styles.header_image}/>
           </View>
           <View style={[styles.header_content, { alignItems: 'flex-end' }]}>
             <Pressable onPress={() => props.navigation.navigate('Home')}>
@@ -47,7 +47,7 @@ export default function Reporting(props: CompProps) {
         <View style={styles.app_container}>
           <View style={styles.banner}>
             <Image
-              source={require('../assets/images/gymwall.jpg')}
+              source={require('../images/gymwall.jpg')}
               style={styles.banner_image} />
             <Text style={styles.main_title}>Security Report</Text>
           </View>

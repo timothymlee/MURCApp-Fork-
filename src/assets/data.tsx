@@ -24,6 +24,9 @@
     { name: "Gym", url: 'Gym', icon: resourceImages[3], size: 0, color: green, guest: true },
     { name: "Dining Dollars", url: 'DiningDollars', icon: resourceImages[1], size: 1, color: lightBlue, guest: false },
     { name: "Falcon Dollars", url: 'FalconDollars', icon: resourceImages[1], size: 1, color: lightBlue, guest: false },
+    { name: "Events", url: 'Events', icon: resourceImages[3], size: 0, color: green, guest: true },
+    { name: "Reporting", url: 'Reporting', icon: resourceImages[3], size: 0, color: green, guest: true },
+    { name: "Library", url: 'Library', icon: resourceImages[3], size: 0, color: green, guest: true },
   ]
 
   // Falcon Menu
