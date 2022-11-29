@@ -26,6 +26,7 @@
     {key:'9', name: "Falcon Dollars", url: 'FalconDollars', icon: resourceImages[1], size: 1, color: lightBlue, guest: false },
     {key:'10', name: "Events", url: 'Events', icon: resourceImages[3], size: 0, color: green, guest: true },
     {key:'12', name: "Library", url: 'Library', icon: resourceImages[3], size: 0, color: green, guest: true },
+    {key:'13', name: "Incident Report", url: 'Reporting', icon: resourceImages[4], size: 0, color: darkBlue, guest: true },
   ]
 
   // Falcon Menu
