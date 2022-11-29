@@ -1,6 +1,10 @@
-import { Pressable, Image, StyleSheet, SafeAreaView, Text, View } from "react-native";
-import React, { useState } from 'react';
-import { Icon, Slider } from "@rneui/themed";
+import { Image, StyleSheet, SafeAreaView, Text, View } from "react-native";
+import React from 'react';
+import { Slider } from "@rneui/themed";
+import Header from "./Components/header";
+import { selectAuth } from "../../api/authSlice";
+import { useAppSelector } from '../../app/hooks';
+import {useDataMutation} from '../../api/apiSlice'
 
 type CompProps = {
   // We are only using the navigate and goBack functions
@@ -18,26 +22,12 @@ export default function Chapel(props: CompProps) {
     <>
       <SafeAreaView style={styles.page}>
 
-        <View style={styles.header}>
-          <View style={[styles.header_content, { alignItems: 'flex-start' }]}>
-            <Pressable onPress={() => props.navigation.navigate('Settings')}>
-              <Icon name="person" style={styles.header_icons} size={44} color={'white'}></Icon>
-            </Pressable>
-          </View>
-          <View style={[styles.header_content, { alignItems: 'center' }]}>
-            <Image source={require('../assets/images/messiah_logo.png')} style={styles.header_image}/>
-          </View>
-          <View style={[styles.header_content, { alignItems: 'flex-end' }]}>
-            <Pressable onPress={() => props.navigation.navigate('Home')}>
-              <Icon name="home" style={styles.header_icons} size={44} color={'white'}></Icon>
-            </Pressable>
-          </View>
-        </View>
+        <Header props={props}/>
 
         <View style={styles.app_container}>
           <View style={styles.banner}>
             <Image
-              source={require('../assets/images/Hostetter_Chapel-1.jpeg')}
+              source={require("../images/Hostetter_Chapel-1.jpeg")}
               style={styles.banner_image} />
             <Text style={styles.main_title}>Chapel Attendance</Text>
           </View>
@@ -57,7 +47,7 @@ export default function Chapel(props: CompProps) {
                 trackStyle={{
                   height: 30,
                   borderRadius: 20,
-                  borderWidth: 5,
+                  borderWidth: 1,
                   borderColor: "#B8B8B8"
                 }}
                 value={attended}
@@ -110,22 +100,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#FBFBFB',
     flex: 1
   },
-  header: {
-    backgroundColor: '#1E293B',
-    minHeight: 60,
-    flexDirection: 'row'
-  },
   page: {
     backgroundColor: '#1E293B',
     flex: 1
-  },
-  header_content: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 10
-  },
-  header_icons: {
-    color: 'white'
   },
   banner_image_cont: {
     flex: 1
@@ -161,10 +138,5 @@ const styles = StyleSheet.create({
   banner: {
     flex: 1,
     minHeight: 100
-  },
-  header_image: {
-    width: 120,
-    height: 30,
-    resizeMode: 'cover'
   }
 });

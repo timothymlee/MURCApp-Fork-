@@ -1,8 +1,8 @@
-import { Pressable, Image, StyleSheet, SafeAreaView, Text, View, ScrollView } from "react-native";
+import { StyleSheet, SafeAreaView, Text, View, ScrollView } from "react-native";
 import React, { useState } from 'react';
-import { Icon, Button, Overlay, ListItem } from "@rneui/themed";
+import { Button, Overlay, ListItem } from "@rneui/themed";
 import { LinearGradient } from 'expo-linear-gradient';
-import * as WebBrowser from 'expo-web-browser';
+import Header from "./Components/header";
 import { CalendarProvider, WeekCalendar } from 'react-native-calendars';
 
 type CompProps = {
@@ -11,26 +11,13 @@ type CompProps = {
 };
 
 export default function LottieMenu(props: CompProps) {
-  // For linking to the Union site
-  const [result, setResult] = useState(null);
-
-  const _handlePressButtonAsync = async () => {
-    let result = await WebBrowser.openBrowserAsync('https://union.messiah.edu/menu/', {
-      enableBarCollapsing: true,
-      toolbarColor: '#2a3e5e'
-    });
-    setResult(result);
-  };
 
   var today = new Date().toISOString().substring(0, 10);
 
   // For overlay
   const [visible, setVisible] = useState(false);
   // Each drop-down menu needs a set of bool values
-  const [expanded1, setExpanded1] = useState(false);
-  const [expanded2, setExpanded2] = useState(false);
-  const [expanded3, setExpanded3] = useState(false);
-  const [expanded4, setExpanded4] = useState(false);
+  const [expandedList, setExpandedList] = useState([false]);
 
   const toggleOverlay = () => {
     setVisible(!visible);
@@ -62,39 +49,37 @@ export default function LottieMenu(props: CompProps) {
     'Apple Sauce'
   ]
 
-  let Breakfast = { "Breakfast Entrees": BreakfastEntrees, "Messiah Bakery": MessiahBakery }
+  let Breakfast = [
+    { key: "Breakfast Entrees", value: BreakfastEntrees },
+    { key: "Messiah Bakery", value: MessiahBakery }
+  ]
 
-  let Lunch = { "Entree Line 1": EntreeLine1, "Entree Line 2": EntreeLine2, "Breakfast Entrees": BreakfastEntrees }
+  let Lunch = [
+    { key: "Entree Line 1", value: EntreeLine1 },
+    { key: "Entree Line 2", value: EntreeLine2 },
+    { key: "Breakfast Entrees", value: BreakfastEntrees }
+  ]
 
-  let Dinner = { "Entree Line 2": EntreeLine2, "Breakfast Entrees": BreakfastEntrees, "Entree Line 1": EntreeLine1 }
+  let Dinner = [
+    { key: "Entree Line 2", value: EntreeLine2 },
+    { key: "Breakfast Entrees", value: BreakfastEntrees },
+    { key: "Entree Line 1", value: EntreeLine1 }]
 
-  let Brunch = { "Breakfast Entrees": BreakfastEntrees, "Entree Line 1": EntreeLine1 }
+  let Brunch = [
+    { key: "Breakfast Entrees", value: BreakfastEntrees },
+    { key: "Entree Line 1", value: EntreeLine1 }]
 
-  let thisDay = {
-    "Breakfast": Breakfast,
-    "Lunch": Lunch,
-    "Dinner": Dinner
-  }
+  let thisDay = [
+    { key: "Breakfast", value: Breakfast },
+    { key: "Lunch", value: Lunch },
+    { key: "Dinner", value: Dinner }
+  ]
 
   return (
     <>
       <SafeAreaView style={styles.page}>
 
-        <View style={styles.header}>
-          <View style={[styles.header_content, { alignItems: 'flex-start' }]}>
-            <Pressable onPress={() => props.navigation.navigate('Settings')}>
-              <Icon name="person" style={styles.header_icons} size={44} color={'white'}></Icon>
-            </Pressable>
-          </View>
-          <View style={[styles.header_content, { alignItems: 'center' }]}>
-            <Image source={require('../assets/images/messiah_logo.png')} style={styles.header_image} />
-          </View>
-          <View style={[styles.header_content, { alignItems: 'flex-end' }]}>
-            <Pressable onPress={() => props.navigation.navigate('Home')}>
-              <Icon name="home" style={styles.header_icons} size={44} color={'white'}></Icon>
-            </Pressable>
-          </View>
-        </View>
+        <Header props={props}/>
 
         <Overlay
           isVisible={visible}
@@ -136,12 +121,12 @@ export default function LottieMenu(props: CompProps) {
           />
           <ScrollView>
             <>
-            {Object.entries(thisDay).forEach(([meal, categoryType]) => {
-              console.log(meal);
+              {thisDay.map((meal, i) =>
                 <ListItem.Accordion
+                  key={i}
                   content={
                     <ListItem.Content>
-                      <ListItem.Title>{meal}</ListItem.Title>
+                      <ListItem.Title>{meal.key}</ListItem.Title>
                     </ListItem.Content>
                   }
                   linearGradientProps={{
@@ -150,28 +135,25 @@ export default function LottieMenu(props: CompProps) {
                   ViewComponent={LinearGradient}
                   containerStyle={styles.list_header}
                   topDivider
-                  isExpanded={expanded1}
                   onPress={() => {
-                    setExpanded1(!expanded1);
-                  }}>
-                  {Object.entries(categoryType).forEach(([categoryTitle, foodList]) => {
-                    console.log("-" + categoryTitle);
-                    <ListItem>
+                    setExpandedList([...expandedList.slice(0, i), !expandedList[i], ...expandedList.slice(i + 1, expandedList.length)]);
+                  }}
+                  isExpanded={expandedList[i]}>
+                  {meal.value.map((category, j) =>
+                    <ListItem key={j}>
                       <ListItem.Content>
                         <>
-                          <ListItem.Title>{categoryTitle}</ListItem.Title>
-                          {foodList.forEach(function (food) {
-                            console.log("--" + food);
-                            <ListItem.Subtitle>{food}</ListItem.Subtitle>
-                          })}
+                          <ListItem.Title>{category.key}</ListItem.Title>
+                          {category.value.map((food, k) =>
+                            <ListItem.Subtitle key={k}>{food}</ListItem.Subtitle>
+                          )}
                         </>
                       </ListItem.Content>
                     </ListItem>
-                  })}
+                  )}
                 </ListItem.Accordion>
-                console.log("------------");
-              })}
-            </>        
+              )}
+            </>
           </ScrollView>
         </View>
       </SafeAreaView>
@@ -201,25 +183,16 @@ export default function LottieMenu(props: CompProps) {
                 textDisabledColor: '#97BEE1'
               }}
               markedDates={{
-                today: { marked: true, dotColor: 'white' },
+                [today]: { marked: true, dotColor: 'white' }
               }}
-              // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
-              //minDate={'2022-08-10'}
-              // Maximum date that can be selected, dates after maxDate will be grayed out. Default = undefined
-              //maxDate={'2022-12-22'}
-              // Handler which gets executed on day press. Default = undefined
               onDayPress={(day) => console.log(day)}
-              // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday
               firstDay={0}
-              // Disable all touch events for disabled days. can be override with disableTouchEvent in markedDates
               disableAllTouchEventsForDisabledDays={false}
-              // Enable the option to swipe between months. Default = false
               enableSwipeMonths={true}
             />
           </CalendarProvider>
         </SafeAreaView>
       </LinearGradient>
-
     </>
   );
 }
@@ -229,22 +202,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#FBFBFB',
     flex: 1
   },
-  header: {
-    backgroundColor: '#1E293B',
-    minHeight: 60,
-    flexDirection: 'row'
-  },
   page: {
     backgroundColor: '#1E293B',
     flex: 1
-  },
-  header_content: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 10
-  },
-  header_icons: {
-    color: 'white'
   },
   subtitle: {
     color: '#1E293B'
@@ -254,11 +214,6 @@ const styles = StyleSheet.create({
     fontSize: 36,
     fontWeight: '600',
     padding: 30
-  },
-  header_image: {
-    width: 120,
-    height: 30,
-    resizeMode: 'cover'
   },
   button1: {
     backgroundColor: '#5EBD4E',
