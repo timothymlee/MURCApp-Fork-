@@ -2,6 +2,7 @@ import { StyleSheet, View, TouchableOpacity, Text, PanResponder, Animated, Dimen
 import React, { useEffect, useRef } from 'react';
 import { Icon } from "@rneui/themed";
 import { useNavigation } from '@react-navigation/native';
+import { title_light } from '../../data'
 
 let grayed = '#AAA'
 
@@ -239,7 +240,7 @@ let styles = StyleSheet.create({
     shadowRadius: 8,
   },
   buttonTextStyle: {
-    color: 'white',
+    color: title_light,
     minWidth: "25%",
     maxWidth: "100%",
     textAlign: "center",

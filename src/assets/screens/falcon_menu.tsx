@@ -4,7 +4,7 @@ import { Button, ListItem } from "@rneui/themed";
 import { LinearGradient } from 'expo-linear-gradient';
 import * as WebBrowser from 'expo-web-browser';
 import Header from "./Components/header";
-import { menu_list } from '../data';
+import { accent2, bg_alt, falcon_menu_list, accent3, bg_default, title_dark, title_light } from '../data';
 
 type CompProps = {
   // We are only using the navigate and goBack functions
@@ -39,7 +39,7 @@ export default function FalconMenu(props: CompProps) {
         </View>
         <ScrollView>
           <>
-            {menu_list.map((category, i) =>
+            {falcon_menu_list.map((category, i) =>
               <ListItem.Accordion
                 key={i}
                 content={
@@ -48,7 +48,7 @@ export default function FalconMenu(props: CompProps) {
                   </ListItem.Content>
                 }
                 linearGradientProps={{
-                  colors: ['#FBFBFB', '#F3F3F3']
+                  colors: [bg_default, bg_alt]
                 }}
                 ViewComponent={LinearGradient}
                 containerStyle={styles.list_header}
@@ -58,9 +58,12 @@ export default function FalconMenu(props: CompProps) {
                   setExpandedList([...expandedList.slice(0, i), !expandedList[i], ...expandedList.slice(i + 1, expandedList.length)]);
                 }}>
                 {category.items.map((item, j) => (
-                  <ListItem key={j}>
+                  <ListItem key={j} containerStyle={styles.list_item}>
                     <ListItem.Content>
-                      <ListItem.Title>{item.name}</ListItem.Title>
+                      <View style={{ flexDirection: 'row', flex: 1, width: "100%" }}>
+                        <ListItem.Title style={styles.item_text}>{item.name}</ListItem.Title>
+                        <ListItem.Title style={styles.price_text}>${item.price}</ListItem.Title>
+                      </View>
                     </ListItem.Content>
                   </ListItem>
                 ))}
@@ -84,24 +87,24 @@ export default function FalconMenu(props: CompProps) {
 
 const styles = StyleSheet.create({
   app_container: {
-    backgroundColor: '#FBFBFB',
+    backgroundColor: bg_default,
     flex: 1
   },
   page: {
-    backgroundColor: '#1E293B',
+    backgroundColor: accent3,
     flex: 1
   },
   subtitle: {
-    color: '#1E293B'
+    color: title_dark
   },
   title: {
-    color: '#1E293B',
+    color: title_dark,
     fontSize: 36,
     fontWeight: '600',
     padding: 30
   },
   button1: {
-    backgroundColor: '#5EBD4E',
+    backgroundColor: accent2,
     width: '85%',
     alignSelf: 'center',
     borderRadius: 30,
@@ -109,7 +112,7 @@ const styles = StyleSheet.create({
     marginBottom: 30
   },
   button2: {
-    backgroundColor: '#1E293B',
+    backgroundColor: accent3,
     width: '100%',
     borderRadius: 30,
     height: 50
@@ -128,17 +131,17 @@ const styles = StyleSheet.create({
   hours_heading: {
     fontSize: 22,
     fontWeight: '600',
-    color: 'white'
+    color: title_light
   },
   hours_subtitle: {
     fontSize: 18,
     fontWeight: '400',
-    color: '#EEE'
+    color: bg_alt
   },
   hours_times: {
     fontSize: 18,
     fontWeight: '500',
-    color: '#EEE'
+    color: bg_alt
   },
   hours_container: {
     marginHorizontal: 30,
@@ -146,6 +149,23 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     justifyContent: 'center',
     padding: 20,
-    backgroundColor: '#5EBD4E'
-  }
+    backgroundColor: accent2
+  },
+  item_text: {
+    fontSize: 13,
+    flex: 3,
+    marginLeft: 30,
+    fontWeight: '300',
+  },
+  price_text: {
+    fontSize: 13,
+    flex: 1,
+    marginRight: 30,
+    fontWeight: '300',
+  },
+  list_item: {
+    margin: 10,
+    padding: 0,
+    backgroundColor: null
+  },
 });

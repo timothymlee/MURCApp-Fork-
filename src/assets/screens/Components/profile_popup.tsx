@@ -4,6 +4,7 @@ import { Icon } from "@rneui/themed";
 import { Image } from "@rneui/base";
 import { selectAuth } from "../../../api/authSlice";
 import { useAppSelector } from '../../../app/hooks';
+import { icon_dark, bg_default, title_dark, title_mid } from '../../data';
 
 type CompProps = {
   // We are only using the navigate and goBack functions
@@ -36,41 +37,41 @@ export default function Profile_PopUp(props: CompProps) {
           </View>
           <View style={{ flex: 1, alignItems: 'flex-end' }}>
             <Pressable onPress={() => props.navigation.goBack()}>
-              <Icon name="close" size={44} color={'black'}></Icon>
+              <Icon name="close" size={44} color={title_dark}></Icon>
             </Pressable>
           </View>
         </View>
         <View style={{ flex: 1, minHeight: 16 }}>
-          <Text style={{ color: 'black', fontSize: 30 }}>{username}</Text>
+          <Text style={{ color: title_dark, fontSize: 30 }}>{username}</Text>
         </View>
         <View style={{ flex: 1.5, minHeight: 24 }}>
-          <Text style={{ color: 'gray', fontSize: 20 }}>{name}</Text>
+          <Text style={{ color: title_mid, fontSize: 20 }}>{name}</Text>
         </View>
 
         <View style={{ flex: 1, minHeight: 16, flexDirection: 'row' }}>
           <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
-            <Icon name="fast-food" type="ionicon" size={30} color={'black'}></Icon>
+            <Icon name="fast-food" type="ionicon" size={30} color={icon_dark}></Icon>
           </View>
           <Pressable style={{ flex: 6, justifyContent: 'center' }} onPress={() => { props.navigation.goBack(); props.navigation.navigate('Allergies') }}>
-            <Text style={{ color: 'black', fontSize: 16 }}>Dietary Preferences</Text>
+            <Text style={{ color: title_dark, fontSize: 16 }}>Dietary Preferences</Text>
           </Pressable>
         </View>
         <View style={{ flex: 1, minHeight: 16, flexDirection: 'row' }}>
           <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
-            <Icon name="image" size={30} color={'black'}></Icon>
+            <Icon name="image" size={30} color={icon_dark}></Icon>
           </View>
           <View style={{ flex: 6, justifyContent: 'center' }}>
-            <Text style={{ color: 'black', fontSize: 16 }}>Background Image</Text>
+            <Text style={{ color: title_dark, fontSize: 16 }}>Background Image</Text>
           </View>
         </View>
 
         <View style={{ flex: 10 }}></View>
         <Pressable style={styles.loginContainer} onPress={() => { props.navigation.goBack(); props.navigation.navigate(logoutURL)} }>
           <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
-            <Icon name={logoutIcon} type="feather" size={30} color={'black'}></Icon>
+            <Icon name={logoutIcon} type="feather" size={30} color={icon_dark}></Icon>
           </View>
           <View style={{ flex: 6, justifyContent: 'center' }}>
-            <Text style={{ color: 'black', fontSize: 20 }}>{logoutText}</Text>
+            <Text style={{ color: title_dark, fontSize: 20 }}>{logoutText}</Text>
           </View>
         </Pressable>
       </View>
@@ -80,7 +81,7 @@ export default function Profile_PopUp(props: CompProps) {
 
 const styles = StyleSheet.create({
   overlay: {
-    backgroundColor: 'white',
+    backgroundColor: bg_default,
     flex: 1,
     padding: 20,
     paddingTop: '30%',

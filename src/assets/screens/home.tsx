@@ -7,7 +7,7 @@ import Header from "./Components/header";
 import WidgetDisplay from "./Components/displayWidget";
 import { selectAuth } from "../../api/authSlice";
 import { useAppSelector } from '../../app/hooks';
-import { WidgetNames } from '../data';
+import { accent3, bg_alt, bg_default, title_light, title_mid, WidgetNames } from '../data';
 
 type CompProps = {
   // We are only using the navigate and goBack functions
@@ -22,7 +22,7 @@ export default function Home(props: CompProps) {
   let textString = readUserData('tl1261');
   const { name } = useAppSelector(selectAuth)
 
-  if (name == null) { isGuest = true }
+  //if (name == null) { isGuest = true }
 
   const [value, setValue] = useState("");
   const [results, setResults] = useState([])
@@ -80,15 +80,15 @@ export default function Home(props: CompProps) {
         <KeyboardAvoidingView style={styles.search_container} behavior="position">
           <SearchBar
             platform="ios"
-            containerStyle={{ backgroundColor: "#1E293B" }}
-            inputContainerStyle={{ backgroundColor: '#F3F3F3', }}
+            containerStyle={{ backgroundColor: accent3 }}
+            inputContainerStyle={{ backgroundColor: bg_default, }}
             inputStyle={{}}
             leftIconContainerStyle={{}}
             rightIconContainerStyle={{}}
             loadingProps={{}}
             onChangeText={updateSearch}
             placeholder="Search"
-            placeholderTextColor="#888"
+            placeholderTextColor={title_mid}
             value={value}
           />
         </KeyboardAvoidingView>
@@ -107,36 +107,19 @@ const styles = StyleSheet.create({
     resizeMode: 'cover'
   },
   search_container: {
-    backgroundColor: '#1E293B',
+    backgroundColor: accent3,
     minHeight: 70,
   },
   page: {
-    backgroundColor: '#1E293B',
+    backgroundColor: accent3,
     flex: 1,
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
-  },
-  profile_overlay: {
-    backgroundColor: 'white',
-    flex: 8,
-    padding: 20
-  },
-  overlay: {
-    width: '85%',
-    height: '100%',
-    position: 'absolute',
-    left: 0,
-    bottom: 0
   },
   button: {
     padding: 20
   },
-  profile_pic: {
-    borderRadius: 100,
-    width: 70,
-    height: 70
-  },
   searchText: {
-    color: 'white',
+    color: title_light,
     fontSize: 20,
     padding: 20
   },
