@@ -13,6 +13,20 @@
   export const darkBlue = '#1E293B'
   export const green = '#5EBD4E'
 
+  export const bg_default = "white"
+  export const bg_alt = '#EDEDED'
+  export const icon_light = "white"
+  export const icon_dark = '#1E293B'
+  export const accent1 = "#6EB3F2" // light blue
+  export const accent1_alt = '#4C8ECA' // slightly darker light blue
+  export const accent2 = '#5EBD4E' // green
+  export const accent3 = '#1E293B' // dark blue
+  export const accent4 = "#B8B8B8" // light gray
+  export const title_dark = '#1E293B' // dark blue
+  export const title_light = "white"
+  export const title_mid = "gray"
+
+
   // Widgets
   export const WidgetNames = [
     {key:'1', name: "Lottie Dining Hall", url: 'LottieMenu', icon: resourceImages[0], size: 6, color: darkBlue, guest: true },
@@ -29,56 +43,200 @@
     {key:'13', name: "Incident Report", url: 'Reporting', icon: resourceImages[4], size: 0, color: darkBlue, guest: true },
   ]
 
-  // Falcon Menu
-  const ice_cream_list = [
-    { name: 'ice cream' },
-    { name: 'ice cream' }
+  // Union Menu
+  const smash_burgers = [
+    { name: 'Bacon Burger', price: '7.75' },
+    { name: 'Bacon Cheeseburger', price: '8.25'  },
+    { name: 'Cheeseburger', price: '7.25'  },
+    { name: 'Hamburger', price: '6.75'  },
+    { name: 'Jr Bacon Burger', price: '5.75'  },
+    { name: 'Jr Bacon Cheeseburger', price: '6.25'  },
+    { name: 'Jr Cheeseburger', price: '5.25'  },
+    { name: 'Jr Hamburger', price: '4.75'  },
   ]
-  const sandwich_list = [
-    { name: 'ice cream' },
-    { name: 'ice cream' }
+  const gluten_free_sandwiches = [
+    { name: 'Bacon Beyond Meat Burger', price: '9.75' },
+    { name: 'Bacon Burger', price: '8.75' },
+    { name: 'Bacon Cheeseburger', price: '9.25'  },
+    { name: 'Bacon Grilled Chicken Sandwich', price: '8.00' },
+    { name: 'Beyond Meat Burger', price: '8.75' },
+    { name: 'Grilled Chicken', price: '7.00' },
+    { name: 'Hamburger', price: '7.75'  },
+    { name: 'Jr Bacon Burger', price: '6.75'  },
+    { name: 'Jr Bacon Cheeseburger', price: '7.25'  },
+    { name: 'Jr Cheeseburger', price: '6.25'  },
+    { name: 'Jr Hamburger', price: '5.75'  },
   ]
-  const burger_list = [
-    { name: 'ice cream' },
-    { name: 'ice cream' }
+  const veggie_burger = [
+    { name: 'Bacon Beyond Meat Burger', price: '9.00' },
+    { name: 'Bacon Black Bean Burger', price: '6.00' },
+    { name: 'Beyond Meat Burger', price: '7.75'  },
+    { name: 'Black Bean Burger', price: '5.00' },
   ]
-  const coffee_tea_list = [
-    { name: 'ice cream' },
-    { name: 'ice cream' }
+  const chicken_sandwiches = [
+    { name: 'Bacon Crispy Chicken Sandwich', price: '7.00' },
+    { name: 'Bacon Grilled Chicken Sandwich', price: '7.00' },
+    { name: 'Crispy Chicken Sandwich', price: '6.00' },
+    { name: 'Grilled Chicken Sandwich', price: '5.00' },
   ]
-  const pizza_list = [
-    { name: 'ice cream' },
-    { name: 'ice cream' }
+  const chicken_tenders = [
+    { name: '10 Count Chicken Nuggets', price: '5.00' },
+    { name: 'Chicken Tenders', price: '5.75' },
+    { name: 'Half Size Chicken Tenders', price: '4.00' },
   ]
-  const u_create_list = [
-    { name: 'ice cream' },
-    { name: 'ice cream' }
+  const calzone = [
+    { name: 'Calzone of the Week', price: '6.75' },
   ]
 
-  export const menu_list = [
-    { name: "Ice Cream", items: ice_cream_list },
-    { name: "Sandwiches", items: sandwich_list },
-    { name: "Burgers", items: burger_list },
-    { name: "Coffee & Tea", items: coffee_tea_list },
-    { name: "Pizza", items: pizza_list },
-    { name: "U-CREATE", items: u_create_list }
+  const flatbread_pizza = [
+    { name: 'Cheese', price: '5.00' },
+    { name: '1-2 Toppings', price: '6.00' },
+    { name: 'Specialty', price: '7.00' },
+    { name: 'Gluten Free', price: '7.00' },
   ]
 
-  // Union Menu Items
+  const pizza_slices = [
+    { name: 'Cheese', price: '2.25' },
+    { name: '1 Topping', price: '2.50' },
+    { name: '2 Toppings', price: '2.75' },
+    { name: 'Specialty', price: '3.00' },
+  ]
+
+  const grill_extras = [
+    { name: 'Bacon Cheese Hot Dog', price: '5.00' },
+    { name: 'Bacon Hot Dog', price: '4.50' },
+    { name: 'Cheese Hot Dog', price: '4.00' },
+    { name: 'Fries', price: '2.00' },
+    { name: 'Hot Dog', price: '3.50' },
+  ]
+
+  const whole_pizzas = [
+    { name: '1 Topping', price: '13.50' },
+    { name: '2 Toppings', price: '14.50' },
+    { name: 'BBQ Chicken', price: '15.00' },
+    { name: 'Buffalo', price: '15.00' },
+    { name: 'Cheese', price: '12.00' },
+    { name: 'Meat Lovers', price: '16.00' },
+    { name: 'Supreme', price: '16.00' },
+    { name: 'Vegan', price: '15.00' },
+    { name: 'Vegetarian White', price: '15.00' },
+  ]
+
+  const sandwiches = [
+    { name: 'CYO Sandwich', price: '7.50' },
+  ]
+
+  const mac_and_cheese = [
+    { name: 'Mac and Cheese', price: '3.50' },
+  ]
+
+  const late_night = [
+    { name: 'Mozzarella Sticks', price: '5.00' },
+  ]
+
+  const frozen_and_blended = [
+    { name: 'CYO Smoothie', price: '5.50' },
+    { name: 'Avalanche', price: '4.75' },
+    { name: 'Milkshake', price: '4.50' },
+    { name: 'Parfait', price: '5.00' },
+    { name: 'Playa Bowl', price: '7.75' },
+    { name: 'Ice Cream Cup', price: '3.75' },
+  ]
+
+  const u_create = [
+    { name: 'Burrito Bowl', price: '8.50' },
+    { name: 'Vegan Burrito Bowl', price: '8.50' },
+    { name: 'Protein Salad Bowl', price: '7.50' },
+    { name: 'Vegan Salad Bowl', price: '6.50' },
+  ]
+
+  const coffee_union = [
+    { name: 'Coffee', price: '2.00' },
+  ]
+
+  export const union_menu_list = [
+    { name: "Smash Burgers", items: smash_burgers },
+    { name: "Gluten Free Grill Sandwiches", items: gluten_free_sandwiches },
+    { name: "Veggie Burgers", items: veggie_burger },
+    { name: "Chicken Sandwiches", items: chicken_sandwiches },
+    { name: "Chicken Tenders", items: chicken_tenders },
+    { name: "Calzone", items: calzone },
+    { name: "Flatbread Pizza", items: flatbread_pizza },
+    { name: "Pizza Slices", items: pizza_slices },
+    { name: "Grill Extras", items: grill_extras },
+    { name: "Whole Pizzas", items: whole_pizzas },
+    { name: "Sandwiches", items: sandwiches },
+    { name: "Mac and Cheese", items: mac_and_cheese },
+    { name: "Late Night Food", items: late_night },
+    { name: "Frozen & Blended Treats", items: frozen_and_blended },
+    { name: "U-CREATE", items: u_create },
+    { name: "Coffee", items: coffee_union },
+  ]
+
+  // Falcon Menu Items
+
+  const grain_bowl = [
+    { name: 'CYO Bowl', price: '7.50' },
+    { name: 'Veggie Grain Bowl', price: '6.50' },
+  ]
+
+  const noodle_bowl = [
+    { name: 'CYO Bowl', price: '7.00' },
+  ]
+
+  const green_bowl = [
+    { name: 'CYO Bowl', price: '7.75' },
+    { name: 'Veggie Green Bowl', price: '6.75' },
+  ]
+
+  const grill = [
+    { name: 'Chicken Tenders', price: '5.75' },
+    { name: 'Half Size Chicken Tenders', price: '4.00' },
+    { name: 'Buffalo Chicken Tenders', price: '5.75' },
+    { name: 'Half Size Buffalo Tenders', price: '4.00' },
+    { name: 'French Fries', price: '2.00' },
+  ]
+
+  const flatbreads = [
+    { name: 'BBQ Chicken Flatbread', price: '7.50' },
+    { name: 'California Club Flatbread', price: '7.50' },
+    { name: 'CYO Flatbread', price: '7.50' },
+    { name: 'Smoked Turkey Flatbread', price: '7.50' },
+    { name: 'Caprese Flatbread', price: '7.50' },
+  ]
+
+  const breakfast = [
+    { name: 'Egg & Cheese Sandwich', price: '2.75' },
+    { name: 'Egg, Meat, & Cheese Sandwich', price: '3.75' },
+    { name: 'Two Fried Eggs', price: '2.25' },
+    { name: 'Two Fried Eggs with Bacon/Sausage', price: '3.00' },
+    { name: 'Hash Browns', price: '1.50' },
+  ]
+
+  const coffee_falcon = [
+    { name: 'Coffee', price: '2.00' },
+  ]
+
+  export const falcon_menu_list = [
+    { name: "Grain Bowl", items: grain_bowl },
+    { name: "Noodle Bowl", items: noodle_bowl },
+    { name: "Green Bowl", items: green_bowl },
+    { name: "Grill", items: grill },
+    { name: "Flatbreads", items: flatbreads },
+    { name: "Breakfast", items: breakfast },
+    { name: "Coffee", items: coffee_falcon },
+  ]
 
   // Falcon Fitness Center Hours
   export const general_gym_hours = [
-    { name: 'Monday: 6am - 11pm' },
-    { name: 'Tuesday: 6am - 11pm' },
-    { name: 'Wednesday: 6am - 11pm' },
-    { name: 'Thursday: 6am - 11pm' },
+    { name: 'Monday - Thursday: 6am - 11pm' },
     { name: 'Friday: 6am - 8pm' },
     { name: 'Saturday: 8am - 8pm' },
     { name: 'Sunday: 1pm - 11pm' }
   ]
 
   // Falcon Fitness Center Text
-  export const gym_info = "Access is free for Messiah University students, employees, spouses of employees, and depedents of employees between the ages of 16-18. You must bring your Messiah ID with you each time you access the fitness center. Passing an ID card or using an ID card other than your own may result in an up to two week suspension of fitness center access. To activate your card, follow this link to our waiver."
+  export const gym_info = "Access is free for Messiah University students, employees, spouses of employees, and depedents of employees between the ages of 16-18. You must bring your Messiah ID with you each time you access the fitness center. Passing an ID card or using an ID card other than your own may result in an up to two week suspension of fitness center access. To activate your card, tap this button."
 
   export const gym_info2 = "At Messiah University we have been blessed with an amazing fitness center. As a community, it is now our responsibility to keep this center, and equipment, in state of the art condition. Take a moment to familiarize yourself with the rules and policies of the Falcon Fitness Center. Exercising here is a privilege, not a right; failing to follow any of these rules may result in losing that privilege and further discipline by the University."
 

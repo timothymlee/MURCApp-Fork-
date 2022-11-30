@@ -22,7 +22,7 @@ Widgets are essentially just clever buttons that link to certain pages. In order
 
 ## Add, Remove, or Edit Location on Map
 
-# Adding a Location
+### Adding a Location
 
 In order to add a new location, navigate to src/assets/data.tsx. You should see a very large section near the bottom of the page with every location on the map. To add a new location, find the correct category for your new location, which will be one of the twelve categories. These include "Academics and Administrative", "Athletics and Recreation", "ATM Locations", and so on. 
 
@@ -34,9 +34,21 @@ Once you have identified your category, add a new line to the corresponding list
 
 The coords are the GPS coordinates of the location. To conveniently get the coordinates, open Google Maps in a browser, right click on the location, and click the first option, which should copy your current coordinates to your clipboard. From there, you can paste it as a string.
 
-# Removing / Editing a Location
+### Removing / Editing a Location
 
 Removing a location from the map is as simple as deleting the line it's on. Navigate to src/assets/data.tsx and scroll to the bottom, where you will see multiple lists containing every location on the map. To delete a location, simply find the line and delete it. To edit a location, find the line and change either its name or its GPS coordinates.
+
+## React Native Elements
+
+In this project, we have utilized many components from the React Native Elements library. The documentation for this can be found here. https://reactnativeelements.com/docs
+
+## Icons
+
+The icons used in this project are built from the Icon component found in the React Native Elements library (see above), and use icons from this massive library: https://oblador.github.io/react-native-vector-icons/
+
+## Navigation
+
+We are using React Native Stack Navigation for this project. The documentation can be found here. https://reactnavigation.org/docs/native-stack-navigator/
 
 ## Pulling from Backend
 ## Special Packages
