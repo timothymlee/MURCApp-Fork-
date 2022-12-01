@@ -2,9 +2,9 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import React, {useState} from 'react';
 import { Icon } from "@rneui/themed";
 import { Image } from "@rneui/base";
-import { selectAuth } from "../../../api/authSlice";
-import { useAppSelector } from '../../../app/hooks';
-import { icon_dark, bg_default, title_dark, title_mid } from '../../data';
+import { selectAuth } from "../../api/authSlice";
+import { useAppSelector } from '../../app/hooks';
+import { icon_dark, bg_default, title_dark, title_mid } from '../../assets/data';
 
 type CompProps = {
   // We are only using the navigate and goBack functions
@@ -33,7 +33,7 @@ export default function Profile_PopUp(props: CompProps) {
       <View style={styles.overlay}>
         <View style={{ flex: 2, minHeight: 40, flexDirection: 'row' }}>
           <View style={{ flex: 1, alignItems: 'flex-start' }}>
-            <Image source={require('../../images/default_pfp.png')} style={styles.profile_pic} />
+            <Image source={require('../../assets/images/default_pfp.png')} style={styles.profile_pic} />
           </View>
           <View style={{ flex: 1, alignItems: 'flex-end' }}>
             <Pressable onPress={() => props.navigation.goBack()}>

@@ -2,7 +2,7 @@ import { StyleSheet, View, TouchableOpacity, Text, PanResponder, Animated, Dimen
 import React, { useEffect, useRef } from 'react';
 import { Icon } from "@rneui/themed";
 import { useNavigation } from '@react-navigation/native';
-import { title_light } from '../../data'
+import { title_light } from '../../assets/data'
 
 let grayed = '#AAA'
 

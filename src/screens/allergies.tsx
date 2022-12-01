@@ -2,7 +2,7 @@ import { Pressable, StyleSheet, SafeAreaView, Text, View, ScrollView } from "rea
 import React from 'react';
 import { Icon, Button, CheckBox } from "@rneui/themed";
 import Header from "./Components/header"
-import { icon_dark, title_dark, bg_default, bg_alt, accent2, title_mid, accent3, title_light } from '../data'
+import { icon_dark, title_dark, bg_default, bg_alt, accent2, title_mid, accent3, title_light } from '../assets/data'
 
 type CompProps = {
   // We are only using the navigate and goBack functions

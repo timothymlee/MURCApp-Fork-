@@ -1,13 +1,13 @@
 import { ImageBackground, StyleSheet, SafeAreaView, Text, View, ScrollView, KeyboardAvoidingView, Platform, StatusBar, TouchableWithoutFeedback } from "react-native";
 import React, { useState } from 'react';
 import { SearchBar, Button } from "@rneui/themed";
-import { readUserData } from "../../firebaseCalls";
+import { readUserData } from "../firebaseCalls";
 import Widget from './Components/widget2';
 import Header from "./Components/header";
 import WidgetDisplay from "./Components/displayWidget";
-import { selectAuth } from "../../api/authSlice";
-import { useAppSelector } from '../../app/hooks';
-import { accent3, bg_alt, bg_default, title_light, title_mid, WidgetNames } from '../data';
+import { selectAuth } from "../api/authSlice";
+import { useAppSelector } from '../app/hooks';
+import { accent3, bg_alt, bg_default, title_light, title_mid, WidgetNames } from '../assets/data';
 
 type CompProps = {
   // We are only using the navigate and goBack functions
