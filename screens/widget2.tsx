@@ -49,7 +49,8 @@ function fillWidgetList() {
     }
     else{
       console.log("Widgets Full")
-      widgetList[i] = widgetList[i];
+      //widgetList[i] = widgetList[i];
+      //console.log(widgetList);
     }
     i++
     //console.log(i);
@@ -123,7 +124,6 @@ function ResourceButtons(widget, nav) {
       },
 
       onPanResponderRelease: (e, gestureState) => {
-        
         let i = 0;
         widgetList.map(function (thisWidget) {
           let x = gestureState.moveX;
@@ -136,16 +136,17 @@ function ResourceButtons(widget, nav) {
           //setWidgetY(widgetY = thisWidget.posY);
 
 
-          //console.log("WidX " + widgetX + " WidY " + widgetY);
-          //console.log("x "+ x+ " y " + y);
-          //console.log(widget.name);
-          //console.log(widget.id+ " cur wid");
-          //console.log(thisWidget.id+ " target wid");
+          console.log("WidX " + widgetX + " WidY " + widgetY);
+          console.log("x "+ x+ " y " + y);
+          console.log(widget.name);
+          console.log(widget.id+ " cur wid");
+          console.log(thisWidget.id+ " target wid");
 
           if (
             (x >= (widgetX - thisWidget.width / 2)) && (x <= (widgetX + thisWidget.width / 2))
             && (y >= (widgetY - thisWidget.height / 2)) && (y <= (widgetY + thisWidget.height / 2))
-            && thisWidget.name != widget.name
+            && thisWidget.id != widget.id
+            //alternatively use .name
           ) {
             
             console.log("SWITCH " + widget.name + " (" + widget.id + ") with " + thisWidget.name + " (" + thisWidget.id + ")")
@@ -198,6 +199,7 @@ function ResourceButtons(widget, nav) {
             console.log(widgetList);
             widgetList.sort((a, b) => a.id - b.id);
             console.log(widgetList);
+            setEditC(editC = true);
 
 
           }
@@ -210,9 +212,9 @@ function ResourceButtons(widget, nav) {
           }
           i++
         })
-
+        
         pan.flattenOffset();
-        setEditC(editC = true);
+        
         
         console.log("release");
         
@@ -226,6 +228,9 @@ function ResourceButtons(widget, nav) {
     //updates the render for the buttons
     if (editC == true) {
       setEditC(editC = false);
+      console.log("Rendered List: ")
+      console.log(widgetList)
+      
     }
   });
   return (
