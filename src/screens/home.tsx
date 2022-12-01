@@ -16,13 +16,12 @@ type CompProps = {
 const image = { uri: "https://pbs.twimg.com/media/FdxI4qIXwAE28_5?format=jpg&name=4096x4096" }
 
 let isGuest = false;
-//const { name } = useAppSelector(selectAuth)
 
 export default function Home(props: CompProps) {
   let textString = readUserData('tl1261');
   const { name } = useAppSelector(selectAuth)
 
-  //if (name == null) { isGuest = true }
+  if (name == null) { isGuest = true }
 
   const [value, setValue] = useState("");
   const [results, setResults] = useState([])
