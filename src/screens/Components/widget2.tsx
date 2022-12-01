@@ -99,7 +99,12 @@ function ResourceButtons(widget, nav) {
 
   const panResponder = useRef(
     PanResponder.create({
-      onMoveShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponder(e, gestureState){
+        if (gestureState.dx === 0 || gestureState.dy === 0) {
+          return false;
+        }
+        return true;
+      },
       onPanResponderGrant: () => {
         pan.setOffset({
           x: pan.x._value,
