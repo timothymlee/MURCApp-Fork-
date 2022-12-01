@@ -4,7 +4,7 @@ import { ListItem, Button } from "@rneui/themed";
 import { LinearGradient } from 'expo-linear-gradient';
 import * as WebBrowser from 'expo-web-browser';
 import Header from "./Components/header";
-import { general_gym_hours, gym_info, gym_info2, gym_rules, gym_dress_code, bg_default, bg_alt, accent3, title_light, accent2 } from '../data';
+import { general_gym_hours, gym_info, gym_info2, gym_rules, gym_dress_code, bg_default, bg_alt, accent3, title_light, accent2 } from '../assets/data';
 
 type CompProps = {
   // We are only using the navigate and goBack functions
@@ -26,7 +26,7 @@ export default function Gym(props: CompProps) {
         <View style={styles.app_container}>
           <View style={styles.banner}>
             <Image
-              source={require('../images/gymwall.jpg')}
+              source={require('../assets/images/gymwall.jpg')}
               style={styles.banner_image} />
             <Text style={styles.main_title}>Falcon Fitness Center</Text>
           </View>

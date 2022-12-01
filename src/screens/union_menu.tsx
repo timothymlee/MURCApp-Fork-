@@ -1,45 +1,68 @@
 import { StyleSheet, SafeAreaView, Text, View, ScrollView } from "react-native";
 import React, { useState } from 'react';
-import { Button, ListItem } from "@rneui/themed";
+import { Icon, Button, Overlay, ListItem } from "@rneui/themed";
 import { LinearGradient } from 'expo-linear-gradient';
 import * as WebBrowser from 'expo-web-browser';
 import Header from "./Components/header";
-import { accent2, bg_alt, falcon_menu_list, accent3, bg_default, title_dark, title_light } from '../data';
+import { accent2, accent3, bg_alt, bg_default, union_menu_list, title_dark, title_mid } from '../assets/data';
 
 type CompProps = {
   // We are only using the navigate and goBack functions
   navigation: { navigate: Function; };
 };
 
-export default function FalconMenu(props: CompProps) {
-
+export default function UnionMenu(props: CompProps) {
   // For linking to the Union site
   const [result, setResult] = useState(null);
 
   const _handlePressButtonAsync = async () => {
-    let result = await WebBrowser.openBrowserAsync('https://falcon.messiah.edu/menu/', {
+    let result = await WebBrowser.openBrowserAsync('https://union.messiah.edu/menu/', {
       enableBarCollapsing: true,
       toolbarColor: '#2a3e5e'
     });
     setResult(result);
   };
+
+  // For overlay
+  const [visible, setVisible] = useState(false);
+
   const [expandedList, setExpandedList] = useState([false]);
 
+  const toggleOverlay = () => {
+    setVisible(!visible);
+  };
+
   return (
-    <SafeAreaView style={styles.page}>
+    <>
+      <SafeAreaView style={styles.page}>
 
-      <Header props={props} />
+        <Header props={props} />
 
-      <View style={styles.app_container}>
-        <Text style={styles.title}>Falcon Menu</Text>
-        <View style={styles.hours_container}>
-          <Text style={styles.hours_heading}>Hours of Operation</Text>
-          <Text style={styles.hours_subtitle}>Monday - Friday</Text>
-          <Text style={styles.hours_times}>7:30 - 3:30</Text>
-        </View>
-        <ScrollView>
-          <>
-            {falcon_menu_list.map((category, i) =>
+        <Overlay
+          isVisible={visible}
+          onBackdropPress={toggleOverlay}
+          overlayStyle={styles.overlay_container}>
+          <Text style={styles.overlay_heading}>Monday - Friday</Text>
+          <View>
+            <Text style={styles.overlay_times}>7:30 am - 11:00 pm</Text>
+          </View>
+          <Text style={styles.overlay_heading}>Saturday - Sunday</Text>
+          <View>
+            <Text style={styles.overlay_times}>11:00 am - 11:00 pm</Text>
+          </View>
+
+        </Overlay>
+
+        <View style={styles.app_container}>
+          <Text style={styles.title}>Union Cafe Menu</Text>
+          <Button
+            title="Hours of Operation"
+            buttonStyle={styles.button1}
+            titleStyle={{ fontSize: 18 }}
+            onPress={toggleOverlay}
+          />
+          <ScrollView>
+            {union_menu_list.map((category, i) =>
               <ListItem.Accordion
                 key={i}
                 content={
@@ -60,7 +83,7 @@ export default function FalconMenu(props: CompProps) {
                 {category.items.map((item, j) => (
                   <ListItem key={j} containerStyle={styles.list_item}>
                     <ListItem.Content>
-                      <View style={{ flexDirection: 'row', flex: 1, width: "100%" }}>
+                      <View style={{flexDirection: 'row', flex: 1, width: "100%"}}>
                         <ListItem.Title style={styles.item_text}>{item.name}</ListItem.Title>
                         <ListItem.Title style={styles.price_text}>${item.price}</ListItem.Title>
                       </View>
@@ -70,18 +93,19 @@ export default function FalconMenu(props: CompProps) {
               </ListItem.Accordion>
             )}
             <View style={{ height: 100 }}></View>
-          </>
-        </ScrollView>
-        <Button
-          title="Order Now"
-          buttonStyle={styles.button2}
-          containerStyle={styles.button2_container}
-          titleStyle={{ fontSize: 18 }}
-          onPress={_handlePressButtonAsync}
-        />
-      </View>
 
-    </SafeAreaView>
+          </ScrollView>
+          <Button
+            title="Order Now"
+            buttonStyle={styles.button2}
+            containerStyle={styles.button2_container}
+            titleStyle={{ fontSize: 18 }}
+            onPress={_handlePressButtonAsync}
+          />
+        </View>
+
+      </SafeAreaView>
+    </>
   );
 }
 
@@ -93,9 +117,6 @@ const styles = StyleSheet.create({
   page: {
     backgroundColor: accent3,
     flex: 1
-  },
-  subtitle: {
-    color: title_dark
   },
   title: {
     color: title_dark,
@@ -128,28 +149,25 @@ const styles = StyleSheet.create({
     height: 70,
     justifyContent: 'center'
   },
-  hours_heading: {
+  overlay_container: {
+    width: 300,
+    borderRadius: 20,
+    backgroundColor: bg_default,
+    paddingHorizontal: 50,
+    paddingVertical: 20,
+    justifyContent: 'center'
+  },
+  overlay_heading: {
     fontSize: 22,
     fontWeight: '600',
-    color: title_light
+    color: title_mid,
+    paddingVertical: 10
   },
-  hours_subtitle: {
-    fontSize: 18,
-    fontWeight: '400',
-    color: bg_alt
-  },
-  hours_times: {
+  overlay_times: {
+    alignSelf: 'center',
     fontSize: 18,
     fontWeight: '500',
-    color: bg_alt
-  },
-  hours_container: {
-    marginHorizontal: 30,
-    marginBottom: 20,
-    borderRadius: 20,
-    justifyContent: 'center',
-    padding: 20,
-    backgroundColor: accent2
+    color: title_mid
   },
   item_text: {
     fontSize: 13,

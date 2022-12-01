@@ -1,16 +1,15 @@
 import { StyleSheet, SafeAreaView, Text, View, ScrollView } from "react-native";
 import React from 'react';
 import { ListItem } from "@rneui/themed";
-import { Range, Account } from '../../js componets/dropdownRange';
+import { Range, Account } from '../js componets/dropdownRange';
 import Header from "./Components/header";
-import { accent3, bg_default, title_dark, title_light } from '../data'
 
 type CompProps = {
   // We are only using the navigate and goBack functions
   navigation: { navigate: Function; };
 };
 
-export default function DiningDollars(props: CompProps) {
+export default function IadfvnbdBalance(props: CompProps) {
   var balance = '$' + '478.23';
 
   const history_range = [
@@ -57,10 +56,10 @@ export default function DiningDollars(props: CompProps) {
         <View style={styles.app_container}>
 
           <View>
-            <Text style={styles.title}>Dining Dollars</Text>
+            <Text style={styles.title}>ID Card Balance</Text>
           </View>
 
-          <View>
+          <View >
             <View>
               {title.map((l, i) => (
                 <ListItem key={i}>
@@ -112,11 +111,11 @@ export default function DiningDollars(props: CompProps) {
 
 const styles = StyleSheet.create({
   app_container: {
-    backgroundColor: bg_default,
+    backgroundColor: '#FBFBFB',
     flex: 1
   },
   page: {
-    backgroundColor: accent3,
+    backgroundColor: '#1E293B',
     flex: 1
   },
   scroll: {
@@ -147,17 +146,17 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   subtitle: {
-    color: title_dark
+    color: '#1E293B'
   },
   title: {
-    color: title_dark,
+    color: '#1E293B',
     fontSize: 20,
     fontWeight: '700',
     padding: 10,
     marginTop: 10
   },
   main_title: {
-    color: title_light,
+    color: 'white',
     fontSize: 26,
     fontWeight: '700',
     padding: 20,
@@ -166,7 +165,7 @@ const styles = StyleSheet.create({
     paddingTop: 0
   },
   main_title2: {
-    color: title_light,
+    color: 'white',
     fontSize: 12,
     fontWeight: '600',
     paddingBottom: 0,

@@ -2,7 +2,7 @@ import { Pressable, StyleSheet, View, Platform, StatusBar } from "react-native";
 import React from 'react';
 import { Icon } from "@rneui/themed";
 import { Image } from "@rneui/base";
-import { accent3, icon_light } from '../../data';
+import { accent3, icon_light } from '../../assets/data';
 
 export default function Header(props) {
     return (
@@ -13,7 +13,7 @@ export default function Header(props) {
                 </Pressable>
             </View>
             <View style={[styles.header_content, { alignItems: 'center' }]}>
-                <Image source={require('../../images/messiah_logo.png')} style={styles.header_image} />
+                <Image source={require('../../assets/images/messiah_logo.png')} style={styles.header_image} />
             </View>
             <View style={[styles.header_content, { alignItems: 'flex-end' }]}>
                 <Pressable onPress={() => props.props.navigation.navigate('Home')}>

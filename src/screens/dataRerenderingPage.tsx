@@ -4,7 +4,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Button, Icon, CheckBox } from "@rneui/themed";
 import AnimatedInput from "react-native-animated-input";
 import { color, renderNode } from "@rneui/base";
-import {readEventData} from '../../firebaseCalls';
+import {readEventData} from '../firebaseCalls';
 import { CalendarProvider, WeekCalendar } from 'react-native-calendars';
 
 
@@ -80,7 +80,7 @@ function time(data){
 export default function TestPage(props: CompProps) {
         //This created the page state which by defualt is set to show a loading gif 
         //until the page state is changed.
-        const [page, setPage] = useState(<View style={{borderColor:'black' ,width:'100%',height:'100%', justifyContent:"center",backgroundColor:"#ffffff", alignItems:"center"}}><Image source={require('../images/loading.gif')}/></View>);
+        const [page, setPage] = useState(<View style={{borderColor:'black' ,width:'100%',height:'100%', justifyContent:"center",backgroundColor:"#ffffff", alignItems:"center"}}><Image source={require('../assets/images/loading.gif')}/></View>);
 
         //This will be used to get the data and after the data is collected the page 
         //state will chage to show the events page.
@@ -162,7 +162,7 @@ export default function TestPage(props: CompProps) {
             </Pressable>
             </View>
             <View style={[styles.header_content, { alignItems: 'center' }]}>
-            <Image source={require('../images/messiah_logo.png')} style={styles.header_image}/>
+            <Image source={require('../assets/images/messiah_logo.png')} style={styles.header_image}/>
             </View>
             <View style={[styles.header_content, { alignItems: 'flex-end' }]}>
             <Pressable onPress={() => props.navigation.navigate('Home')}>
@@ -210,7 +210,7 @@ export default function TestPage(props: CompProps) {
               }}
               onDayPress={(day) => {selectedDate = day.year + '-' + day.month + '-' + day.day; 
               todaysEvent = null;
-              setPage(<View style={{borderColor:'black' ,width:'100%',height:'100%', justifyContent:"center",backgroundColor:"#ffffff", alignItems:"center"}}><Image source={require('../images/loading.gif')}/></View>);
+              setPage(<View style={{borderColor:'black' ,width:'100%',height:'100%', justifyContent:"center",backgroundColor:"#ffffff", alignItems:"center"}}><Image source={require('../assets/images/loading.gif')}/></View>);
               genEventsData();}}
               firstDay={0}
               disableAllTouchEventsForDisabledDays={false}
