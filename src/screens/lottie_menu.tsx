@@ -4,6 +4,7 @@ import { Button, Overlay, ListItem } from "@rneui/themed";
 import { LinearGradient } from 'expo-linear-gradient';
 import Header from "./Components/header";
 import { CalendarProvider, WeekCalendar } from 'react-native-calendars';
+import { accent1, accent1_alt, accent2, accent3, accent4, bg_alt, bg_default, title_dark, title_light, title_mid } from '../assets/data'
 
 type CompProps = {
   // We are only using the navigate and goBack functions
@@ -130,7 +131,7 @@ export default function LottieMenu(props: CompProps) {
                     </ListItem.Content>
                   }
                   linearGradientProps={{
-                    colors: ['#FBFBFB', '#F3F3F3']
+                    colors: [bg_default, bg_alt]
                   }}
                   ViewComponent={LinearGradient}
                   containerStyle={styles.list_header}
@@ -158,7 +159,7 @@ export default function LottieMenu(props: CompProps) {
         </View>
       </SafeAreaView>
       <LinearGradient
-        colors={['#5DAEF8', '#4D8FCC']}
+        colors={[accent1, accent1_alt]}
         style={styles.calendarBackground}>
         <SafeAreaView
           style={{ flex: 1, backgroundColor: null }}>
@@ -174,16 +175,16 @@ export default function LottieMenu(props: CompProps) {
               theme={{
                 calendarBackground: null,
                 todayBackgroundColor: null,
-                textSectionTitleColor: '#ffffff',
-                selectedDayBackgroundColor: '#1E293B',
-                selectedDayTextColor: '#ffffff',
-                todayTextColor: '#ffffff',
-                todayDotColor: '#ffffff',
-                dayTextColor: '#ffffff',
+                textSectionTitleColor: title_light,
+                selectedDayBackgroundColor: accent3,
+                selectedDayTextColor: title_light,
+                todayTextColor: title_light,
+                todayDotColor: title_light,
+                dayTextColor: title_light,
                 textDisabledColor: '#97BEE1'
               }}
               markedDates={{
-                [today]: { marked: true, dotColor: 'white' }
+                [today]: { marked: true, dotColor: title_light }
               }}
               onDayPress={(day) => console.log(day)}
               firstDay={0}
@@ -199,42 +200,26 @@ export default function LottieMenu(props: CompProps) {
 
 const styles = StyleSheet.create({
   app_container: {
-    backgroundColor: '#FBFBFB',
+    backgroundColor: bg_default,
     flex: 1
   },
   page: {
-    backgroundColor: '#1E293B',
+    backgroundColor: accent3,
     flex: 1
   },
-  subtitle: {
-    color: '#1E293B'
-  },
   title: {
-    color: '#1E293B',
+    color: title_dark,
     fontSize: 36,
     fontWeight: '600',
     padding: 30
   },
   button1: {
-    backgroundColor: '#5EBD4E',
+    backgroundColor: accent2,
     width: '85%',
     alignSelf: 'center',
     borderRadius: 30,
     height: 50,
     marginBottom: 30
-  },
-  button2: {
-    backgroundColor: '#1E293B',
-    width: '100%',
-    borderRadius: 30,
-    height: 50
-  },
-  button2_container: {
-    bottom: 0,
-    position: 'absolute',
-    marginBottom: 30,
-    width: '85%',
-    alignSelf: 'center'
   },
   list_header: {
     height: 70,
@@ -243,7 +228,7 @@ const styles = StyleSheet.create({
   overlay_container: {
     width: 300,
     borderRadius: 20,
-    backgroundColor: 'white',
+    backgroundColor: bg_default,
     paddingHorizontal: 50,
     paddingVertical: 20,
     justifyContent: 'center'
@@ -251,18 +236,18 @@ const styles = StyleSheet.create({
   overlay_heading: {
     fontSize: 22,
     fontWeight: '600',
-    color: '#6D6868',
+    color: title_mid,
     paddingVertical: 10
   },
   overlay_subtitle: {
     fontSize: 18,
     fontWeight: '300',
-    color: '#968C8C'
+    color: title_mid
   },
   overlay_times: {
     fontSize: 18,
     fontWeight: '500',
-    color: '#968C8C'
+    color: title_mid
   },
   calendarBackground: {
     flex: 0.15,

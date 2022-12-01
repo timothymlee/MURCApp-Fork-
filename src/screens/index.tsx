@@ -43,15 +43,15 @@ let resources = {
   resourceDestinations: ['UnionMenu', 'LottieMenu', 'Chapel', 'FalconMenu', 'Gym', "DiningDollars",
     "FalconDollars", "Map", "Login"],
   resourceImages: [
-    require("../images/food.png"),
-    require("../images/food.png"),
-    require("../images/dollar.png"),
-    require("../images/calander.png"),
-    require("../images/book.png"),
-    require("../images/dollar.png"),
-    require("../images/dollar.png"),
-    require("../images/book.png"),
-    require("../images/target.png")
+    require("../assets/images/food.png"),
+    require("../assets/images/food.png"),
+    require("../assets/images/dollar.png"),
+    require("../assets/images/calander.png"),
+    require("../assets/images/book.png"),
+    require("../assets/images/dollar.png"),
+    require("../assets/images/dollar.png"),
+    require("../assets/images/book.png"),
+    require("../assets/images/target.png")
   ],
   style: [0, 6, 4, 0, 0, 1, 1, 0, 0],
   editing: false,
@@ -304,7 +304,7 @@ function ResourceButtons(name, destination, position, navi, style) {
           <Image source={resources.resourceImages[position]} />
           <Text style={styles.buttonTextStyle}>{name}</Text>
         </TouchableOpacity>
-      </View>
+        </View>
 
     </Animated.View>
   )

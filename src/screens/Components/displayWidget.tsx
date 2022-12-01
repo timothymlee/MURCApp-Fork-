@@ -33,6 +33,7 @@ export default function WidgetDisplay(props) {
 
     let isGuest = true;
 
+    
     return (
         <View style={styles.resourceButtons}>
             <View style={{ width: s + 2 * m, height: s + 2.4 * m }}>
@@ -43,7 +44,8 @@ export default function WidgetDisplay(props) {
                         {
                             width: s, height: s, backgroundColor: (!guest && isGuest) ? grayed : color,
                             opacity: (!guest && isGuest) ? 0.5 : 1
-                        }]}>
+                        }]}
+                        >
                     <Icon style={styles.widgetIcon} name={icon} size={30} type="ionicon" color={'white'}></Icon>
                 </TouchableOpacity>
                 <Text style={styles.buttonTextStyle}>{name}</Text>

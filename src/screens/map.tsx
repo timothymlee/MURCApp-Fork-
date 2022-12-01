@@ -4,7 +4,7 @@ import { Icon, SearchBar, Button, Overlay } from "@rneui/themed";
 import { CheckBox } from "@rneui/base";
 import MapView, { Marker } from 'react-native-maps';
 import Header from "./Components/header";
-import { AllLocations } from '../data';
+import { accent1, accent2, accent3, AllLocations, bg_default, icon_dark, icon_light, title_dark, title_light, title_mid } from '../assets/data';
 
 type CompProps = {
   // We are only using the navigate and goBack functions
@@ -61,10 +61,10 @@ export default function Map(props: CompProps) {
     if (selected != "") {
       return (
         <View style={styles.selectedHeader}>
-          <Icon style={styles.selectedIcon} name={selectedIcon} size={22} type={'material-community'} color={'white'}></Icon>
+          <Icon style={styles.selectedIcon} name={selectedIcon} size={22} type={'material-community'} color={icon_light}></Icon>
           <Text style={styles.selectedTitle}>{selected}</Text>
           <Pressable style={styles.closeHeaderContainer} onPress={() => { setSelected("") }}>
-            <Icon name="close" size={44} color={'white'}></Icon>
+            <Icon name="close" size={44} color={icon_light}></Icon>
           </Pressable>
         </View>
       )
@@ -76,7 +76,7 @@ export default function Map(props: CompProps) {
       <CheckBox
         checked={categoriesActive[num]}
         title={name}
-        checkedColor="#0F0"
+        checkedColor={accent2}
         containerStyle={styles.checkboxBoxContainer}
         onIconPress={() => {
           let tempActive = categoriesActive;
@@ -85,7 +85,7 @@ export default function Map(props: CompProps) {
           setMarkers();
         }}
         size={32}
-        uncheckedColor="#838383"
+        uncheckedColor={title_mid}
       />
     )
   }
@@ -173,7 +173,7 @@ export default function Map(props: CompProps) {
                       <View
                         style={pin[3] ? styles.markerContainerSelected : styles.markerContainer}
                       >
-                        <Icon name={pin[2]} size={pin[3] ? 18 : 12} type={'material-community'} color={'white'}></Icon>
+                        <Icon name={pin[2]} size={pin[3] ? 18 : 12} type={'material-community'} color={icon_light}></Icon>
                       </View>
                     </Marker>
                   )
@@ -185,7 +185,7 @@ export default function Map(props: CompProps) {
               titleStyle={{ fontSize: 18 }}
               onPress={toggleOverlay}
             >
-              <Icon name="pin-drop" size={32} type={'material-icons'} color={'white'}></Icon>
+              <Icon name="pin-drop" size={32} type={'material-icons'} color={icon_light}></Icon>
             </Button>
           </View>
         </>
@@ -198,7 +198,7 @@ export default function Map(props: CompProps) {
           <Text style={styles.searchText}>Searching For "{value}"</Text>
           <ScrollView style={styles.searchResultContainer}>
             {results.map((result, i) =>
-              <Button key={i} style={styles.button} onPress={() => {
+              <Button key={i} buttonStyle={styles.button} onPress={() => {
                 setSelected(result[0].name);
                 setIcon(result[1]);
                 let coordinates = result[0].coords.split(", ");
@@ -230,9 +230,9 @@ export default function Map(props: CompProps) {
           overlayStyle={styles.overlayContainer}
         >
           <View style={styles.overlayHeaderContainer}>
-            <Icon name="pin-drop" style={styles.overlayTitleIcon} size={28} type={'material-icons'} color={'black'}></Icon>
+            <Icon name="pin-drop" style={styles.overlayTitleIcon} size={28} type={'material-icons'} color={icon_dark}></Icon>
             <Text style={styles.overlayTitle}>Enabled Icons</Text>
-            <Icon style={styles.closeOverlayIcon} onPress={toggleOverlay} name="close" size={34} color={'black'}></Icon>
+            <Icon style={styles.closeOverlayIcon} onPress={toggleOverlay} name="close" size={34} color={icon_dark}></Icon>
           </View>
 
           <ScrollView>
@@ -258,11 +258,11 @@ export default function Map(props: CompProps) {
         <KeyboardAvoidingView style={styles.search_container} behavior="position">
           <SearchBar
             platform="ios"
-            containerStyle={{ backgroundColor: "#1E293B" }}
-            inputContainerStyle={{ backgroundColor: '#F3F3F3', }}
+            containerStyle={{ backgroundColor: accent3 }}
+            inputContainerStyle={{ backgroundColor: bg_default, }}
             onChangeText={updateSearch}
             placeholder="Search in Maps"
-            placeholderTextColor="#888"
+            placeholderTextColor={title_mid}
             value={value}
           />
         </KeyboardAvoidingView>
@@ -274,19 +274,19 @@ export default function Map(props: CompProps) {
 const styles = StyleSheet.create({
   app_container: {
     flex: 1,
-    backgroundColor: '#FBFBFB'
+    backgroundColor: bg_default
   },
   page: {
-    backgroundColor: '#1E293B',
+    backgroundColor: accent3,
     flex: 1,
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
   },
   search_container: {
-    backgroundColor: '#1E293B',
+    backgroundColor: accent3,
     minHeight: 70,
   },
   searchText: {
-    color: 'black',
+    color: title_dark,
     fontSize: 20,
     padding: 20
   },
@@ -294,11 +294,12 @@ const styles = StyleSheet.create({
     flex: 1
   },
   button: {
-    paddingHorizontal: 20,
-    paddingVertical: 5
+    marginHorizontal: 20,
+    marginVertical: 5,
+    backgroundColor: accent1
   },
   selectedHeader: {
-    backgroundColor: '#54A6F2',
+    backgroundColor: accent1,
     height: 80,
     alignItems: 'center',
     flexDirection: 'row'
@@ -307,7 +308,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     paddingLeft: 14,
     flex: 2,
-    color: 'white',
+    color: title_light,
     fontWeight: '600'
   },
   closeHeaderContainer: {
@@ -325,7 +326,7 @@ const styles = StyleSheet.create({
     height: 24,
     width: 24,
     borderRadius: 20,
-    backgroundColor: '#1E293B',
+    backgroundColor: accent3,
     justifyContent: 'center',
     alignItems: 'center',
     alignContent: 'center'
@@ -334,13 +335,13 @@ const styles = StyleSheet.create({
     height: 34,
     width: 34,
     borderRadius: 20,
-    backgroundColor: '#1E293B',
+    backgroundColor: accent3,
     justifyContent: 'center',
     alignItems: 'center',
     alignContent: 'center'
   },
   pinModalButton: {
-    backgroundColor: '#54A6F2',
+    backgroundColor: accent1,
     height: 60,
     width: 60,
     margin: 16,
@@ -374,7 +375,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderBottomWidth: 1,
     paddingBottom: 5,
-    borderColor: 'gray'
+    borderColor: title_mid
   },
   overlayTitleIcon: {
     marginHorizontal: 8

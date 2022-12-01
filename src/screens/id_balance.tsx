@@ -1,7 +1,7 @@
 import { StyleSheet, SafeAreaView, Text, View, ScrollView } from "react-native";
 import React from 'react';
 import { ListItem } from "@rneui/themed";
-import { Range, Account } from '../../js componets/dropdownRange';
+import { Range, Account } from '../js componets/dropdownRange';
 import Header from "./Components/header";
 
 type CompProps = {

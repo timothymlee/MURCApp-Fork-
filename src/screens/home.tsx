@@ -1,13 +1,13 @@
 import { ImageBackground, StyleSheet, SafeAreaView, Text, View, ScrollView, KeyboardAvoidingView, Platform, StatusBar, TouchableWithoutFeedback } from "react-native";
 import React, { useState } from 'react';
 import { SearchBar, Button } from "@rneui/themed";
-import { readUserData } from "../../firebaseCalls";
+import { readUserData } from "../firebaseCalls";
 import Widget from './Components/widget2';
 import Header from "./Components/header";
 import WidgetDisplay from "./Components/displayWidget";
-import { selectAuth } from "../../api/authSlice";
-import { useAppSelector } from '../../app/hooks';
-import { WidgetNames } from '../data';
+import { selectAuth } from "../api/authSlice";
+import { useAppSelector } from '../app/hooks';
+import { accent3, bg_alt, bg_default, title_light, title_mid, WidgetNames } from '../assets/data';
 
 type CompProps = {
   // We are only using the navigate and goBack functions
@@ -16,7 +16,6 @@ type CompProps = {
 //const image = { uri: "https://pbs.twimg.com/media/FdxI4qIXwAE28_5?format=jpg&name=4096x4096" }
 
 let isGuest = false;
-//const { name } = useAppSelector(selectAuth)
 
 export default function Home(props: CompProps) {
   let textString = readUserData('tl1261');
@@ -26,6 +25,7 @@ export default function Home(props: CompProps) {
 
   const [value, setValue] = useState("");
   const [results, setResults] = useState([])
+  const [scrolling, setScrolling] = useState(true);
 
   const updateSearch = (value) => {
     setValue(value);
@@ -38,9 +38,15 @@ export default function Home(props: CompProps) {
     });
     setResults(storedResults);
   };
-
+  //scroll disabled is needed for drag and drop to work on ios.
+  //I need to add something in index that
+  //handleWidgetMove should hopefully disabel / enable scroll view for
+  //ios devices to work.
   const handleSearchChange = () => {
     if (value == "") {
+      const handleWidgetMove = scroll => {
+        setScrolling(scrolling => scroll)
+      }
       return (
         <>
           <View style={styles.app_container}>
@@ -80,15 +86,15 @@ export default function Home(props: CompProps) {
         <KeyboardAvoidingView style={styles.search_container} behavior="position">
           <SearchBar
             platform="ios"
-            containerStyle={{ backgroundColor: "#1E293B" }}
-            inputContainerStyle={{ backgroundColor: '#F3F3F3', }}
+            containerStyle={{ backgroundColor: accent3 }}
+            inputContainerStyle={{ backgroundColor: bg_default, }}
             inputStyle={{}}
             leftIconContainerStyle={{}}
             rightIconContainerStyle={{}}
             loadingProps={{}}
             onChangeText={updateSearch}
             placeholder="Search"
-            placeholderTextColor="#888"
+            placeholderTextColor={title_mid}
             value={value}
           />
         </KeyboardAvoidingView>
@@ -107,36 +113,19 @@ const styles = StyleSheet.create({
     resizeMode: 'cover'
   },
   search_container: {
-    backgroundColor: '#1E293B',
+    backgroundColor: accent3,
     minHeight: 70,
   },
   page: {
-    backgroundColor: '#1E293B',
+    backgroundColor: accent3,
     flex: 1,
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
-  },
-  profile_overlay: {
-    backgroundColor: 'white',
-    flex: 8,
-    padding: 20
-  },
-  overlay: {
-    width: '85%',
-    height: '100%',
-    position: 'absolute',
-    left: 0,
-    bottom: 0
   },
   button: {
     padding: 20
   },
-  profile_pic: {
-    borderRadius: 100,
-    width: 70,
-    height: 70
-  },
   searchText: {
-    color: 'white',
+    color: title_light,
     fontSize: 20,
     padding: 20
   },

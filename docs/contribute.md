@@ -57,12 +57,12 @@ To add a new widget to the home screen, you first need to create a new page foll
 { name: "Widget Name", url: 'NewWidgetName', icon: resourceImages[0], size: 6, color: darkBlue, guest: true },
 ```
 
-- *name* The display name of your new widget, in quotes
-- *url* The navigation object that is created in App.js. The navigation.navigate() function will be called on this in the code.
-- *icon* Uses an index from resourceImages, which contains the names of the icons. This list is in src/assets/data.tsx. If you need to add a new image, add it to the resourceImages list. Only takes icons from the "ionicon" library.
-- *size* The size of the widget in the grid. Size 0 is 1x1, 1 is 1x2, 2 is 1x3, 3 is 1x4, 4 is 2x2, 5 is 2x3, 6 is 2x4.
-- *color* Can be a hard-coded hex value with the "#FFFFFF" format or a color which refers to the colors in src/assets/data.tsx.
-- *guest* A boolean value that says whether a guest can have access to this widget or not. If it is true, a guest (a user who is not signed in) will be able to click on the widget. If it is false, it will be grayed out and guests cannot access it.
+- **name**: The display name of your new widget, in quotes
+- **url**: The navigation object that is created in App.js. The navigation.navigate() function will be called on this in the code.
+- **icon**: Uses an index from resourceImages, which contains the names of the icons. This list is in src/assets/data.tsx. If you need to add a new icon, add it to the resourceImages list. Only takes icons from the "ionicon" library.
+- **size**: The size of the widget in the grid. Size 0 is 1x1, 1 is 1x2, 2 is 1x3, 3 is 1x4, 4 is 2x2, 5 is 2x3, 6 is 2x4.
+- **color**: Can be a hard-coded hex value with the "#FFFFFF" format or a color which refers to the colors in src/assets/data.tsx.
+- **guest**: A boolean value that says whether a guest can have access to this widget or not. If it is true, a guest (a user who is not signed in) will be able to click on the widget. If it is false, it will be grayed out and guests cannot access it.
 
 # For the Back 
 ## Scrapping a new page

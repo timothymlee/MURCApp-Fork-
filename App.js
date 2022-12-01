@@ -11,29 +11,24 @@ import { useAppDispatch } from './src/app/hooks';
 
 
 // Import screens to use for navigation
-import Home from './src/assets/screens/home';
-import Index from './src/assets/screens/index';
-import Chapel from './src/assets/screens/chapel';
-import Settings from './src/assets/screens/Components/profile_popup';
-import UnionMenu from './src/assets/screens/union_menu';
-import FalconMenu from './src/assets/screens/falcon_menu';
-import Login from './src/assets/screens/login';
-import Gym from './src/assets/screens/gym';
-import DiningDollars from './src/assets/screens/dining_dollars';
-import FalconDollars from './src/assets/screens/falcon_dollars';
-import LottieMenu from './src/assets/screens/lottie_menu';
-import Library from './src/assets/screens/library';
-import TestPage from './src/assets/screens/dataRerenderingPage';
-import Events from './src/assets/screens/events';
-import Reporting from './src/assets/screens/reporting';
-import Allergies from './src/assets/screens/allergies';
-import Map from './src/assets/screens/map';
+import Home from './src/screens/home';
+import Index from './src/screens/index';
+import Chapel from './src/screens/chapel';
+import Settings from './src/screens/Components/profile_popup';
+import UnionMenu from './src/screens/union_menu';
+import FalconMenu from './src/screens/falcon_menu';
+import Login from './src/screens/login';
+import Gym from './src/screens/gym';
+import DiningDollars from './src/screens/dining_dollars';
+import FalconDollars from './src/screens/falcon_dollars';
+import LottieMenu from './src/screens/lottie_menu';
+import Library from './src/screens/library';
+import TestPage from './src/screens/dataRerenderingPage';
+import Events from './src/screens/events';
+import Reporting from './src/screens/reporting';
+import Allergies from './src/screens/allergies';
+import Map from './src/screens/map';
 
-
-
-
-// Import Cas
-import useCas from "./src/cas/useCas";
 //import { ApiProvider } from '@reduxjs/toolkit/dist/query/react';
 
 const Stack = createNativeStackNavigator();
@@ -86,7 +81,7 @@ export default function App() {
         <Stack.Screen name = "LottieMenu" component = {LottieMenu} />
 
         <Stack.Screen name = "Settings" component = {Settings} 
-            options={{ fullScreenGestureEnabled: true, presentation: 'transparentModal', gestureDirection: 'horizontal', animation: 'slide'}}/>
+            options={{ fullScreenGestureEnabled: true, presentation: 'transparentModal', gestureDirection: 'horizontal', animation: 'fade'}}/>
       </Stack.Navigator>
     </NavigationContainer>
     </Provider>
@@ -97,6 +92,4 @@ export default function App() {
 
 
 
-// CAS Authentication
-const cas = useCas();
 
