@@ -13,7 +13,7 @@ type CompProps = {
   // We are only using the navigate and goBack functions
   navigation: { navigate: Function; };
 };
-const image = { uri: "https://pbs.twimg.com/media/FdxI4qIXwAE28_5?format=jpg&name=4096x4096" }
+//const image = { uri: "https://pbs.twimg.com/media/FdxI4qIXwAE28_5?format=jpg&name=4096x4096" }
 
 let isGuest = false;
 //const { name } = useAppSelector(selectAuth)
@@ -72,7 +72,7 @@ export default function Home(props: CompProps) {
         <Header props={props} />
 
         <View style={styles.app_container}>
-          <ImageBackground source={image} style={styles.bg_image} >
+          <ImageBackground source={require("../images/homebackground2.png")} style={styles.bg_image} >
             {handleSearchChange()}
           </ImageBackground>
         </View>
