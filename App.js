@@ -83,7 +83,7 @@ export default function App() {
         <Stack.Screen name = "LottieMenu" component = {LottieMenu} />
 
         <Stack.Screen name = "Settings" component = {Settings} 
-            options={{ fullScreenGestureEnabled: true, presentation: 'transparentModal', gestureDirection: 'horizontal', animation: 'slide'}}/>
+            options={{ fullScreenGestureEnabled: true, presentation: 'transparentModal', gestureDirection: 'horizontal', animation: 'fade'}}/>
       </Stack.Navigator>
     </NavigationContainer>
     </Provider>
