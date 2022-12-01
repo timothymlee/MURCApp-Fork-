@@ -1,17 +1,250 @@
-import { Pressable, Text, StyleSheet, SafeAreaView, View, Platform, StatusBar, Keyboard, KeyboardAvoidingView, ScrollView } from "react-native";
-import React, { useState, useEffect } from 'react';
-import { Icon, SearchBar, Button, Overlay } from "@rneui/themed";
-import { CheckBox } from "@rneui/base";
-import MapView, { Marker } from 'react-native-maps';
-import Header from "./header";
+    // Icons for Resources
+  export const resourceImages = [
+    "md-restaurant",
+    "logo-usd",
+    "calendar",
+    "book",
+    "md-locate-sharp"
+  ]
 
-type CompProps = {
-  // We are only using the navigate and goBack functions
-  navigation: { navigate: Function; };
-};
+  // App Colors
+  export const lightBlue = "#6EB3F2"
+  export const blue = '#4552C9'
+  export const darkBlue = '#1E293B'
+  export const green = '#5EBD4E'
 
-export default function Map(props: CompProps) {
+  export const bg_default = "white"
+  export const bg_alt = '#EDEDED'
+  export const icon_light = "white"
+  export const icon_dark = '#1E293B'
+  export const accent1 = "#6EB3F2" // light blue
+  export const accent1_alt = '#4C8ECA' // slightly darker light blue
+  export const accent2 = '#5EBD4E' // green
+  export const accent3 = '#1E293B' // dark blue
+  export const accent4 = "#B8B8B8" // light gray
+  export const title_dark = '#1E293B' // dark blue
+  export const title_light = "white"
+  export const title_mid = "gray"
 
+
+  // Widgets
+  export const WidgetNames = [
+    {key:'1', name: "Lottie Dining Hall", url: 'LottieMenu', icon: resourceImages[0], size: 6, color: darkBlue, guest: true },
+    {key:'2', name: "Union Cafe", url: 'UnionMenu', icon: resourceImages[0], size: 0, color: lightBlue, guest: true },
+    {key:'3', name: "Campus Map", url: 'Map', icon: resourceImages[3], size: 0, color: darkBlue, guest: true },
+    {key:'4', name: "Log In", url: 'Login', icon: resourceImages[4], size: 0, color: blue, guest: true },
+    {key:'5', name: "Chapel Attendance", url: 'Chapel', icon: resourceImages[1], size: 4, color: green, guest: false },
+    {key:'6', name: "Falcon", url: 'FalconMenu', icon: resourceImages[2], size: 0, color: blue, guest: true },
+    {key:'7', name: "Gym", url: 'Gym', icon: resourceImages[3], size: 0, color: green, guest: true },
+    {key:'8', name: "Dining Dollars", url: 'DiningDollars', icon: resourceImages[1], size: 1, color: lightBlue, guest: false },
+    {key:'9', name: "Falcon Dollars", url: 'FalconDollars', icon: resourceImages[1], size: 1, color: lightBlue, guest: false },
+    {key:'10', name: "Events", url: 'Events', icon: resourceImages[3], size: 0, color: green, guest: true },
+    {key:'12', name: "Library", url: 'Library', icon: resourceImages[3], size: 0, color: green, guest: true },
+    {key:'13', name: "Incident Report", url: 'Reporting', icon: resourceImages[4], size: 0, color: darkBlue, guest: true },
+  ]
+
+  // Union Menu
+  const smash_burgers = [
+    { name: 'Bacon Burger', price: '7.75' },
+    { name: 'Bacon Cheeseburger', price: '8.25'  },
+    { name: 'Cheeseburger', price: '7.25'  },
+    { name: 'Hamburger', price: '6.75'  },
+    { name: 'Jr Bacon Burger', price: '5.75'  },
+    { name: 'Jr Bacon Cheeseburger', price: '6.25'  },
+    { name: 'Jr Cheeseburger', price: '5.25'  },
+    { name: 'Jr Hamburger', price: '4.75'  },
+  ]
+  const gluten_free_sandwiches = [
+    { name: 'Bacon Beyond Meat Burger', price: '9.75' },
+    { name: 'Bacon Burger', price: '8.75' },
+    { name: 'Bacon Cheeseburger', price: '9.25'  },
+    { name: 'Bacon Grilled Chicken Sandwich', price: '8.00' },
+    { name: 'Beyond Meat Burger', price: '8.75' },
+    { name: 'Grilled Chicken', price: '7.00' },
+    { name: 'Hamburger', price: '7.75'  },
+    { name: 'Jr Bacon Burger', price: '6.75'  },
+    { name: 'Jr Bacon Cheeseburger', price: '7.25'  },
+    { name: 'Jr Cheeseburger', price: '6.25'  },
+    { name: 'Jr Hamburger', price: '5.75'  },
+  ]
+  const veggie_burger = [
+    { name: 'Bacon Beyond Meat Burger', price: '9.00' },
+    { name: 'Bacon Black Bean Burger', price: '6.00' },
+    { name: 'Beyond Meat Burger', price: '7.75'  },
+    { name: 'Black Bean Burger', price: '5.00' },
+  ]
+  const chicken_sandwiches = [
+    { name: 'Bacon Crispy Chicken Sandwich', price: '7.00' },
+    { name: 'Bacon Grilled Chicken Sandwich', price: '7.00' },
+    { name: 'Crispy Chicken Sandwich', price: '6.00' },
+    { name: 'Grilled Chicken Sandwich', price: '5.00' },
+  ]
+  const chicken_tenders = [
+    { name: '10 Count Chicken Nuggets', price: '5.00' },
+    { name: 'Chicken Tenders', price: '5.75' },
+    { name: 'Half Size Chicken Tenders', price: '4.00' },
+  ]
+  const calzone = [
+    { name: 'Calzone of the Week', price: '6.75' },
+  ]
+
+  const flatbread_pizza = [
+    { name: 'Cheese', price: '5.00' },
+    { name: '1-2 Toppings', price: '6.00' },
+    { name: 'Specialty', price: '7.00' },
+    { name: 'Gluten Free', price: '7.00' },
+  ]
+
+  const pizza_slices = [
+    { name: 'Cheese', price: '2.25' },
+    { name: '1 Topping', price: '2.50' },
+    { name: '2 Toppings', price: '2.75' },
+    { name: 'Specialty', price: '3.00' },
+  ]
+
+  const grill_extras = [
+    { name: 'Bacon Cheese Hot Dog', price: '5.00' },
+    { name: 'Bacon Hot Dog', price: '4.50' },
+    { name: 'Cheese Hot Dog', price: '4.00' },
+    { name: 'Fries', price: '2.00' },
+    { name: 'Hot Dog', price: '3.50' },
+  ]
+
+  const whole_pizzas = [
+    { name: '1 Topping', price: '13.50' },
+    { name: '2 Toppings', price: '14.50' },
+    { name: 'BBQ Chicken', price: '15.00' },
+    { name: 'Buffalo', price: '15.00' },
+    { name: 'Cheese', price: '12.00' },
+    { name: 'Meat Lovers', price: '16.00' },
+    { name: 'Supreme', price: '16.00' },
+    { name: 'Vegan', price: '15.00' },
+    { name: 'Vegetarian White', price: '15.00' },
+  ]
+
+  const sandwiches = [
+    { name: 'CYO Sandwich', price: '7.50' },
+  ]
+
+  const mac_and_cheese = [
+    { name: 'Mac and Cheese', price: '3.50' },
+  ]
+
+  const late_night = [
+    { name: 'Mozzarella Sticks', price: '5.00' },
+  ]
+
+  const frozen_and_blended = [
+    { name: 'CYO Smoothie', price: '5.50' },
+    { name: 'Avalanche', price: '4.75' },
+    { name: 'Milkshake', price: '4.50' },
+    { name: 'Parfait', price: '5.00' },
+    { name: 'Playa Bowl', price: '7.75' },
+    { name: 'Ice Cream Cup', price: '3.75' },
+  ]
+
+  const u_create = [
+    { name: 'Burrito Bowl', price: '8.50' },
+    { name: 'Vegan Burrito Bowl', price: '8.50' },
+    { name: 'Protein Salad Bowl', price: '7.50' },
+    { name: 'Vegan Salad Bowl', price: '6.50' },
+  ]
+
+  const coffee_union = [
+    { name: 'Coffee', price: '2.00' },
+  ]
+
+  export const union_menu_list = [
+    { name: "Smash Burgers", items: smash_burgers },
+    { name: "Gluten Free Grill Sandwiches", items: gluten_free_sandwiches },
+    { name: "Veggie Burgers", items: veggie_burger },
+    { name: "Chicken Sandwiches", items: chicken_sandwiches },
+    { name: "Chicken Tenders", items: chicken_tenders },
+    { name: "Calzone", items: calzone },
+    { name: "Flatbread Pizza", items: flatbread_pizza },
+    { name: "Pizza Slices", items: pizza_slices },
+    { name: "Grill Extras", items: grill_extras },
+    { name: "Whole Pizzas", items: whole_pizzas },
+    { name: "Sandwiches", items: sandwiches },
+    { name: "Mac and Cheese", items: mac_and_cheese },
+    { name: "Late Night Food", items: late_night },
+    { name: "Frozen & Blended Treats", items: frozen_and_blended },
+    { name: "U-CREATE", items: u_create },
+    { name: "Coffee", items: coffee_union },
+  ]
+
+  // Falcon Menu Items
+
+  const grain_bowl = [
+    { name: 'CYO Bowl', price: '7.50' },
+    { name: 'Veggie Grain Bowl', price: '6.50' },
+  ]
+
+  const noodle_bowl = [
+    { name: 'CYO Bowl', price: '7.00' },
+  ]
+
+  const green_bowl = [
+    { name: 'CYO Bowl', price: '7.75' },
+    { name: 'Veggie Green Bowl', price: '6.75' },
+  ]
+
+  const grill = [
+    { name: 'Chicken Tenders', price: '5.75' },
+    { name: 'Half Size Chicken Tenders', price: '4.00' },
+    { name: 'Buffalo Chicken Tenders', price: '5.75' },
+    { name: 'Half Size Buffalo Tenders', price: '4.00' },
+    { name: 'French Fries', price: '2.00' },
+  ]
+
+  const flatbreads = [
+    { name: 'BBQ Chicken Flatbread', price: '7.50' },
+    { name: 'California Club Flatbread', price: '7.50' },
+    { name: 'CYO Flatbread', price: '7.50' },
+    { name: 'Smoked Turkey Flatbread', price: '7.50' },
+    { name: 'Caprese Flatbread', price: '7.50' },
+  ]
+
+  const breakfast = [
+    { name: 'Egg & Cheese Sandwich', price: '2.75' },
+    { name: 'Egg, Meat, & Cheese Sandwich', price: '3.75' },
+    { name: 'Two Fried Eggs', price: '2.25' },
+    { name: 'Two Fried Eggs with Bacon/Sausage', price: '3.00' },
+    { name: 'Hash Browns', price: '1.50' },
+  ]
+
+  const coffee_falcon = [
+    { name: 'Coffee', price: '2.00' },
+  ]
+
+  export const falcon_menu_list = [
+    { name: "Grain Bowl", items: grain_bowl },
+    { name: "Noodle Bowl", items: noodle_bowl },
+    { name: "Green Bowl", items: green_bowl },
+    { name: "Grill", items: grill },
+    { name: "Flatbreads", items: flatbreads },
+    { name: "Breakfast", items: breakfast },
+    { name: "Coffee", items: coffee_falcon },
+  ]
+
+  // Falcon Fitness Center Hours
+  export const general_gym_hours = [
+    { name: 'Monday - Thursday: 6am - 11pm' },
+    { name: 'Friday: 6am - 8pm' },
+    { name: 'Saturday: 8am - 8pm' },
+    { name: 'Sunday: 1pm - 11pm' }
+  ]
+
+  // Falcon Fitness Center Text
+  export const gym_info = "Access is free for Messiah University students, employees, spouses of employees, and depedents of employees between the ages of 16-18. You must bring your Messiah ID with you each time you access the fitness center. Passing an ID card or using an ID card other than your own may result in an up to two week suspension of fitness center access. To activate your card, tap this button."
+
+  export const gym_info2 = "At Messiah University we have been blessed with an amazing fitness center. As a community, it is now our responsibility to keep this center, and equipment, in state of the art condition. Take a moment to familiarize yourself with the rules and policies of the Falcon Fitness Center. Exercising here is a privilege, not a right; failing to follow any of these rules may result in losing that privilege and further discipline by the University."
+
+  export const gym_rules = "We strongly encourage members to follow CDC masking guidlines Equipment must be sanitized before and after use. In some areas paper towels and spray bottles have replaced pre-wet wipes. Please make sure the paper towel is fully 'soaked' before using it to sanitize any and all equipment, before and after use. All behaviors, attitudes, and policies outlined in the Messiah University Student handbook and Community Covenant should be followed at all times while in the fitness center.  All injuries should be reported to the welcome desk immediately Damaged or broken equipment must be reported to a student worker or the director immediately Signs and instructions specific to each location are conveniently placed around the fitness center. Follow all instructions and guidelines on signs and posters."
+
+  export const gym_dress_code = "All dress code policies outlined in the Messiah University Student Handbook must be followed while in the fitness center. Shirts and closed toe shoes are required at all times. Sandals or open toe shoes are not permitted. Jeans, Jean shorts, belts or any other clothing with metal objects are not permitted. On poor weather days bring a separate pair of shoes."
+
+  // Map Locations and Coordinates
   let AcademicsAndAdministrative = [
     { name: "Admissions Office", coords: "40.157583, -76.989482" },
     { name: "Alumni and Parent Relations", coords: "40.157947, -76.989222" },
@@ -185,7 +418,7 @@ export default function Map(props: CompProps) {
     { name: "VV Lot - Visitor Parking", coords: "40.157674568137814, -76.99055067086216" },
   ]
 
-  let AllLocations = [
+  export const AllLocations = [
     { category: AcademicsAndAdministrative, icon: 'book-open-page-variant' },
     { category: AthleticsAndRecreation, icon: 'shoe-cleat' },
     { category: ATMLocations, icon: 'currency-usd' },
@@ -199,371 +432,3 @@ export default function Map(props: CompProps) {
     { category: OakesMuseum, icon: 'leaf' },
     { category: ParkingLots, icon: 'car' }
   ]
-
-  let currentLocation = {
-    latitude: 40.157515,
-    longitude: -76.987994,
-    latitudeDelta: 0.012,
-    longitudeDelta: 0.006
-  }
-
-  var _mapView: MapView;
-
-  const [value, setValue] = useState("");
-  const [results, setResults] = useState([])
-  const [selected, setSelected] = useState("")
-  const [selectedIcon, setIcon] = useState("")
-  const [activePins, setPins] = useState([])
-  // For overlay
-  const [visible, setVisible] = useState(false);
-  const [location, setLocation] = useState(currentLocation)
-
-  const toggleOverlay = () => {
-    setVisible(!visible);
-  };
-
-  // Each digit is a boolean that corresponds with whether that category is active.
-  // They go in order of the list in AllLocations.
-  const [categoriesActive, setActive] = useState([false, false, false, false, false, false, false, false, false, false, false, false])
-
-  useEffect(() => {
-    // run every time selected location changes
-    setMarkers();
-  }, [selected]);
-
-  const updateSearch = (value) => {
-    setValue(value);
-    let storedResults = [];
-    AllLocations.forEach(function (name) {
-      name.category.map(function (thisLocation) {
-        if (thisLocation.name.toLowerCase().includes(value.toLowerCase())) {
-          storedResults.push([thisLocation, name.icon]);
-        }
-      });
-    });
-    setResults(storedResults);
-  };
-
-  function renderSelectedHeader() {
-    if (selected != "") {
-      return (
-        <View style={styles.selectedHeader}>
-          <Icon style={styles.selectedIcon} name={selectedIcon} size={22} type={'material-community'} color={'white'}></Icon>
-          <Text style={styles.selectedTitle}>{selected}</Text>
-          <Pressable style={styles.closeHeaderContainer} onPress={() => { setSelected("") }}>
-            <Icon name="close" size={44} color={'white'}></Icon>
-          </Pressable>
-        </View>
-      )
-    }
-  }
-
-  function renderCheckBox(name, num) {
-    return (
-      <CheckBox
-        checked={categoriesActive[num]}
-        title={name}
-        checkedColor="#0F0"
-        containerStyle={styles.checkboxBoxContainer}
-        onIconPress={() => {
-          let tempActive = categoriesActive;
-          tempActive[num] = !tempActive[num];
-          setActive(tempActive);
-          setMarkers();
-        }}
-        size={32}
-        uncheckedColor="#838383"
-      />
-    )
-  }
-
-  function setMarkers() {
-    let currentCategory = 0;
-    let pinsList = [];
-    categoriesActive.map(function (isActive) {
-      if (isActive) {
-        let thisIcon = AllLocations[currentCategory].icon;
-        AllLocations[currentCategory].category.map(function (thisLocation) {
-          pinsList.push([thisLocation.name, thisLocation.coords, thisIcon, false]);
-        })
-      }
-      currentCategory++;
-    })
-    if (selected != "") {
-      let alreadyDisplayed = false
-      pinsList.map(function (pin) {
-        if (pin[0] == selected) {
-          pin[3] = true;
-          alreadyDisplayed = true;
-        }
-      })
-      if (!alreadyDisplayed) {
-        // target icon should instead be whatever category it is from
-        let thisIcon = "target";
-        AllLocations.map(function (currentCategory) {
-          thisIcon = currentCategory.icon;
-          for (let i = 0; i < currentCategory.category.length; i++) {
-            if (currentCategory.category[i].name == selected) {
-              pinsList.push([selected, location.latitude + ", " + location.longitude, thisIcon, true])
-              break;
-            }
-          }
-        })
-      }
-    }
-    setPins(pinsList);
-  }
-
-  const handleSearchChange = () => {
-    if (value == "") {
-      return (
-        <>
-          {renderSelectedHeader()}
-
-          <View style={{ flex: 1, height: '100%' }}>
-            <MapView
-              // MapView is using this package:
-              // https://www.npmjs.com/package/react-native-maps 
-              mapType='hybrid'
-              //provider={PROVIDER_GOOGLE}
-              //customMapStyle={mapStyle}
-              // "showsUserLocation" can be enabled, but we need to ask for user permission to do so
-              showsUserLocation
-              ref={(mapView) => { _mapView = mapView; }}
-              style={styles.map}
-              initialRegion={location}
-            >
-              {
-                activePins.map(function (pin, i) {
-                  let splitCoord = pin[1].split(", ");
-                  return (
-                    <Marker
-                      key={i}
-                      coordinate={{ latitude: splitCoord[0] * 1.0, longitude: splitCoord[1] * 1.0 }}
-                      onPress={() => {
-                        setSelected(pin[0]);
-                        setIcon(pin[2]);
-                        _mapView.animateToRegion({
-                          latitude: splitCoord[0],
-                          longitude: splitCoord[1],
-                          latitudeDelta: 0.001,
-                          longitudeDelta: 0.0018,
-                        }, 500)
-                        setLocation({
-                          latitude: splitCoord[0],
-                          longitude: splitCoord[1],
-                          latitudeDelta: 0.001,
-                          longitudeDelta: 0.0018,
-                        })
-                      }}
-                    >
-                      <View
-                        style={pin[3] ? styles.markerContainerSelected : styles.markerContainer}
-                      >
-                        <Icon name={pin[2]} size={pin[3] ? 18 : 12} type={'material-community'} color={'white'}></Icon>
-                      </View>
-                    </Marker>
-                  )
-                })}
-            </MapView>
-
-            <Button
-              buttonStyle={styles.pinModalButton}
-              titleStyle={{ fontSize: 18 }}
-              onPress={toggleOverlay}
-            >
-              <Icon name="pin-drop" size={32} type={'material-icons'} color={'white'}></Icon>
-            </Button>
-          </View>
-        </>
-
-      )
-    }
-    else {
-      return (
-        <>
-          <Text style={styles.searchText}>Searching For "{value}"</Text>
-          <ScrollView style={styles.searchResultContainer}>
-            {results.map((result, i) =>
-              <Button key={i} style={styles.button} onPress={() => {
-                setSelected(result[0].name);
-                setIcon(result[1]);
-                let coordinates = result[0].coords.split(", ");
-                Keyboard.dismiss();
-                setValue("");
-                setLocation({
-                  latitude: coordinates[0] * 1.0,
-                  longitude: coordinates[1] * 1.0,
-                  latitudeDelta: 0.001,
-                  longitudeDelta: 0.0018,
-                })
-              }}>{result[0].name}</Button>
-            )}
-          </ScrollView>
-        </>
-      )
-    }
-  }
-
-  return (
-    <>
-      <SafeAreaView style={styles.page}>
-
-      <Header props={props}/>
-
-        <Overlay
-          isVisible={visible}
-          onBackdropPress={toggleOverlay}
-          overlayStyle={styles.overlayContainer}
-        >
-          <View style={styles.overlayHeaderContainer}>
-            <Icon name="pin-drop" style={styles.overlayTitleIcon} size={28} type={'material-icons'} color={'black'}></Icon>
-            <Text style={styles.overlayTitle}>Enabled Icons</Text>
-            <Icon style={styles.closeOverlayIcon} onPress={toggleOverlay} name="close" size={34} color={'black'}></Icon>
-          </View>
-
-          <ScrollView>
-            {renderCheckBox("Academics and Administrative", 0)}
-            {renderCheckBox("Athletics and Recreation", 1)}
-            {renderCheckBox("ATM Locations", 2)}
-            {renderCheckBox("Bridges", 3)}
-            {renderCheckBox("Dining and Retail", 4)}
-            {renderCheckBox("Health and Safety", 5)}
-            {renderCheckBox("Facility and Auxiliary Services", 6)}
-            {renderCheckBox("Music, Theatre, and Art", 7)}
-            {renderCheckBox("Residences", 8)}
-            {renderCheckBox("Student Life", 9)}
-            {renderCheckBox("Oakes Museum", 10)}
-            {renderCheckBox("Parking Lots", 11)}
-          </ScrollView>
-        </Overlay>
-
-        <View style={styles.app_container}>
-          {handleSearchChange()}
-        </View>
-
-        <KeyboardAvoidingView style={styles.search_container} behavior="position">
-          <SearchBar
-            platform="ios"
-            containerStyle={{ backgroundColor: "#1E293B" }}
-            inputContainerStyle={{ backgroundColor: '#F3F3F3', }}
-            onChangeText={updateSearch}
-            placeholder="Search in Maps"
-            placeholderTextColor="#888"
-            value={value}
-          />
-        </KeyboardAvoidingView>
-      </SafeAreaView>
-    </>
-  )
-}
-
-const styles = StyleSheet.create({
-  app_container: {
-    flex: 1,
-    backgroundColor: '#FBFBFB'
-  },
-  page: {
-    backgroundColor: '#1E293B',
-    flex: 1,
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
-  },
-  search_container: {
-    backgroundColor: '#1E293B',
-    minHeight: 70,
-  },
-  searchText: {
-    color: 'black',
-    fontSize: 20,
-    padding: 20
-  },
-  searchResultContainer: {
-    flex: 1
-  },
-  button: {
-    paddingHorizontal: 20,
-    paddingVertical: 5
-  },
-  selectedHeader: {
-    backgroundColor: '#54A6F2',
-    height: 80,
-    alignItems: 'center',
-    flexDirection: 'row'
-  },
-  selectedTitle: {
-    fontSize: 18,
-    paddingLeft: 14,
-    flex: 2,
-    color: 'white',
-    fontWeight: '600'
-  },
-  closeHeaderContainer: {
-    paddingRight: 20
-  },
-  map: {
-    position: 'absolute',
-    height: '100%',
-    width: '100%'
-  },
-  selectedIcon: {
-    paddingLeft: 14
-  },
-  markerContainer: {
-    height: 24,
-    width: 24,
-    borderRadius: 20,
-    backgroundColor: '#1E293B',
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignContent: 'center'
-  },
-  markerContainerSelected: {
-    height: 34,
-    width: 34,
-    borderRadius: 20,
-    backgroundColor: '#1E293B',
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignContent: 'center'
-  },
-  pinModalButton: {
-    backgroundColor: '#54A6F2',
-    height: 60,
-    width: 60,
-    margin: 16,
-    shadowRadius: 5,
-    shadowOpacity: 0.3,
-    alignSelf: 'flex-end'
-  },
-  overlayContainer: {
-    width: '80%'
-  },
-  closeOverlayIcon: {
-    alignContent: 'center',
-    flex: 1
-  },
-  checkboxBoxContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 0,
-    margin: 0,
-    marginRight: 0
-  },
-  overlayTitle: {
-    flex: 1,
-    fontSize: 18,
-    fontWeight: '700',
-  },
-  overlayHeaderContainer: {
-    height: 42,
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 20,
-    borderBottomWidth: 1,
-    paddingBottom: 5,
-    borderColor: 'gray'
-  },
-  overlayTitleIcon: {
-    marginHorizontal: 8
-  }
-});

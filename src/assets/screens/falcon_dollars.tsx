@@ -1,8 +1,9 @@
 import { StyleSheet, SafeAreaView, Text, View, ScrollView } from "react-native";
 import React, { useState } from 'react';
 import { ListItem } from "@rneui/themed";
-import { Range, Account } from '../src/js componets/dropdownRange';
-import Header from "./header";
+import { Range, Account } from '../../js componets/dropdownRange';
+import Header from "./Components/header";
+import { accent3, bg_default, title_dark, title_light } from '../data'
 
 type CompProps = {
   // We are only using the navigate and goBack functions
@@ -109,11 +110,11 @@ export default function DiningDollars(props: CompProps) {
 
 const styles = StyleSheet.create({
   app_container: {
-    backgroundColor: '#FBFBFB',
+    backgroundColor: bg_default,
     flex: 1
   },
   page: {
-    backgroundColor: '#1E293B',
+    backgroundColor: accent3,
     flex: 1
   },
   scroll: {
@@ -156,10 +157,10 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   subtitle: {
-    color: '#1E293B'
+    color: title_dark
   },
   title: {
-    color: '#1E293B',
+    color: title_dark,
     fontSize: 28,
     fontWeight: '700',
     padding: 10,
@@ -167,7 +168,7 @@ const styles = StyleSheet.create({
     marginLeft: 15
   },
   main_title: {
-    color: 'white',
+    color: title_light,
     fontSize: 26,
     fontWeight: '700',
     padding: 20,
@@ -176,7 +177,7 @@ const styles = StyleSheet.create({
     paddingTop: 0
   },
   main_title2: {
-    color: 'white',
+    color: title_light,
     fontSize: 12,
     fontWeight: '600',
     paddingBottom: 0,

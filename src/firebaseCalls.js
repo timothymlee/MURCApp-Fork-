@@ -1,5 +1,7 @@
 // Optionally import the services that you want to use
 const {initializeApp} = require("firebase/app");
+const { getDatabase, ref, onValue, get, update} = require("firebase/database");
+const React = require("react");
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -18,15 +20,28 @@ const firebaseConfig = {
 
 const myApp = initializeApp(firebaseConfig);
 
-const { getDatabase, ref, onValue, get} = require("firebase/database");
-
-function writeUserData(userId, name, email, imageUrl) {
+// Set preferences for a user.
+// input: userId, preferences object
+function writeUserPreferences(userId, allergyPreferences) {
     const db = getDatabase();
-    set(ref(db, 'users/' + userId), {
-        username: name,
-        email: email,
-        profile_picture : imageUrl
-    });
+    const updates = {};
+
+    updates['users/' + userId + '/preferences/'] = allergyPreferences;
+    return update(ref(db), updates);
+}
+
+// Return an array of preferences for a given user.
+// input: userId
+async function readUserPreferences(userId) {
+    let returnObject = {};
+
+    const db = getDatabase(myApp);
+
+    const prefRef = ref(db, 'users/' + userId + '/preferences/');
+
+    returnObject = await get(prefRef);
+
+    return returnObject.val();
 }
 
 function readUserData(userId) {
@@ -40,7 +55,6 @@ function readUserData(userId) {
             returnString += "\n";
         });
     });
-    //console.log(returnString);
     return returnString;
 }
 
@@ -55,7 +69,6 @@ function readLottieData(date) {
             returnString += "\n";
         });
     });
-    //console.log(returnString);
     return returnString;
 }
 
@@ -77,15 +90,51 @@ async function readEventData(date) {
             });
         }
     });
-
+    //console.log("detDatabase is returning: "+ returnObjectArray + " .When receiving "+ date)
     return returnObjectArray;
+}
+
+async function createFirebaseProfile(userId) {
+    const db = getDatabase();
+    const updates = {};
+
+    // Check for user
+    const prefRef = ref(db, 'users/' + userId + '/');
+    let returnObject = await get(prefRef);
+    if(returnObject.val() !== null) {
+        return;
+    }
+
+
+    const profile = {
+        email: userId + "@messiah.edu",
+        groups: {
+            admin: false,
+            safety: false
+        },
+        preferences: {
+            dairy: false,
+            egg: false,
+            fish: false,
+            shellfish: false,
+            peanut: false,
+            treenut: false,
+            gluten: false,
+            vegan: false
+        }
+    }
+
+    updates['users/' + userId + '/'] = profile;
+    return update(ref(db), updates);
 }
 
 
 // Export Methods for Use
 module.exports = {
-    writeUserData,
+    writeUserPreferences,
+    readUserPreferences,
     readUserData,
     readLottieData,
-    readEventData
+    readEventData,
+    createFirebaseProfile
 }

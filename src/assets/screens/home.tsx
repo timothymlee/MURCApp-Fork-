@@ -1,10 +1,13 @@
 import { ImageBackground, StyleSheet, SafeAreaView, Text, View, ScrollView, KeyboardAvoidingView, Platform, StatusBar, TouchableWithoutFeedback } from "react-native";
 import React, { useState } from 'react';
 import { SearchBar, Button } from "@rneui/themed";
-import { readUserData, writeUserData } from "../src/firebaseCalls";
-import Widget from './widget2';
-import Header from "./header";
-import WidgetDisplay from "./displayWidget";
+import { readUserData } from "../../firebaseCalls";
+import Widget from './Components/widget2';
+import Header from "./Components/header";
+import WidgetDisplay from "./Components/displayWidget";
+import { selectAuth } from "../../api/authSlice";
+import { useAppSelector } from '../../app/hooks';
+import { accent3, bg_alt, bg_default, title_light, title_mid, WidgetNames } from '../data';
 
 type CompProps = {
   // We are only using the navigate and goBack functions
@@ -12,47 +15,25 @@ type CompProps = {
 };
 const image = { uri: "https://pbs.twimg.com/media/FdxI4qIXwAE28_5?format=jpg&name=4096x4096" }
 
-let isGuest = true;
+let isGuest = false;
+//const { name } = useAppSelector(selectAuth)
 
 export default function Home(props: CompProps) {
   let textString = readUserData('tl1261');
+  const { name } = useAppSelector(selectAuth)
+
+  //if (name == null) { isGuest = true }
 
   const [value, setValue] = useState("");
   const [results, setResults] = useState([])
   const [scrolling, setScrolling] = useState(true);
-
-  // All icons for resources
-  let resourceImages = [
-    "md-restaurant",
-    "logo-usd",
-    "calendar",
-    "book",
-    "md-locate-sharp"
-  ]
-
-  let lightBlue = "#6EB3F2"
-  let blue = '#4552C9'
-  let darkBlue = '#1E293B'
-  let green = '#5EBD4E'
-
-  let WidgetNames = [
-    { name: "Lottie Dining Hall", url: 'LottieMenu', icon: resourceImages[0], size: 6, color: darkBlue, guest: true },
-    { name: "Union Cafe", url: 'UnionMenu', icon: resourceImages[0], size: 0, color: lightBlue, guest: true },
-    { name: "Campus Map", url: 'Map', icon: resourceImages[3], size: 0, color: darkBlue, guest: true },
-    { name: "Log In", url: 'Login', icon: resourceImages[4], size: 0, color: blue, guest: true },
-    { name: "Drag and Drop", url: 'Index', icon: resourceImages[4], size: 0, color: lightBlue, guest: true },
-    { name: "Chapel Attendance", url: 'Chapel', icon: resourceImages[1], size: 4, color: green, guest: false },
-    { name: "Falcon", url: 'FalconMenu', icon: resourceImages[2], size: 0, color: blue, guest: true },
-    { name: "Gym", url: 'Gym', icon: resourceImages[3], size: 0, color: green, guest: true },
-    { name: "Dining Dollars", url: 'DiningDollars', icon: resourceImages[1], size: 1, color: lightBlue, guest: false },
-    { name: "Falcon Dollars", url: 'FalconDollars', icon: resourceImages[1], size: 1, color: lightBlue, guest: false },
-  ]
 
   const updateSearch = (value) => {
     setValue(value);
     let storedResults = [];
     WidgetNames.forEach(element => {
       if (element.name.toLowerCase().includes(value.toLowerCase())) {
+        element["key"] = element["key"]+1000;
         storedResults.push(element);
       }
     });
@@ -82,14 +63,16 @@ export default function Home(props: CompProps) {
         <>
           <Text style={styles.searchText}>Searching For "{value}"</Text>
           <View style={styles.searchResultContainer}>
-            {results.map((result, i) =>
-              <WidgetDisplay widget={result}/>
-            )}
+             {results.map((result, i) =>
+                <WidgetDisplay widget={result} key={result.key}/>
+             )}
           </View>
         </>
       )
     }
   }
+  
+  /**/
   return (
     <>
       <SafeAreaView style={styles.page}>
@@ -104,15 +87,15 @@ export default function Home(props: CompProps) {
         <KeyboardAvoidingView style={styles.search_container} behavior="position">
           <SearchBar
             platform="ios"
-            containerStyle={{ backgroundColor: "#1E293B" }}
-            inputContainerStyle={{ backgroundColor: '#F3F3F3', }}
+            containerStyle={{ backgroundColor: accent3 }}
+            inputContainerStyle={{ backgroundColor: bg_default, }}
             inputStyle={{}}
             leftIconContainerStyle={{}}
             rightIconContainerStyle={{}}
             loadingProps={{}}
             onChangeText={updateSearch}
             placeholder="Search"
-            placeholderTextColor="#888"
+            placeholderTextColor={title_mid}
             value={value}
           />
         </KeyboardAvoidingView>
@@ -131,36 +114,19 @@ const styles = StyleSheet.create({
     resizeMode: 'cover'
   },
   search_container: {
-    backgroundColor: '#1E293B',
+    backgroundColor: accent3,
     minHeight: 70,
   },
   page: {
-    backgroundColor: '#1E293B',
+    backgroundColor: accent3,
     flex: 1,
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
-  },
-  profile_overlay: {
-    backgroundColor: 'white',
-    flex: 8,
-    padding: 20
-  },
-  overlay: {
-    width: '85%',
-    height: '100%',
-    position: 'absolute',
-    left: 0,
-    bottom: 0
   },
   button: {
     padding: 20
   },
-  profile_pic: {
-    borderRadius: 100,
-    width: 70,
-    height: 70
-  },
   searchText: {
-    color: 'white',
+    color: title_light,
     fontSize: 20,
     padding: 20
   },

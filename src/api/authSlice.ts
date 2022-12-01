@@ -2,6 +2,7 @@ import {createSlice,PayloadAction} from "@reduxjs/toolkit"
 import { RootState } from "../app/store"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+// Feilds that are set when a user logs in
 export interface AuthState {
     name: string | null,
     token: string | null,
@@ -31,7 +32,7 @@ export const authSlice = createSlice({
         }
     }
 })
-
+// Allows to get state of current user
 export const selectAuth = (state: RootState) => state.auth;
 
 export const {setUser} = authSlice.actions;

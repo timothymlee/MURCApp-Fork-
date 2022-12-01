@@ -2,6 +2,7 @@ import { StyleSheet, View, TouchableOpacity, Text, PanResponder, Animated, Dimen
 import React, { useEffect, useRef, useState } from 'react';
 import { Icon } from "@rneui/themed";
 import { useNavigation } from '@react-navigation/native';
+import { title_light } from '../../data'
 
 let grayed = '#AAA';
 
@@ -235,7 +236,7 @@ function ResourceButtons(widget, nav) {
   });
   return (
     <Animated.View
-      key={widget.id}
+      key={widget.key}
       collapsable={false}
       ref={containerViewRef}
       // Puts button in proper absolute position
@@ -272,7 +273,7 @@ function ResourceButtons(widget, nav) {
                 width: widget.width, height: widget.height, backgroundColor: (!widget.guest && isGuest) ? grayed : widget.color,
                 opacity: (!widget.guest && isGuest) ? 0.5 : 1
               }]}>
-            <Icon style={styles.widgetIcon} name={widget.icon} size={30} type="ionicon" color={'white'}></Icon>
+            <Icon style={styles.widgetIcon} name={widget.icon} size={30} type={"ionicon"} color={'white'}></Icon>
           </TouchableOpacity>
           <Text style={styles.buttonTextStyle}>{widget.name}</Text>
         </View>
@@ -346,7 +347,7 @@ let styles = StyleSheet.create({
     shadowRadius: 8,
   },
   buttonTextStyle: {
-    color: 'white',
+    color: title_light,
     minWidth: "25%",
     maxWidth: "100%",
     textAlign: "center",

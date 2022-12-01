@@ -3,10 +3,12 @@ import React, { useState, useEffect } from 'react';
 import { LinearGradient } from "expo-linear-gradient";
 import { Button, Icon, CheckBox } from "@rneui/themed";
 import AnimatedInput from "react-native-animated-input";
-import { useAuthMutation, useCypherMutation, useDataMutation } from '../src/api/apiSlice'
-import { useAppDispatch } from "../src/app/hooks";
-import { setUser } from "../src/api/authSlice";
-import AppLoader from '../src/js componets/AppLoader'
+import { useAuthMutation, useCypherMutation, useDataMutation } from '../../api/apiSlice'
+import { useAppDispatch } from "../../app/hooks";
+import { setUser } from "../../api/authSlice";
+import AppLoader from '../../js componets/AppLoader'
+import { accent1, accent1_alt, accent3, bg_default, icon_dark, title_dark, title_light } from '../data'
+//import { authenticateWithFirebase } from '../src/firebaseAuth'
 
 // Using this package for the input fields
 // https://www.npmjs.com/package/react-native-animated-input
@@ -87,7 +89,8 @@ export default function Login(props: CompProps) {
   useEffect(() => {
     if (isLoginSuccess) {
       // Setting user state including name, token and cypher
-      dispatch(setUser({ name: username, token: loginData, cypher: cypherData }));
+      //authenticateWithFirebase(username);
+      dispatch(setUser({ name: username, token: loginData, cypher: cypherData })); 
       // Navigate to home page
       props.navigation.navigate('Home')
     }
@@ -98,10 +101,10 @@ export default function Login(props: CompProps) {
       <Pressable style={styles.page} onPress={Keyboard.dismiss}>
         <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
           <LinearGradient
-            colors={['#5DAEF8', '#4C8ECA']}
+            colors={[accent1, accent1_alt]}
             style={styles.background}>
             <SafeAreaView style={styles.background}>
-              <Image source={require('../assets/images/messiah_logo.png')} style={styles.logo} />
+              <Image source={require('../images/messiah_logo.png')} style={styles.logo} />
             </SafeAreaView>
           </LinearGradient>
           <View style={styles.login_container}>
@@ -138,7 +141,7 @@ export default function Login(props: CompProps) {
                   onPressIn={toggleHidden}
                   onPressOut={toggleHidden}
                   style={{ flex: 0.1, justifyContent: 'center' }}>
-                  <Icon name="eye-off-outline" type="ionicon" size={24} color={'black'}></Icon>
+                  <Icon name="eye-off-outline" type="ionicon" size={24} color={icon_dark}></Icon>
                 </Pressable>
               </View>
               <View style={styles.bottom_text_container}>
@@ -163,7 +166,7 @@ export default function Login(props: CompProps) {
               title="Log In"
               buttonStyle={styles.button}
               containerStyle={styles.button_container}
-              titleStyle={{ fontSize: 18 }}
+              titleStyle={{ fontSize: 18, color: title_light }}
               onPress={() => handleLogin()}
             />
           </View>
@@ -177,7 +180,7 @@ export default function Login(props: CompProps) {
 const styles = StyleSheet.create({
   page: {
     flex: 1,
-    backgroundColor: 'white'
+    backgroundColor: bg_default
   },
   background: {
     flex: 1,
@@ -185,7 +188,7 @@ const styles = StyleSheet.create({
   },
   login_container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: bg_default,
     minHeight: 100,
     alignContent: 'center'
   },
@@ -199,14 +202,15 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: '600',
     alignSelf: 'center',
-    margin: 40
+    margin: 40,
+    color: title_dark
   },
   error: {
     alignSelf: 'center',
     color: 'red'
   },
   button: {
-    backgroundColor: '#1E293B',
+    backgroundColor: accent3,
     width: '100%',
     borderRadius: 30,
     height: 50
