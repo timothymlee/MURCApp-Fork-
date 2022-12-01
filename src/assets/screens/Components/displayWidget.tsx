@@ -29,7 +29,6 @@ export default function WidgetDisplay(props) {
     let icon = widget.icon;
     let destination = widget.url;
     let color = widget.color;
-    let key = props.key;
     
 
     let isGuest = true;

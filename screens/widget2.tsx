@@ -32,7 +32,7 @@ function fillWidgetList() {
     if (widget.size < 4) { h = s }
     else { h = s * 2 + m * 2 }
 
-    if (widgetList.length != widgetInfo.length){
+    if (widgetList.length < widgetInfo.length){
 
       widgetList.push({
         name: widget.name,
@@ -42,15 +42,18 @@ function fillWidgetList() {
         posX: 0,
         posY: 0,
         key: widget.key,
+        id: i,
         width: w,
         height: h,
         guest: widget.guest
       })
+      return (<View key={widget.key}></View>)
     }
     else{
       console.log("Widgets Full")
       //widgetList[i] = widgetList[i];
       //console.log(widgetList);
+      
     }
     i++
     //console.log(i);
@@ -136,24 +139,24 @@ function ResourceButtons(widget, nav) {
           //setWidgetY(widgetY = thisWidget.posY);
 
 
-          console.log("WidX " + widgetX + " WidY " + widgetY);
-          console.log("x "+ x+ " y " + y);
-          console.log(widget.name);
-          console.log(widget.key+ " cur wid");
-          console.log(thisWidget.key+ " target wid");
+          //console.log("WidX " + widgetX + " WidY " + widgetY);
+          //console.log("x "+ x+ " y " + y);
+          //console.log(widget.name);
+          //console.log(widget.key+ " cur wid");
+         // console.log(thisWidget.key+ " target wid");
 
           if (
             (x >= (widgetX - thisWidget.width / 2)) && (x <= (widgetX + thisWidget.width / 2))
             && (y >= (widgetY - thisWidget.height / 2)) && (y <= (widgetY + thisWidget.height / 2))
-            && thisWidget.key != widget.key
+            && thisWidget.id != widget.id
             //alternatively use .name
           ) {
             
-            console.log("SWITCH " + widget.name + " (" + widget.key + ") with " + thisWidget.name + " (" + thisWidget.key + ")")
+            console.log("SWITCH " + widget.name + " (" + widget.id + ") with " + thisWidget.name + " (" + thisWidget.id + ")")
             
             //if within range of another button, swaps the id
-            let toSwitchId = thisWidget.key;
-            let currentId = widget.key;
+            let toSwitchId = thisWidget.id;
+            let currentId = widget.id;
             //setCurId(curId=currentId);
             //setDesId(desId=i);
             //let currentName = widget.name;
@@ -173,7 +176,7 @@ function ResourceButtons(widget, nav) {
             //for swtiching ids
 
             //original switcher vvvv
-            widgetList[currentId].key = thisWidget.key;
+            widgetList[currentId].id = thisWidget.id;
             
             
             //widgetList[curId].id = thisWidget.id;
@@ -183,12 +186,12 @@ function ResourceButtons(widget, nav) {
             //widgetList[currentId].name = thisWidget.name;
             
             //original switcher vvvvvvv
-            widgetList[i].key = currentId;
+            widgetList[toSwitchId].id = currentId;
             
             //widgetList[desId].id = currentId;
-            widgetList[i].posX = curPosX;
-            widgetList[i].posY = curPosY;
-            
+            widgetList[toSwitchId].posX = curPosX;
+            widgetList[toSwitchId].posY = curPosY;
+            //can also use i ^^^ I think
             //widgetList[i].name = currentName;
             //console.log(widgetList);
             //for switching whole widgets
@@ -197,7 +200,7 @@ function ResourceButtons(widget, nav) {
             //widgetList[i] = widget;
             // Sorts order of widgets based on their id
             console.log(widgetList);
-            widgetList.sort((a, b) => a.key - b.key);
+            widgetList.sort((a, b) => a.id - b.id);
             console.log(widgetList);
             setEditC(editC = true);
 
@@ -251,13 +254,13 @@ function ResourceButtons(widget, nav) {
         containerViewRef.current?.measure(
           (x, y, width, height, pageX, pageY) => {
             
-            widgetList[widget.key].posX = pageX + (width / 2);
-            widgetList[widget.key].posY = pageY + (height / 2);
+            widgetList[widget.id].posX = pageX + (width / 2);
+            widgetList[widget.id].posY = pageY + (height / 2);
 
           }
         );
         console.log("Rendered");
-        console.log(widgetList[widget.key]);
+        console.log(widgetList[widget.id]);
       }}
 
       {...panResponder.panHandlers}
