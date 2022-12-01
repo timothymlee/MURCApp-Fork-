@@ -29,8 +29,6 @@ import Reporting from './src/assets/screens/reporting';
 import Allergies from './src/assets/screens/allergies';
 import Map from './src/assets/screens/map';
 
-// Import Cas
-import useCas from "./src/cas/useCas";
 //import { ApiProvider } from '@reduxjs/toolkit/dist/query/react';
 
 const Stack = createNativeStackNavigator();
@@ -94,6 +92,4 @@ export default function App() {
 
 
 
-// CAS Authentication
-const cas = useCas();
 
