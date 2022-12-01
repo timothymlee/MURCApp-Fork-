@@ -304,7 +304,7 @@ function ResourceButtons(name, destination, position, navi, style) {
           <Image source={resources.resourceImages[position]} />
           <Text style={styles.buttonTextStyle}>{name}</Text>
         </TouchableOpacity>
-      </View>
+        </View>
 
     </Animated.View>
   )
