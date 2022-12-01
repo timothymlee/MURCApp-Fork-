@@ -13,18 +13,17 @@ type CompProps = {
 
 export default function Profile_PopUp(props: CompProps) {
   const { name } = useAppSelector(selectAuth)
-  //console.log(name);
   let username = "Guest"
   
   // get username from data HERE
 
-  const [logoutText, setLogoutText] = useState("Log In");
-  const [logoutIcon, setLogoutIcon] = useState("log-in");
-  const [logoutURL, setLogoutURL] = useState("Login");
+  let logoutText = "Log In"
+  let logoutIcon = "log-in"
+  let logoutURL = "Login"
 
   if (name != null) {
-    setLogoutText("Log Out");
-    setLogoutIcon("log-out");
+    logoutText = "Log Out";
+    logoutIcon = "log-out";
     // set log out url
   }
 
