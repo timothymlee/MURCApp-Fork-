@@ -16,7 +16,7 @@
     "@rneui/themed": "^4.0.0-rc.6",
     "@types/react-native-dotenv": "^0.2.0",
     "dotenv": "^16.0.3",
-    "expo": "~46.0.17",
+    "expo": "~47.0.8",
     "expo-build-properties": "~0.3.0",
     "expo-cli": "^6.0.8",
     "expo-document-picker": "~10.3.0",
