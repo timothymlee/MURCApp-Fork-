@@ -13,6 +13,7 @@ type CompProps = {
 
 export default function Profile_PopUp(props: CompProps) {
   const { name } = useAppSelector(selectAuth)
+  const { uploadBackground } = require("../../firebaseCalls")
   let username = "Guest"
   
   // get username from data HERE
@@ -59,9 +60,10 @@ export default function Profile_PopUp(props: CompProps) {
           <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
             <Icon name="image" size={30} color={icon_dark}></Icon>
           </View>
-          <View style={{ flex: 6, justifyContent: 'center' }}>
-            <Text style={{ color: title_dark, fontSize: 16 }}>Background Image</Text>
-          </View>
+
+          <Pressable style={{ flex: 6, justifyContent: 'center' }} onPress={() => { uploadBackground(name)}}>
+            <Text style={{ color: 'black', fontSize: 16 }}>Background Image</Text>
+          </Pressable>
         </View>
 
         <View style={{ flex: 10 }}></View>
