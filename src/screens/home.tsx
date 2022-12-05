@@ -2,7 +2,7 @@ import { ImageBackground, StyleSheet, SafeAreaView, Text, View, ScrollView, Keyb
 import React, { useState } from 'react';
 import { SearchBar, Button } from "@rneui/themed";
 import { readUserData } from "../firebaseCalls";
-import Widget from './Components/widget2';
+import Widget from './Components/widgetR';
 import Header from "./Components/header";
 import WidgetDisplay from "./Components/displayWidget";
 import { selectAuth } from "../api/authSlice";
