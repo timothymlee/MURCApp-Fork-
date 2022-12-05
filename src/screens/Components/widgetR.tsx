@@ -42,7 +42,8 @@ function fillWidgetList() {
         key:widget.key,
         width: w,
         height: h,
-        guest: widget.guest
+        guest: widget.guest,
+        arrayPos: i
       })
     }
     else{
@@ -65,7 +66,10 @@ function buttonPressed(destination, guest, nav) {
 }
 
 function ResourceButtons(widget, nav) {
+  
+  let layoutPos = widget.arrayPos;
   let [rerender, setRerender] = React.useState(reRender);
+
 
   // There is an error involving hook re-renders that has something to do with these useRefs
   const containerViewRef = useRef<View>(null);
@@ -93,6 +97,7 @@ function ResourceButtons(widget, nav) {
           x: pan.x._value,
           y: pan.y._value
         });
+        //console.log(widget.posX);
         pressingTouch = true;
       },
       onPanResponderMove: (e, gestureState) => {
@@ -115,10 +120,10 @@ function ResourceButtons(widget, nav) {
       onPanResponderRelease: (e, gestureState) => {
         let i = 0;
         //thisWidget isnt being updated? why? old cord are staying the same
-        console.log("new switch");
-        console.log("-");
+        //console.log("new switch");
+        //console.log("-");
         widgetList.map(function (thisWidget) {
-          console.log(thisWidget.name);
+          //console.log(thisWidget.name);
           let x = gestureState.moveX;
           //setX(x = gestureState.moveX);
           let y = gestureState.moveY;
@@ -131,20 +136,46 @@ function ResourceButtons(widget, nav) {
           if (
             (x >= (widgetX - thisWidget.width / 2)) && (x <= (widgetX + thisWidget.width / 2))
             && (y >= (widgetY - thisWidget.height / 2)) && (y <= (widgetY + thisWidget.height / 2))
-            && thisWidget.id != widget.id
+            && thisWidget.arrayPos != widget.arrayPos
           ) {
-            console.log("SWITCH " + widget.name + " (" + (widgetList.findIndex((el) => el.id === widget.id)) + ") with " + thisWidget.name + " (" + (widgetList.findIndex((el) => el.id === thisWidget.id)) + ")")
+            //console.log("SWITCH " + widget.name + " (" + (widgetList.findIndex((el) => el.id === widget.id)) + ") with " + thisWidget.name + " (" + (widgetList.findIndex((el) => el.id === thisWidget.id)) + ")")
             const toSwitch = widgetList[widgetList.findIndex((el) => el.id === thisWidget.id)];
             const currentId = widgetList[widgetList.findIndex((el) => el.id === widget.id)];
+
+            const toSwitchX = toSwitch.posX;
+            const currentX = currentId.posX;
+            
+            const toSwitchY = toSwitch.posY;
+            const currentY = currentId.posY;
+
+            //const toSwitchID = toSwitchX.arrayPos;
+            //const currentID = currentId.arrayPos;
+            const toSwitchPos = toSwitch.arrayPos;
+            const currentPos = currentId.arrayPos;
+            //layoutPos=toSwitchPos
+
+
+            widgetList[widgetList.findIndex((el) => el.id === thisWidget.id)].posX=currentX;
+            widgetList[widgetList.findIndex((el) => el.id === widget.id)].posX=toSwitchX;
             
 
-
+            widgetList[widgetList.findIndex((el) => el.id === thisWidget.id)].posY=currentY;
+            widgetList[widgetList.findIndex((el) => el.id === widget.id)].posY=toSwitchX;
+          
+            widgetList[widgetList.findIndex((el) => el.id === thisWidget.id)].arrayPos=currentPos;
+            widgetList[widgetList.findIndex((el) => el.id === widget.id)].arrayPos=toSwitchPos;
+            //for on layout, the widget.id needs to be properly updated.
+            //perhaps using the below code to switch ids?
+            //widgetList[widgetList.findIndex((el) => el.id === thisWidget.id)].id=currentID;
+            //widgetList[widgetList.findIndex((el) => el.id === widget.id)].id=toSwitchID;
 
             widgetList[widgetList.findIndex((el) => el.id === thisWidget.id)]=currentId;
             widgetList[widgetList.findIndex((el) => el.id === widget.id)]=toSwitch;
+            
+            
             //thisWidget=widgetList;
             lock = true;
-            setRerender(rerender = true);
+            
           }
           else {
             // Outside range of button
@@ -158,9 +189,10 @@ function ResourceButtons(widget, nav) {
         
         
         pan.flattenOffset();
-       
+        setRerender(rerender = true);
+        //console.log(widgetList);
 
-        console.log("release");
+        //console.log("release");
         
       }
     })
@@ -189,19 +221,29 @@ function ResourceButtons(widget, nav) {
       }}
       
       onLayout={() => {
-
+        //widgetList[layoutPos].posX = 
         //above needs containerViewRef in order to call onLayout
         // Setting posX and posY for each widget
         containerViewRef.current?.measure(
           (x, y, width, height, pageX, pageY) => {
-            
-            widgetList[widget.id].posX = pageX + (width / 2);
-            widgetList[widget.id].posY = pageY + (height / 2);
+          
 
+           
+              widgetList[layoutPos].posX = pageX + (width / 2);
+            widgetList[layoutPos].posY = pageY + (height / 2);
+
+            
+            
+        
+           
+          
+           
+            //console.log(widgetList);
           }
         );
         //console.log("Rendered");
         //console.log(widgetList[widget.id]);
+        //console.log(widgetList);
       }}
 
       {...panResponder.panHandlers}
@@ -248,7 +290,7 @@ export default function WidgetScreenDisplay(props) {
       <View style={styles.resourceButtons}>
         {
         widgetList.map((widget) => (
-            ResourceButtons(widget)
+            ResourceButtons(widget, nav)
           )
         )
         }
