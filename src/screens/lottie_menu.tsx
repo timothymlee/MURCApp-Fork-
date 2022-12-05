@@ -4,7 +4,7 @@ import { Button, Overlay, ListItem } from "@rneui/themed";
 import { LinearGradient } from 'expo-linear-gradient';
 import Header from "./Components/header";
 import { CalendarProvider, WeekCalendar } from 'react-native-calendars';
-import { accent1, accent1_alt, accent2, accent3, accent4, bg_alt, bg_default, title_dark, title_light, title_mid } from '../data'
+import { accent1, accent1_alt, accent2, accent3, accent4, bg_alt, bg_default, title_dark, title_light, title_mid } from '../assets/data'
 
 type CompProps = {
   // We are only using the navigate and goBack functions

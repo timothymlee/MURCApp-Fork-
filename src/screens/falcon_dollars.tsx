@@ -1,15 +1,16 @@
 import { StyleSheet, SafeAreaView, Text, View, ScrollView } from "react-native";
-import React from 'react';
+import React, { useState } from 'react';
 import { ListItem } from "@rneui/themed";
-import { Range, Account } from '../../js componets/dropdownRange';
+import { Range, Account } from '../js componets/dropdownRange';
 import Header from "./Components/header";
+import { accent3, bg_default, title_dark, title_light } from '../assets/data'
 
 type CompProps = {
   // We are only using the navigate and goBack functions
   navigation: { navigate: Function; };
 };
 
-export default function IadfvnbdBalance(props: CompProps) {
+export default function DiningDollars(props: CompProps) {
   var balance = '$' + '478.23';
 
   const history_range = [
@@ -21,29 +22,29 @@ export default function IadfvnbdBalance(props: CompProps) {
   ];
   const id_num = '02051278'
   const title = [
-    [['DATE'], ['LOCATION'], ['DEBIT'], ['CREDIT'], ['BALANCE']]
+    [['DATE'], ['LOCATION'], ['DEBIT'], ['BALANCE']]
   ]
   const id_history = [
-    [['09/16/22'], ['Union Cafe'], ['6.75'], ['0.00'], ['478.23']],
-    [['09/16/22'], ['Union Cafe'], ['4.75'], ['0.00'], ['484.98']],
-    [['09/15/22'], ['Union Cafe'], ['8.75'], ['0.00'], ['489.73']],
-    [['09/15/22'], ['Union Cafe'], ['5.95'], ['0.00'], ['498.48']],
-    [['09/15/22'], ['Union Cafe'], ['4.75'], ['0.00'], ['504.43']],
-    [['09/14/22'], ['Union Cafe'], ['6.75'], ['0.00'], ['509.18']],
-    [['09/14/22'], ['Union Cafe'], ['4.75'], ['0.00'], ['515.93']],
-    [['09/13/22'], ['Union Cafe'], ['8.75'], ['0.00'], ['520.68']],
-    [['09/12/22'], ['Union Cafe'], ['5.95'], ['0.00'], ['529.43']],
-    [['09/12/22'], ['Union Cafe'], ['4.75'], ['0.00'], ['534.18']],
-    [['09/16/22'], ['Union Cafe'], ['6.75'], ['0.00'], ['538.23']],
-    [['09/16/22'], ['Union Cafe'], ['4.75'], ['0.00'], ['546.75']],
-    [['09/15/22'], ['Union Cafe'], ['8.75'], ['0.00'], ['550.75']],
-    [['09/15/22'], ['Union Cafe'], ['5.95'], ['0.00'], ['558.97']],
-    [['09/15/22'], ['Union Cafe'], ['4.75'], ['0.00'], ['562.43']],
-    [['09/14/22'], ['Union Cafe'], ['6.75'], ['0.00'], ['568.18']],
-    [['09/14/22'], ['Union Cafe'], ['4.75'], ['0.00'], ['564.93']],
-    [['09/13/22'], ['Union Cafe'], ['8.75'], ['0.00'], ['570.68']],
-    [['09/12/22'], ['Union Cafe'], ['5.95'], ['0.00'], ['575.43']],
-    [['09/12/22'], ['Union Cafe'], ['4.75'], ['0.00'], ['581.18']],
+    [['09/16/22'], ['Union Cafe'], ['6.75'], ['478.23']],
+    [['09/16/22'], ['Union Cafe'], ['4.75'], ['484.98']],
+    [['09/15/22'], ['Union Cafe'], ['8.75'], ['489.73']],
+    [['09/15/22'], ['Union Cafe'], ['5.95'], ['498.48']],
+    [['09/15/22'], ['Union Cafe'], ['4.75'], ['504.43']],
+    [['09/14/22'], ['Union Cafe'], ['6.75'], ['509.18']],
+    [['09/14/22'], ['Union Cafe'], ['4.75'], ['515.93']],
+    [['09/13/22'], ['Union Cafe'], ['8.75'], ['520.68']],
+    [['09/12/22'], ['Union Cafe'], ['5.95'], ['529.43']],
+    [['09/12/22'], ['Union Cafe'], ['4.75'], ['534.18']],
+    [['09/16/22'], ['Union Cafe'], ['6.75'], ['538.23']],
+    [['09/16/22'], ['Union Cafe'], ['4.75'], ['546.75']],
+    [['09/15/22'], ['Union Cafe'], ['8.75'], ['550.75']],
+    [['09/15/22'], ['Union Cafe'], ['5.95'], ['558.97']],
+    [['09/15/22'], ['Union Cafe'], ['4.75'], ['562.43']],
+    [['09/14/22'], ['Union Cafe'], ['6.75'], ['568.18']],
+    [['09/14/22'], ['Union Cafe'], ['4.75'], ['564.93']],
+    [['09/13/22'], ['Union Cafe'], ['8.75'], ['570.68']],
+    [['09/12/22'], ['Union Cafe'], ['5.95'], ['575.43']],
+    [['09/12/22'], ['Union Cafe'], ['4.75'], ['581.18']],
   ]
 
 
@@ -56,19 +57,18 @@ export default function IadfvnbdBalance(props: CompProps) {
         <View style={styles.app_container}>
 
           <View>
-            <Text style={styles.title}>ID Card Balance</Text>
+            <Text style={styles.title}>Falcon Dollars</Text>
           </View>
 
-          <View >
+          <View>
             <View>
               {title.map((l, i) => (
                 <ListItem key={i}>
                   <ListItem.Content style={styles.row}>
-                    <ListItem.Title style={styles.rowItem}>{title[i][0]}</ListItem.Title>
-                    <ListItem.Title style={styles.rowItem}>{title[i][1]}</ListItem.Title>
-                    <ListItem.Title style={styles.rowItem}>{title[i][2]}</ListItem.Title>
-                    <ListItem.Title style={styles.rowItem}>{title[i][3]}</ListItem.Title>
-                    <ListItem.Title style={styles.rowItem}>{title[i][4]}</ListItem.Title>
+                    <ListItem.Title style={styles.rowItemTitle}>{title[i][0]}</ListItem.Title>
+                    <ListItem.Title style={styles.rowItemTitle}>{title[i][1]}</ListItem.Title>
+                    <ListItem.Title style={styles.rowItemTitle}>{title[i][2]}</ListItem.Title>
+                    <ListItem.Title style={styles.rowItemTitle}>{title[i][3]}</ListItem.Title>
 
                   </ListItem.Content>
                 </ListItem>
@@ -84,7 +84,6 @@ export default function IadfvnbdBalance(props: CompProps) {
                       <ListItem.Title style={styles.rowItem}>{id_history[i][1]}</ListItem.Title>
                       <ListItem.Title style={styles.rowItem}>{id_history[i][2]}</ListItem.Title>
                       <ListItem.Title style={styles.rowItem}>{id_history[i][3]}</ListItem.Title>
-                      <ListItem.Title style={styles.rowItem}>{id_history[i][4]}</ListItem.Title>
 
                     </ListItem.Content>
                   </ListItem>
@@ -111,22 +110,34 @@ export default function IadfvnbdBalance(props: CompProps) {
 
 const styles = StyleSheet.create({
   app_container: {
-    backgroundColor: '#FBFBFB',
+    backgroundColor: bg_default,
     flex: 1
   },
   page: {
-    backgroundColor: '#1E293B',
+    backgroundColor: accent3,
     flex: 1
   },
   scroll: {
-    height: "50%",
+    height: "43%",
+    backgroundColor: 'red'
   },
   row: {
     flexDirection: "row"
   },
   rowItem: {
-    width: "20%",
-    textAlign: "center"
+    width: "24%",
+    textAlign: "center",
+    fontSize: 12,
+    paddingRight: "0%"
+  },
+  rowItemTitle: {
+    width: "24%",
+    fontSize: 12,
+    color: '#968C8C',
+    textAlign: "center",
+    fontWeight: '700',
+    textDecorationLine: 'underline',
+    paddingRight: "0%"
   },
   bold_subtitle: {
     fontWeight: '600',
@@ -146,17 +157,18 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   subtitle: {
-    color: '#1E293B'
+    color: title_dark
   },
   title: {
-    color: '#1E293B',
-    fontSize: 20,
+    color: title_dark,
+    fontSize: 28,
     fontWeight: '700',
     padding: 10,
-    marginTop: 10
+    marginTop: 25,
+    marginLeft: 15
   },
   main_title: {
-    color: 'white',
+    color: title_light,
     fontSize: 26,
     fontWeight: '700',
     padding: 20,
@@ -165,7 +177,7 @@ const styles = StyleSheet.create({
     paddingTop: 0
   },
   main_title2: {
-    color: 'white',
+    color: title_light,
     fontSize: 12,
     fontWeight: '600',
     paddingBottom: 0,
@@ -174,12 +186,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.6,
   },
   box: {
-    backgroundColor: 'blue',
+    backgroundColor: '#54A6F2',
     width: "35%",
-    borderRadius: 25,
+    borderRadius: 15,
     alignItems: 'center',
     margin: 20,
-    marginTop: '2%',
+    marginTop: '6%',
     marginRight: '6%',
     alignSelf: 'flex-end'
   },
@@ -189,10 +201,6 @@ const styles = StyleSheet.create({
   },
   schedule: {
     flex: .85
-  },
-  list_header: {
-    height: 70,
-    justifyContent: 'center'
   },
   link: {
     color: 'blue'

@@ -4,7 +4,7 @@ import { Icon, SearchBar, Button, Overlay } from "@rneui/themed";
 import { CheckBox } from "@rneui/base";
 import MapView, { Marker } from 'react-native-maps';
 import Header from "./Components/header";
-import { accent1, accent2, accent3, accent4, AllLocations, bg_default, icon_dark, icon_light, title_dark, title_light, title_mid } from '../data';
+import { accent1, accent2, accent3, AllLocations, bg_default, icon_dark, icon_light, title_dark, title_light, title_mid } from '../assets/data';
 
 type CompProps = {
   // We are only using the navigate and goBack functions

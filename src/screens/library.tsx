@@ -36,7 +36,7 @@ export default function Gym(props: CompProps) {
             </Pressable>
           </View>
           <View style={[styles.header_content, { alignItems: 'center' }]}>
-            <Image source={require('../images/messiah_logo.png')} style={styles.header_image}/>
+            <Image source={require('../assets/images/messiah_logo.png')} style={styles.header_image}/>
           </View>
           <View style={[styles.header_content, { alignItems: 'flex-end' }]}>
             <Pressable onPress={() => props.navigation.navigate('Home')}>
@@ -48,7 +48,7 @@ export default function Gym(props: CompProps) {
         <View style={styles.app_container}>
           <View style={styles.banner}>
             <Image
-              source={require('../images/library.jpg')}
+              source={require('../assets/images/library.jpg')}
               style={styles.banner_image} />
             <Text style={styles.main_title}>Library</Text>
           </View>

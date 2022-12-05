@@ -3,11 +3,11 @@ import React, { useState, useEffect } from 'react';
 import { LinearGradient } from "expo-linear-gradient";
 import { Button, Icon, CheckBox } from "@rneui/themed";
 import AnimatedInput from "react-native-animated-input";
-import { useAuthMutation, useCypherMutation, useDataMutation } from '../../api/apiSlice'
-import { useAppDispatch } from "../../app/hooks";
-import { setUser } from "../../api/authSlice";
-import AppLoader from '../../js componets/AppLoader'
-import { accent1, accent1_alt, accent3, bg_default, icon_dark, title_dark, title_light } from '../data'
+import { useAuthMutation, useCypherMutation, useDataMutation } from '../api/apiSlice'
+import { useAppDispatch } from "../app/hooks";
+import { setUser } from "../api/authSlice";
+import AppLoader from '../js componets/AppLoader'
+import { accent1, accent1_alt, accent3, bg_default, icon_dark, title_dark, title_light } from '../assets/data'
 //import { authenticateWithFirebase } from '../src/firebaseAuth'
 
 // Using this package for the input fields
@@ -104,7 +104,7 @@ export default function Login(props: CompProps) {
             colors={[accent1, accent1_alt]}
             style={styles.background}>
             <SafeAreaView style={styles.background}>
-              <Image source={require('../images/messiah_logo.png')} style={styles.logo} />
+              <Image source={require('../assets/images/messiah_logo.png')} style={styles.logo} />
             </SafeAreaView>
           </LinearGradient>
           <View style={styles.login_container}>

@@ -2,9 +2,9 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import React, {useState} from 'react';
 import { Icon } from "@rneui/themed";
 import { Image } from "@rneui/base";
-import { selectAuth } from "../../../api/authSlice";
-import { useAppSelector } from '../../../app/hooks';
-import { icon_dark, bg_default, title_dark, title_mid } from '../../data';
+import { selectAuth } from "../../api/authSlice";
+import { useAppSelector } from '../../app/hooks';
+import { icon_dark, bg_default, title_dark, title_mid } from '../../assets/data';
 
 type CompProps = {
   // We are only using the navigate and goBack functions
@@ -13,18 +13,18 @@ type CompProps = {
 
 export default function Profile_PopUp(props: CompProps) {
   const { name } = useAppSelector(selectAuth)
-  //console.log(name);
+  const { uploadBackground } = require("../../firebaseCalls")
   let username = "Guest"
   
   // get username from data HERE
 
-  const [logoutText, setLogoutText] = useState("Log In");
-  const [logoutIcon, setLogoutIcon] = useState("log-in");
-  const [logoutURL, setLogoutURL] = useState("Login");
+  let logoutText = "Log In"
+  let logoutIcon = "log-in"
+  let logoutURL = "Login"
 
   if (name != null) {
-    setLogoutText("Log Out");
-    setLogoutIcon("log-out");
+    logoutText = "Log Out";
+    logoutIcon = "log-out";
     // set log out url
   }
 
@@ -33,7 +33,7 @@ export default function Profile_PopUp(props: CompProps) {
       <View style={styles.overlay}>
         <View style={{ flex: 2, minHeight: 40, flexDirection: 'row' }}>
           <View style={{ flex: 1, alignItems: 'flex-start' }}>
-            <Image source={require('../../images/default_pfp.png')} style={styles.profile_pic} />
+            <Image source={require('../../assets/images/default_pfp.png')} style={styles.profile_pic} />
           </View>
           <View style={{ flex: 1, alignItems: 'flex-end' }}>
             <Pressable onPress={() => props.navigation.goBack()}>
@@ -60,9 +60,10 @@ export default function Profile_PopUp(props: CompProps) {
           <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
             <Icon name="image" size={30} color={icon_dark}></Icon>
           </View>
-          <View style={{ flex: 6, justifyContent: 'center' }}>
-            <Text style={{ color: title_dark, fontSize: 16 }}>Background Image</Text>
-          </View>
+
+          <Pressable style={{ flex: 6, justifyContent: 'center' }} onPress={() => { uploadBackground(name)}}>
+            <Text style={{ color: 'black', fontSize: 16 }}>Background Image</Text>
+          </Pressable>
         </View>
 
         <View style={{ flex: 10 }}></View>

@@ -2,25 +2,22 @@ import { StyleSheet, View, TouchableOpacity, Text, PanResponder, Animated, Dimen
 import React, { useEffect, useRef, useState } from 'react';
 import { Icon } from "@rneui/themed";
 import { useNavigation } from '@react-navigation/native';
-import { title_light } from '../../data'
+import { title_light } from '../../assets/data'
 
 let grayed = '#AAA';
-
-// Determines if certain buttons are disabled
+//Not matter what it will stay guest
 let isGuest = true;
 let edit = true;
 let reRender = false;
-// Stores all info for each widget
+let lock = false;
 let widgetInfo = [];
 let widgetList = [];
-
-
-// These variables are for button styling
 let w = Dimensions.get('window').width;
 let m = 18;
 let s = (w / 4) - (2 * m);
 
 function fillWidgetList() {
+  if(lock == false){
   let i = 0
   //widgetList = [];
   widgetInfo.map(function (widget) {
@@ -34,7 +31,6 @@ function fillWidgetList() {
     else { h = s * 2 + m * 2 }
 
     if (widgetList.length != widgetInfo.length){
-
       widgetList.push({
         name: widget.name,
         icon: widget.icon,
@@ -43,21 +39,17 @@ function fillWidgetList() {
         posX: 0,
         posY: 0,
         id: i,
+        key:widget.key,
         width: w,
         height: h,
         guest: widget.guest
       })
     }
     else{
-      console.log("Widgets Full")
-      //widgetList[i] = widgetList[i];
-      //console.log(widgetList);
     }
     i++
-    //console.log(i);
-    //console.log(widgetList);
   })
-}
+  }}
 
 
 
@@ -73,12 +65,7 @@ function buttonPressed(destination, guest, nav) {
 }
 
 function ResourceButtons(widget, nav) {
-  let [editC, setEditC] = React.useState(reRender);
-  //let [x, setX] = React.useState(0);
-  //let [y, setY] = React.useState(0);
-  //let [widgetX, setWidgetX] = React.useState(0);
-  //let [widgetY, setWidgetY] = React.useState(0);
-  // Gets called once for each widget on the screen
+  let [rerender, setRerender] = React.useState(reRender);
 
   // There is an error involving hook re-renders that has something to do with these useRefs
   const containerViewRef = useRef<View>(null);
@@ -87,20 +74,21 @@ function ResourceButtons(widget, nav) {
   const pan = useRef<any>(new Animated.ValueXY()).current;
   let pressingTouch = true;
 
-
-  //const [editC, setEditC] = React.useState(false);
-
-  /*useEffect(() => {
-    //updates the render for the buttons
-    if (editC == true) {
-      setEditC(false);
-    }
-  });*/
-
   const panResponder = useRef(
+
+    //sends a brodcast at everytouch on the screen and if an the app will manage the touch
     PanResponder.create({
-      onMoveShouldSetPanResponder: () => true,
+      /*This determines whether our pan responder should actuallly do anything. */
+      onMoveShouldSetPanResponder(event, gestureState){
+        //This will tell the pan responder to do something only after the press is in a set position
+        if (gestureState.dx === 0 || gestureState.dy === 0) {
+          return false;
+        }
+        return true;
+      },
+      //activates after a onMoveShouldSetPanResponder is set to true
       onPanResponderGrant: () => {
+        //This changes the x and y value of the object as the finger moves
         pan.setOffset({
           x: pan.x._value,
           y: pan.y._value
@@ -126,7 +114,11 @@ function ResourceButtons(widget, nav) {
 
       onPanResponderRelease: (e, gestureState) => {
         let i = 0;
+        //thisWidget isnt being updated? why? old cord are staying the same
+        console.log("new switch");
+        console.log("-");
         widgetList.map(function (thisWidget) {
+          console.log(thisWidget.name);
           let x = gestureState.moveX;
           //setX(x = gestureState.moveX);
           let y = gestureState.moveY;
@@ -136,73 +128,23 @@ function ResourceButtons(widget, nav) {
           let widgetY = thisWidget.posY;
           //setWidgetY(widgetY = thisWidget.posY);
 
-
-          console.log("WidX " + widgetX + " WidY " + widgetY);
-          console.log("x "+ x+ " y " + y);
-          console.log(widget.name);
-          console.log(widget.id+ " cur wid");
-          console.log(thisWidget.id+ " target wid");
-
           if (
             (x >= (widgetX - thisWidget.width / 2)) && (x <= (widgetX + thisWidget.width / 2))
             && (y >= (widgetY - thisWidget.height / 2)) && (y <= (widgetY + thisWidget.height / 2))
             && thisWidget.id != widget.id
-            //alternatively use .name
           ) {
+            console.log("SWITCH " + widget.name + " (" + (widgetList.findIndex((el) => el.id === widget.id)) + ") with " + thisWidget.name + " (" + (widgetList.findIndex((el) => el.id === thisWidget.id)) + ")")
+            const toSwitch = widgetList[widgetList.findIndex((el) => el.id === thisWidget.id)];
+            const currentId = widgetList[widgetList.findIndex((el) => el.id === widget.id)];
             
-            console.log("SWITCH " + widget.name + " (" + widget.id + ") with " + thisWidget.name + " (" + thisWidget.id + ")")
-            
-            //if within range of another button, swaps the id
-            let toSwitchId = thisWidget.id;
-            let currentId = widget.id;
-            //setCurId(curId=currentId);
-            //setDesId(desId=i);
-            //let currentName = widget.name;
-            //let currentId = widget;
-
-            //widgetList[widget.id].id = thisWidget.id;
-            //widgetList[toSwitchId].id = widget.id;
-            //i is probably better for determining targeted button
-            //works first time, but subsequent drag and drops act like the
-            //selected buttons are in their intial positions?
-            let curPosX = widget.posX;
-            let curPosY = widget.posY;
-
-            let desPosX = thisWidget.posX;
-            let desPosY = thisWidget.posY;
-
-            //for swtiching ids
-
-            //original switcher vvvv
-            widgetList[currentId].id = thisWidget.id;
-            
-            
-            //widgetList[curId].id = thisWidget.id;
-            widgetList[currentId].posX = desPosX;
-            widgetList[currentId].posY = desPosY;
-
-            //widgetList[currentId].name = thisWidget.name;
-            
-            //original switcher vvvvvvv
-            widgetList[i].id = currentId;
-            
-            //widgetList[desId].id = currentId;
-            widgetList[i].posX = curPosX;
-            widgetList[i].posY = curPosY;
-            
-            //widgetList[i].name = currentName;
-            //console.log(widgetList);
-            //for switching whole widgets
-            //widgetList[currentId.id] = thisWidget;
-            //widgetList[i] = currentId;
-            //widgetList[i] = widget;
-            // Sorts order of widgets based on their id
-            console.log(widgetList);
-            widgetList.sort((a, b) => a.id - b.id);
-            console.log(widgetList);
-            setEditC(editC = true);
 
 
+
+            widgetList[widgetList.findIndex((el) => el.id === thisWidget.id)]=currentId;
+            widgetList[widgetList.findIndex((el) => el.id === widget.id)]=toSwitch;
+            //thisWidget=widgetList;
+            lock = true;
+            setRerender(rerender = true);
           }
           else {
             // Outside range of button
@@ -214,9 +156,10 @@ function ResourceButtons(widget, nav) {
           i++
         })
         
+        
         pan.flattenOffset();
-        
-        
+       
+
         console.log("release");
         
       }
@@ -227,10 +170,10 @@ function ResourceButtons(widget, nav) {
   
   useEffect(() => {
     //updates the render for the buttons
-    if (editC == true) {
-      setEditC(editC = false);
-      console.log("Rendered List: ")
-      console.log(widgetList)
+    if (rerender == true) {
+      setRerender(rerender = false);
+      //console.log("Rendered List: ")
+      //console.log(widgetList)
       
     }
   });
@@ -257,8 +200,8 @@ function ResourceButtons(widget, nav) {
 
           }
         );
-        console.log("Rendered");
-        console.log(widgetList[widget.id]);
+        //console.log("Rendered");
+        //console.log(widgetList[widget.id]);
       }}
 
       {...panResponder.panHandlers}
@@ -295,7 +238,7 @@ export default function WidgetScreenDisplay(props) {
  
     if (update == true){
     setUpdate(update = false);
-    console.log("Updated List");
+    //console.log("Updated List");
 
 
   }
@@ -303,9 +246,12 @@ export default function WidgetScreenDisplay(props) {
   return (
     <View style={styles.container}>
       <View style={styles.resourceButtons}>
-        {widgetList.map((widget) =>
-          ResourceButtons(widget, nav)
-        )}
+        {
+        widgetList.map((widget) => (
+            ResourceButtons(widget)
+          )
+        )
+        }
       </View>
     </View>
   );

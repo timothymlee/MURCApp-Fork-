@@ -1,7 +1,9 @@
 // Optionally import the services that you want to use
 const {initializeApp} = require("firebase/app");
-const { getDatabase, ref, onValue, get, update} = require("firebase/database");
+const { getDatabase, ref, onValue, get, update, set } = require("firebase/database");
+const { getStorage, ref: refStorage, uploadBytes, getDownloadURL } = require("firebase/storage");
 const React = require("react");
+const { launchImageLibraryAsync, MediaTypeOptions, requestMediaLibraryPermissionsAsync } = require("expo-image-picker");
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -19,6 +21,7 @@ const firebaseConfig = {
 };
 
 const myApp = initializeApp(firebaseConfig);
+const storage = getStorage(myApp);
 
 // Set preferences for a user.
 // input: userId, preferences object
@@ -121,11 +124,60 @@ async function createFirebaseProfile(userId) {
             treenut: false,
             gluten: false,
             vegan: false
-        }
+        },
+        backgroundImage: null
     }
 
     updates['users/' + userId + '/'] = profile;
     return update(ref(db), updates);
+}
+
+async function uploadBackground(userId) {
+
+    const pickImage = async () => {
+        try {
+            const permissionResult = await requestMediaLibraryPermissionsAsync()
+            if (permissionResult.granted === false) {
+                alert("You've refused to allow this app to access your photos!");
+                return;
+            }
+
+            // No permissions request is necessary for launching the image library
+            const result = await launchImageLibraryAsync({
+                mediaTypes: MediaTypeOptions.All,
+                allowsEditing: true,
+                quality: 1,
+            });
+
+            console.log(result);
+
+            if (!result.cancelled) {
+                return result;
+            }
+        } catch (error) {
+            alert('Error Occur: ' + error.message)
+        }
+    };
+
+    let pickResult = await pickImage();
+
+        if (pickResult !== null && pickResult !== undefined) {
+            const response = await fetch(pickResult.uri);
+            const blob = await response.blob();
+
+            const imageRef = refStorage(storage, 'images/background/' + pickResult.uri.toString().substring(pickResult.uri.toString().lastIndexOf("/") + 1));
+            await uploadBytes(imageRef, blob);
+
+            // Add result to user firebase
+            const imageLink = await getDownloadURL(imageRef);
+
+            console.log(imageLink);
+
+            const db = getDatabase();
+            return set(ref(db, 'users/' + userId), {
+                profile_picture : imageLink
+            });
+        }
 }
 
 
@@ -136,5 +188,6 @@ module.exports = {
     readUserData,
     readLottieData,
     readEventData,
-    createFirebaseProfile
+    createFirebaseProfile,
+    uploadBackground
 }
