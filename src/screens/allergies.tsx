@@ -2,6 +2,7 @@ import { Pressable, StyleSheet, SafeAreaView, Text, View, ScrollView } from "rea
 import React from 'react';
 import { Icon, Button, CheckBox } from "@rneui/themed";
 import Header from "./Components/header"
+import {normalize} from '../fileTextsizing';
 import { icon_dark, title_dark, bg_default, bg_alt, accent2, title_mid, accent3, title_light } from '../assets/data'
 
 type CompProps = {
@@ -40,8 +41,8 @@ export default function Allergies(props: CompProps) {
 
         <View style={styles.app_container}>
           <Pressable style={styles.backButtonContainer} onPress={() => props.navigation.goBack()}>
-            <Icon name="chevron-back" type="ionicon" size={28} color={icon_dark}></Icon>
-            <Text style={{ fontSize: 18, fontWeight: '600' }}>Back</Text>
+            <Icon name="chevron-back" type="ionicon" size={normalize(28)} color={icon_dark}></Icon>
+            <Text style={{ fontSize: normalize(18), fontWeight: '600' }}>Back</Text>
           </Pressable>
           <Text style={styles.title}>Dietary Preferences</Text>
           <Text style={styles.subtitle}>This information will only be used when placing an online order</Text>
@@ -53,7 +54,7 @@ export default function Allergies(props: CompProps) {
                 checkedColor={accent2}
                 containerStyle={styles.checkboxBoxContainer}
                 onIconPress={() => setChecked1(!checked1)}
-                size={32}
+                size={normalize(32)}
                 uncheckedColor={title_mid}
               />
             </View>
@@ -64,7 +65,7 @@ export default function Allergies(props: CompProps) {
                 checkedColor={accent2}
                 containerStyle={styles.checkboxBoxContainer}
                 onIconPress={() => setChecked2(!checked2)}
-                size={32}
+                size={normalize(32)}
                 uncheckedColor={title_mid}
               />
             </View>
@@ -75,7 +76,7 @@ export default function Allergies(props: CompProps) {
                 checkedColor={accent2}
                 containerStyle={styles.checkboxBoxContainer}
                 onIconPress={() => setChecked3(!checked3)}
-                size={32}
+                size={normalize(32)}
                 uncheckedColor={title_mid}
               />
             </View>
@@ -86,7 +87,7 @@ export default function Allergies(props: CompProps) {
                 checkedColor={accent2}
                 containerStyle={styles.checkboxBoxContainer}
                 onIconPress={() => setChecked4(!checked4)}
-                size={32}
+                size={normalize(32)}
                 uncheckedColor={title_mid}
               />
             </View>
@@ -97,7 +98,7 @@ export default function Allergies(props: CompProps) {
                 checkedColor={accent2}
                 containerStyle={styles.checkboxBoxContainer}
                 onIconPress={() => setChecked5(!checked5)}
-                size={32}
+                size={normalize(32)}
                 uncheckedColor={title_mid}
               />
             </View>
@@ -108,7 +109,7 @@ export default function Allergies(props: CompProps) {
                 checkedColor={accent2}
                 containerStyle={styles.checkboxBoxContainer}
                 onIconPress={() => setChecked6(!checked6)}
-                size={32}
+                size={normalize(32)}
                 uncheckedColor={title_mid}
               />
             </View>
@@ -119,7 +120,7 @@ export default function Allergies(props: CompProps) {
                 checkedColor={accent2}
                 containerStyle={styles.checkboxBoxContainer}
                 onIconPress={() => setChecked7(!checked7)}
-                size={32}
+                size={normalize(32)}
                 uncheckedColor={title_mid}
               />
             </View>
@@ -130,17 +131,17 @@ export default function Allergies(props: CompProps) {
                 checkedColor={accent2}
                 containerStyle={styles.checkboxBoxContainer}
                 onIconPress={() => setChecked8(!checked8)}
-                size={32}
+                size={(32)}
                 uncheckedColor={title_mid}
               />
             </View>
-            <View style={{ height: 100 }}></View>
+            <View style={{ height: normalize(100) }}></View>
           </ScrollView>
           <Button
             title="Save Changes"
             buttonStyle={styles.button}
             containerStyle={styles.button_container}
-            titleStyle={{ fontSize: 18, color: title_light }}
+            titleStyle={{ fontSize: normalize(18), color: title_light }}
             // onPress will save state of the current checked boxes in the database
             onPress={() => {
               allergyPreferences[0] = checked1;
@@ -171,38 +172,38 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     color: title_dark,
-    paddingLeft: 30,
-    paddingBottom: 20,
-    fontSize: 12
+    paddingLeft: normalize(30),
+    paddingBottom: normalize(20),
+    fontSize: normalize(12)
   },
   title: {
     color: title_dark,
-    fontSize: 28,
+    fontSize: normalize(28),
     fontWeight: '600',
-    paddingLeft: 30,
-    paddingBottom: 10
+    paddingLeft: normalize(30),
+    paddingBottom: normalize(10)
   },
   button: {
     backgroundColor: accent2,
     width: '100%',
     alignSelf: 'center',
     borderRadius: 30,
-    height: 50,
+    height: normalize(50),
   },
   button_container: {
     bottom: 0,
     position: 'absolute',
-    marginBottom: 30,
+    marginBottom: normalize(30),
     width: '85%',
     alignSelf: 'center'
   },
   list_header: {
-    height: 70,
+    height: normalize(70),
     justifyContent: 'center'
   },
   backButtonContainer: {
     flexDirection: 'row',
-    padding: 20,
+    padding: normalize(20),
     alignItems: 'center'
   },
   checkboxItemContainer1: {
@@ -211,8 +212,8 @@ const styles = StyleSheet.create({
     margin: 0,
     marginLeft: 0,
     alignItems: 'center',
-    paddingHorizontal: 40,
-    paddingVertical: 12
+    paddingHorizontal: normalize(40),
+    paddingVertical: normalize(12)
   },
   checkboxItemContainer2: {
     flexDirection: 'row',
@@ -220,13 +221,13 @@ const styles = StyleSheet.create({
     margin: 0,
     marginLeft: 0,
     alignItems: 'center',
-    paddingHorizontal: 40,
-    paddingVertical: 12
+    paddingHorizontal: normalize(40),
+    paddingVertical: normalize(12)
   },
   checkboxText: {
     flex: 1,
     fontWeight: '400',
-    fontSize: 16,
+    fontSize: normalize(16),
     padding: 0
   },
   checkboxBoxContainer: {

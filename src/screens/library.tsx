@@ -3,12 +3,13 @@ import React, { useState } from 'react';
 import { Icon, Button, Overlay, ListItem, Slider } from "@rneui/themed";
 import {LinearGradient} from 'expo-linear-gradient';
 import * as WebBrowser from 'expo-web-browser';
+import {normalize} from '../fileTextsizing';
 
 type CompProps = {
   // We are only using the navigate and goBack functions
   navigation: { navigate: Function; };
 };
-
+//good without
 export default function Gym(props: CompProps) {
 
     const [expanded1, setExpanded1] = useState(true);

@@ -2,11 +2,12 @@ import { ImageBackground, StyleSheet, SafeAreaView, Text, View, ScrollView, Keyb
 import React, { useState } from 'react';
 import { SearchBar, Button } from "@rneui/themed";
 import { readUserData } from "../firebaseCalls";
-import Widget from './Components/widgetR';
+import Widget from './Components/widget2';
 import Header from "./Components/header";
 import WidgetDisplay from "./Components/displayWidget";
 import { selectAuth } from "../api/authSlice";
 import { useAppSelector } from '../app/hooks';
+import {normalize} from '../fileTextsizing';
 import { accent3, bg_alt, bg_default, title_light, title_mid, WidgetNames } from '../assets/data';
 
 type CompProps = {
@@ -116,6 +117,7 @@ const styles = StyleSheet.create({
   search_container: {
     backgroundColor: accent3,
     minHeight: 70,
+    
   },
   page: {
     backgroundColor: accent3,
@@ -127,12 +129,13 @@ const styles = StyleSheet.create({
   },
   searchText: {
     color: title_light,
-    fontSize: 20,
-    padding: 20
+    fontSize: normalize(15),
+    padding: normalize(15)
   },
   searchResultContainer: {
     flex: 1,
     flexDirection: 'row',
     flexWrap: "wrap",
+
   }
 });
