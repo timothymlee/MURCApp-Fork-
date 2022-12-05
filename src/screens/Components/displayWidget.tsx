@@ -2,6 +2,8 @@ import { StyleSheet, View, TouchableOpacity, Text, Dimensions, Pressable } from 
 import React from 'react';
 import { Icon } from "@rneui/themed";
 import { useNavigation } from '@react-navigation/native';
+import {normalize} from '../../fileTextsizing';
+
 
 let w = Dimensions.get('window').width;
 let m = 18;
@@ -79,7 +81,7 @@ const styles = StyleSheet.create({
         minWidth: "25%",
         maxWidth: "100%",
         textAlign: "center",
-        fontSize: 13,
+        fontSize: normalize(13),
         fontWeight: "400",
     },
     widgetIcon: {

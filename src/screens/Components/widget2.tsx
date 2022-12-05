@@ -3,11 +3,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Icon } from "@rneui/themed";
 import { useNavigation } from '@react-navigation/native';
 import { title_light } from '../../assets/data'
+import {normalize} from '../../fileTextsizing';
+
 
 let grayed = '#AAA';
 
 // Determines if certain buttons are disabled
-let isGuest = true;
+let isGuest = false;
 let edit = true;
 let reRender = false;
 // Stores all info for each widget
@@ -278,7 +280,7 @@ function ResourceButtons(widget, nav) {
                 width: widget.width, height: widget.height, backgroundColor: (!widget.guest && isGuest) ? grayed : widget.color,
                 opacity: (!widget.guest && isGuest) ? 0.5 : 1
               }]}>
-            <Icon style={styles.widgetIcon} name={widget.icon} size={30} type={"ionicon"} color={'white'}></Icon>
+            <Icon style={styles.widgetIcon} name={widget.icon} size={normalize(24)} type={"ionicon"} color={'white'}></Icon>
           </TouchableOpacity>
           <Text style={styles.buttonTextStyle}>{widget.name}</Text>
         </View>
@@ -356,7 +358,7 @@ let styles = StyleSheet.create({
     minWidth: "25%",
     maxWidth: "100%",
     textAlign: "center",
-    fontSize: 13,
+    fontSize: normalize(11),
     fontWeight: "400",
   },
   widgetIcon: {
