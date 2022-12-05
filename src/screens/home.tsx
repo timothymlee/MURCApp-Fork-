@@ -22,6 +22,7 @@ export default function Home(props: CompProps) {
   const { name } = useAppSelector(selectAuth)
 
   if (name == null) { isGuest = true }
+  else { isGuest = false }
 
   const [value, setValue] = useState("");
   const [results, setResults] = useState([])
