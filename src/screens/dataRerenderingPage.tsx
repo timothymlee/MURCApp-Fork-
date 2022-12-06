@@ -1,4 +1,4 @@
-import { StyleSheet, ImageBackground, View, Image, SafeAreaView, Text, ScrollView, KeyboardAvoidingView, Keyboard, Pressable } from "react-native";
+import { StyleSheet,Platform,ImageBackground, View, Image, SafeAreaView, Text, ScrollView, KeyboardAvoidingView, Keyboard, Pressable } from "react-native";
 import React, { useState } from 'react';
 import { LinearGradient } from "expo-linear-gradient";
 import { Button, Icon, CheckBox } from "@rneui/themed";
@@ -11,7 +11,13 @@ import { CalendarProvider, WeekCalendar } from 'react-native-calendars';
 
 const todaysDate = ((new Date().getFullYear().toLocaleString())+'-'+(new Date().getMonth() + 1).toLocaleString())+'-'+(new Date().getDate().toLocaleString())
 let DataState = false;
-let selectedDate = todaysDate;
+
+
+let tempdate = todaysDate;
+let selectedDate = tempdate.replace(',','')
+
+
+
 type CompProps = {
   navigation: { navigate: Function; };
 };
@@ -31,6 +37,8 @@ function dateCal(data){
 
 let todaysEvent = null;
 let today = new Date().toISOString().substring(0, 10);
+tempdate = today;
+today = tempdate.replace(',','')
 function date(data){
     let gendate;
     if (data.dateTimeStart.substr(0,10) == data.dateTimeEnd.substr(0,10)){
@@ -104,9 +112,9 @@ export default function TestPage(props: CompProps) {
                               
                               <View style={[styles.imageCon]}>
                                 
-                              <ImageBackground source={imgSource} resizeMode="cover" style={styles.image} imageStyle={{ borderTopLeftRadius: 25, borderTopRightRadius: 25}}>
+                              <Image source={imgSource} resizeMode="cover" style={styles.image} imageStyle={{ borderTopLeftRadius: 25, borderTopRightRadius: 25}}>
                                 <Text style={styles.bold_subtitle_title}>{data.title}</Text>
-                              </ImageBackground>
+                              </Image>
                               </View>
                               <View style={styles.pad}>
                                   <Text><Text style={styles.bold_subtitle}>Date: </Text ><Text style={styles.subtitle}>{date(data)}</Text></Text>
@@ -133,12 +141,13 @@ export default function TestPage(props: CompProps) {
         }
         
     async function genEventsData(){
+        console.log(selectedDate);
         const array = [];
         if (todaysEvent == null){
             
             todaysEvent = await readEventData(dateCal(selectedDate));
             if (todaysEvent == ""){
-                setPage(<Text>There are no events for { (selectedDate).substr(5,2) +"-"+ (((selectedDate).substr(8,2)).substr(0,1)).replace("0", "") + ((selectedDate).substr(8,3)).substr(1,1) +"-"+ (selectedDate).substr(0,4)}</Text>)
+                setPage(<Text>There are no events for { selectedDate}</Text>)
             }else{
                 getData();
             }
