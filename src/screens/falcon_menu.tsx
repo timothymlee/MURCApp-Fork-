@@ -4,6 +4,7 @@ import { Button, ListItem } from "@rneui/themed";
 import { LinearGradient } from 'expo-linear-gradient';
 import * as WebBrowser from 'expo-web-browser';
 import Header from "./Components/header";
+import {normalize} from '../fileTextsizing';
 import { accent2, bg_alt, falcon_menu_list, accent3, bg_default, title_dark, title_light } from '../assets/data';
 
 type CompProps = {
@@ -44,7 +45,7 @@ export default function FalconMenu(props: CompProps) {
                 key={i}
                 content={
                   <ListItem.Content>
-                    <ListItem.Title>{category.name}</ListItem.Title>
+                    <ListItem.Title style={{ fontSize: normalize(12), fontWeight: '600' }}>{category.name}</ListItem.Title>
                   </ListItem.Content>
                 }
                 linearGradientProps={{
@@ -69,14 +70,14 @@ export default function FalconMenu(props: CompProps) {
                 ))}
               </ListItem.Accordion>
             )}
-            <View style={{ height: 100 }}></View>
+            <View style={{ height: normalize(100) }}></View>
           </>
         </ScrollView>
         <Button
           title="Order Now"
           buttonStyle={styles.button2}
           containerStyle={styles.button2_container}
-          titleStyle={{ fontSize: 18 }}
+          titleStyle={{ fontSize: normalize(18) }}
           onPress={_handlePressButtonAsync}
         />
       </View>
@@ -99,72 +100,72 @@ const styles = StyleSheet.create({
   },
   title: {
     color: title_dark,
-    fontSize: 36,
+    fontSize: normalize(24),
     fontWeight: '600',
-    padding: 30
+    padding: normalize(21)
   },
   button1: {
     backgroundColor: accent2,
     width: '85%',
     alignSelf: 'center',
     borderRadius: 30,
-    height: 50,
-    marginBottom: 30
+    height: normalize(250),
+    marginBottom: normalize(20)
   },
   button2: {
     backgroundColor: accent3,
     width: '100%',
     borderRadius: 30,
-    height: 50
+    height: normalize(35)
   },
   button2_container: {
     bottom: 0,
     position: 'absolute',
-    marginBottom: 30,
+    marginBottom: normalize(30),
     width: '85%',
     alignSelf: 'center'
   },
   list_header: {
-    height: 70,
+    height: normalize(40),
     justifyContent: 'center'
   },
   hours_heading: {
-    fontSize: 22,
+    fontSize: normalize(16),
     fontWeight: '600',
     color: title_light
   },
   hours_subtitle: {
-    fontSize: 18,
+    fontSize: normalize(14),
     fontWeight: '400',
     color: bg_alt
   },
   hours_times: {
-    fontSize: 18,
+    fontSize: normalize(14),
     fontWeight: '500',
     color: bg_alt
   },
   hours_container: {
-    marginHorizontal: 30,
-    marginBottom: 20,
+    marginHorizontal: normalize(26),
+    marginBottom: normalize(16),
     borderRadius: 20,
     justifyContent: 'center',
-    padding: 20,
+    padding: normalize(15),
     backgroundColor: accent2
   },
   item_text: {
-    fontSize: 13,
+    fontSize: normalize(13),
     flex: 3,
-    marginLeft: 30,
+    marginLeft: normalize(30),
     fontWeight: '300',
   },
   price_text: {
-    fontSize: 13,
+    fontSize: normalize(13),
     flex: 1,
-    marginRight: 30,
+    marginRight: normalize(30),
     fontWeight: '300',
   },
   list_item: {
-    margin: 10,
+    margin: normalize(10),
     padding: 0,
     backgroundColor: null
   },
