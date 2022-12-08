@@ -8,7 +8,8 @@ import Header from "./Components/header";
 const todaysDate = ((new Date().getFullYear().toLocaleString()) + '-' + (new Date().getMonth() + 1).toLocaleString()) + '-' + (new Date().getDate().toLocaleString())
 let DataState = false;
 let todaysEvent = null;
-let selectedDate = todaysDate;
+let tempdate = todaysDate;
+let selectedDate = tempdate.replace(',','')
 type CompProps = {
   navigation: { navigate: Function; };
 };
@@ -74,9 +75,8 @@ function time(data) {
 }
 
 
-
+let trigger = true;
 export default function TestPage(props: CompProps) {
-
   //This created the page state which by defualt is set to show a loading gif 
   //until the page state is changed.
 
@@ -85,54 +85,61 @@ export default function TestPage(props: CompProps) {
   genEventsData();
   //This will be used to display the data and after the data is collected the page 
   //state will change to show the events page.
-  const getData = () => {
-    const Card = () => {
-      const Card2 = [];
-      //This will create a card which will be pushed to Card2 for each event that is sent back from the database then after all the cards 
-      //are finished it will be pushed to the card element where it can be displays.
-      todaysEvent.forEach((data, index) => {
-        ///Because this if statement compared the date dont forget to re formate the date into a comparable var to compare with selected date
-        let imgSource;
-        if (data.image == "") {
-          imgSource = { uri: "https://www.messiah.edu/site/custom_scripts/mcnews/hero-news.jpg" }
-        } else {
-          imgSource = { uri: data.image }
+
+  
+    const getData = () => {
+      if (trigger == true){
+        const Card = () => {
+          const Card2 = [];
+          //This will create a card which will be pushed to Card2 for each event that is sent back from the database then after all the cards 
+          //are finished it will be pushed to the card element where it can be displays.
+          todaysEvent.forEach((data, index) => {
+            console.log(data.image)
+            ///Because this if statement compared the date dont forget to re formate the date into a comparable var to compare with selected date
+            let defaultSource;
+            if (data.image == "") {
+              defaultSource = { uri: "https://www.messiah.edu/site/custom_scripts/mcnews/hero-news.jpg" }
+            } else {
+              defaultSource = { uri: data.image }
+            }
+
+            Card2.push(
+
+              <View style={styles.center} key={index}>
+
+                <View style={styles.card}>
+
+                  <View style={[styles.imageCon]}>
+
+                    <ImageBackground source={defaultSource} resizeMode="cover" style={styles.image} imageStyle={{ borderTopLeftRadius: 25, borderTopRightRadius: 25 }}>
+                      <Text style={styles.bold_subtitle_title}>{data.title}</Text>
+                    </ImageBackground>
+                  </View>
+                  <View style={styles.pad}>
+                    <Text><Text style={styles.bold_subtitle}>Date: </Text ><Text style={styles.subtitle}>{date(data)}</Text></Text>
+
+                    <Text><Text style={styles.bold_subtitle}>Location: </Text><Text style={styles.subtitle}>{data.location}</Text></Text>
+
+                    <Text><Text style={styles.bold_subtitle}>Time: </Text><Text style={styles.subtitle}>{time(data.dateTimeStart)}</Text></Text>
+
+                    <Text><Text style={styles.bold_subtitle}>Cost: </Text><Text style={styles.subtitle}>${data.cost}</Text></Text>
+                  </View>
+
+                </View>
+              </View>
+
+            );
+          }
+
+          );
+          
+          return <View>{Card2}</View>
+
         }
-
-        Card2.push(
-
-          <View style={styles.center} key={index}>
-
-            <View style={styles.card}>
-
-              <View style={[styles.imageCon]}>
-
-                <ImageBackground source={imgSource} resizeMode="cover" style={styles.image} imageStyle={{ borderTopLeftRadius: 25, borderTopRightRadius: 25 }}>
-                  <Text style={styles.bold_subtitle_title}>{data.title}</Text>
-                </ImageBackground>
-              </View>
-              <View style={styles.pad}>
-                <Text><Text style={styles.bold_subtitle}>Date: </Text ><Text style={styles.subtitle}>{date(data)}</Text></Text>
-
-                <Text><Text style={styles.bold_subtitle}>Location: </Text><Text style={styles.subtitle}>{data.location}</Text></Text>
-
-                <Text><Text style={styles.bold_subtitle}>Time: </Text><Text style={styles.subtitle}>{time(data.dateTimeStart)}</Text></Text>
-
-                <Text><Text style={styles.bold_subtitle}>Cost: </Text><Text style={styles.subtitle}>${data.cost}</Text></Text>
-              </View>
-
-            </View>
-          </View>
-
-        );
-      }
-
-      );
-      return <View>{Card2}</View>
-
+        trigger = false;
+        //This simply set the state of the page to show the cards after the events are rendered and the cards are created
+        setPage(<Card />);
     }
-    //This simply set the state of the page to show the cards after the events are rendered and the cards are created
-    setPage(<Card />);
   }
   //this function get the data from the    
   async function genEventsData() {
@@ -194,6 +201,7 @@ export default function TestPage(props: CompProps) {
               onDayPress={(day) => {
                 selectedDate = day.year + '-' + day.month + '-' + day.day;
                 todaysEvent = null;
+                trigger = true;
                 setPage(<View style={{ borderColor: 'black', width: '100%', height: '100%', justifyContent: "center", backgroundColor: "#ffffff", alignItems: "center" }}><Image source={require('../assets/images/loading.gif')} /></View>);
                 genEventsData();
               }}

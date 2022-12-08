@@ -4,6 +4,8 @@ import { Icon, Button, Overlay, ListItem } from "@rneui/themed";
 import { LinearGradient } from 'expo-linear-gradient';
 import * as WebBrowser from 'expo-web-browser';
 import Header from "./Components/header";
+import {normalize} from '../fileTextsizing';
+
 import { accent2, accent3, bg_alt, bg_default, union_menu_list, title_dark, title_mid } from '../assets/data';
 
 type CompProps = {
@@ -58,7 +60,7 @@ export default function UnionMenu(props: CompProps) {
           <Button
             title="Hours of Operation"
             buttonStyle={styles.button1}
-            titleStyle={{ fontSize: 18 }}
+            titleStyle={{ fontSize: normalize(13) }}
             onPress={toggleOverlay}
           />
           <ScrollView>
@@ -67,7 +69,7 @@ export default function UnionMenu(props: CompProps) {
                 key={i}
                 content={
                   <ListItem.Content>
-                    <ListItem.Title>{category.name}</ListItem.Title>
+                    <ListItem.Title style={{ fontSize: normalize(12), fontWeight: '600' }}>{category.name}</ListItem.Title>
                   </ListItem.Content>
                 }
                 linearGradientProps={{
@@ -99,7 +101,7 @@ export default function UnionMenu(props: CompProps) {
             title="Order Now"
             buttonStyle={styles.button2}
             containerStyle={styles.button2_container}
-            titleStyle={{ fontSize: 18 }}
+            titleStyle={{ fontSize: normalize(13) }}
             onPress={_handlePressButtonAsync}
           />
         </View>
@@ -120,69 +122,70 @@ const styles = StyleSheet.create({
   },
   title: {
     color: title_dark,
-    fontSize: 36,
+    fontSize: normalize(26),
     fontWeight: '600',
-    padding: 30
+    padding: normalize(20)
   },
   button1: {
     backgroundColor: accent2,
     width: '85%',
     alignSelf: 'center',
     borderRadius: 30,
-    height: 50,
-    marginBottom: 30
+    height: normalize(30),
+    marginBottom: normalize(30)
   },
   button2: {
     backgroundColor: accent3,
     width: '100%',
     borderRadius: 30,
-    height: 50
+    height: normalize(30)
   },
   button2_container: {
     bottom: 0,
     position: 'absolute',
-    marginBottom: 30,
+    marginBottom: normalize(30),
     width: '85%',
     alignSelf: 'center'
   },
   list_header: {
-    height: 70,
+    height: normalize(40),
+    
     justifyContent: 'center'
   },
   overlay_container: {
-    width: 300,
+    width: normalize(200),
     borderRadius: 20,
     backgroundColor: bg_default,
-    paddingHorizontal: 50,
-    paddingVertical: 20,
+    paddingHorizontal: normalize(30),
+    paddingVertical: normalize(15),
     justifyContent: 'center'
   },
   overlay_heading: {
-    fontSize: 22,
+    fontSize: normalize(16),
     fontWeight: '600',
     color: title_mid,
-    paddingVertical: 10
+    paddingVertical: normalize(10)
   },
   overlay_times: {
     alignSelf: 'center',
-    fontSize: 18,
+    fontSize: normalize(14),
     fontWeight: '500',
     color: title_mid
   },
   item_text: {
-    fontSize: 13,
+    fontSize: normalize(13),
     flex: 3,
-    marginLeft: 30,
+    marginLeft: normalize(30),
     fontWeight: '300',
   },
   price_text: {
-    fontSize: 13,
+    fontSize: normalize(13),
     flex: 1,
-    marginRight: 30,
+    marginRight: normalize(30),
     fontWeight: '300',
   },
   list_item: {
-    margin: 10,
+    margin: normalize(10),
     padding: 0,
     backgroundColor: null
   },

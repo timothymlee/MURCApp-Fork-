@@ -2,14 +2,11 @@ import { StyleSheet, View, TouchableOpacity, Text, PanResponder, Animated, Dimen
 import React, { useEffect, useRef, useState } from 'react';
 import { Icon } from "@rneui/themed";
 import { useNavigation } from '@react-navigation/native';
-import { title_light } from '../../assets/data'
-import {normalize} from '../../fileTextsizing';
-
 
 let grayed = '#AAA';
 
 // Determines if certain buttons are disabled
-let isGuest = false;
+let isGuest = true;
 let edit = true;
 let reRender = false;
 // Stores all info for each widget
@@ -35,7 +32,7 @@ function fillWidgetList() {
     if (widget.size < 4) { h = s }
     else { h = s * 2 + m * 2 }
 
-    if (widgetList.length != widgetInfo.length){
+    if (widgetList.length < widgetInfo.length){
 
       widgetList.push({
         name: widget.name,
@@ -44,16 +41,19 @@ function fillWidgetList() {
         color: widget.color,
         posX: 0,
         posY: 0,
+        key: widget.key,
         id: i,
         width: w,
         height: h,
         guest: widget.guest
       })
+      return (<View key={widget.key}></View>)
     }
     else{
       console.log("Widgets Full")
       //widgetList[i] = widgetList[i];
       //console.log(widgetList);
+      
     }
     i++
     //console.log(i);
@@ -101,12 +101,7 @@ function ResourceButtons(widget, nav) {
 
   const panResponder = useRef(
     PanResponder.create({
-      onMoveShouldSetPanResponder(e, gestureState){
-        if (gestureState.dx === 0 || gestureState.dy === 0) {
-          return false;
-        }
-        return true;
-      },
+      onMoveShouldSetPanResponder: () => true,
       onPanResponderGrant: () => {
         pan.setOffset({
           x: pan.x._value,
@@ -144,11 +139,11 @@ function ResourceButtons(widget, nav) {
           //setWidgetY(widgetY = thisWidget.posY);
 
 
-          console.log("WidX " + widgetX + " WidY " + widgetY);
-          console.log("x "+ x+ " y " + y);
-          console.log(widget.name);
-          console.log(widget.id+ " cur wid");
-          console.log(thisWidget.id+ " target wid");
+          //console.log("WidX " + widgetX + " WidY " + widgetY);
+          //console.log("x "+ x+ " y " + y);
+          //console.log(widget.name);
+          //console.log(widget.key+ " cur wid");
+         // console.log(thisWidget.key+ " target wid");
 
           if (
             (x >= (widgetX - thisWidget.width / 2)) && (x <= (widgetX + thisWidget.width / 2))
@@ -191,12 +186,12 @@ function ResourceButtons(widget, nav) {
             //widgetList[currentId].name = thisWidget.name;
             
             //original switcher vvvvvvv
-            widgetList[i].id = currentId;
+            widgetList[toSwitchId].id = currentId;
             
             //widgetList[desId].id = currentId;
-            widgetList[i].posX = curPosX;
-            widgetList[i].posY = curPosY;
-            
+            widgetList[toSwitchId].posX = curPosX;
+            widgetList[toSwitchId].posY = curPosY;
+            //can also use i ^^^ I think
             //widgetList[i].name = currentName;
             //console.log(widgetList);
             //for switching whole widgets
@@ -280,7 +275,7 @@ function ResourceButtons(widget, nav) {
                 width: widget.width, height: widget.height, backgroundColor: (!widget.guest && isGuest) ? grayed : widget.color,
                 opacity: (!widget.guest && isGuest) ? 0.5 : 1
               }]}>
-            <Icon style={styles.widgetIcon} name={widget.icon} size={normalize(24)} type={"ionicon"} color={'white'}></Icon>
+            <Icon style={styles.widgetIcon} name={widget.icon} size={30} type="ionicon" color={'white'}></Icon>
           </TouchableOpacity>
           <Text style={styles.buttonTextStyle}>{widget.name}</Text>
         </View>
@@ -295,6 +290,10 @@ export default function WidgetScreenDisplay(props) {
 
   isGuest = props.guest;
   widgetInfo = props.widgets;
+  console.log("Props.Widget");
+  console.log(props.widget);
+  console.log("WidgetInfo");
+  console.log(widgetInfo);
   const nav = useNavigation();
 /*
   */
@@ -303,8 +302,6 @@ export default function WidgetScreenDisplay(props) {
     if (update == true){
     setUpdate(update = false);
     console.log("Updated List");
-
-
   }
   
   return (
@@ -354,11 +351,11 @@ let styles = StyleSheet.create({
     shadowRadius: 8,
   },
   buttonTextStyle: {
-    color: title_light,
+    color: 'white',
     minWidth: "25%",
     maxWidth: "100%",
     textAlign: "center",
-    fontSize: normalize(11),
+    fontSize: 13,
     fontWeight: "400",
   },
   widgetIcon: {

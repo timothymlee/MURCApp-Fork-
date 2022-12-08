@@ -1,15 +1,19 @@
-import { Image, StyleSheet, SafeAreaView, Text, View, ScrollView } from "react-native";
+import { Image, StyleSheet, SafeAreaView, Text, View, ScrollView,Dimensions, Platform, PixelRatio  } from "react-native";
 import React, { useState } from 'react';
 import { ListItem, Button } from "@rneui/themed";
 import { LinearGradient } from 'expo-linear-gradient';
 import * as WebBrowser from 'expo-web-browser';
 import Header from "./Components/header";
+import {normalize} from '../fileTextsizing';
+
 import { general_gym_hours, gym_info, gym_info2, gym_rules, gym_dress_code, bg_default, bg_alt, accent3, title_light, accent2 } from '../assets/data';
 
 type CompProps = {
   // We are only using the navigate and goBack functions
   navigation: { navigate: Function; };
 };
+
+
 
 export default function Gym(props: CompProps) {
 
@@ -36,7 +40,7 @@ export default function Gym(props: CompProps) {
               <ListItem.Accordion
                 content={
                   <ListItem.Content>
-                    <ListItem.Title>Hours</ListItem.Title>
+                    <ListItem.Title style={styles.bold_title}>Hours</ListItem.Title>
                   </ListItem.Content>
                 }
                 linearGradientProps={{
@@ -61,7 +65,7 @@ export default function Gym(props: CompProps) {
               <ListItem.Accordion
                 content={
                   <ListItem.Content>
-                    <ListItem.Title>Access</ListItem.Title>
+                    <ListItem.Title style={styles.bold_title}>Access</ListItem.Title>
                   </ListItem.Content>
                 }
                 linearGradientProps={{
@@ -94,7 +98,7 @@ export default function Gym(props: CompProps) {
               <ListItem.Accordion
                 content={
                   <ListItem.Content>
-                    <ListItem.Title>Policies and Procedures</ListItem.Title>
+                    <ListItem.Title style={styles.bold_title}>Policies and Procedures</ListItem.Title>
                   </ListItem.Content>
                 }
                 linearGradientProps={{
@@ -151,7 +155,7 @@ const styles = StyleSheet.create({
   },
   main_title: {
     color: title_light,
-    fontSize: 36,
+    fontSize: normalize(30),
     fontWeight: '600',
     position: 'absolute',
     padding: 20,
@@ -171,10 +175,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   info: {
-    fontSize: 13,
+    fontSize: normalize(13),
     marginHorizontal: 30,
     fontWeight: '300',
-    lineHeight: 20
+    lineHeight:  normalize(20)
   },
   list_item: {
     margin: 10,
@@ -183,8 +187,7 @@ const styles = StyleSheet.create({
   },
   bold_subtitle: {
     fontWeight: '600',
-    fontSize: 18,
-    marginVertical: 20,
+    fontSize: normalize(18),
     marginHorizontal: 18
   },
   button: {
@@ -199,4 +202,10 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 20
   },
+  bold_title: {
+    fontWeight: '600',
+    fontSize: normalize(14),
+    marginHorizontal: 18
+  },
+  
 });
