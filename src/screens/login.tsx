@@ -8,8 +8,8 @@ import { useAppDispatch } from "../app/hooks";
 import { setUser } from "../api/authSlice";
 import AppLoader from '../js componets/AppLoader'
 import {normalize} from '../fileTextsizing';
-
-import { accent1, accent1_alt, accent3, bg_default, icon_dark, title_dark, title_light } from '../assets/data'
+import BackButton from "./Components/backButton";
+import { accent1, accent1_alt, accent3, bg_default, icon_dark, icon_light, title_dark, title_light } from '../assets/data'
 //import { authenticateWithFirebase } from '../src/firebaseAuth'
 
 // Using this package for the input fields
@@ -17,7 +17,7 @@ import { accent1, accent1_alt, accent3, bg_default, icon_dark, title_dark, title
 
 type CompProps = {
   // We are only using the navigate and goBack functions
-  navigation: { navigate: Function; };
+  navigation: { navigate: Function; goBack: Function; };
 };
 
 export default function Login(props: CompProps) {
@@ -108,6 +108,7 @@ export default function Login(props: CompProps) {
             <SafeAreaView style={styles.background}>
               <Image source={require('../assets/images/messiah_logo.png')} style={styles.logo} />
             </SafeAreaView>
+            <BackButton props={props} iconColor={icon_light}/>
           </LinearGradient>
           <View style={styles.login_container}>
             <Text style={styles.heading}>Login</Text>
@@ -198,7 +199,7 @@ const styles = StyleSheet.create({
     width: 300,
     height: 100,
     resizeMode: 'cover',
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   heading: {
     fontSize: 32,
