@@ -28,7 +28,12 @@ export default function Home(props: CompProps) {
   const [value, setValue] = useState("");
   const [results, setResults] = useState([])
   const [scrolling, setScrolling] = useState(true);
-  const [savedWidgets, setSavedWidgets] = useState(WidgetNames)
+  const [savedWidgets, setSavedWidgets] = useState(SomeWidgetNames)
+
+  const addWidget = (widget) => {
+    setSavedWidgets([...savedWidgets, widget])
+    console.log("added widget " + widget.name)
+  }
 
   const updateSearch = (value) => {
     setValue(value);
@@ -66,7 +71,7 @@ export default function Home(props: CompProps) {
           <Text style={styles.searchText}>Searching For "{value}"</Text>
           <View style={styles.searchResultContainer}>
              {results.map((result, i) =>
-                <WidgetDisplay widget={result} key={result.key} widgetList={savedWidgets} setSavedWidgets={setSavedWidgets}/>
+                <WidgetDisplay widget={result} key={result.key} widgetList={savedWidgets} addWidget={addWidget}/>
              )}
           </View>
         </>

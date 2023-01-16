@@ -20,10 +20,11 @@ function buttonPressed(destination, guest, isGuest, nav) {
     }
 }
 
-function displayAddButton(widget, widgetList, setSavedWidgets) {
+function displayAddButton(widget, widgetList, addWidget) {
     let found = false;
 
     widgetList.map((currentWidget, i) => {
+        // Returns true if you already have added this widget to your home screen
         if (currentWidget.name == widget.name && !found) {
             found = true;
         }
@@ -31,7 +32,8 @@ function displayAddButton(widget, widgetList, setSavedWidgets) {
     if (!found) {
         //setSavedWidgets(widgetList.push(widget))
         return (
-            <Pressable style={styles.addWidgetContainer} onPress={() => setSavedWidgets([...widgetList, widget])}>
+            // Makes the "add widget" icon if you haven't already added it to your home screen
+            <Pressable style={styles.addWidgetContainer} onPress={() => {addWidget(widget); alert("Added " + widget.name + " to Home Screen")}}>
                 <Icon style={styles.widgetIcon} name={"add"} size={18} color={'white'}></Icon>
             </Pressable>
         )
@@ -53,7 +55,6 @@ export default function WidgetDisplay(props) {
 
     let isGuest = true;
 
-
     return (
         <View style={styles.resourceButtons}>
             <>
@@ -71,7 +72,7 @@ export default function WidgetDisplay(props) {
                     </TouchableOpacity>
                     <Text style={styles.buttonTextStyle}>{name}</Text>
                 </View>
-                {displayAddButton(widget, widgetList, props.setSavedWidgets)}
+                {displayAddButton(widget, widgetList, props.addWidget)}
             </>
         </View>
     )
