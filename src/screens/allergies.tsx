@@ -17,7 +17,7 @@ export default function Allergies(props: CompProps) {
 
   // Set to true if they say they have an allergy
   let allergyPreferences: boolean[] = [
-    false,
+    true,
     false,
     false,
     false,
