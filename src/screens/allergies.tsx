@@ -3,7 +3,10 @@ import React from 'react';
 import { Icon, Button, CheckBox } from "@rneui/themed";
 import Header from "./Components/header"
 import {normalize} from '../fileTextsizing';
+import {writeUserPreferences} from '../firebaseCalls';
 import { icon_dark, title_dark, bg_default, bg_alt, accent2, title_mid, accent3, title_light } from '../assets/data'
+
+const userId = 1399154;
 
 type CompProps = {
   // We are only using the navigate and goBack functions
@@ -152,6 +155,8 @@ export default function Allergies(props: CompProps) {
               allergyPreferences[5] = checked6;
               allergyPreferences[6] = checked7;
               allergyPreferences[7] = checked8;
+              writeUserPreferences(userId, allergyPreferences);
+
             }}
           />
         </View>
