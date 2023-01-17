@@ -14,9 +14,15 @@ type CompProps = {
 };
 
 export default function Profile_PopUp(props: CompProps) {
+  let username
   const { name } = useAppSelector(selectAuth)
   const { uploadBackground } = require("../../firebaseCalls")
-  let username = "Guest"
+  if (name  == null) {
+    username = "Guest"
+  } else {
+    username = name
+  }
+  
   
   // get username from data HERE
 
@@ -24,7 +30,7 @@ export default function Profile_PopUp(props: CompProps) {
   let logoutIcon = "log-in"
   let logoutURL = "Login"
 
-  if (name != null) {
+  if (username != "Guest") {
     logoutText = "Log Out";
     logoutIcon = "log-out";
     // set log out url
@@ -46,9 +52,7 @@ export default function Profile_PopUp(props: CompProps) {
         <View style={{ flex: 1, minHeight: normalize(22) }}>
           <Text style={{ color: title_dark, fontSize: normalize(29) }}>{username}</Text>
         </View>
-        <View style={{ flex: 1.5, minHeight: normalize(24) }}>
-          <Text style={{ color: title_mid, fontSize: normalize(20) }}>{name}</Text>
-        </View>
+        
 
         <View style={{ flex: 1, minHeight: normalize(16), flexDirection: 'row' }}>
           <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
