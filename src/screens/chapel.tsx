@@ -1,4 +1,4 @@
-import { Image, StyleSheet, SafeAreaView, Text, View } from "react-native";
+import { Image, StyleSheet, SafeAreaView, Text, View, Platform, StatusBar } from "react-native";
 import React from 'react';
 import { Slider } from "@rneui/themed";
 import Header from "./Components/header";
@@ -103,7 +103,8 @@ const styles = StyleSheet.create({
   },
   page: {
     backgroundColor: accent3,
-    flex: 1
+    flex: 1,
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
   },
   banner_image_cont: {
     flex: 1

@@ -1,4 +1,4 @@
-import { StyleSheet, SafeAreaView, Text, View, ScrollView } from "react-native";
+import { StyleSheet, SafeAreaView, Text, View, ScrollView, Platform, StatusBar } from "react-native";
 import React from 'react';
 import { ListItem } from "@rneui/themed";
 import { Range, Account } from '../js componets/dropdownRange';
@@ -116,7 +116,8 @@ const styles = StyleSheet.create({
   },
   page: {
     backgroundColor: '#1E293B',
-    flex: 1
+    flex: 1,
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
   },
   scroll: {
     height: "50%",
