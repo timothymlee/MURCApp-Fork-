@@ -1,6 +1,6 @@
 import { ImageBackground, StyleSheet, SafeAreaView, Text, View, ScrollView, KeyboardAvoidingView, Platform, StatusBar, TouchableWithoutFeedback } from "react-native";
 import React, { useState } from 'react';
-import { SearchBar, Button } from "@rneui/themed";
+import { SearchBar } from "@rneui/themed";
 import { readUserData } from "../firebaseCalls";
 import Widget from './Components/widgetR';
 import Header from "./Components/header";
@@ -8,7 +8,7 @@ import WidgetDisplay from "./Components/displayWidget";
 import { selectAuth } from "../api/authSlice";
 import { useAppSelector } from '../app/hooks';
 import {normalize} from '../fileTextsizing';
-import { accent3, bg_alt, bg_default, title_light, title_mid, WidgetNames } from '../assets/data';
+import { accent3, bg_alt, bg_default, title_light, title_mid, WidgetNames, SomeWidgetNames } from '../assets/data';
 
 type CompProps = {
   // We are only using the navigate and goBack functions
@@ -28,6 +28,12 @@ export default function Home(props: CompProps) {
   const [value, setValue] = useState("");
   const [results, setResults] = useState([])
   const [scrolling, setScrolling] = useState(true);
+  const [savedWidgets, setSavedWidgets] = useState(SomeWidgetNames)
+
+  const addWidget = (widget) => {
+    setSavedWidgets([...savedWidgets, widget])
+    console.log("added widget " + widget.name)
+  }
 
   const updateSearch = (value) => {
     setValue(value);
@@ -53,7 +59,7 @@ export default function Home(props: CompProps) {
         <>
           <View style={styles.app_container}>
             <TouchableWithoutFeedback>
-              <Widget guest={isGuest} widgets={WidgetNames} />
+              <Widget guest={isGuest} widgets={savedWidgets} />
             </TouchableWithoutFeedback>
           </View>
         </>
@@ -65,7 +71,7 @@ export default function Home(props: CompProps) {
           <Text style={styles.searchText}>Searching For "{value}"</Text>
           <View style={styles.searchResultContainer}>
              {results.map((result, i) =>
-                <WidgetDisplay widget={result} key={result.key}/>
+                <WidgetDisplay widget={result} key={result.key} widgetList={savedWidgets} addWidget={addWidget}/>
              )}
           </View>
         </>
@@ -117,15 +123,11 @@ const styles = StyleSheet.create({
   search_container: {
     backgroundColor: accent3,
     minHeight: 70,
-    
   },
   page: {
     backgroundColor: accent3,
     flex: 1,
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
-  },
-  button: {
-    padding: 20
   },
   searchText: {
     color: title_light,
@@ -136,6 +138,5 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     flexWrap: "wrap",
-
   }
 });

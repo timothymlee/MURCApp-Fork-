@@ -12,7 +12,6 @@ let isGuest = true;
 
 let reRender = false;
 let lock = false;
-let widgetInfo = [];
 let widgetList = [];
 
 
@@ -25,10 +24,13 @@ let w = Dimensions.get('window').width;
 let m = 18;
 let s = (w / 4) - (2 * m);
 
-function fillWidgetList() {
+function fillWidgetList(widgetInfo) {
   if(lock == false){
   let i = 0
-  //widgetList = [];
+  widgetList = [];
+  positions = [];
+  positionsX = [];
+  positionsY = [];
   //populates the needed arrays that will be used to swap the widgets later.
   widgetInfo.map(function (widget) {
     let w = 0;
@@ -39,7 +41,6 @@ function fillWidgetList() {
     if (widget.size == 3 || widget.size == 6) { w = s * 4 + m * 6 }
     if (widget.size < 4) { h = s }
     else { h = s * 2 + m * 2 }
-
 
       widgetList.push({
         name: widget.name,
@@ -84,8 +85,6 @@ function ResourceButtons(widget, nav) {
  
   let layoutPos = widget.arrayPos;
   let [rerender, setRerender] = React.useState(reRender);
-
-
 
   const containerViewRef = useRef<View>(null);
 
@@ -277,15 +276,14 @@ export default function WidgetScreenDisplay(props) {
   
   let sourceButtons = [];
   isGuest = props.guest;
-  widgetInfo = props.widgets;
+  const widgetInfo = props.widgets;
+  // widgetInfo should be a hook (state variable)
   const nav = useNavigation();
-/*
-  */
-  if(widgetList.length == 0)
-  {fillWidgetList();}
 
+  fillWidgetList(widgetInfo)
 
       //this is done here for more control over the loop that is to render the widgets.
+      sourceButtons = [];
       for(let i = 0; i<positions.length; i++)
       {
         //The i'th value in the positions array is used to determine the order

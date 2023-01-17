@@ -2,7 +2,7 @@ import { StyleSheet, View, TouchableOpacity, Text, Dimensions, Pressable } from 
 import React from 'react';
 import { Icon } from "@rneui/themed";
 import { useNavigation } from '@react-navigation/native';
-import {normalize} from '../../fileTextsizing';
+import { normalize } from '../../fileTextsizing';
 
 
 let w = Dimensions.get('window').width;
@@ -20,6 +20,26 @@ function buttonPressed(destination, guest, isGuest, nav) {
     }
 }
 
+function displayAddButton(widget, widgetList, addWidget) {
+    let found = false;
+
+    widgetList.map((currentWidget, i) => {
+        // Returns true if you already have added this widget to your home screen
+        if (currentWidget.name == widget.name && !found) {
+            found = true;
+        }
+    })
+    if (!found) {
+        //setSavedWidgets(widgetList.push(widget))
+        return (
+            // Makes the "add widget" icon if you haven't already added it to your home screen
+            <Pressable style={styles.addWidgetContainer} onPress={() => {addWidget(widget); alert("Added " + widget.name + " to Home Screen")}}>
+                <Icon style={styles.widgetIcon} name={"add"} size={18} color={'white'}></Icon>
+            </Pressable>
+        )
+    }
+}
+
 export default function WidgetDisplay(props) {
 
     let grayed = '#AAA'
@@ -31,30 +51,29 @@ export default function WidgetDisplay(props) {
     let icon = widget.icon;
     let destination = widget.url;
     let color = widget.color;
-    
+    let widgetList = props.widgetList;
 
     let isGuest = true;
 
-    
     return (
         <View style={styles.resourceButtons}>
-            <View style={{ width: s + 2 * m, height: s + 2.4 * m }}>
-                <TouchableOpacity
-                    onPress={() => buttonPressed(destination, guest, isGuest, navigation)}
-                    style={[
-                        styles.widgetButton,
-                        {
-                            width: s, height: s, backgroundColor: (!guest && isGuest) ? grayed : color,
-                            opacity: (!guest && isGuest) ? 0.5 : 1
-                        }]}
-                        >
-                    <Icon style={styles.widgetIcon} name={icon} size={30} type="ionicon" color={'white'}></Icon>
-                </TouchableOpacity>
-                <Text style={styles.buttonTextStyle}>{name}</Text>
-            </View>
-            <Pressable style={styles.addWidgetContainer} onPress={() => alert("added widget to home")}>
-                <Icon style={styles.widgetIcon} name={"add"} size={18} color={'white'}></Icon>
-            </Pressable>
+            <>
+                <View style={{ width: s + 2 * m, height: s + 2.4 * m }}>
+                    <TouchableOpacity
+                        onPress={() => buttonPressed(destination, guest, isGuest, navigation)}
+                        style={[
+                            styles.widgetButton,
+                            {
+                                width: s, height: s, backgroundColor: (!guest && isGuest) ? grayed : color,
+                                opacity: (!guest && isGuest) ? 0.5 : 1
+                            }]}
+                    >
+                        <Icon style={styles.widgetIcon} name={icon} size={30} type="ionicon" color={'white'}></Icon>
+                    </TouchableOpacity>
+                    <Text style={styles.buttonTextStyle}>{name}</Text>
+                </View>
+                {displayAddButton(widget, widgetList, props.addWidget)}
+            </>
         </View>
     )
 }

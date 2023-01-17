@@ -8,6 +8,7 @@ import { icon_dark, title_dark, bg_default, bg_alt, accent2, title_mid, accent3,
 
 const userId = 1399154;
 
+import BackButton from "./Components/backButton";
 type CompProps = {
   // We are only using the navigate and goBack functions
   navigation: { navigate: Function; goBack: Function; };
@@ -40,13 +41,9 @@ export default function Allergies(props: CompProps) {
     <>
       <SafeAreaView style={styles.page}>
 
-        <Header props={props} />
+        <Header props={props}/>
 
         <View style={styles.app_container}>
-          <Pressable style={styles.backButtonContainer} onPress={() => props.navigation.goBack()}>
-            <Icon name="chevron-back" type="ionicon" size={normalize(28)} color={icon_dark}></Icon>
-            <Text style={{ fontSize: normalize(18), fontWeight: '600' }}>Back</Text>
-          </Pressable>
           <Text style={styles.title}>Dietary Preferences</Text>
           <Text style={styles.subtitle}>This information will only be used when placing an online order</Text>
           <ScrollView>
@@ -159,6 +156,7 @@ export default function Allergies(props: CompProps) {
 
             }}
           />
+          <BackButton props={props} iconColor={icon_dark}/>
         </View>
 
       </SafeAreaView>
@@ -186,7 +184,8 @@ const styles = StyleSheet.create({
     fontSize: normalize(28),
     fontWeight: '600',
     paddingLeft: normalize(30),
-    paddingBottom: normalize(10)
+    paddingBottom: normalize(10),
+    paddingTop: normalize(50)
   },
   button: {
     backgroundColor: accent2,
@@ -205,11 +204,6 @@ const styles = StyleSheet.create({
   list_header: {
     height: normalize(70),
     justifyContent: 'center'
-  },
-  backButtonContainer: {
-    flexDirection: 'row',
-    padding: normalize(20),
-    alignItems: 'center'
   },
   checkboxItemContainer1: {
     flexDirection: 'row',
