@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, SafeAreaView, Text, View, ScrollView, Image } from "react-native";
+import { Pressable, StyleSheet, SafeAreaView, Text, View, ScrollView, Platform, StatusBar } from "react-native";
 import { Icon, Button, CheckBox } from "@rneui/themed";
 import Header from "./Components/header"
 import {normalize} from '../fileTextsizing';
@@ -127,7 +127,7 @@ export default function Allergies(props: CompProps) {
                 checkedColor={accent2}
                 containerStyle={styles.checkboxBoxContainer}
                 onIconPress={() => setChecked8(!checked8)}
-                size={(32)}
+                size={normalize(32)}
                 uncheckedColor={title_mid}
               />
             </View>
@@ -216,7 +216,8 @@ const styles = StyleSheet.create({
   },
   page: {
     backgroundColor: accent3,
-    flex: 1
+    flex: 1,
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
   },
   subtitle: {
     color: title_dark,

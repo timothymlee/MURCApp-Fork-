@@ -25,22 +25,24 @@ let m = 18;
 let s = (w / 4) - (2 * m);
 
 function fillWidgetList(widgetInfo) {
-  if(lock == false){
-  let i = 0
-  widgetList = [];
-  positions = [];
-  positionsX = [];
-  positionsY = [];
-  //populates the needed arrays that will be used to swap the widgets later.
-  widgetInfo.map(function (widget) {
-    let w = 0;
-    let h = 0;
-    if (widget.size == 0) { w = s }
-    if (widget.size == 1 || widget.size == 4) { w = s * 2 + m * 2 }
-    if (widget.size == 2 || widget.size == 5) { w = s * 3 + m * 4 }
-    if (widget.size == 3 || widget.size == 6) { w = s * 4 + m * 6 }
-    if (widget.size < 4) { h = s }
-    else { h = s * 2 + m * 2 }
+  console.log("FILL WIDGET LIST " + widgetInfo)
+  if (lock == false) {
+    let i = 0
+    // Reset everything before re-adding
+    widgetList = [];
+    positions = [];
+    positionsX = [];
+    positionsY = [];
+    //populates the needed arrays that will be used to swap the widgets later.
+    widgetInfo.map(function (widget) {
+      let w = 0;
+      let h = 0;
+      if (widget.size == 0) { w = s }
+      if (widget.size == 1 || widget.size == 4) { w = s * 2 + m * 2 }
+      if (widget.size == 2 || widget.size == 5) { w = s * 3 + m * 4 }
+      if (widget.size == 3 || widget.size == 6) { w = s * 4 + m * 6 }
+      if (widget.size < 4) { h = s }
+      else { h = s * 2 + m * 2 }
 
       widgetList.push({
         name: widget.name,
@@ -50,28 +52,29 @@ function fillWidgetList(widgetInfo) {
         posX: 0,
         posY: 0,
         id: i,
-        key:widget.key,
+        key: widget.key,
         width: w,
         height: h,
         guest: widget.guest,
         arrayPos: i
       })
-  
-    //These are especially important as React Native prefers to have values coming in on re-render
-    //that have changed rather than changing values that already exist before a re-render
-    positions.push(i);
-    //instantiate positions X
-    //instantiate positions X and Y
-    positionsX.push(0);
-    positionsY.push(0);
-    i++
-  })
-  }}
+
+      //These are especially important as React Native prefers to have values coming in on re-render
+      //that have changed rather than changing values that already exist before a re-render
+      positions.push(i);
+      //instantiate positions X
+      //instantiate positions X and Y
+      positionsX.push(0);
+      positionsY.push(0);
+      i++
+    })
+  }
+}
 
 
 
 function buttonPressed(destination, guest, nav) {
-  
+
   if (isGuest && !guest) {
     // Button is disabled
     alert("You must log in to use this widget.")
@@ -81,10 +84,10 @@ function buttonPressed(destination, guest, nav) {
   }
 }
 
-function ResourceButtons(widget, nav) {
- 
-  let layoutPos = widget.arrayPos;
+function ResourceButtons(widget, nav, removeWidget) {
+
   let [rerender, setRerender] = React.useState(reRender);
+  let layoutPos = widget.arrayPos;
 
   const containerViewRef = useRef<View>(null);
 
@@ -97,7 +100,7 @@ function ResourceButtons(widget, nav) {
     //sends a brodcast at everytouch on the screen and if an the app will manage the touch
     PanResponder.create({
       /*This determines whether our pan responder should actuallly do anything. */
-      onMoveShouldSetPanResponder(event, gestureState){
+      onMoveShouldSetPanResponder(event, gestureState) {
         //This will tell the pan responder to do something only after the press is in a set position
         if (gestureState.dx === 0 || gestureState.dy === 0) {
           return false;
@@ -135,20 +138,20 @@ function ResourceButtons(widget, nav) {
 
         //console.log("new switch");
         //console.log("-");
-        
+
         //This effectively goes through the various position arrays and
         //checks to see if the positions of the widget currently moving and the widget
         //that will be swapped overlap with one another.
         widgetList.map(function (thisWidget) {
           //console.log(thisWidget.name);
-          if(
+          if (
             (((gestureState.moveX >= positionsX[i] - widget.width &&
               (gestureState.moveX <= positionsX[i] + widget.width))
               &&
               (((gestureState.moveY >= positionsY[i] - widget.height) &&
                 (gestureState.moveY <= positionsY[i] + widget.height)))
               &&
-              (widget.id != thisWidget.id) ))){
+              (widget.id != thisWidget.id)))) {
             //console.log("SWITCH " + widget.name + " (" + (widgetList.findIndex((el) => el.id === widget.id)) + ") with " + thisWidget.name + " (" + (widgetList.findIndex((el) => el.id === thisWidget.id)) + ")")
 
             //switches positions in the positions array.
@@ -176,12 +179,12 @@ function ResourceButtons(widget, nav) {
             let toSwitchPos = positions[i];
             //let currentPos = currentId.arrayPos;
             let currentPos = positions[layoutPos];
-            
+
             positions[layoutPos] = toSwitchPos;
             positions[i] = currentPos;
-            
+
             lock = true;
-            
+
           }
           else {
             // Outside range of button
@@ -192,20 +195,20 @@ function ResourceButtons(widget, nav) {
           }
           i++
         })
-        
-        
+
+
         pan.flattenOffset();
         setRerender(rerender = true);
         //console.log(widgetList);
 
         //console.log("release");
-        
+
       }
     })
   ).current;
-  
-  
-  
+
+
+
   useEffect(() => {
     //updates the render for the buttons/widgets
     //This effectively occurs whenever a widget is pressed / released.
@@ -213,7 +216,7 @@ function ResourceButtons(widget, nav) {
       setRerender(rerender = false);
       //console.log("Rendered List: ")
       //console.log(widgetList)
-      
+
     }
   });
   return (
@@ -226,7 +229,7 @@ function ResourceButtons(widget, nav) {
         transform: [{ translateX: pan.x }, { translateY: pan.y }],
         flexDirection: 'row',
       }}
-      
+
       onLayout={() => {
 
         //above needs containerViewRef in order to call onLayout
@@ -236,9 +239,9 @@ function ResourceButtons(widget, nav) {
             //This is not perfect due to size differences in widgets, but it will do for now.
             positionsX[layoutPos] = pageX + (width / 2);
             positionsY[layoutPos] = pageY + (height / 2);
-          
 
-           
+
+
             //console.log(widgetList);
           }
         );
@@ -256,6 +259,10 @@ function ResourceButtons(widget, nav) {
         <View style={{ width: widget.width + 2 * m, height: widget.height + 2.4 * m }}>
           <TouchableOpacity
             onPress={() => buttonPressed(widget.destination, widget.guest, nav)}
+            onLongPress={() => {
+              alert('Do you want to remove this widget?')
+              removeWidget(widget.name);
+            }}
             style={[
               styles.widgetButton,
               {
@@ -273,26 +280,25 @@ function ResourceButtons(widget, nav) {
 }
 
 export default function WidgetScreenDisplay(props) {
-  
+
   let sourceButtons = [];
   isGuest = props.guest;
   const widgetInfo = props.widgets;
-  // widgetInfo should be a hook (state variable)
+
   const nav = useNavigation();
 
   fillWidgetList(widgetInfo)
 
-      //this is done here for more control over the loop that is to render the widgets.
-      sourceButtons = [];
-      for(let i = 0; i<positions.length; i++)
-      {
-        //The i'th value in the positions array is used to determine the order
-        //of the rendered buttons. This coupled with the previously populated positions
-        //and you can effectively switch a whole load of buttons just be changing the order of the positions
-        //array. It is not currently perfect, however, and has issues swapping buttons of bigger sizes and can
-        //seemingly get desynced if you make too many sudden movements.
-        sourceButtons.push(ResourceButtons(widgetList[positions[i]], nav));
-      }
+  //this is done here for more control over the loop that is to render the widgets.
+  sourceButtons = [];
+  for (let i = 0; i < positions.length; i++) {
+    //The i'th value in the positions array is used to determine the order
+    //of the rendered buttons. This coupled with the previously populated positions
+    //and you can effectively switch a whole load of buttons just be changing the order of the positions
+    //array. It is not currently perfect, however, and has issues swapping buttons of bigger sizes and can
+    //seemingly get desynced if you make too many sudden movements.
+    sourceButtons.push(ResourceButtons(widgetList[positions[i]], nav, props.removeWidget));
+  }
   //console.log(widgetList);
   //console.log(positions);
   //console.log(sourceButtons);
@@ -300,7 +306,7 @@ export default function WidgetScreenDisplay(props) {
     <View style={styles.container}>
       <View style={styles.resourceButtons}>
         {
-        sourceButtons
+          sourceButtons
         }
       </View>
     </View>

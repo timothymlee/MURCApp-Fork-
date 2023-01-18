@@ -7,7 +7,7 @@ import Header from "./Components/header";
 import WidgetDisplay from "./Components/displayWidget";
 import { selectAuth } from "../api/authSlice";
 import { useAppSelector } from '../app/hooks';
-import {normalize} from '../fileTextsizing';
+import { normalize } from '../fileTextsizing';
 import { accent3, bg_alt, bg_default, title_light, title_mid, WidgetNames, SomeWidgetNames } from '../assets/data';
 
 type CompProps = {
@@ -35,12 +35,20 @@ export default function Home(props: CompProps) {
     console.log("added widget " + widget.name)
   }
 
+  const removeWidget = (name) => {
+    console.log("START RUNNING REMOVE")
+    setSavedWidgets((current) =>
+      current.filter((widget) => widget.name !== name)
+    );
+    console.log("END Removed Widget: " + name)
+  }
+
   const updateSearch = (value) => {
     setValue(value);
     let storedResults = [];
     WidgetNames.forEach(element => {
       if (element.name.toLowerCase().includes(value.toLowerCase())) {
-        element["key"] = element["key"]+1000;
+        element["key"] = element["key"] + 1000;
         storedResults.push(element);
       }
     });
@@ -48,7 +56,7 @@ export default function Home(props: CompProps) {
   };
   //scroll disabled is needed for drag and drop to work on ios.
   //I need to add something in index that
-  //handleWidgetMove should hopefully disabel / enable scroll view for
+  //handleWidgetMove should hopefully disable / enable scroll view for
   //ios devices to work.
   const handleSearchChange = () => {
     if (value == "") {
@@ -59,7 +67,9 @@ export default function Home(props: CompProps) {
         <>
           <View style={styles.app_container}>
             <TouchableWithoutFeedback>
-              <Widget guest={isGuest} widgets={savedWidgets} />
+              <>
+              <Widget guest={isGuest} widgets={savedWidgets} removeWidget={removeWidget} />
+              </>
             </TouchableWithoutFeedback>
           </View>
         </>
@@ -70,15 +80,15 @@ export default function Home(props: CompProps) {
         <>
           <Text style={styles.searchText}>Searching For "{value}"</Text>
           <View style={styles.searchResultContainer}>
-             {results.map((result, i) =>
-                <WidgetDisplay widget={result} key={result.key} widgetList={savedWidgets} addWidget={addWidget}/>
-             )}
+            {results.map((result, i) =>
+              <WidgetDisplay widget={result} key={result.key} widgetList={savedWidgets} addWidget={addWidget} />
+            )}
           </View>
         </>
       )
     }
   }
-  
+
   /**/
   return (
     <>
