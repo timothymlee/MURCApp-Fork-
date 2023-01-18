@@ -43,6 +43,7 @@ async function readUserPreferences(userId) {
     const prefRef = ref(db, 'users/' + userId + '/preferences/');
 
     returnObject = await get(prefRef);
+    console.log(returnObject);
 
     return returnObject.val();
 }
