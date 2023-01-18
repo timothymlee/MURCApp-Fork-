@@ -1,4 +1,4 @@
-import { StyleSheet,Platform,ImageBackground, View, Image, SafeAreaView, Text, ScrollView, KeyboardAvoidingView, Keyboard, Pressable } from "react-native";
+import { StyleSheet,Platform,ImageBackground, View, Image, SafeAreaView, Text, ScrollView, KeyboardAvoidingView, Keyboard, Pressable, Platform, StatusBar } from "react-native";
 import React, { useState } from 'react';
 import { LinearGradient } from "expo-linear-gradient";
 import { Button, Icon, CheckBox } from "@rneui/themed";
@@ -257,7 +257,8 @@ const styles = StyleSheet.create({
     },
     page: {
       backgroundColor: '#1E293B',
-      flex: 1
+      flex: 1,
+      paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
     },
     header_content: {
       flex: 1,

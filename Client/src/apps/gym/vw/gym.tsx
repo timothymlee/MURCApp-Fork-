@@ -1,4 +1,4 @@
-import { Image, StyleSheet, SafeAreaView, Text, View, ScrollView,Dimensions, Platform, PixelRatio  } from "react-native";
+import { Image, StyleSheet, SafeAreaView, Text, View, ScrollView,Dimensions, Platform, PixelRatio, StatusBar } from "react-native";
 import React, { useState } from 'react';
 import { ListItem, Button } from "@rneui/themed";
 import { LinearGradient } from 'expo-linear-gradient';
@@ -143,7 +143,8 @@ const styles = StyleSheet.create({
   },
   page: {
     backgroundColor: accent3,
-    flex: 1
+    flex: 1,
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
   },
   banner_image_cont: {
     flex: 1

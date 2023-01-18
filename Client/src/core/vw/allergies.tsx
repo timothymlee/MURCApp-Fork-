@@ -1,9 +1,13 @@
-import { Pressable, StyleSheet, SafeAreaView, Text, View, ScrollView } from "react-native";
+import { Pressable, StyleSheet, SafeAreaView, Text, View, ScrollView, Platform, StatusBar } from "react-native";
 import React from 'react';
 import { Icon, Button, CheckBox } from "@rneui/themed";
 import Header from "../../utils/components/header"
 import {normalize} from '../../fileTextsizing';
+import {writeUserPreferences} from '../../firebaseCalls';
 import { icon_dark, title_dark, bg_default, bg_alt, accent2, title_mid, accent3, title_light } from '../../utils/assets/data'
+import BackButton from "../../utils/components/backButton";
+
+const userId = 1399154;
 
 type CompProps = {
   // We are only using the navigate and goBack functions
@@ -14,7 +18,7 @@ export default function Allergies(props: CompProps) {
 
   // Set to true if they say they have an allergy
   let allergyPreferences: boolean[] = [
-    false,
+    true,
     false,
     false,
     false,
@@ -34,130 +38,129 @@ export default function Allergies(props: CompProps) {
   const [checked8, setChecked8] = React.useState(allergyPreferences[7]); // Vegan
 
   return (
-    <>
-      <SafeAreaView style={styles.page}>
+      <>
+        <SafeAreaView style={styles.page}>
 
-        <Header props={props} />
+          <Header props={props}/>
 
-        <View style={styles.app_container}>
-          <Pressable style={styles.backButtonContainer} onPress={() => props.navigation.goBack()}>
-            <Icon name="chevron-back" type="ionicon" size={normalize(28)} color={icon_dark}></Icon>
-            <Text style={{ fontSize: normalize(18), fontWeight: '600' }}>Back</Text>
-          </Pressable>
-          <Text style={styles.title}>Dietary Preferences</Text>
-          <Text style={styles.subtitle}>This information will only be used when placing an online order</Text>
-          <ScrollView>
-            <View style={styles.checkboxItemContainer1}>
-              <Text style={styles.checkboxText}>No Dairy</Text>
-              <CheckBox
-                checked={checked1}
-                checkedColor={accent2}
-                containerStyle={styles.checkboxBoxContainer}
-                onIconPress={() => setChecked1(!checked1)}
-                size={normalize(32)}
-                uncheckedColor={title_mid}
-              />
-            </View>
-            <View style={styles.checkboxItemContainer2}>
-              <Text style={styles.checkboxText}>No Egg</Text>
-              <CheckBox
-                checked={checked2}
-                checkedColor={accent2}
-                containerStyle={styles.checkboxBoxContainer}
-                onIconPress={() => setChecked2(!checked2)}
-                size={normalize(32)}
-                uncheckedColor={title_mid}
-              />
-            </View>
-            <View style={styles.checkboxItemContainer1}>
-              <Text style={styles.checkboxText}>No Fish</Text>
-              <CheckBox
-                checked={checked3}
-                checkedColor={accent2}
-                containerStyle={styles.checkboxBoxContainer}
-                onIconPress={() => setChecked3(!checked3)}
-                size={normalize(32)}
-                uncheckedColor={title_mid}
-              />
-            </View>
-            <View style={styles.checkboxItemContainer2}>
-              <Text style={styles.checkboxText}>No Shellfish</Text>
-              <CheckBox
-                checked={checked4}
-                checkedColor={accent2}
-                containerStyle={styles.checkboxBoxContainer}
-                onIconPress={() => setChecked4(!checked4)}
-                size={normalize(32)}
-                uncheckedColor={title_mid}
-              />
-            </View>
-            <View style={styles.checkboxItemContainer1}>
-              <Text style={styles.checkboxText}>No Peanuts</Text>
-              <CheckBox
-                checked={checked5}
-                checkedColor={accent2}
-                containerStyle={styles.checkboxBoxContainer}
-                onIconPress={() => setChecked5(!checked5)}
-                size={normalize(32)}
-                uncheckedColor={title_mid}
-              />
-            </View>
-            <View style={styles.checkboxItemContainer2}>
-              <Text style={styles.checkboxText}>No Tree Nuts</Text>
-              <CheckBox
-                checked={checked6}
-                checkedColor={accent2}
-                containerStyle={styles.checkboxBoxContainer}
-                onIconPress={() => setChecked6(!checked6)}
-                size={normalize(32)}
-                uncheckedColor={title_mid}
-              />
-            </View>
-            <View style={styles.checkboxItemContainer1}>
-              <Text style={styles.checkboxText}>No Gluten</Text>
-              <CheckBox
-                checked={checked7}
-                checkedColor={accent2}
-                containerStyle={styles.checkboxBoxContainer}
-                onIconPress={() => setChecked7(!checked7)}
-                size={normalize(32)}
-                uncheckedColor={title_mid}
-              />
-            </View>
-            <View style={styles.checkboxItemContainer2}>
-              <Text style={styles.checkboxText}>Vegan</Text>
-              <CheckBox
-                checked={checked8}
-                checkedColor={accent2}
-                containerStyle={styles.checkboxBoxContainer}
-                onIconPress={() => setChecked8(!checked8)}
-                size={(32)}
-                uncheckedColor={title_mid}
-              />
-            </View>
-            <View style={{ height: normalize(100) }}></View>
-          </ScrollView>
-          <Button
-            title="Save Changes"
-            buttonStyle={styles.button}
-            containerStyle={styles.button_container}
-            titleStyle={{ fontSize: normalize(18), color: title_light }}
-            // onPress will save state of the current checked boxes in the database
-            onPress={() => {
-              allergyPreferences[0] = checked1;
-              allergyPreferences[1] = checked2;
-              allergyPreferences[2] = checked3;
-              allergyPreferences[3] = checked4;
-              allergyPreferences[4] = checked5;
-              allergyPreferences[5] = checked6;
-              allergyPreferences[6] = checked7;
-              allergyPreferences[7] = checked8;
-            }}
-          />
-        </View>
+          <View style={styles.app_container}>
+            <Text style={styles.title}>Dietary Preferences</Text>
+            <Text style={styles.subtitle}>This information will only be used when placing an online order</Text>
+            <ScrollView>
+              <View style={styles.checkboxItemContainer1}>
+                <Text style={styles.checkboxText}>No Dairy</Text>
+                <CheckBox
+                    checked={checked1}
+                    checkedColor={accent2}
+                    containerStyle={styles.checkboxBoxContainer}
+                    onIconPress={() => setChecked1(!checked1)}
+                    size={normalize(32)}
+                    uncheckedColor={title_mid}
+                />
+              </View>
+              <View style={styles.checkboxItemContainer2}>
+                <Text style={styles.checkboxText}>No Egg</Text>
+                <CheckBox
+                    checked={checked2}
+                    checkedColor={accent2}
+                    containerStyle={styles.checkboxBoxContainer}
+                    onIconPress={() => setChecked2(!checked2)}
+                    size={normalize(32)}
+                    uncheckedColor={title_mid}
+                />
+              </View>
+              <View style={styles.checkboxItemContainer1}>
+                <Text style={styles.checkboxText}>No Fish</Text>
+                <CheckBox
+                    checked={checked3}
+                    checkedColor={accent2}
+                    containerStyle={styles.checkboxBoxContainer}
+                    onIconPress={() => setChecked3(!checked3)}
+                    size={normalize(32)}
+                    uncheckedColor={title_mid}
+                />
+              </View>
+              <View style={styles.checkboxItemContainer2}>
+                <Text style={styles.checkboxText}>No Shellfish</Text>
+                <CheckBox
+                    checked={checked4}
+                    checkedColor={accent2}
+                    containerStyle={styles.checkboxBoxContainer}
+                    onIconPress={() => setChecked4(!checked4)}
+                    size={normalize(32)}
+                    uncheckedColor={title_mid}
+                />
+              </View>
+              <View style={styles.checkboxItemContainer1}>
+                <Text style={styles.checkboxText}>No Peanuts</Text>
+                <CheckBox
+                    checked={checked5}
+                    checkedColor={accent2}
+                    containerStyle={styles.checkboxBoxContainer}
+                    onIconPress={() => setChecked5(!checked5)}
+                    size={normalize(32)}
+                    uncheckedColor={title_mid}
+                />
+              </View>
+              <View style={styles.checkboxItemContainer2}>
+                <Text style={styles.checkboxText}>No Tree Nuts</Text>
+                <CheckBox
+                    checked={checked6}
+                    checkedColor={accent2}
+                    containerStyle={styles.checkboxBoxContainer}
+                    onIconPress={() => setChecked6(!checked6)}
+                    size={normalize(32)}
+                    uncheckedColor={title_mid}
+                />
+              </View>
+              <View style={styles.checkboxItemContainer1}>
+                <Text style={styles.checkboxText}>No Gluten</Text>
+                <CheckBox
+                    checked={checked7}
+                    checkedColor={accent2}
+                    containerStyle={styles.checkboxBoxContainer}
+                    onIconPress={() => setChecked7(!checked7)}
+                    size={normalize(32)}
+                    uncheckedColor={title_mid}
+                />
+              </View>
+              <View style={styles.checkboxItemContainer2}>
+                <Text style={styles.checkboxText}>Vegan</Text>
+                <CheckBox
+                    checked={checked8}
+                    checkedColor={accent2}
+                    containerStyle={styles.checkboxBoxContainer}
+                    onIconPress={() => setChecked8(!checked8)}
+                    size={normalize(32)}
+                    uncheckedColor={title_mid}
+                />
+              </View>
+              <View style={{ height: normalize(100) }}></View>
+            </ScrollView>
+            <Button
+                title="Save Changes"
+                buttonStyle={styles.button}
+                containerStyle={styles.button_container}
+                titleStyle={{ fontSize: normalize(18), color: title_light }}
+                // onPress will save state of the current checked boxes in the database
+                onPress={() => {
+                  allergyPreferences[0] = checked1;
+                  allergyPreferences[1] = checked2;
+                  allergyPreferences[2] = checked3;
+                  allergyPreferences[3] = checked4;
+                  allergyPreferences[4] = checked5;
+                  allergyPreferences[5] = checked6;
+                  allergyPreferences[6] = checked7;
+                  allergyPreferences[7] = checked8;
+                  writeUserPreferences(userId, allergyPreferences);
 
-      </SafeAreaView>
-    </>
+                }}
+            />
+            <BackButton props={props} iconColor={icon_dark}/>
+          </View>
+
+        </SafeAreaView>
+      </>
   );
 }
 
@@ -168,7 +171,8 @@ const styles = StyleSheet.create({
   },
   page: {
     backgroundColor: accent3,
-    flex: 1
+    flex: 1,
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
   },
   subtitle: {
     color: title_dark,
@@ -181,7 +185,8 @@ const styles = StyleSheet.create({
     fontSize: normalize(28),
     fontWeight: '600',
     paddingLeft: normalize(30),
-    paddingBottom: normalize(10)
+    paddingBottom: normalize(10),
+    paddingTop: normalize(50)
   },
   button: {
     backgroundColor: accent2,
@@ -200,11 +205,6 @@ const styles = StyleSheet.create({
   list_header: {
     height: normalize(70),
     justifyContent: 'center'
-  },
-  backButtonContainer: {
-    flexDirection: 'row',
-    padding: normalize(20),
-    alignItems: 'center'
   },
   checkboxItemContainer1: {
     flexDirection: 'row',
