@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, SafeAreaView, Text, View, ScrollView, Platform, StatusBar } from "react-native";
+import { Pressable, StyleSheet, SafeAreaView, Text, View, ScrollView, Platform, StatusBar, Image } from "react-native";
 import { Icon, Button, CheckBox } from "@rneui/themed";
 import Header from "./Components/header"
 import {normalize} from '../fileTextsizing';
@@ -9,7 +9,7 @@ import BackButton from "./Components/backButton";
 
 
 const userId = 1399154;
-let allergyPreferences = null;
+let allergyPreferences:boolean[] = null;
 type CompProps = {
   // We are only using the navigate and goBack functions
   navigation: { navigate: Function; goBack: Function; };
@@ -20,30 +20,75 @@ export default function Allergies(props: CompProps) {
   // Set to true if they say they have an allergy
 
 
-  let [checked1, setChecked1] = React.useState(null); // Dairy
-  let [checked2, setChecked2] = React.useState(null); // Egg
-  let [checked3, setChecked3] = React.useState(null); // Fish
-  let [checked4, setChecked4] = React.useState(null); // Shellfish
-  let [checked5, setChecked5] = React.useState(null); // Peanuts
-  let [checked6, setChecked6] = React.useState(null); // Tree Nuts
-  let [checked7, setChecked7] = React.useState(null); // Gluten
-  let [checked8, setChecked8] = React.useState(null); // Vegan
+  let [checked1, setChecked1] = React.useState(false); // Dairy
+  let [checked2, setChecked2] = React.useState(false); // Egg
+  let [checked3, setChecked3] = React.useState(false); // Fish
+  let [checked4, setChecked4] = React.useState(false); // Shellfish
+  let [checked5, setChecked5] = React.useState(false); // Peanuts
+  let [checked6, setChecked6] = React.useState(false); // Tree Nuts
+  let [checked7, setChecked7] = React.useState(false); // Gluten
+  let [checked8, setChecked8] = React.useState(false); // Vegan
 
   const getPrefrences = () => {
-    console.log("inside getPrefrence");
-     setChecked1 = allergyPreferences[0]; // Dairy
-     setChecked2 = allergyPreferences[1]; // Egg
-     setChecked3 = allergyPreferences[2]; // Fish
-     setChecked4 = allergyPreferences[3]; // Shellfish
-     setChecked5 = allergyPreferences[4]; // Peanuts
-     setChecked6 = allergyPreferences[5]; // Tree Nuts
-     setChecked7 = allergyPreferences[6]; // Gluten
-     setChecked8 = allergyPreferences[7]; // Vegan
-     console.log("prefrences set after await.");
     const Card = () => {
       const Card2 = (
         <View>
-        <View style={styles.checkboxItemContainer1}>
+        
+            </View>
+            );
+      return <View>{Card2}</View>
+
+    }
+    setPage(<Card />);
+  }
+
+  async function genPrefrenceData() {
+    if (allergyPreferences == null) {
+
+      allergyPreferences = await readUserPreferences(userId);
+      console.log(allergyPreferences)
+      if (allergyPreferences == null) {
+        allergyPreferences = [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ];
+        getPrefrences();
+      } else {
+  
+        setChecked1(allergyPreferences[0]); // Dairy
+        setChecked2(allergyPreferences[1]); // Egg
+        setChecked3(allergyPreferences[2]); // Fish
+        setChecked4(allergyPreferences[3]); // Shellfish
+        setChecked5(allergyPreferences[4]); // Peanuts
+        setChecked6(allergyPreferences[5]); // Tree Nuts
+        setChecked7(allergyPreferences[6]); // Gluten
+        setChecked8(allergyPreferences[7]); // Vegan
+        
+      }
+
+
+    }
+
+
+  }
+  genPrefrenceData();
+  return (
+    <>
+      <SafeAreaView style={styles.page}>
+
+        <Header props={props}/>
+
+        <View style={styles.app_container}>
+          <Text style={styles.title}>Dietary Preferences</Text>
+          <Text style={styles.subtitle}>This information will only be used when placing an online order</Text>
+          <ScrollView>
+          <View style={styles.checkboxItemContainer1}>
               <Text style={styles.checkboxText}>No Dairy</Text>
               <CheckBox
                 checked={checked1}
@@ -126,60 +171,11 @@ export default function Allergies(props: CompProps) {
                 checked={checked8}
                 checkedColor={accent2}
                 containerStyle={styles.checkboxBoxContainer}
-                onIconPress={() => setChecked8(!checked8)}
+                onIconPress={() => {setChecked8(!checked8)}}
                 size={normalize(32)}
                 uncheckedColor={title_mid}
               />
             </View>
-            </View>
-            );
-      return <View>{Card2}</View>
-
-    }
-    console.log("data for card developed and is about to be set to page");
-    setPage(<Card />);
-  }
-
-  async function genPrefrenceData() {
-    if (allergyPreferences == null) {
-
-      allergyPreferences = await readUserPreferences(userId);
-      console.log(allergyPreferences)
-      if (allergyPreferences == "") {
-        console.log("this is running");
-        allergyPreferences = [
-          false,
-          false,
-          false,
-          false,
-          false,
-          false,
-          false,
-          false
-        ];
-        getPrefrences();
-      } else {
-        console.log("data recived");
-        getPrefrences();
-      }
-
-
-    }
-
-
-  }
-  genPrefrenceData();
-  return (
-    <>
-      <SafeAreaView style={styles.page}>
-
-        <Header props={props}/>
-
-        <View style={styles.app_container}>
-          <Text style={styles.title}>Dietary Preferences</Text>
-          <Text style={styles.subtitle}>This information will only be used when placing an online order</Text>
-          <ScrollView>
-            {page}
             <View style={{ height: normalize(100) }}></View>
           </ScrollView>
           <Button
@@ -198,6 +194,7 @@ export default function Allergies(props: CompProps) {
               allergyPreferences[6] = checked7;
               allergyPreferences[7] = checked8;
               writeUserPreferences(userId, allergyPreferences);
+              console.log("has been saved");
 
             }}
           />
