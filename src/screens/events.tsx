@@ -1,4 +1,4 @@
-import { StyleSheet, ImageBackground, View, Image, SafeAreaView, Text, ScrollView } from "react-native";
+import { StyleSheet, ImageBackground, View, Image, SafeAreaView, Text, ScrollView, Platform, StatusBar } from "react-native";
 import React, { useState } from 'react';
 import { LinearGradient } from "expo-linear-gradient";
 import { readEventData } from '../firebaseCalls';
@@ -233,7 +233,8 @@ const styles = StyleSheet.create({
   },
   page: {
     backgroundColor: '#1E293B',
-    flex: 1
+    flex: 1,
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
   },
   bold_subtitle: {
     fontWeight: '600',
