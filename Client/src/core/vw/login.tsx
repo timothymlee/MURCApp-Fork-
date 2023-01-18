@@ -7,7 +7,8 @@ import { useAuthMutation, useCypherMutation, useDataMutation } from '../../api/a
 import { useAppDispatch } from "../../app/hooks";
 import { setUser } from "../../api/authSlice";
 import AppLoader from '../js_comp/AppLoader'
-import {normalize} from '../../fileTextsizing';
+import { normalize } from '../../fileTextsizing';
+import BackButton from "../../utils/components/backButton";
 
 import { accent1, accent1_alt, accent3, bg_default, icon_dark, title_dark, title_light } from '../../utils/assets/data'
 //import { authenticateWithFirebase } from '../src/firebaseAuth'
@@ -17,7 +18,7 @@ import { accent1, accent1_alt, accent3, bg_default, icon_dark, title_dark, title
 
 type CompProps = {
   // We are only using the navigate and goBack functions
-  navigation: { navigate: Function; };
+  navigation: { navigate: Function; goBack: Function; };
 };
 
 export default function Login(props: CompProps) {
@@ -106,8 +107,9 @@ export default function Login(props: CompProps) {
             colors={[accent1, accent1_alt]}
             style={styles.background}>
             <SafeAreaView style={styles.background}>
-              <Image source={require('../../utils/assets/images/messiah_logo.png')} style={styles.logo} />
+              <Image source={require('../assets/images/messiah_logo.png')} style={styles.logo} />
             </SafeAreaView>
+            <BackButton props={props} iconColor={icon_light}/>
           </LinearGradient>
           <View style={styles.login_container}>
             <Text style={styles.heading}>Login</Text>
@@ -198,7 +200,7 @@ const styles = StyleSheet.create({
     width: 300,
     height: 100,
     resizeMode: 'cover',
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   heading: {
     fontSize: 32,

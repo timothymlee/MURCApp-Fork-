@@ -43,6 +43,13 @@
     {key:'13', name: "Incident Report", url: 'Reporting', icon: resourceImages[4], size: 0, color: darkBlue, guest: true },
   ]
 
+    export const SomeWidgetNames = [
+    {key:'2', name: "Union Cafe", url: 'UnionMenu', icon: resourceImages[0], size: 0, color: lightBlue, guest: true },
+    {key:'3', name: "Campus Map", url: 'Map', icon: resourceImages[3], size: 0, color: darkBlue, guest: true },
+    {key:'10', name: "Events", url: 'Events', icon: resourceImages[3], size: 0, color: green, guest: true },
+    {key:'12', name: "Library", url: 'Library', icon: resourceImages[3], size: 0, color: green, guest: true },
+  ]
+
   // Union Menu
   const smash_burgers = [
     { name: 'Bacon Burger', price: '7.75' },
