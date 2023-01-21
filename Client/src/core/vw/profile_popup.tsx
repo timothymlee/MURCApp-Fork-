@@ -1,110 +1,288 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
-import React, {useState} from 'react';
-import { Icon } from "@rneui/themed";
-import { Image } from "@rneui/base";
 import { selectAuth } from "../../api/authSlice";
 import { useAppSelector } from '../../app/hooks';
+
+import { icon_dark, title_dark, bg_default, bg_alt, accent2, title_mid, accent3, title_light } from '../../utils/assets/data'
+import { Pressable, StyleSheet, SafeAreaView, Text, View, ScrollView, Platform, StatusBar, Image } from "react-native";
+import { Icon, Button, CheckBox } from "@rneui/themed";
+import Header from "../../utils/components/header"
 import {normalize} from '../../fileTextsizing';
+import React, { useState } from 'react';
+import {writeUserPreferences, readUserPreferences} from '../../firebaseCalls';
+import BackButton from "../../utils/components/backButton";
 
-import { icon_dark, bg_default, title_dark, title_mid } from '../../utils/assets/data';
 
+const userId = 1399154;
+let allergyPreferences:boolean[] = null;
 type CompProps = {
   // We are only using the navigate and goBack functions
   navigation: { navigate: Function; goBack: Function; };
 };
 
-export default function Profile_PopUp(props: CompProps) {
-  let username
-  const { name } = useAppSelector(selectAuth)
-  const { uploadBackground } = require("../../firebaseCalls")
-  if (name  == null) {
-    username = "Guest"
-  } else {
-    username = name
+export default function Allergies(props: CompProps) {
+  const [page, setPage] = useState(<View style={{borderColor:'black' ,width:'100%',height:'100%', justifyContent:"center",backgroundColor:"#ffffff", alignItems:"center"}}><Image source={require('../assets/images/loading.gif')}/></View>);
+  // Set to true if they say they have an allergy
+
+
+  let [checked1, setChecked1] = React.useState(false); // Dairy
+  let [checked2, setChecked2] = React.useState(false); // Egg
+  let [checked3, setChecked3] = React.useState(false); // Fish
+  let [checked4, setChecked4] = React.useState(false); // Shellfish
+  let [checked5, setChecked5] = React.useState(false); // Peanuts
+  let [checked6, setChecked6] = React.useState(false); // Tree Nuts
+  let [checked7, setChecked7] = React.useState(false); // Gluten
+  let [checked8, setChecked8] = React.useState(false); // Vegan
+
+  const getPrefrences = () => {
+    const Card = () => {
+      const Card2 = (
+        <View>
+        
+            </View>
+            );
+      return <View>{Card2}</View>
+
+    }
+    setPage(<Card />);
   }
 
+  async function genPrefrenceData() {
+    if (allergyPreferences == null) {
 
-  // get username from data HERE
+      allergyPreferences = await readUserPreferences(userId);
+      console.log(allergyPreferences)
+      if (allergyPreferences == null) {
+        allergyPreferences = [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ];
+        getPrefrences();
+      } else {
+  
+        setChecked1(allergyPreferences[0]); // Dairy
+        setChecked2(allergyPreferences[1]); // Egg
+        setChecked3(allergyPreferences[2]); // Fish
+        setChecked4(allergyPreferences[3]); // Shellfish
+        setChecked5(allergyPreferences[4]); // Peanuts
+        setChecked6(allergyPreferences[5]); // Tree Nuts
+        setChecked7(allergyPreferences[6]); // Gluten
+        setChecked8(allergyPreferences[7]); // Vegan
+        
+      }
 
-  let logoutText = "Log In"
-  let logoutIcon = "log-in"
-  let logoutURL = "Login"
 
-  if (username != "Guest") {
-    logoutText = "Log Out";
-    logoutIcon = "log-out";
-    // set log out url
+    }
+
+
   }
-
+  genPrefrenceData();
   return (
-      <>
-        <View style={styles.overlay}>
-          <View style={{ flex: 2, minHeight: normalize(40), flexDirection: 'row' }}>
-            <View style={{ flex: 1, alignItems: 'flex-start' }}>
-              <Image source={require('../../assets/images/default_pfp.png')} style={styles.profile_pic} />
-            </View>
-            <View style={{ flex: 1, alignItems: 'flex-end' }}>
-              <Pressable onPress={() => props.navigation.goBack()}>
-                <Icon name="close" size={normalize(44)} color={title_dark}></Icon>
-              </Pressable>
-            </View>
-          </View>
-          <View style={{ flex: 1, minHeight: normalize(22) }}>
-            <Text style={{ color: title_dark, fontSize: normalize(29) }}>{username}</Text>
-          </View>
+    <>
+      <SafeAreaView style={styles.page}>
 
+        <Header props={props}/>
 
-          <View style={{ flex: 1, minHeight: normalize(16), flexDirection: 'row' }}>
-            <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
-              <Icon name="fast-food" type="ionicon" size={normalize(30)} color={icon_dark}></Icon>
+        <View style={styles.app_container}>
+          <Text style={styles.title}>Dietary Preferences</Text>
+          <Text style={styles.subtitle}>This information will only be used when placing an online order</Text>
+          <ScrollView>
+          <View style={styles.checkboxItemContainer1}>
+              <Text style={styles.checkboxText}>No Dairy</Text>
+              <CheckBox
+                checked={checked1}
+                checkedColor={accent2}
+                containerStyle={styles.checkboxBoxContainer}
+                onIconPress={() => setChecked1(!checked1)}
+                size={normalize(32)}
+                uncheckedColor={title_mid}
+              />
             </View>
-            <Pressable style={{ flex: 6, justifyContent: 'center' }} onPress={() => { props.navigation.goBack(); props.navigation.navigate('Allergies') }}>
-              <Text style={{ color: title_dark, fontSize: normalize(16) }}>Dietary Preferences</Text>
-            </Pressable>
-          </View>
-          <View style={{ flex: 1, minHeight: normalize(16), flexDirection: 'row' }}>
-            <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
-              <Icon name="image" size={normalize(30)} color={icon_dark}></Icon>
+            <View style={styles.checkboxItemContainer2}>
+              <Text style={styles.checkboxText}>No Egg</Text>
+              <CheckBox
+                checked={checked2}
+                checkedColor={accent2}
+                containerStyle={styles.checkboxBoxContainer}
+                onIconPress={() => setChecked2(!checked2)}
+                size={normalize(32)}
+                uncheckedColor={title_mid}
+              />
             </View>
+            <View style={styles.checkboxItemContainer1}>
+              <Text style={styles.checkboxText}>No Fish</Text>
+              <CheckBox
+                checked={checked3}
+                checkedColor={accent2}
+                containerStyle={styles.checkboxBoxContainer}
+                onIconPress={() => setChecked3(!checked3)}
+                size={normalize(32)}
+                uncheckedColor={title_mid}
+              />
+            </View>
+            <View style={styles.checkboxItemContainer2}>
+              <Text style={styles.checkboxText}>No Shellfish</Text>
+              <CheckBox
+                checked={checked4}
+                checkedColor={accent2}
+                containerStyle={styles.checkboxBoxContainer}
+                onIconPress={() => setChecked4(!checked4)}
+                size={normalize(32)}
+                uncheckedColor={title_mid}
+              />
+            </View>
+            <View style={styles.checkboxItemContainer1}>
+              <Text style={styles.checkboxText}>No Peanuts</Text>
+              <CheckBox
+                checked={checked5}
+                checkedColor={accent2}
+                containerStyle={styles.checkboxBoxContainer}
+                onIconPress={() => setChecked5(!checked5)}
+                size={normalize(32)}
+                uncheckedColor={title_mid}
+              />
+            </View>
+            <View style={styles.checkboxItemContainer2}>
+              <Text style={styles.checkboxText}>No Tree Nuts</Text>
+              <CheckBox
+                checked={checked6}
+                checkedColor={accent2}
+                containerStyle={styles.checkboxBoxContainer}
+                onIconPress={() => setChecked6(!checked6)}
+                size={normalize(32)}
+                uncheckedColor={title_mid}
+              />
+            </View>
+            <View style={styles.checkboxItemContainer1}>
+              <Text style={styles.checkboxText}>No Gluten</Text>
+              <CheckBox
+                checked={checked7}
+                checkedColor={accent2}
+                containerStyle={styles.checkboxBoxContainer}
+                onIconPress={() => setChecked7(!checked7)}
+                size={normalize(32)}
+                uncheckedColor={title_mid}
+              />
+            </View>
+            <View style={styles.checkboxItemContainer2}>
+              <Text style={styles.checkboxText}>Vegan</Text>
+              <CheckBox
+                checked={checked8}
+                checkedColor={accent2}
+                containerStyle={styles.checkboxBoxContainer}
+                onIconPress={() => {setChecked8(!checked8)}}
+                size={normalize(32)}
+                uncheckedColor={title_mid}
+              />
+            </View>
+            <View style={{ height: normalize(100) }}></View>
+          </ScrollView>
+          <Button
+            title="Save Changes"
+            buttonStyle={styles.button}
+            containerStyle={styles.button_container}
+            titleStyle={{ fontSize: normalize(18), color: title_light }}
+            // onPress will save state of the current checked boxes in the database
+            onPress={() => {
+              allergyPreferences[0] = checked1;
+              allergyPreferences[1] = checked2;
+              allergyPreferences[2] = checked3;
+              allergyPreferences[3] = checked4;
+              allergyPreferences[4] = checked5;
+              allergyPreferences[5] = checked6;
+              allergyPreferences[6] = checked7;
+              allergyPreferences[7] = checked8;
+              writeUserPreferences(userId, allergyPreferences);
+              console.log("has been saved");
 
-            <Pressable style={{ flex: 6, justifyContent: 'center' }} onPress={() => { uploadBackground(name)}}>
-              <Text style={{ color: 'black', fontSize: normalize(16) }}>Background Image</Text>
-            </Pressable>
-          </View>
-
-          <View style={{ flex: 10 }}></View>
-          <Pressable style={styles.loginContainer} onPress={() => { props.navigation.goBack(); props.navigation.navigate(logoutURL)} }>
-            <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center' }}>
-              <Icon name={logoutIcon} type="feather" size={normalize(30)} color={icon_dark}></Icon>
-            </View>
-            <View style={{ flex: 6, justifyContent: 'center' }}>
-              <Text style={{ color: title_dark, fontSize: normalize(20) }}>{logoutText}</Text>
-            </View>
-          </Pressable>
+            }}
+          />
+          <BackButton props={props} iconColor={icon_dark}/>
         </View>
-      </>
+
+      </SafeAreaView>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  overlay: {
+  app_container: {
     backgroundColor: bg_default,
+    flex: 1
+  },
+  page: {
+    backgroundColor: accent3,
     flex: 1,
-    padding:normalize(20),
-    paddingTop: '30%',
-    paddingBottom: '20%',
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
+  },
+  subtitle: {
+    color: title_dark,
+    paddingLeft: normalize(30),
+    paddingBottom: normalize(20),
+    fontSize: normalize(12)
+  },
+  title: {
+    color: title_dark,
+    fontSize: normalize(28),
+    fontWeight: '600',
+    paddingLeft: normalize(30),
+    paddingBottom: normalize(10),
+    paddingTop: normalize(50)
+  },
+  button: {
+    backgroundColor: accent2,
+    width: '100%',
+    alignSelf: 'center',
+    borderRadius: 30,
+    height: normalize(50),
+  },
+  button_container: {
+    bottom: 0,
     position: 'absolute',
+    marginBottom: normalize(30),
     width: '85%',
-    height: '100%'
+    alignSelf: 'center'
   },
-  profile_pic: {
-    borderRadius: 100,
-    width: normalize(70),
-    height: normalize(70)
+  list_header: {
+    height: normalize(70),
+    justifyContent: 'center'
   },
-  loginContainer: {
+  checkboxItemContainer1: {
+    flexDirection: 'row',
+    backgroundColor: bg_alt,
+    margin: 0,
+    marginLeft: 0,
+    alignItems: 'center',
+    paddingHorizontal: normalize(40),
+    paddingVertical: normalize(12)
+  },
+  checkboxItemContainer2: {
+    flexDirection: 'row',
+    backgroundColor: null,
+    margin: 0,
+    marginLeft: 0,
+    alignItems: 'center',
+    paddingHorizontal: normalize(40),
+    paddingVertical: normalize(12)
+  },
+  checkboxText: {
     flex: 1,
-    minHeight:normalize(16),
-    flexDirection: 'row'
+    fontWeight: '400',
+    fontSize: normalize(16),
+    padding: 0
+  },
+  checkboxBoxContainer: {
+    flex: 1,
+    alignItems: 'flex-end',
+    backgroundColor: null,
+    padding: 0,
+    margin: 0,
+    marginRight: 0
   }
 });
+
+
