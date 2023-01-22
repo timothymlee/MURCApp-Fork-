@@ -9,7 +9,7 @@ import { selectAuth } from "../../api/authSlice";
 import { useAppSelector } from '../../app/hooks';
 import { normalize } from '../../fileTextsizing';
 import { accent3, bg_alt, bg_default, title_light, title_mid, WidgetNames } from '../../utils/assets/data';
-import {SomeWidgetNames} from "../../../../src/assets/data";
+import {SomeWidgetNames} from "../../utils/assets/data";
 
 type CompProps = {
   // We are only using the navigate and goBack functions
@@ -97,7 +97,7 @@ export default function Home(props: CompProps) {
           <Header props={props} />
 
           <View style={styles.app_container}>
-            <ImageBackground source={require("../assets/images/homebackground2.png")} style={styles.bg_image} >
+            <ImageBackground source={require("../../utils/assets/images/homebackground2.png")} style={styles.bg_image} >
               {handleSearchChange()}
             </ImageBackground>
           </View>
