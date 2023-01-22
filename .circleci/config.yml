@@ -7,6 +7,10 @@ publish: &publish
     - checkout
 
     - run:
+        name: Moving to Client
+        command: cd .\Client\
+
+    - run:
         name: Installing dependencies
         command: npm ci
         
@@ -17,6 +21,10 @@ publish: &publish
     - run:
         name: Build Both
         command: npx eas-cli build --platform all --profile preview --non-interactive
+
+    - run:
+        name: Return to main directory
+        command: cd ..
     
 jobs:
   publish_to_expo_dev:
