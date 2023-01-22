@@ -1,11 +1,14 @@
+import { selectAuth } from "../../api/authSlice";
+import { useAppSelector } from '../../app/hooks';
+
+import { icon_dark, title_dark, bg_default, bg_alt, accent2, title_mid, accent3, title_light } from '../../utils/assets/data'
 import { Pressable, StyleSheet, SafeAreaView, Text, View, ScrollView, Platform, StatusBar, Image } from "react-native";
 import { Icon, Button, CheckBox } from "@rneui/themed";
-import Header from "./Components/header"
-import {normalize} from '../fileTextsizing';
+import Header from "../../utils/components/header"
+import {normalize} from '../../fileTextsizing';
 import React, { useState } from 'react';
-import {writeUserPreferences, readUserPreferences} from '../firebaseCalls';
-import { icon_dark, title_dark, bg_default, bg_alt, accent2, title_mid, accent3, title_light } from '../assets/data'
-import BackButton from "./Components/backButton";
+import {writeUserPreferences, readUserPreferences} from '../../firebaseCalls';
+import BackButton from "../../utils/components/backButton";
 
 
 const userId = 1399154;
@@ -16,7 +19,7 @@ type CompProps = {
 };
 
 export default function Allergies(props: CompProps) {
-  const [page, setPage] = useState(<View style={{borderColor:'black' ,width:'100%',height:'100%', justifyContent:"center",backgroundColor:"#ffffff", alignItems:"center"}}><Image source={require('../assets/images/loading.gif')}/></View>);
+  const [page, setPage] = useState(<View style={{borderColor:'black' ,width:'100%',height:'100%', justifyContent:"center",backgroundColor:"#ffffff", alignItems:"center"}}><Image source={require('../../utils/assets/images/loading.gif')}/></View>);
   // Set to true if they say they have an allergy
 
 

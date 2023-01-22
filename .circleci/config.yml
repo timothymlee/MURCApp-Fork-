@@ -8,15 +8,15 @@ publish: &publish
 
     - run:
         name: Installing dependencies
-        command: npm ci
+        command: cd Client && npm ci
         
     - run:
         name: Installing Expo-CLI
-        command: npm install expo-cli@6.0.5
+        command: cd Client && npm install expo-cli@6.0.5
 
     - run:
         name: Build Both
-        command: npx eas-cli build --platform all --profile preview --non-interactive
+        command: cd Client && npx eas-cli build --platform all --profile preview --non-interactive
     
 jobs:
   publish_to_expo_dev:
