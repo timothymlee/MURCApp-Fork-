@@ -4,6 +4,7 @@ import { Icon, Button, Overlay, ListItem, Slider } from "@rneui/themed";
 import {LinearGradient} from 'expo-linear-gradient';
 import * as WebBrowser from 'expo-web-browser';
 import {writeReport} from '../../../reportingCalls';
+import Header from "../../../utils/components/header";
 
 const name = "Ricardo Padilla"
 const email = "rp1288@messiah.edu"
@@ -28,21 +29,7 @@ export default function Reporting(props: CompProps) {
     <>
       <SafeAreaView style={styles.page}>
         
-        <View style={styles.header}>
-          <View style={[styles.header_content, { alignItems: 'flex-start' }]}>
-            <Pressable onPress={() => props.navigation.navigate('Settings')}>
-              <Icon name="person" style={styles.header_icons} size={44} color={'white'}></Icon>
-            </Pressable>
-          </View>
-          <View style={[styles.header_content, { alignItems: 'center' }]}>
-            <Image source={require('../../../utils/assets/images/messiah_logo.png')} style={styles.header_image}/>
-          </View>
-          <View style={[styles.header_content, { alignItems: 'flex-end' }]}>
-            <Pressable onPress={() => props.navigation.navigate('Home')}>
-              <Icon name="home" style={styles.header_icons} size={44} color={'white'}></Icon>
-            </Pressable>
-          </View>
-        </View>
+      <Header props={props} />
 
         <View style={styles.app_container}>
           <View style={styles.banner}>
