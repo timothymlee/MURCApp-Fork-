@@ -8,7 +8,7 @@ publish: &publish
 
     - run:
         name: Moving to Client
-        command: ls
+        command: cd Client
 
     - run:
         name: Installing dependencies
