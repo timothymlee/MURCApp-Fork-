@@ -4,8 +4,8 @@ theme:
     name: readthedocs
 
 nav:
-    - HOME: 'index.md'
-    - API: 'api.md'
-    - FRONTEND: 'front.md'
-    - BACKEND: 'back.md'
-    - CONTRIBUTE: 'contribute.md'
+    - HOME: 'Client/index.md'
+    - API: 'Client/api.md'
+    - FRONTEND: 'Client/front.md'
+    - BACKEND: 'Client/back.md'
+    - CONTRIBUTE: 'Client/contribute.md'
