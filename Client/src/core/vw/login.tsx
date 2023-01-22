@@ -107,7 +107,7 @@ export default function Login(props: CompProps) {
             colors={[accent1, accent1_alt]}
             style={styles.background}>
             <SafeAreaView style={styles.background}>
-              <Image source={require('../assets/images/messiah_logo.png')} style={styles.logo} />
+              <Image source={require('../../utils/assets/images/messiah_logo.png')} style={styles.logo} />
             </SafeAreaView>
             <BackButton props={props} iconColor={icon_light}/>
           </LinearGradient>
