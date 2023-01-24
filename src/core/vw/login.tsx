@@ -10,7 +10,7 @@ import AppLoader from '../js_comp/AppLoader'
 import { normalize } from '../../fileTextsizing';
 import BackButton from "../../utils/components/backButton";
 
-import { accent1, accent1_alt, accent3, bg_default, icon_dark, title_dark, title_light, icon_light } from '../../utils/assets/data'
+import { accent1, accent1_alt, accent3, bg_default, icon_dark, icon_light, title_dark, title_light } from '../../utils/assets/data'
 //import { authenticateWithFirebase } from '../src/firebaseAuth'
 
 // Using this package for the input fields
