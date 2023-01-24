@@ -1,4 +1,4 @@
-import { StyleSheet,Platform,ImageBackground, View, Image, SafeAreaView, Text, ScrollView, KeyboardAvoidingView, Keyboard, Pressable, Platform, StatusBar } from "react-native";
+import { StyleSheet,ImageBackground, View, Image, SafeAreaView, Text, ScrollView, KeyboardAvoidingView, Keyboard, Pressable, Platform, StatusBar } from "react-native";
 import React, { useState } from 'react';
 import { LinearGradient } from "expo-linear-gradient";
 import { Button, Icon, CheckBox } from "@rneui/themed";
@@ -84,7 +84,7 @@ export default function TestPage(props: CompProps) {
   //until the page state is changed.
 
   let todaysEvent = null;
-  const [page, setPage] = useState(<View style={{ borderColor: 'black', width: '100%', height: '100%', justifyContent: "center", backgroundColor: "#ffffff", alignItems: "center" }}><Image source={require('../assets/images/loading.gif')} /></View>);
+  const [page, setPage] = useState(<View style={{ borderColor: 'black', width: '100%', height: '100%', justifyContent: "center", backgroundColor: "#ffffff", alignItems: "center" }}><Image source={require('../../utils/assets/images/loading.gif')} /></View>);
   genEventsData();
   //This will be used to display the data and after the data is collected the page 
   //state will change to show the events page.
@@ -205,7 +205,7 @@ export default function TestPage(props: CompProps) {
                 selectedDate = day.year + '-' + day.month + '-' + day.day;
                 todaysEvent = null;
                 trigger = true;
-                setPage(<View style={{ borderColor: 'black', width: '100%', height: '100%', justifyContent: "center", backgroundColor: "#ffffff", alignItems: "center" }}><Image source={require('../assets/images/loading.gif')} /></View>);
+                setPage(<View style={{ borderColor: 'black', width: '100%', height: '100%', justifyContent: "center", backgroundColor: "#ffffff", alignItems: "center" }}><Image source={require('../../utils/assets/images/loading.gif')} /></View>);
                 genEventsData();
               }}
               firstDay={0}

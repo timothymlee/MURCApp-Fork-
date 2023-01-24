@@ -19,7 +19,7 @@ type CompProps = {
 };
 
 export default function Allergies(props: CompProps) {
-  const [page, setPage] = useState(<View style={{borderColor:'black' ,width:'100%',height:'100%', justifyContent:"center",backgroundColor:"#ffffff", alignItems:"center"}}><Image source={require('../assets/images/loading.gif')}/></View>);
+  const [page, setPage] = useState(<View style={{borderColor:'black' ,width:'100%',height:'100%', justifyContent:"center",backgroundColor:"#ffffff", alignItems:"center"}}><Image source={require('../../utils/assets/images/loading.gif')}/></View>);
   // Set to true if they say they have an allergy
 
 
