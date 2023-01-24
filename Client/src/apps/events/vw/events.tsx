@@ -6,6 +6,7 @@ import AnimatedInput from "react-native-animated-input";
 import { color, renderNode } from "@rneui/base";
 import {readEventData} from '../../../firebaseCalls';
 import { CalendarProvider, WeekCalendar } from 'react-native-calendars';
+import Header from "../../../utils/components/header";
 
 
 const todaysDate = ((new Date().getFullYear().toLocaleString()) + '-' + (new Date().getMonth() + 1).toLocaleString()) + '-' + (new Date().getDate().toLocaleString())
