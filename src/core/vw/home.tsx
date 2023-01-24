@@ -1,5 +1,5 @@
 import { ImageBackground, StyleSheet, SafeAreaView, Text, View, ScrollView, KeyboardAvoidingView, Platform, StatusBar, TouchableWithoutFeedback } from "react-native";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SearchBar, Button } from "@rneui/themed";
 import { readUserData } from "../../firebaseCalls";
 import Widget from '../comp/homeWidgetDisplay';
@@ -8,8 +8,7 @@ import WidgetDisplay from "../comp/searchWidgetDisplay";
 import { selectAuth } from "../../api/authSlice";
 import { useAppSelector } from '../../app/hooks';
 import { normalize } from '../../fileTextsizing';
-import { accent3, bg_alt, bg_default, title_light, title_mid, WidgetNames } from '../../utils/assets/data';
-import {SomeWidgetNames} from "../../utils/assets/data";
+import { accent3, bg_alt, bg_default, title_light, title_mid, WidgetNames, SomeWidgetNames } from '../../utils/assets/data';
 
 type CompProps = {
   // We are only using the navigate and goBack functions
@@ -31,17 +30,24 @@ export default function Home(props: CompProps) {
   const [scrolling, setScrolling] = useState(true);
   const [savedWidgets, setSavedWidgets] = useState(SomeWidgetNames)
 
+  useEffect(() => {
+    console.log("Use Effect on Widgets!!")
+}, [savedWidgets]);
+
   const addWidget = (widget) => {
     setSavedWidgets([...savedWidgets, widget])
     console.log("added widget " + widget.name)
   }
 
   const removeWidget = (name) => {
-    console.log("START RUNNING REMOVE")
-    setSavedWidgets((current) =>
-        current.filter((widget) => widget.name !== name)
-    );
-    console.log("END Removed Widget: " + name)
+    for (let i = 0; i < savedWidgets.length; i++) {
+      if (name == savedWidgets[i].name) {
+        //let tempSavedWidgets = [...savedWidgets];
+        savedWidgets.splice(i, 1);
+        //setSavedWidgets(tempSavedWidgets);
+        break;
+      }
+    }
   }
 
   const updateSearch = (value) => {
