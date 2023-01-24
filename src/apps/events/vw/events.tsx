@@ -4,6 +4,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Button, Icon, CheckBox } from "@rneui/themed";
 import AnimatedInput from "react-native-animated-input";
 import { color, renderNode } from "@rneui/base";
+import Header from "../../../utils/components/header";
 import {readEventData} from '../../../firebaseCalls';
 import { CalendarProvider, WeekCalendar } from 'react-native-calendars';
 
