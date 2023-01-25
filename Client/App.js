@@ -9,6 +9,11 @@ import { Provider } from 'react-redux';
 import { store } from './src/app/store'
 import { useAppDispatch } from './src/app/hooks';
 
+// Ignores error message about fontFamily
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs([
+  "Overwriting fontFamily style attribute preprocessor"
+]);
 
 // Import screens to use for navigation
 import Home from './src/core/vw/home';
@@ -20,7 +25,7 @@ import Login from './src/core/vw/login';
 import Gym from './src/apps/gym/vw/gym';
 import DiningDollars from './src/apps/dining_dollars/vw/dining_dollars';
 import FalconDollars from './src/apps/falcon_dollars/vw/falcon_dollars';
-import LottieMenu from './src/apps/lottieMenu/vw/lottie_menu';
+import LottieMenu from './src/apps/lottie_menu/vw/lottie_menu';
 import Library from './src/apps/library/vw/library';
 import Events from './src/apps/events/vw/events';
 import Reporting from './src/apps/reporting/vw/reporting';

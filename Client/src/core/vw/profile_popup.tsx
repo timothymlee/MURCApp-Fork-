@@ -41,7 +41,7 @@ export default function Profile_PopUp(props: CompProps) {
         <View style={styles.overlay}>
           <View style={{ flex: 2, minHeight: normalize(40), flexDirection: 'row' }}>
             <View style={{ flex: 1, alignItems: 'flex-start' }}>
-              <Image source={require('../../assets/images/default_pfp.png')} style={styles.profile_pic} />
+              <Image source={require('../../utils/assets/images/default_pfp.png')} style={styles.profile_pic} />
             </View>
             <View style={{ flex: 1, alignItems: 'flex-end' }}>
               <Pressable onPress={() => props.navigation.goBack()}>
