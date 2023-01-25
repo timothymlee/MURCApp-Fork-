@@ -5,6 +5,7 @@ import {LinearGradient} from 'expo-linear-gradient';
 import * as WebBrowser from 'expo-web-browser';
 import Header from "../../../utils/components/header";
 import {normalize} from '../../../fileTextsizing';
+import Header from "../../../utils/components/header";
 
 type CompProps = {
   // We are only using the navigate and goBack functions

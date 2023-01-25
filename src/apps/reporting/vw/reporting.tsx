@@ -29,7 +29,7 @@ export default function Reporting(props: CompProps) {
     <>
       <SafeAreaView style={styles.page}>
         
-      <Header props={props} />
+        <Header props={props} />
 
         <View style={styles.app_container}>
           <View style={styles.banner}>

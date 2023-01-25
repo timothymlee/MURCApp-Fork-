@@ -15,7 +15,6 @@ LogBox.ignoreLogs([
   "Overwriting fontFamily style attribute preprocessor"
 ]);
 
-
 // Import screens to use for navigation
 import Home from './src/core/vw/home';
 import Chapel from './src/apps/chapel/vw/chapel';
