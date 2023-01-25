@@ -9,6 +9,12 @@ import { Provider } from 'react-redux';
 import { store } from './src/app/store'
 import { useAppDispatch } from './src/app/hooks';
 
+// Ignores error message about fontFamily
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs([
+  "Overwriting fontFamily style attribute preprocessor"
+]);
+
 
 // Import screens to use for navigation
 import Home from './src/core/vw/home';
